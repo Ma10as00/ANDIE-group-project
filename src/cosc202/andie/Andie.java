@@ -1,5 +1,4 @@
 package cosc202.andie;
-// cange 2
 import java.awt.*;
 import javax.swing.*;
 import javax.imageio.*;
