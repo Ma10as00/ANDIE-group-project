@@ -3,7 +3,7 @@ import java.awt.*;
 import javax.swing.*;
 import javax.imageio.*;
 
-// STELLA'S REAL CHANGE
+// STELLA'S & Mathias' REAL CHANGE
 
 /**
  * <p>
