@@ -38,6 +38,7 @@ public class ViewActions {
         actions.add(new ZoomInAction("Zoom In", null, "Zoom In", Integer.valueOf(KeyEvent.VK_PLUS)));
         actions.add(new ZoomOutAction("Zoom Out", null, "Zoom Out", Integer.valueOf(KeyEvent.VK_MINUS)));
         actions.add(new ZoomFullAction("Zoom Full", null, "Zoom Full", Integer.valueOf(KeyEvent.VK_1)));
+        actions.add(new RotateAction("Rotate right", null, "Rotate right", Integer.valueOf(KeyEvent.VK_2)));
     }
 
     /**
@@ -55,6 +56,25 @@ public class ViewActions {
         }
 
         return viewMenu;
+    }
+
+    /**
+     * Action to rotate image 90 degrees to the right.
+     * </p>
+     * Note that this action only affects the way the image is displayed, not its actual contents.
+     */
+    public class RotateAction extends ImageAction{
+
+        RotateAction(String name, ImageIcon icon, String desc, Integer mnemonic){
+            super(name,icon,desc,mnemonic);
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            target.getImage().apply(new Rotate90Right());
+            target.repaint();
+            target.getParent().revalidate();
+        }
     }
 
     /**
