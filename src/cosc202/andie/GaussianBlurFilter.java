@@ -56,7 +56,7 @@ public class GaussianBlurFilter implements ImageOperation, java.io.Serializable 
      * By default, a Gaussian blur filter has radius 1.
      * </p>
      * 
-     * @see MeanFilter(int)
+     * @see GaussianBlurFilter(int)
      */
     GaussianBlurFilter() {
         this(1);
@@ -133,7 +133,7 @@ public class GaussianBlurFilter implements ImageOperation, java.io.Serializable 
         int x = (index % side) - 1;
         int y = 1 - (index / side);
 
-        // Calulate G(x, y, simga).
+        // Calulate G(x, y, sigma).
         float value = 1.0f/(2 * (float)Math.PI * sigma * sigma);
         double pow = Math.exp((double)((float)(-1 * (x * x + y * y))) / (2 * sigma * sigma));
         value = value * (float)pow;
