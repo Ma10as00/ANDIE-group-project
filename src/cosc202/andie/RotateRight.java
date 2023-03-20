@@ -5,7 +5,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
 
-public class Rotate90Right implements ImageOperation, Serializable {
+public class RotateRight implements ImageOperation, Serializable {
 
     @Override
     public BufferedImage apply(BufferedImage input) {
@@ -16,12 +16,17 @@ public class Rotate90Right implements ImageOperation, Serializable {
 
         BufferedImage rotated = new BufferedImage(width, height, input.getType());
 
-        Graphics2D g = rotated.createGraphics();
-        AffineTransform at = new AffineTransform();
-        at.translate(width, 0);
+        Graphics2D g = rotated.createGraphics();        // The "canvas" the new image is drawn on
+        AffineTransform at = g.getTransform();
+
+        // Move canvas to the right, so the top left corner is rightly placed:
+        at.translate(width, 0);        
+
+        // Rotate canvas, so all corners of image is rightly placed:        
         at.quadrantRotate(1);
-        g.setTransform(at);
-        g.drawImage(input,0,0,null);
+        
+        g.setTransform(at); // Executes the transformation
+        g.drawImage(input,0,0,null); // Draws the image on the transformed canvas.
         g.dispose();
 
         return rotated;

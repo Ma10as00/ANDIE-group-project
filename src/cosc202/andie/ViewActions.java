@@ -39,6 +39,7 @@ public class ViewActions {
         actions.add(new ZoomOutAction("Zoom Out", null, "Zoom Out", Integer.valueOf(KeyEvent.VK_MINUS)));
         actions.add(new ZoomFullAction("Zoom Full", null, "Zoom Full", Integer.valueOf(KeyEvent.VK_1)));
         actions.add(new RotateAction("Rotate right", null, "Rotate right", Integer.valueOf(KeyEvent.VK_2)));
+        actions.add(new FlipAction("Flip vertically", null, "Flip vertically", Integer.valueOf(KeyEvent.VK_3)));
     }
 
     /**
@@ -60,8 +61,6 @@ public class ViewActions {
 
     /**
      * Action to rotate image 90 degrees to the right.
-     * </p>
-     * Note that this action only affects the way the image is displayed, not its actual contents.
      */
     public class RotateAction extends ImageAction{
 
@@ -71,7 +70,24 @@ public class ViewActions {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            target.getImage().apply(new Rotate90Right());
+            target.getImage().apply(new RotateRight());
+            target.repaint();
+            target.getParent().revalidate();
+        }
+    }
+
+    /**
+     * Action to flip the image vertically.
+     */
+    public class FlipAction extends ImageAction{
+
+        FlipAction(String name, ImageIcon icon, String desc, Integer mnemonic){
+            super(name,icon,desc,mnemonic);
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            target.getImage().apply(new FlipVertical());
             target.repaint();
             target.getParent().revalidate();
         }
