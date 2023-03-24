@@ -38,7 +38,7 @@ public class ViewActions {
         actions.add(new ZoomInAction("Zoom In", null, "Zoom In", Integer.valueOf(KeyEvent.VK_PLUS)));
         actions.add(new ZoomOutAction("Zoom Out", null, "Zoom Out", Integer.valueOf(KeyEvent.VK_MINUS)));
         actions.add(new ZoomFullAction("Zoom Full", null, "Zoom Full", Integer.valueOf(KeyEvent.VK_1)));
-        actions.add(new RotateAction("Rotate right", null, "Rotate right", Integer.valueOf(KeyEvent.VK_2)));
+        actions.add(new RotateRightAction("Rotate right", null, "Rotate right", Integer.valueOf(KeyEvent.VK_2)));
         actions.add(new FlipAction("Flip vertically", null, "Flip vertically", Integer.valueOf(KeyEvent.VK_3)));
     }
 
@@ -62,11 +62,11 @@ public class ViewActions {
     /**
      * Action to rotate image 90 degrees to the right.
      */
-    public class RotateAction extends ImageAction{
+    public class RotateRightAction extends ImageAction{
 
-        RotateAction(String name, ImageIcon icon, String desc, Integer mnemonic){
+        RotateRightAction(String name, ImageIcon icon, String desc, Integer mnemonic){
             super(name,icon,desc,mnemonic);
-        }
+        }      
 
         @Override
         public void actionPerformed(ActionEvent e) {
