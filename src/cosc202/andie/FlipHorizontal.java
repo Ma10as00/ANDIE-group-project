@@ -17,7 +17,7 @@ public class FlipHorizontal implements ImageOperation, Serializable{
         Graphics2D g = flipped.createGraphics();    // The "canvas" the new image is drawn on
         AffineTransform at = g.getTransform();
 
-        // Flipping canvas around y-axis:
+        // Flipping canvas around x-axis:
         at.scale(-1, 1);
         
         // Moving the canvas back to it's original coordinates:
