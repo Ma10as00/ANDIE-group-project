@@ -1,0 +1,126 @@
+package cosc202.andie;
+
+import java.util.*;
+import java.awt.event.*;
+import javax.swing.*;
+
+public class OrientationActions {
+
+    /**
+     * A list of actions for the Orientation menu.
+     */
+    protected ArrayList<Action> actions;
+
+    public OrientationActions(){
+        actions = new ArrayList<Action>();
+        actions.add(new RotateRightAction("Rotate right", null, "Rotate right", Integer.valueOf(KeyEvent.VK_2)));
+        actions.add(new RotateLeftAction("Rotate left", null, "Rotate left", Integer.valueOf(KeyEvent.VK_3)));
+        actions.add(new Rotate180Action("Rotate 180 degrees", null, "Rotate 180 degrees", Integer.valueOf(KeyEvent.VK_4)));
+        actions.add(new FlipVertAction("Flip vertically", null, "Flip vertically", Integer.valueOf(KeyEvent.VK_5)));
+        actions.add(new FlipHorAction("Flip horizontally", null, "Flip horizontally", Integer.valueOf(KeyEvent.VK_6)));
+    }
+
+        /**
+     * <p>
+     * Create a menu containing the list of Orientation actions.
+     * </p>
+     * 
+     * @return The orientation menu UI element.
+     */
+    public JMenu createMenu() {
+        JMenu menu = new JMenu("Orientation");
+
+        for (Action action: actions) {
+            menu.add(new JMenuItem(action));
+        }
+
+        return menu;
+    }
+
+
+        /**
+     * Action to rotate image 90 degrees to the right.
+     */
+    public class RotateRightAction extends ImageAction{
+
+        RotateRightAction(String name, ImageIcon icon, String desc, Integer mnemonic){
+            super(name,icon,desc,mnemonic);
+        }      
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            target.getImage().apply(new RotateRight());
+            target.repaint();
+            target.getParent().revalidate();
+        }
+    }
+
+    /**
+     * Action to rotate image 90 degrees to the right.
+     */
+    public class RotateLeftAction extends ImageAction{
+
+        RotateLeftAction(String name, ImageIcon icon, String desc, Integer mnemonic){
+            super(name,icon,desc,mnemonic);
+        }      
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            target.getImage().apply(new RotateLeft());
+            target.repaint();
+            target.getParent().revalidate();
+        }
+    }
+
+    /**
+     * Action to rotate image 90 degrees to the right.
+     */
+    public class Rotate180Action extends ImageAction{
+
+        Rotate180Action(String name, ImageIcon icon, String desc, Integer mnemonic){
+            super(name,icon,desc,mnemonic);
+        }      
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            target.getImage().apply(new Rotate180());
+            target.repaint();
+            target.getParent().revalidate();
+        }
+    }
+
+    /**
+     * Action to flip the image vertically.
+     */
+    public class FlipVertAction extends ImageAction{
+
+        FlipVertAction(String name, ImageIcon icon, String desc, Integer mnemonic){
+            super(name,icon,desc,mnemonic);
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            target.getImage().apply(new FlipVertical());
+            target.repaint();
+            target.getParent().revalidate();
+        }
+    }
+
+    /**
+     * Action to flip the image vertically.
+     */
+    public class FlipHorAction extends ImageAction{
+
+        FlipHorAction(String name, ImageIcon icon, String desc, Integer mnemonic){
+            super(name,icon,desc,mnemonic);
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            target.getImage().apply(new FlipHorizontal());
+            target.repaint();
+            target.getParent().revalidate();
+        }
+    }
+    
+}

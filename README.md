@@ -1,6 +1,14 @@
-## Getting Started
+# ANDIE
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+## Description
+
+‘ANDIE’ stands for A Non-Destructive Image Editor. The purpose of the program is editing and
+manipulating images – like Photoshop but much much simpler. The approach taken in ANDIE is
+non-destructive image editing. Many image processing operations, such as blurring filters, cannot
+be reversed because information is lost in the process. Non-destructive editors take the approach of
+storing the original data (an image in this case) and a sequence of operations. The operations can be
+applied to a copy of the original to get the desired result, but since the original and the full sequence of
+operations has been kept, no information is lost.
 
 ## Folder Structure
 

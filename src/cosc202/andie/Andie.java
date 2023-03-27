@@ -74,6 +74,10 @@ public class Andie {
         ViewActions viewActions = new ViewActions();
         menuBar.add(viewActions.createMenu());
 
+        // View actions control how the image is displayed, but do not alter its actual content
+        OrientationActions orientationActions = new OrientationActions();
+        menuBar.add(orientationActions.createMenu());
+
         // Filters apply a per-pixel operation to the image, generally based on a local window
         FilterActions filterActions = new FilterActions();
         menuBar.add(filterActions.createMenu());
