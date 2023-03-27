@@ -38,11 +38,6 @@ public class ViewActions {
         actions.add(new ZoomInAction("Zoom In", null, "Zoom In", Integer.valueOf(KeyEvent.VK_PLUS)));
         actions.add(new ZoomOutAction("Zoom Out", null, "Zoom Out", Integer.valueOf(KeyEvent.VK_MINUS)));
         actions.add(new ZoomFullAction("Zoom Full", null, "Zoom Full", Integer.valueOf(KeyEvent.VK_1)));
-        actions.add(new RotateRightAction("Rotate right", null, "Rotate right", Integer.valueOf(KeyEvent.VK_2)));
-        actions.add(new RotateLeftAction("Rotate left", null, "Rotate left", Integer.valueOf(KeyEvent.VK_3)));
-        actions.add(new Rotate180Action("Rotate 180 degrees", null, "Rotate 180 degrees", Integer.valueOf(KeyEvent.VK_4)));
-        actions.add(new FlipVertAction("Flip vertically", null, "Flip vertically", Integer.valueOf(KeyEvent.VK_5)));
-        actions.add(new FlipHorAction("Flip horizontally", null, "Flip horizontally", Integer.valueOf(KeyEvent.VK_6)));
     }
 
     /**
@@ -60,91 +55,6 @@ public class ViewActions {
         }
 
         return viewMenu;
-    }
-
-    /**
-     * Action to rotate image 90 degrees to the right.
-     */
-    public class RotateRightAction extends ImageAction{
-
-        RotateRightAction(String name, ImageIcon icon, String desc, Integer mnemonic){
-            super(name,icon,desc,mnemonic);
-        }      
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            target.getImage().apply(new RotateRight());
-            target.repaint();
-            target.getParent().revalidate();
-        }
-    }
-
-    /**
-     * Action to rotate image 90 degrees to the right.
-     */
-    public class RotateLeftAction extends ImageAction{
-
-        RotateLeftAction(String name, ImageIcon icon, String desc, Integer mnemonic){
-            super(name,icon,desc,mnemonic);
-        }      
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            target.getImage().apply(new RotateLeft());
-            target.repaint();
-            target.getParent().revalidate();
-        }
-    }
-
-    /**
-     * Action to rotate image 90 degrees to the right.
-     */
-    public class Rotate180Action extends ImageAction{
-
-        Rotate180Action(String name, ImageIcon icon, String desc, Integer mnemonic){
-            super(name,icon,desc,mnemonic);
-        }      
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            target.getImage().apply(new Rotate180());
-            target.repaint();
-            target.getParent().revalidate();
-        }
-    }
-
-    /**
-     * Action to flip the image vertically.
-     */
-    public class FlipVertAction extends ImageAction{
-
-        FlipVertAction(String name, ImageIcon icon, String desc, Integer mnemonic){
-            super(name,icon,desc,mnemonic);
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            target.getImage().apply(new FlipVertical());
-            target.repaint();
-            target.getParent().revalidate();
-        }
-    }
-
-    /**
-     * Action to flip the image vertically.
-     */
-    public class FlipHorAction extends ImageAction{
-
-        FlipHorAction(String name, ImageIcon icon, String desc, Integer mnemonic){
-            super(name,icon,desc,mnemonic);
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            target.getImage().apply(new FlipHorizontal());
-            target.repaint();
-            target.getParent().revalidate();
-        }
     }
 
     /**
