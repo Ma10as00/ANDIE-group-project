@@ -36,7 +36,7 @@ public class ColourActions {
         actions = new ArrayList<Action>();
         actions.add(new ConvertToGreyAction("Greyscale", null, "Convert to greyscale", Integer.valueOf(KeyEvent.VK_G)));
         actions.add(new BrightnessAction("Brightness", null, "Change Brightness", Integer.valueOf(KeyEvent.VK_B))); 
-        actions.add(new ContrastAction("Contrast", null, "Change Contrast", Integer.valueOf(KeyEvent.VK_C)));
+        actions.add(new ContrastFAction("Contrast", null, "Change Contrast", Integer.valueOf(KeyEvent.VK_C)));
     }
 
     /**
@@ -96,12 +96,14 @@ public class ColourActions {
             target.repaint();
             target.getParent().revalidate();
         }
-         public class BrightnessAction extends ImageAction{
-             BrightnessAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
-                super(name, icon, desc, mnemonic);
-                }
+        
+    public class BrightnessAction extends ImageAction{
 
-            @Override
+        BrightnessAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+        }
+
+        @Override
             public void actionPerformed(ActionEvent e) {
 
                 JSlider jslider = new JSlider();
@@ -117,17 +119,17 @@ public class ColourActions {
                  if (select == JOptionPane.CANCEL_OPTION){
                         return;
                 }
-                    target.getImage().apply(new Brightness(jslider.getValue()));
+                    target.getImage().apply(new BrightnessFilter(jslider.getValue()));
                     target.repaint();
                     target.getParent().revalidate();
                 }
         }
                         
-        public class ContrastAction extends ImageAction{
+    public class ContrastAction extends ImageAction{
+        
             ContrastAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
                 super(name, icon, desc, mnemonic);
                              
-            //TODO Auto-generated constructor stub 
             }
             
             @Override
@@ -145,7 +147,7 @@ public class ColourActions {
                 if (select == JOptionPane.CANCEL_OPTION){
                     return;
                 }
-                     target.getImage().apply(new Contrast(jslider.getValue()));
+                     target.getImage().apply(new ContrastFilter(jslider.getValue()));
                      target.repaint();
                      target.getParent().revalidate();
                 }
