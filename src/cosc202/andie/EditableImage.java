@@ -191,7 +191,6 @@ class EditableImage {
         fileOut.close();
     }
 
-
     /**
      * <p>
      * Save an image to a speficied file.
@@ -211,6 +210,25 @@ class EditableImage {
         this.imageFilename = imageFilename;
         this.opsFilename = imageFilename + ".ops";
         save();
+    }
+    /**
+     * <p>
+     * Exports image with operations to new file.
+     * </p>
+     * 
+     * <p>
+     * Exports an image to a file (28/3/23)- default extension is type .png 
+     * Allows user to enter new name for the file and sets type as .png for default, or whatever user has enterted 
+     * </p>
+     * 
+     * @param imageFilename the new File name that image will get exported to
+     * @throws Exception If something goes wrong.
+     */
+    public void export(String imageFilename) throws Exception{
+        this.imageFilename = imageFilename; //sets file name based on export method in FileActions
+        String extension = imageFilename.substring(1+imageFilename.lastIndexOf(".")).toLowerCase(); //finds extension of file
+        ImageIO.write(current, extension, new File(imageFilename));  //writes image to file using ImageIO
+
     }
 
     /**
