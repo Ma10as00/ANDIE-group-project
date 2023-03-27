@@ -35,6 +35,8 @@ public class ColourActions {
     public ColourActions() {
         actions = new ArrayList<Action>();
         actions.add(new ConvertToGreyAction("Greyscale", null, "Convert to greyscale", Integer.valueOf(KeyEvent.VK_G)));
+        actions.add(new BrightnessAction("Brightness", null, "Change Brightness", Integer.valueOf(KeyEvent.VK_B))); 
+        actions.add(new ContrastAction("Contrast", null, "Change Contrast", Integer.valueOf(KeyEvent.VK_C)));
     }
 
     /**
@@ -93,6 +95,61 @@ public class ColourActions {
             target.getImage().apply(new ConvertToGrey());
             target.repaint();
             target.getParent().revalidate();
+        }
+         public class BrightnessAction extends ImageAction{
+             BrightnessAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+                super(name, icon, desc, mnemonic);
+                }
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                JSlider jslider = new JSlider();
+                jslider.setValue(0);
+                jslider.setMaximum(10);
+                jslider.setMinimum(-10);
+                jslider.setMajorTickSpacing(2);
+                jslider.setPaintLabels(true);
+                jslider.setPaintTicks(true);
+                
+                int select = JOptionPane.showOptionDialog(null, jslider, "Brightness Amount",
+                     JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+                 if (select == JOptionPane.CANCEL_OPTION){
+                        return;
+                }
+                    target.getImage().apply(new Brightness(jslider.getValue()));
+                    target.repaint();
+                    target.getParent().revalidate();
+                }
+        }
+                        
+        public class ContrastAction extends ImageAction{
+            ContrastAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+                super(name, icon, desc, mnemonic);
+                             
+            //TODO Auto-generated constructor stub 
+            }
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JSlider jslider = new JSlider();
+                jslider.setValue(0);
+                jslider.setMaximum(10);
+                jslider.setMinimum(-10);
+                jslider.setMajorTickSpacing(2);
+                jslider.setPaintLabels(true);
+                jslider.setPaintTicks(true);
+                
+                int select = JOptionPane.showOptionDialog(null, jslider, "Contrast Amount",
+                    JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+                if (select == JOptionPane.CANCEL_OPTION){
+                    return;
+                }
+                     target.getImage().apply(new Contrast(jslider.getValue()));
+                     target.repaint();
+                     target.getParent().revalidate();
+                }
+                     
         }
 
     }
