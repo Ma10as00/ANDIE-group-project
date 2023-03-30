@@ -70,19 +70,23 @@ public class Andie {
         EditActions editActions = new EditActions();
         menuBar.add(editActions.createMenu());
 
-        // View actions control how the image is displayed, but do not alter its actual content
+        // View actions control how the image is displayed, its zoom, but do not alter its actual content
         ViewActions viewActions = new ViewActions();
         menuBar.add(viewActions.createMenu());
 
-        // View actions control how the image is displayed, but do not alter its actual content
+        // Orientation actions change the orientation of the image, altering its content.
         OrientationActions orientationActions = new OrientationActions();
         menuBar.add(orientationActions.createMenu());
 
-        // Filters apply a per-pixel operation to the image, generally based on a local window
+        // Resize actions change the size of the image, altering its content.
+        ResizeActions resizeActions = new ResizeActions();
+        menuBar.add(resizeActions.createMenu());
+
+        // Filters apply a per-pixel operation to the image, generally based on a local window.
         FilterActions filterActions = new FilterActions();
         menuBar.add(filterActions.createMenu());
 
-        // Actions that affect the representation of colour in the image
+        // Actions that affect the representation of colour in the image.
         ColourActions colourActions = new ColourActions();
         menuBar.add(colourActions.createMenu());
         
