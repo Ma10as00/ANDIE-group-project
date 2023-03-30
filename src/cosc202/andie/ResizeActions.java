@@ -34,8 +34,8 @@ public class ResizeActions {
      */
     public ResizeActions() {
         actions = new ArrayList<Action>();
-        actions.add(new ImageResize50Action("Resize 50%", null, "Resize image to 50% it's original size", null));
-        actions.add(new ImageResize150Action("Resize 150%", null, "Resize image to 150% it's original size", null));
+        actions.add(new ImageResize50Action("Resize 50%", null, "Resize image to 50% its original size", null));
+        actions.add(new ImageResize150Action("Resize 150%", null, "Resize image to 150% its original size", null));
     }
 
     /**
