@@ -37,9 +37,9 @@ public class ColourActions {
      */
     public ColourActions() {
         actions = new ArrayList<Action>();
-        actions.add(new ConvertToGreyAction("Greyscale", null, "Convert to greyscale", Integer.valueOf(KeyEvent.VK_G)));
-        actions.add(new BrightnessAction("Brightness", null, "Change Brightness", Integer.valueOf(KeyEvent.VK_B)));
-        actions.add(new ContrastAction("Contrast", null, "Change Contrast", Integer.valueOf(KeyEvent.VK_C)));
+        actions.add(new ConvertToGreyAction("Greyscale", null, "Convert image to greyscale", Integer.valueOf(KeyEvent.VK_G)));
+        actions.add(new BrightnessAction("Brightness", null, "Change brightness of image", Integer.valueOf(KeyEvent.VK_B)));
+        actions.add(new ContrastAction("Contrast", null, "Change contrast of image", Integer.valueOf(KeyEvent.VK_C)));
     }
 
     /**
@@ -123,9 +123,12 @@ public class ColourActions {
             if (select == JOptionPane.CANCEL_OPTION) {
                 return;
             }
-            target.getImage().apply(new BrightnessFilter(jslider.getValue()));
-            target.repaint();
-            target.getParent().revalidate();
+            if (select == JOptionPane.OK_OPTION) {
+                target.getImage().apply(new BrightnessFilter(jslider.getValue()));
+                target.repaint();
+                target.getParent().revalidate();
+            }
+            
         }
     }
 
@@ -151,9 +154,13 @@ public class ColourActions {
             if (select == JOptionPane.CANCEL_OPTION) {
                 return;
             }
-            target.getImage().apply(new ContrastFilter(jslider.getValue()));
-            target.repaint();
-            target.getParent().revalidate();
+            if (select == JOptionPane.OK_OPTION) {
+                target.getImage().apply(new ContrastFilter(jslider.getValue()));
+                target.repaint();
+                target.getParent().revalidate();
+            }
+
+            
         }
 
     }

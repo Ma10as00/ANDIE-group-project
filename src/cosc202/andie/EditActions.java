@@ -36,8 +36,8 @@ public class EditActions {
         actions = new ArrayList<Action>();
         actions.add(new UndoAction("Undo", null, "Undo", Integer.valueOf(KeyEvent.VK_Z)));
         actions.add(new RedoAction("Redo", null, "Redo", Integer.valueOf(KeyEvent.VK_Y)));
-        actions.add(new ImageResize50Action("Resize 50%", null, "Allows the image to be resized to 50% it's original size", null));
-        actions.add(new ImageResize150Action("Resize 150%", null, "Allows the image to be resized to 150% it's original size", null));
+        actions.add(new ImageResize50Action("Resize 50%", null, "Resize image to 50% it's original size", null));
+        actions.add(new ImageResize150Action("Resize 150%", null, "Resize image to 150% it's original size", null));
     }
 
     /**

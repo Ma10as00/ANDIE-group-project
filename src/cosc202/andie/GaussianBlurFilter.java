@@ -19,7 +19,7 @@ import java.awt.image.*;
  * </p>
  * 
  * @see java.awt.image.ConvolveOp
- * @author Steven Mills
+ * @author Stella Srzich (Modified from Steven Mills)
  * @version 1.0
  */
 public class GaussianBlurFilter implements ImageOperation, java.io.Serializable {

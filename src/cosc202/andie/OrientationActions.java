@@ -13,11 +13,11 @@ public class OrientationActions {
 
     public OrientationActions(){
         actions = new ArrayList<Action>();
-        actions.add(new RotateRightAction("Rotate right", null, "Rotate right", Integer.valueOf(KeyEvent.VK_2)));
-        actions.add(new RotateLeftAction("Rotate left", null, "Rotate left", Integer.valueOf(KeyEvent.VK_3)));
-        actions.add(new Rotate180Action("Rotate 180 degrees", null, "Rotate 180 degrees", Integer.valueOf(KeyEvent.VK_4)));
-        actions.add(new FlipVertAction("Flip vertically", null, "Flip vertically", Integer.valueOf(KeyEvent.VK_5)));
-        actions.add(new FlipHorAction("Flip horizontally", null, "Flip horizontally", Integer.valueOf(KeyEvent.VK_6)));
+        actions.add(new RotateRightAction("Rotate Right", null, "Rotate image by 90 degrees to the right", Integer.valueOf(KeyEvent.VK_2)));
+        actions.add(new RotateLeftAction("Rotate Left", null, "Rotate image by 90 degrees to the left", Integer.valueOf(KeyEvent.VK_3)));
+        actions.add(new Rotate180Action("Rotate 180 Degrees", null, "Rotate image by 180 degrees", Integer.valueOf(KeyEvent.VK_4)));
+        actions.add(new FlipVertAction("Flip Vertically", null, "Flip image along vertical axis", Integer.valueOf(KeyEvent.VK_5)));
+        actions.add(new FlipHorAction("Flip Horizontally", null, "Flip image along horizontal axis", Integer.valueOf(KeyEvent.VK_6)));
     }
 
         /**
