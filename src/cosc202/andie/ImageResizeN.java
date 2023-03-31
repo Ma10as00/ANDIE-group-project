@@ -85,7 +85,7 @@ public class ImageResizeN implements ImageOperation, Serializable{
         BufferedImage resizedImage = input;
 
         if (resizePercent > 100) {
-            double scale = 100/(resizePercent - 100);
+            double scale = 100.0/(resizePercent - 100.0);
 
             int newWidth = input.getWidth() + ((int)(((double)input.getWidth())/scale));
             int newHeight = input.getHeight() + ((int)(((double)input.getHeight())/scale));
@@ -94,12 +94,9 @@ public class ImageResizeN implements ImageOperation, Serializable{
 
             resizedImage = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_RGB);
             resizedImage.getGraphics().drawImage(resize,0,0,null);
-
-            // added to see what width and heigh are
-            JOptionPane.showMessageDialog(null, "resizePercent: " + resizePercent + " scale:" + scale, "Delete me", JOptionPane.WARNING_MESSAGE);
         }
         if (resizePercent < 100) {
-            double scale = 100/resizePercent;
+            double scale = 100.0/resizePercent;
 
             int newWidth = ((int)(((double)input.getWidth())/scale));
             int newHeight = ((int)(((double)input.getHeight())/scale));
@@ -108,7 +105,6 @@ public class ImageResizeN implements ImageOperation, Serializable{
 
             resizedImage = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_RGB);
             resizedImage.getGraphics().drawImage(resize,0,0,null);
-
         }
         
         return resizedImage;
