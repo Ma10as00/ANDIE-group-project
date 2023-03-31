@@ -143,7 +143,7 @@ public class Andie {
             catch (HeadlessException ex) {
                 // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
                 // Won't happen for our users, so just exit.
-                System.exit(0);
+                System.exit(1);
             }
         }
         else {
