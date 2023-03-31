@@ -104,6 +104,24 @@ public class FileActions {
          * @param e The event triggering this callback.
          */
         public void actionPerformed(ActionEvent e) {
+            // Check if there is an image open.
+            if (target.getImage().hasImage()) {
+                // There is an image open, warn user that any unsaved changes will be deleted.
+                try {
+                    int option = JOptionPane.showConfirmDialog(null, "If you open another image without saving or exporting this image, any changes will be lost.", "Warning", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+                    if (option == JOptionPane.CANCEL_OPTION) {
+                        // User cancelled, don't open.
+                        return;
+                    }
+                }
+                catch (Exception ex) {
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                    // Won't happen for our users, so just exit.
+                    System.exit(0);
+                }
+            }
+
+            // User either had no image open, or had an image open but decided to still open another one.
             JFileChooser fileChooser = new JFileChooser();
             int result = fileChooser.showOpenDialog(target);
 
@@ -243,7 +261,7 @@ public class FileActions {
      * Action to quit the ANDIE application.
      * </p>
      */
-    public class FileExitAction extends AbstractAction {
+    public class FileExitAction extends ImageAction {
 
         /**
          * <p>
@@ -256,9 +274,9 @@ public class FileActions {
          * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
          */
         FileExitAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
-            super(name, icon);
-            putValue(SHORT_DESCRIPTION, desc);
-            putValue(MNEMONIC_KEY, mnemonic);
+            // Note, this now extends ImageAction instead of AbstractAction so it can
+            // access the target ImagePanel
+            super(name, icon, desc, mnemonic);
         }
 
         /**
@@ -274,7 +292,30 @@ public class FileActions {
          * @param e The event triggering this callback.
          */
         public void actionPerformed(ActionEvent e) {
-            System.exit(0);
+            // Check if there is an image open.
+            if (target.getImage().hasImage()) {
+                // There is an image open, warn user that any unsaved changes will be deleted.
+                try {
+                    int option = JOptionPane.showConfirmDialog(null, "If you exit without saving or exporting, any changes will be lost.", "Warning", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+                    if (option == JOptionPane.CANCEL_OPTION) {
+                        // User cancelled, don't exit.
+                        return;
+                    }
+                    if (option == JOptionPane.OK_OPTION) {
+                        // User clicked ok, exit.
+                        System.exit(0);
+                    }
+                }
+                catch (Exception ex) {
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                    // Won't happen for our users, so just exit.
+                    System.exit(0);
+                }
+            }
+            else { 
+                // If there is no image open, exit.
+                System.exit(0);
+            }
         }
 
     }
