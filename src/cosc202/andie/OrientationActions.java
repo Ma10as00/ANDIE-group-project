@@ -38,7 +38,7 @@ public class OrientationActions {
     }
 
 
-        /**
+    /**
      * Action to rotate image 90 degrees to the right.
      */
     public class RotateRightAction extends ImageAction{
@@ -49,9 +49,17 @@ public class OrientationActions {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            target.getImage().apply(new RotateRight());
-            target.repaint();
-            target.getParent().revalidate();
+            // Check if there is an image open.
+            if (target.getImage().hasImage() == false) {
+                // There is not an image open, so display error message.
+                JOptionPane.showMessageDialog(null, "There is no image to rotate right.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else {
+                // There is an image open, carry on.
+                target.getImage().apply(new RotateRight());
+                target.repaint();
+                target.getParent().revalidate();
+            }
         }
     }
 
@@ -66,9 +74,17 @@ public class OrientationActions {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            target.getImage().apply(new RotateLeft());
-            target.repaint();
-            target.getParent().revalidate();
+            // Check if there is an image open.
+            if (target.getImage().hasImage() == false) {
+                // There is not an image open, so display error message.
+                JOptionPane.showMessageDialog(null, "There is no image rotate left.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else {
+                // There is an image open, carry on.
+                target.getImage().apply(new RotateLeft());
+                target.repaint();
+                target.getParent().revalidate();
+            }
         }
     }
 
@@ -83,9 +99,17 @@ public class OrientationActions {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            target.getImage().apply(new Rotate180());
-            target.repaint();
-            target.getParent().revalidate();
+            // Check if there is an image open.
+            if (target.getImage().hasImage() == false) {
+                // There is not an image open, so display error message.
+                JOptionPane.showMessageDialog(null, "There is no image to rotate by 180 degrees", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else {
+                // There is an image open, carry on.
+                target.getImage().apply(new Rotate180());
+                target.repaint();
+                target.getParent().revalidate();
+            }
         }
     }
 
@@ -100,9 +124,17 @@ public class OrientationActions {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            target.getImage().apply(new FlipVertical());
-            target.repaint();
-            target.getParent().revalidate();
+            // Check if there is an image open.
+            if (target.getImage().hasImage() == false) {
+                // There is not an image open, so display error message.
+                JOptionPane.showMessageDialog(null, "There is no image to flip vertically.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else {
+                // There is an image open, carry on.
+                target.getImage().apply(new FlipVertical());
+                target.repaint();
+                target.getParent().revalidate();
+            }
         }
     }
 
@@ -117,9 +149,17 @@ public class OrientationActions {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            target.getImage().apply(new FlipHorizontal());
-            target.repaint();
-            target.getParent().revalidate();
+            // Check if there is an image open.
+            if (target.getImage().hasImage() == false) {
+                // There is not an image open, so display error message.
+                JOptionPane.showMessageDialog(null, "There is no image to flip horizontally.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else {
+                // There is an image open, carry on.
+                target.getImage().apply(new FlipHorizontal());
+                target.repaint();
+                target.getParent().revalidate();
+            }
         }
     }
     

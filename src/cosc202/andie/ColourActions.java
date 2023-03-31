@@ -98,7 +98,7 @@ public class ColourActions {
             // Check if there is an image open.
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
-                JOptionPane.showMessageDialog(null, "There is no image to convert to grey.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "There is no image to convert to greyscale.", "Error", JOptionPane.ERROR_MESSAGE);
             }
             else {
                 // There is an image open, carry on.
