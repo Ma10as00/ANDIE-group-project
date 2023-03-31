@@ -109,8 +109,8 @@ public class FileActions {
                 // There is an image open, warn user that any unsaved changes will be deleted.
                 try {
                     int option = JOptionPane.showConfirmDialog(null, "If you open another image without saving or exporting this image, any changes will be lost.", "Warning", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
-                    if (option == JOptionPane.CANCEL_OPTION) {
-                        // User cancelled, don't open.
+                    if (option == JOptionPane.CANCEL_OPTION || option == JOptionPane.CLOSED_OPTION) {
+                        // User cancelled or closed box, don't open.
                         return;
                     }
                 }
