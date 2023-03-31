@@ -18,7 +18,6 @@ import java.awt.image.*;
  *
  * 
  */
-
 public class ContrastFilter implements ImageOperation {
     // The size of the scale which is what is used to determine the contrast
     int value;
@@ -28,27 +27,26 @@ public class ContrastFilter implements ImageOperation {
         this.value = value;
     }
 
-   /**
- * <p>
- * Apply a contrast filter to an image,
- * </p>
- * 
- * The apply method takes in a value field that compute a contrast value. 
- * The contrast value is then used to create a RescaleOp object. 
- * The RescaleOp object is then used to filter the previousImage using the filter method. 
- * The filter method modifies the previousImage in place by applying the contrast filter to it. Finally, 
- * the apply method returns the previousImage.
- * 
- * 
- * The ContrastFilter class is used to apply a contrast filter to a BufferedImage. 
- * The amount of contrast applied is determined by the value field, which is set by the constructor. 
- * The apply method applies the contrast filter to the input image and returns the filtered image.
- *  
- * @param previousImage the input image to filter
- * @return a new image with the contrast filter applied
- * @throws NullPointerException if previousImage is null
- */
-*/
+    /**
+     * <p>
+     * Apply a contrast filter to an image,
+     * </p>
+     * 
+     * The apply method takes in a value field that compute a contrast value. 
+     * The contrast value is then used to create a RescaleOp object. 
+     * The RescaleOp object is then used to filter the previousImage using the filter method. 
+     * The filter method modifies the previousImage in place by applying the contrast filter to it. Finally, 
+     * the apply method returns the previousImage.
+     * 
+     * 
+     * The ContrastFilter class is used to apply a contrast filter to a BufferedImage. 
+     * The amount of contrast applied is determined by the value field, which is set by the constructor. 
+     * The apply method applies the contrast filter to the input image and returns the filtered image.
+     *  
+     * @param previousImage the input image to filter
+     * @return a new image with the contrast filter applied
+     * @throws NullPointerException if previousImage is null
+     */
     @Override
     public BufferedImage apply(BufferedImage previousImage) {
         float contrast;
