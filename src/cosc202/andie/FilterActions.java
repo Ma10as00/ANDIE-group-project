@@ -83,7 +83,7 @@ public class FilterActions {
 
         /**
          * <p>
-         * Callback for when the convert-to-grey action is triggered.
+         * Callback for when the mean filter action is triggered.
          * </p>
          * 
          * <p>
@@ -150,7 +150,7 @@ public class FilterActions {
 
         /**
          * <p>
-         * Callback for when the convert-to-grey action is triggered.
+         * Callback for when the sharpen filter action is triggered.
          * </p>
          * 
          * <p>
@@ -194,7 +194,7 @@ public class FilterActions {
 
         /**
          * <p>
-         * Callback for when the convert-to-grey action is triggered.
+         * Callback for when the Gaussian blur filter action is triggered.
          * </p>
          * 
          * <p>
@@ -261,7 +261,7 @@ public class FilterActions {
 
         /**
          * <p>
-         * Callback for when the convert-to-grey action is triggered.
+         * Callback for when the median filter action is triggered.
          * </p>
          * 
          * <p>

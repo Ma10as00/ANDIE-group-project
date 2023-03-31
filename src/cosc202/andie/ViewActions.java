@@ -38,7 +38,7 @@ public class ViewActions {
         actions.add(new ZoomInAction("Zoom In", null, "Zoom view in", Integer.valueOf(KeyEvent.VK_PLUS)));
         actions.add(new ZoomOutAction("Zoom Out", null, "Zoom view out", Integer.valueOf(KeyEvent.VK_MINUS)));
         actions.add(new ZoomFullAction("Zoom Full", null, "Zoom back to original view", Integer.valueOf(KeyEvent.VK_1)));
-        actions.add(new ZoomChangeAction("Change Zoom", null, "Use slider to change zoom view", Integer.valueOf(KeyEvent.VK_2)));
+        actions.add(new ZoomChangeAction("Custom Zoom", null, "Use slider to change zoom view", Integer.valueOf(KeyEvent.VK_2)));
     }
 
     /**
@@ -255,7 +255,9 @@ public class ViewActions {
          */
         public void actionPerformed(ActionEvent e) {
             target.setZoom(100);
-            target.revalidate();
+            // Note, the line below was changed from target.revalidate();, as it didin't
+            // return the zoom to initial zoom level after some zoom changes
+            target.repaint();
             target.getParent().revalidate();
         }
 
