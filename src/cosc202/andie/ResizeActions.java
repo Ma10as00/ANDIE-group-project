@@ -93,9 +93,17 @@ public class ResizeActions {
          */
         @Override
         public void actionPerformed(ActionEvent e) {
-            target.getImage().apply(new ImageResize50());
-            target.repaint();
-            target.getParent().revalidate();
+            // Check if there is an image open.
+            if (target.getImage().hasImage() == false) {
+                // There is not an image open, so display error message.
+                JOptionPane.showMessageDialog(null, "There is no image to rescale by 50%.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else {
+                // There is an image open, carry on.
+                target.getImage().apply(new ImageResize50());
+                target.repaint();
+                target.getParent().revalidate();
+            }
         }
     }
 
@@ -136,9 +144,17 @@ public class ResizeActions {
          */
         @Override
         public void actionPerformed(ActionEvent e) {
-            target.getImage().apply(new ImageResize150());
-            target.repaint();
-            target.getParent().revalidate();
+            // Check if there is an image open.
+            if (target.getImage().hasImage() == false) {
+                // There is not an image open, so display error message.
+                JOptionPane.showMessageDialog(null, "There is no image to rescale by 150%.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else {
+                // There is an image open, carry on.
+                target.getImage().apply(new ImageResize150());
+                target.repaint();
+                target.getParent().revalidate();
+            }
         }
     }
 
@@ -179,33 +195,40 @@ public class ResizeActions {
          */
         @Override
         public void actionPerformed(ActionEvent e) {
-
-            // Determine the resize percent - ask the user.
-            int resizePercent = 100;
-
-            // Set up slider for user to enter resizePercent.
-            JSlider jslider = new JSlider();
-            jslider.setValue(100);
-            jslider.setMaximum(200);
-            jslider.setMinimum(50);
-            jslider.setMajorTickSpacing(25);
-            jslider.setPaintLabels(true);
-            jslider.setPaintTicks(true);
-
-            // Ask user for resizePercent value with slider.
-            int option = JOptionPane.showOptionDialog(null, jslider, "Resize Percent",
-                    JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
-            if (option == JOptionPane.CANCEL_OPTION) {
-                return;
+            // Check if there is an image open.
+            if (target.getImage().hasImage() == false) {
+                // There is not an image open, so display error message.
+                JOptionPane.showMessageDialog(null, "There is no image to custom rescale.", "Error", JOptionPane.ERROR_MESSAGE);
             }
-            if (option == JOptionPane.OK_OPTION) {
-                resizePercent = jslider.getValue();
-            }
+            else {
+                // There is an image open, carry on.
+                // Determine the resize percent - ask the user.
+                int resizePercent = 100;
 
-            // Apply the image resize with n given from user.
-            target.getImage().apply(new ImageResizeN(resizePercent));
-            target.repaint();
-            target.getParent().revalidate();
+                // Set up slider for user to enter resizePercent.
+                JSlider jslider = new JSlider();
+                jslider.setValue(100);
+                jslider.setMaximum(200);
+                jslider.setMinimum(50);
+                jslider.setMajorTickSpacing(25);
+                jslider.setPaintLabels(true);
+                jslider.setPaintTicks(true);
+
+                // Ask user for resizePercent value with slider.
+                int option = JOptionPane.showOptionDialog(null, jslider, "Resize Percent",
+                        JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+                if (option == JOptionPane.CANCEL_OPTION) {
+                    return;
+                }
+                if (option == JOptionPane.OK_OPTION) {
+                    resizePercent = jslider.getValue();
+                }
+
+                // Apply the image resize with n given from user.
+                target.getImage().apply(new ImageResizeN(resizePercent));
+                target.repaint();
+                target.getParent().revalidate();
+            }
         }
     }
 }
