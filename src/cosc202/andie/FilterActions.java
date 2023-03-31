@@ -94,33 +94,42 @@ public class FilterActions {
          * @param e The event triggering this callback.
          */
         public void actionPerformed(ActionEvent e) {
-
-            // Determine the radius - ask the user.
-            int radius = 0;
-
-            // Set up slider for user to enter radius.
-            JSlider jslider = new JSlider();
-            jslider.setValue(0);
-            jslider.setMaximum(10);
-            jslider.setMinimum(0);
-            jslider.setMajorTickSpacing(1);
-            jslider.setPaintLabels(true);
-            jslider.setPaintTicks(true);
-
-            // Ask user for radius value with slider.
-            int option = JOptionPane.showOptionDialog(null, jslider, "Mean Filter Radius",
-                    JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
-            if (option == JOptionPane.CANCEL_OPTION) {
-                return;
+            // Check if there is an image open.
+            if (target.getImage().hasImage() == false) {
+                // There is not an image open, so display error message.
+                JOptionPane.showMessageDialog(null, "There is no image apply a mean filter to.", "Error", JOptionPane.ERROR_MESSAGE);
             }
-            if (option == JOptionPane.OK_OPTION) {
-                radius = jslider.getValue();
+            else {
+                // There is an image open, carry on.
+                // Determine the radius - ask the user.
+                int radius = 0;
+
+                // Set up slider for user to enter radius.
+                JSlider jslider = new JSlider();
+                jslider.setValue(0);
+                jslider.setMaximum(10);
+                jslider.setMinimum(0);
+                jslider.setMajorTickSpacing(1);
+                jslider.setPaintLabels(true);
+                jslider.setPaintTicks(true);
+
+                // Ask user for radius value with slider.
+                int option = JOptionPane.showOptionDialog(null, jslider, "Mean Filter Radius",
+                        JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+                if (option == JOptionPane.CANCEL_OPTION) {
+                    return;
+                }
+                if (option == JOptionPane.OK_OPTION) {
+                    radius = jslider.getValue();
+                }
+
+                // Create and apply the filter.
+                target.getImage().apply(new MeanFilter(radius));
+                target.repaint();
+                target.getParent().revalidate();
             }
 
-            // Create and apply the filter.
-            target.getImage().apply(new MeanFilter(radius));
-            target.repaint();
-            target.getParent().revalidate();
+            
         }
 
     }
@@ -161,10 +170,18 @@ public class FilterActions {
          * @param e The event triggering this callback.
          */
         public void actionPerformed(ActionEvent e) {
-            // Create and apply the filter.
-            target.getImage().apply(new SharpenFilter());
-            target.repaint();
-            target.getParent().revalidate();
+            // Check if there is an image open.
+            if (target.getImage().hasImage() == false) {
+                // There is not an image open, so display error message.
+                JOptionPane.showMessageDialog(null, "There is no image to apply a sharpen filter to.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else {
+                // There is an image open, carry on.
+                // Create and apply the filter.
+                target.getImage().apply(new SharpenFilter());
+                target.repaint();
+                target.getParent().revalidate();
+            }
         }
 
     }
@@ -205,33 +222,40 @@ public class FilterActions {
          * @param e The event triggering this callback.
          */
         public void actionPerformed(ActionEvent e) {
-
-            // Determine the radius - ask the user.
-            int radius = 0;
-
-            // Set up slider for user to enter radius.
-            JSlider jslider = new JSlider();
-            jslider.setValue(0);
-            jslider.setMaximum(10);
-            jslider.setMinimum(0);
-            jslider.setMajorTickSpacing(1);
-            jslider.setPaintLabels(true);
-            jslider.setPaintTicks(true);
-
-            // Ask user for radius value with slider.
-            int option = JOptionPane.showOptionDialog(null, jslider, "Gaussian Blur Filter Radius",
-                    JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
-            if (option == JOptionPane.CANCEL_OPTION) {
-                return;
+            // Check if there is an image open.
+            if (target.getImage().hasImage() == false) {
+                // There is not an image open, so display error message.
+                JOptionPane.showMessageDialog(null, "There is no image to apply a Gaussian blur filter to.", "Error", JOptionPane.ERROR_MESSAGE);
             }
-            if (option == JOptionPane.OK_OPTION) {
-                radius = jslider.getValue();
-            }
+            else {
+                // There is an image open, carry on.
+                // Determine the radius - ask the user.
+                int radius = 0;
 
-            // Create and apply the filter.
-            target.getImage().apply(new GaussianBlurFilter(radius));
-            target.repaint();
-            target.getParent().revalidate();
+                // Set up slider for user to enter radius.
+                JSlider jslider = new JSlider();
+                jslider.setValue(0);
+                jslider.setMaximum(10);
+                jslider.setMinimum(0);
+                jslider.setMajorTickSpacing(1);
+                jslider.setPaintLabels(true);
+                jslider.setPaintTicks(true);
+
+                // Ask user for radius value with slider.
+                int option = JOptionPane.showOptionDialog(null, jslider, "Gaussian Blur Filter Radius",
+                        JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+                if (option == JOptionPane.CANCEL_OPTION) {
+                    return;
+                }
+                if (option == JOptionPane.OK_OPTION) {
+                    radius = jslider.getValue();
+                }
+
+                // Create and apply the filter.
+                target.getImage().apply(new GaussianBlurFilter(radius));
+                target.repaint();
+                target.getParent().revalidate();
+            }
         }
 
     }
@@ -272,33 +296,40 @@ public class FilterActions {
          * @param e The event triggering this callback.
          */
         public void actionPerformed(ActionEvent e) {
-
-            // Determine the radius - ask the user.
-            int radius = 0;
-
-            // Set up slider for user to enter radius.
-            JSlider jslider = new JSlider();
-            jslider.setValue(0);
-            jslider.setMaximum(5);
-            jslider.setMinimum(0);
-            jslider.setMajorTickSpacing(1);
-            jslider.setPaintLabels(true);
-            jslider.setPaintTicks(true);
-
-            // Ask user for radius value with slider.
-            int option = JOptionPane.showOptionDialog(null, jslider, "Median Filter Radius",
-                    JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
-            if (option == JOptionPane.CANCEL_OPTION) {
-                return;
+            // Check if there is an image open.
+            if (target.getImage().hasImage() == false) {
+                // There is not an image open, so display error message.
+                JOptionPane.showMessageDialog(null, "There is no image to apply a median filter to.", "Error", JOptionPane.ERROR_MESSAGE);
             }
-            if (option == JOptionPane.OK_OPTION) {
-                radius = jslider.getValue();
-            }
+            else {
+                // There is an image open, carry on.
+                // Determine the radius - ask the user.
+                int radius = 0;
 
-            // Create and apply the filter.
-            target.getImage().apply(new MedianFilter(radius));
-            target.repaint();
-            target.getParent().revalidate();
+                // Set up slider for user to enter radius.
+                JSlider jslider = new JSlider();
+                jslider.setValue(0);
+                jslider.setMaximum(5);
+                jslider.setMinimum(0);
+                jslider.setMajorTickSpacing(1);
+                jslider.setPaintLabels(true);
+                jslider.setPaintTicks(true);
+
+                // Ask user for radius value with slider.
+                int option = JOptionPane.showOptionDialog(null, jslider, "Median Filter Radius",
+                        JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+                if (option == JOptionPane.CANCEL_OPTION) {
+                    return;
+                }
+                if (option == JOptionPane.OK_OPTION) {
+                    radius = jslider.getValue();
+                }
+
+                // Create and apply the filter.
+                target.getImage().apply(new MedianFilter(radius));
+                target.repaint();
+                target.getParent().revalidate();
+            }
         }
 
     }
