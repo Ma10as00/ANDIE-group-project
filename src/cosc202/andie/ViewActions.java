@@ -18,7 +18,7 @@ import javax.swing.*;
  * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>
  * </p>
  * 
- * @author Steven Mills
+ * @author Steven Mills (Modified by Stella Srzich)
  * @version 1.0
  */
 public class ViewActions {
@@ -35,9 +35,10 @@ public class ViewActions {
      */
     public ViewActions() {
         actions = new ArrayList<Action>();
-        actions.add(new ZoomInAction("Zoom In", null, "Zoom In", Integer.valueOf(KeyEvent.VK_PLUS)));
-        actions.add(new ZoomOutAction("Zoom Out", null, "Zoom Out", Integer.valueOf(KeyEvent.VK_MINUS)));
-        actions.add(new ZoomFullAction("Zoom Full", null, "Zoom Full", Integer.valueOf(KeyEvent.VK_1)));
+        actions.add(new ZoomInAction("Zoom In", null, "Zoom view in", Integer.valueOf(KeyEvent.VK_PLUS)));
+        actions.add(new ZoomOutAction("Zoom Out", null, "Zoom view out", Integer.valueOf(KeyEvent.VK_MINUS)));
+        actions.add(new ZoomFullAction("Zoom Full", null, "Zoom back to original view", Integer.valueOf(KeyEvent.VK_1)));
+        actions.add(new ZoomChangeAction("Change Zoom", null, "Use slider to change zoom view", Integer.valueOf(KeyEvent.VK_2)));
     }
 
     /**
@@ -141,6 +142,74 @@ public class ViewActions {
          */
         public void actionPerformed(ActionEvent e) {
             target.setZoom(target.getZoom()-10);
+            target.repaint();
+            target.getParent().revalidate();
+        }
+
+    }
+
+    /**
+     * <p>
+     * Action to change the zoom of an image with a slider.
+     * </p>
+     * 
+     * <p>
+     * Note that this action only affects the way the image is displayed, not its actual contents.
+     * </p>
+     */
+    public class ZoomChangeAction extends ImageAction {
+
+        /**
+         * <p>
+         * Create a new zoom-change action.
+         * </p>
+         * 
+         * @param name The name of the action (ignored if null).
+         * @param icon An icon to use to represent the action (ignored if null).
+         * @param desc A brief description of the action  (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
+         */
+        ZoomChangeAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+        }
+
+        /**
+         * <p>
+         * Callback for when the zoom-change action is triggered.
+         * </p>
+         * 
+         * <p>
+         * This method is called whenever the ZoomChangeAction is triggered.
+         * It changes the zoom of the image by the user input.
+         * </p>
+         * 
+         * @param e The event triggering this callback.
+         */
+        public void actionPerformed(ActionEvent e) {
+            // Determine the zoom change - ask the user.
+            int change = 0;
+
+            // Set up slider for user to the zoom change.
+            JSlider jslider = new JSlider();
+            jslider.setValue(0);
+            jslider.setMaximum(150);
+            jslider.setMinimum(-150);
+            jslider.setMajorTickSpacing(50);
+            jslider.setPaintLabels(true);
+            jslider.setPaintTicks(true);
+
+            // Ask user for zoom change value with slider.
+            int option = JOptionPane.showOptionDialog(null, jslider, "Zoom Change",
+                    JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+            if (option == JOptionPane.CANCEL_OPTION) {
+                return;
+            }
+            if (option == JOptionPane.OK_OPTION) {
+                change = jslider.getValue();
+            }
+
+            // Apply changed zoom.
+            target.setZoom(target.getZoom()+change);
             target.repaint();
             target.getParent().revalidate();
         }
