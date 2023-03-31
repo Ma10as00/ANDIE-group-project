@@ -162,10 +162,18 @@ public class FileActions {
          * @param e The event triggering this callback.
          */
         public void actionPerformed(ActionEvent e) {
-            try {
-                target.getImage().save();
-            } catch (Exception ex) {
-                System.exit(1);
+            // Check if there is an image open.
+            if (target.getImage().hasImage() == false) {
+                // There is not an image open, so display error message.
+                JOptionPane.showMessageDialog(null, "There is no image open to save.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else {
+                // There is an image open, carry on.
+                try {
+                    target.getImage().save();
+                } catch (Exception ex) {
+                    System.exit(1);
+                }
             }
         }
 
@@ -207,17 +215,25 @@ public class FileActions {
          * @param e The event triggering this callback.
          */
         public void actionPerformed(ActionEvent e) {
-            JFileChooser fileChooser = new JFileChooser();
-            int result = fileChooser.showSaveDialog(target);
-
-            if (result == JFileChooser.APPROVE_OPTION) {
-                try {
-                    String imageFilepath = fileChooser.getSelectedFile().getCanonicalPath();
-                    target.getImage().saveAs(imageFilepath);
-                } catch (Exception ex) {
+            // Check if there is an image open.
+            if (target.getImage().hasImage() == false) {
+                // There is not an image open, so display error message.
+                JOptionPane.showMessageDialog(null, "There is no image open to save as.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else {
+                // There is an image open, carry on.
+                JFileChooser fileChooser = new JFileChooser();
+                int result = fileChooser.showSaveDialog(target);
+                if (result == JFileChooser.APPROVE_OPTION) {
+                    try {
+                        String imageFilepath = fileChooser.getSelectedFile().getCanonicalPath();
+                        target.getImage().saveAs(imageFilepath);
+                    } catch (Exception ex) {
                         System.exit(1);
+                    }
                 }
             }
+
         }
 
     }
@@ -280,19 +296,27 @@ public class FileActions {
         }
 
         public void actionPerformed(ActionEvent e) {
-            JFileChooser fileChooser = new JFileChooser();
-            int result = fileChooser.showSaveDialog(null);
+            // Check if there is an image to export
+            if (target.getImage().hasImage() == false) {
+                // There is not an image open, so display error message.
+                JOptionPane.showMessageDialog(null, "There is no image open to export.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else {
+                // There is an image open, carry on.
+                JFileChooser fileChooser = new JFileChooser();
+                int result = fileChooser.showSaveDialog(null);
 
-            if (result == JFileChooser.APPROVE_OPTION) {
-                try {
-                    String imageFilepath = fileChooser.getSelectedFile().getCanonicalPath();
-                    if(imageFilepath.indexOf(".") == -1){ //checks if user has already added own image extension
-                        imageFilepath += ".png"; //adds .png as image type for default if no extension given
+                if (result == JFileChooser.APPROVE_OPTION) {
+                    try {
+                        String imageFilepath = fileChooser.getSelectedFile().getCanonicalPath();
+                        if(imageFilepath.indexOf(".") == -1){ //checks if user has already added own image extension
+                            imageFilepath += ".png"; //adds .png as image type for default if no extension given
+                        }
+                        
+                        target.getImage().export(imageFilepath); //calls export image method in EditableImage.java
+                    } catch (Exception ex) {
+                        System.exit(1);
                     }
-                      
-                    target.getImage().export(imageFilepath); //calls export image method in EditableImage.java
-                } catch (Exception ex) {
-                    System.exit(1);
                 }
             }
         }
