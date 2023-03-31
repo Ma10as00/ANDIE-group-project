@@ -36,8 +36,6 @@ public class EditActions {
         actions = new ArrayList<Action>();
         actions.add(new UndoAction("Undo", null, "Undo", Integer.valueOf(KeyEvent.VK_Z)));
         actions.add(new RedoAction("Redo", null, "Redo", Integer.valueOf(KeyEvent.VK_Y)));
-        actions.add(new ImageResize50Action("Resize 50%", null, "Allows the image to be resized to 50% it's original size", null));
-        actions.add(new ImageResize150Action("Resize 150%", null, "Allows the image to be resized to 150% it's original size", null));
     }
 
     /**
@@ -55,40 +53,6 @@ public class EditActions {
         }
 
         return editMenu;
-    }
-
-    /**
-     * Action to resize the image to 50%
-     */
-    public class ImageResize50Action extends ImageAction{
-
-        ImageResize50Action(String name, ImageIcon icon, String desc, Integer mnemonic){
-            super(name,icon,desc,mnemonic);
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            target.getImage().apply(new ImageResize50());
-            target.repaint();
-            target.getParent().revalidate();
-        }
-    }
-
-    /**
-     * Action to resize the image to 150%
-     */
-    public class ImageResize150Action extends ImageAction{
-
-        ImageResize150Action(String name, ImageIcon icon, String desc, Integer mnemonic){
-            super(name,icon,desc,mnemonic);
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            target.getImage().apply(new ImageResize150());
-            target.repaint();
-            target.getParent().revalidate();
-        }
     }
 
     /**
