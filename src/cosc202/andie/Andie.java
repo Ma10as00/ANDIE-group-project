@@ -68,8 +68,8 @@ public class Andie {
         JMenuBar menuBar = new JMenuBar();
 
         // File menus are pretty standard, so things that usually go in File menus go
-        // here.
-        FileActions fileActions = new FileActions();
+        // here. We pass a frame so that when we open an image, the frame is packed to the new image size.
+        FileActions fileActions = new FileActions(frame);
         menuBar.add(fileActions.createMenu());
 
         // Likewise Edit menus are very common, so should be clear what might go here.

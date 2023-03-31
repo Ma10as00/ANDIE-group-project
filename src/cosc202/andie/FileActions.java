@@ -30,18 +30,23 @@ public class FileActions {
 
     /** A list of actions for the File menu. */
     protected ArrayList<Action> actions;
+    /** The main GUI frame. Only here so that we can pack the 
+     * frame when we open a new image.
+     */
+    private JFrame frame;
 
     /**
      * <p>
      * Create a set of File menu actions.
      * </p>
      */
-    public FileActions() {
+    public FileActions(JFrame frame) {
         actions = new ArrayList<Action>();
-        actions.add(new FileOpenAction("Open", null, "Open a file", Integer.valueOf(KeyEvent.VK_O)));
-        actions.add(new FileSaveAction("Save", null, "Save the file", Integer.valueOf(KeyEvent.VK_S)));
-        actions.add(new FileSaveAsAction("Save As", null, "Save a copy", Integer.valueOf(KeyEvent.VK_A)));
-        actions.add(new ExportImage("Export", null, "Export as new file", Integer.valueOf(KeyEvent.VK_E)));
+        this.frame = frame;
+        actions.add(new FileOpenAction("Open", null, "Open an image file", Integer.valueOf(KeyEvent.VK_O)));
+        actions.add(new FileSaveAction("Save", null, "Save the image operations file", Integer.valueOf(KeyEvent.VK_S)));
+        actions.add(new FileSaveAsAction("Save As", null, "Save the image operations file as", Integer.valueOf(KeyEvent.VK_A)));
+        actions.add(new ExportImage("Export", null, "Export the new image file", Integer.valueOf(KeyEvent.VK_E)));
         actions.add(new FileExitAction("Exit", null, "Exit the program", Integer.valueOf(0)));
     }
 
@@ -112,6 +117,10 @@ public class FileActions {
 
             target.repaint();
             target.getParent().revalidate();
+            // Pack the main GUI frame to the size of the newly opened image.
+            frame.pack();
+            // Make main GUI frame centered on screen
+            frame.setLocationRelativeTo(null);
         }
 
     }
