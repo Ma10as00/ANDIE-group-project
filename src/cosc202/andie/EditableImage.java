@@ -156,10 +156,12 @@ class EditableImage {
             redoOps.clear();
             objIn.close();
             fileIn.close();
+            // Moved this line here so that if there is no image operations file, 
+            // the image operations from the last open file aren't applied.
+            this.refresh();
         } catch (Exception ex) {
             // Could be no file or something else. Carry on for now.
         }
-        this.refresh();
     }
 
     /**

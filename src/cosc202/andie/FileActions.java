@@ -30,7 +30,8 @@ public class FileActions {
 
     /** A list of actions for the File menu. */
     protected ArrayList<Action> actions;
-    /** The main GUI frame. Only here so that we can pack the 
+    /** 
+     * The main GUI frame. Only here so that we can pack the 
      * frame when we open a new image.
      */
     private JFrame frame;
@@ -214,7 +215,7 @@ public class FileActions {
                     String imageFilepath = fileChooser.getSelectedFile().getCanonicalPath();
                     target.getImage().saveAs(imageFilepath);
                 } catch (Exception ex) {
-                    System.exit(1);
+                        System.exit(1);
                 }
             }
         }
