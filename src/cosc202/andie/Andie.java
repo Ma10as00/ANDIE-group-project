@@ -1,6 +1,7 @@
 package cosc202.andie;
 
 import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
 import javax.imageio.*;
 
@@ -24,6 +25,9 @@ import javax.imageio.*;
  * @version 1.0
  */
 public class Andie {
+
+    /** An ImagePanel. */
+    private static ImagePanel imagePanel;
 
     /**
      * <p>
@@ -56,10 +60,22 @@ public class Andie {
 
         Image image = ImageIO.read(Andie.class.getClassLoader().getResource("icon.png"));
         frame.setIconImage(image);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        // Changed default close operation to DO_NOTHING_ON_CLOSE
+        // so that a WindowListener can handle the operation 
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        frame.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                frameClosing();
+            }
+        });
 
-        // The main content area is an ImagePanel
-        ImagePanel imagePanel = new ImagePanel();
+        
+        // Note, I deleted the ImagePanel instatiation here so that there 
+        // is a static data feild for the ImagePanel instead. This means
+        // the user windowClosing method can access the ImagePanel as well.
+
+        // The main content area is an ImagePanel.
+        imagePanel = new ImagePanel();
         ImageAction.setTarget(imagePanel);
         JScrollPane scrollPane = new JScrollPane(imagePanel);
         frame.add(scrollPane, BorderLayout.CENTER);
@@ -101,6 +117,39 @@ public class Andie {
         // Make window centered on screen.
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+    }
+
+    /**
+     * <p>
+     * Handles a user closing the main GUI frame.
+     * </p>
+     * 
+     * <p>
+     * If the user trys to exit the main GUI frame with an image open, a warning dialogue box
+     * will warn them that any unsaved changes will be lost. 
+     * </p>
+     */
+    private static void frameClosing() {
+        // Check if there is an image open.
+        if (imagePanel.getImage().hasImage()) {
+            // There is an image open, warn user that any unsaved changes will be deleted.
+            try {
+                int option = JOptionPane.showConfirmDialog(null, "If you exit without saving or exporting this image, any changes will be lost.", "Warning", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+                if (option == JOptionPane.OK_OPTION) {
+                    // User clicked ok, exit.
+                    System.exit(0);
+                }
+            }
+            catch (HeadlessException ex) {
+                // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                // Won't happen for our users, so just exit.
+                System.exit(0);
+            }
+        }
+        else {
+            // There is no image open, exit.
+            System.exit(0);
+        }
     }
 
     /**

@@ -2,8 +2,8 @@ package cosc202.andie;
 
 import java.util.*;
 import java.awt.event.*;
+import java.awt.*;
 import java.io.File;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
@@ -114,7 +114,7 @@ public class FileActions {
                         return;
                     }
                 }
-                catch (Exception ex) {
+                catch (HeadlessException ex) {
                     // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
                     // Won't happen for our users, so just exit.
                     System.exit(0);
@@ -306,7 +306,7 @@ public class FileActions {
                         System.exit(0);
                     }
                 }
-                catch (Exception ex) {
+                catch (HeadlessException ex) {
                     // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
                     // Won't happen for our users, so just exit.
                     System.exit(0);
