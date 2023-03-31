@@ -3,8 +3,6 @@ package cosc202.andie;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
-// delete
-import javax.swing.*;
 
 /**
  * <p>
