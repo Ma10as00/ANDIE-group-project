@@ -91,9 +91,21 @@ public class EditActions {
          * @param e The event triggering this callback.
          */
         public void actionPerformed(ActionEvent e) {
-            target.getImage().undo();
-            target.repaint();
-            target.getParent().revalidate();
+            // Check if there is an image open.
+            if (target.getImage().hasImage() == false) {
+                // There is not an image undo, so display error message.
+                JOptionPane.showMessageDialog(null, "There is no image to undo operations on.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else if (target.getImage().hasOps() == false) {
+                // There are no image operations to undo, so display error message.
+                JOptionPane.showMessageDialog(null, "There are no image operations to undo.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else {
+                // There is an image open, and operations to undo, carry on.
+                target.getImage().undo();
+                target.repaint();
+                target.getParent().revalidate();
+            }
         }
     }
 
@@ -134,9 +146,21 @@ public class EditActions {
          * @param e The event triggering this callback.
          */
         public void actionPerformed(ActionEvent e) {
-            target.getImage().redo();
-            target.repaint();
-            target.getParent().revalidate();
+            // Check if there is an image open.
+            if (target.getImage().hasImage() == false) {
+                // There is not an image undo, so display error message.
+                JOptionPane.showMessageDialog(null, "There is no image to redo operations on.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else if (target.getImage().hasRedoOps() == false) {
+                // There are no image operations to undo, so display error message.
+                JOptionPane.showMessageDialog(null, "There are no image operations to redo.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else {
+                // There is an image open, and operations to redo, carry on.
+                target.getImage().redo();
+                target.repaint();
+                target.getParent().revalidate();
+            }
         }
     }
 

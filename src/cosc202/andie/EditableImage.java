@@ -28,7 +28,7 @@ import javax.imageio.*;
  * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>
  * </p>
  * 
- * @author Steven Mills
+ * @author Steven Mills (Modified by Stella Srzich)
  * @version 1.0
  */
 class EditableImage {
@@ -73,6 +73,28 @@ class EditableImage {
      */
     public boolean hasImage() {
         return current != null;
+    }
+
+    /**
+     * <p>
+     * Check if there are operations in {@link ops}.
+     * </p>
+     * 
+     * @return True if there is are operations, false otherwise.
+     */
+    public boolean hasOps() {
+        return !ops.empty();
+    }
+
+    /**
+     * <p>
+     * Check if there are operations to redo in {@link redoOps}.
+     * </p>
+     * 
+     * @return True if there is are operations, false otherwise.
+     */
+    public boolean hasRedoOps() {
+        return !redoOps.empty();
     }
 
     /**
