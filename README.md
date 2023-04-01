@@ -1,6 +1,6 @@
 # ANDIE, 'Return A+;'
 
-## Team Members:
+## Team Members
 
 The team behind this ANDIE, 'Return A+;', consists of Michael Campbell, James Liu, Mathias Øgaard, Stella Srzich and Katie Wink. We met every week on Fridays to set goals for the week and reflect on our progress, and on Tuesdays to complete lab tasks and touch base. The team worked in a democratic style, where all team members had a say in the features of ANDIE and who should be responsible for each task. However, the team was somewhat led by Stella, who kept track of progress and had a big-picture view of the project. 
 
@@ -14,7 +14,7 @@ Each team member had the following responsibilities…
 Note, however, all team members helped others with their responsibilities from time to time. And, we were all responsible for testing the project through interaction with the GUI, exception handling, and correct use of documentation within our classes.
 
 
-## Testing:
+## Testing
 
 We tested ANDIE through JUnit testing and interaction with the GUI. In the beginning, when we started to implement our features, we each focused on making sure our features worked for expected inputs. So, we only interacted with the GUI, acting as a perfect user, meaning we had a baseline to improve on. We also entered statements within methods to print to the command line to make sure values, such as floats in a kernel, widths and heights of an image, or values returned by methods, were matching what we expected. 
 
@@ -22,11 +22,11 @@ Then, once all features were implemented, James formalised this by writing Junit
 
 Once we thought all bugs had been dealt with, and that the program ran perfectly, we got our friends, who aren't computer science majors, to test ANDIE. They provided feedback on the user experience and revealed bugs we had never noticed before. 
 
-## User Guide:
+## User Guide
 'Image'
 
 ### Description
-‘ANDIE’ stands for A Non-Destructive Image Editor. The purpose of the program is to edit and manipulate images – like Photoshop but much, much simpler. The approach taken in ANDIE is non-destructive image editing. Many image processing operations, such as blurring filters, once applied to an image, cannot be reversed because information is lost in the process. Non-destructive image editors take the approach of storing the original image and the sequence of operations applied. Then, the operations can be applied to the original image to get the desired result. But since the original image and the full sequence of operations have been kept separately, no information is lost.
+‘ANDIE’ stands for A Non-Destructive Image Editor. The purpose of the program is to edit and manipulate images – like Photoshop but much, much simpler. The approach taken in ANDIE is non-destructive image editing. Many image processing operations, such as blurring filters, once applied to an image, cannot be reversed because information is lost in the process. Non-destructive image editors take the approach of storing the original image and the sequence of operations applied. Then, the operations can be applied to the original image to get the desired result. But since the original image and the full sequence of operations have been kept separately, no information is lost. ANDIE supports English, Māori and Norwegian. 
 
 ### Opening and Saving Images
 ANDIE supports editing images with image file formats of JPEG, PNG, BMP, WEB and GIF. Images are stored as image files, as you would expect. And, operations, which are the operations you may have applied to edit an image, are stored as operations files of the format jpeg.ops, png.ops, bmp.ops, web.ops, or gif.ops. 
