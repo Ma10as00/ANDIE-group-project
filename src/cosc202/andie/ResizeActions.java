@@ -96,7 +96,7 @@ public class ResizeActions {
             // Check if there is an image open.
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
-                JOptionPane.showMessageDialog(null, "There is no image to rescale by 50%.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "There is no image to resize by 50%.", "Error", JOptionPane.ERROR_MESSAGE);
             }
             else {
                 // There is an image open, carry on.
@@ -147,7 +147,7 @@ public class ResizeActions {
             // Check if there is an image open.
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
-                JOptionPane.showMessageDialog(null, "There is no image to rescale by 150%.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "There is no image to resize by 150%.", "Error", JOptionPane.ERROR_MESSAGE);
             }
             else {
                 // There is an image open, carry on.
@@ -198,7 +198,7 @@ public class ResizeActions {
             // Check if there is an image open.
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
-                JOptionPane.showMessageDialog(null, "There is no image to custom rescale.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "There is no image to custom resize.", "Error", JOptionPane.ERROR_MESSAGE);
             }
             else {
                 // There is an image open, carry on.
