@@ -18,7 +18,7 @@ import java.awt.image.*;
  *
  * 
  */
-public class ContrastFilter implements ImageOperation {
+public class ContrastFilter implements ImageOperation, java.io.Serializable  {
     // The size of the scale which is what is used to determine the contrast
     int value;
     

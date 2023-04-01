@@ -133,7 +133,7 @@ public class ColourActions {
                 jslider.setPaintTicks(true);
 
                 int select = JOptionPane.showOptionDialog(null, jslider, "Brightness Amount",
-                        JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+                JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
                 if (select == JOptionPane.CANCEL_OPTION) {
                     return;
                 }
@@ -171,7 +171,7 @@ public class ColourActions {
                 jslider.setPaintTicks(true);
 
                 int select = JOptionPane.showOptionDialog(null, jslider, "Contrast Amount",
-                        JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+                JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
                 if (select == JOptionPane.CANCEL_OPTION) {
                     return;
                 }

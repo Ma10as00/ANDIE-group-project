@@ -19,7 +19,7 @@ import java.awt.image.*;
  * 
  */
 
-public class BrightnessFilter implements ImageOperation {
+public class BrightnessFilter implements ImageOperation, java.io.Serializable  {
     // The size of the scale which is what is used to determine the brightness
     public int scale;
 
