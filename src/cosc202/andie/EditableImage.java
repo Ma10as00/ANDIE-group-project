@@ -187,8 +187,7 @@ class EditableImage {
         
         current = deepCopy(original);
 
-        // This part clears the image operations, 
-        // possibly from the prior open image
+        // This part clears the image operations, possibly from the prior open image.
         ops.clear();
         redoOps.clear();
         
@@ -214,8 +213,6 @@ class EditableImage {
         } catch (Exception ex) {
             // Could be no file or something else. Carry on for now.
         }
-        // Moved this line here so that if there is no image operations file, 
-        // the image operations from the last open file aren't applied.
         this.refresh();
     }
 
@@ -233,19 +230,26 @@ class EditableImage {
      * 
      * @throws Exception If something goes wrong.
      */
-    public void save() throws Exception {
+    public void save() {
         if (this.opsFilename == null) {
             this.opsFilename = this.imageFilename + ".ops";
         }
-        // Write image file based on file extension
-        String extension = imageFilename.substring(1+imageFilename.lastIndexOf(".")).toLowerCase();
-        ImageIO.write(original, extension, new File(imageFilename));
-        // Write operations file
-        FileOutputStream fileOut = new FileOutputStream(this.opsFilename);
-        ObjectOutputStream objOut = new ObjectOutputStream(fileOut);
-        objOut.writeObject(this.ops);
-        objOut.close();
-        fileOut.close();
+        
+        try {
+            // Write image file based on file extension
+            String extension = imageFilename.substring(1+imageFilename.lastIndexOf(".")).toLowerCase();
+            ImageIO.write(original, extension, new File(imageFilename));
+            // Write operations file
+            FileOutputStream fileOut = new FileOutputStream(this.opsFilename);
+            ObjectOutputStream objOut = new ObjectOutputStream(fileOut);
+            objOut.writeObject(this.ops);
+            objOut.close();
+            fileOut.close();
+        }
+        catch (Exception e) {
+            // Something has gone wrong in saving the file. Tell the user and do nothing.
+            JOptionPane.showMessageDialog(null, "Sorry, there has been an error in saving the file. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     /**
@@ -262,7 +266,7 @@ class EditableImage {
      * 
      * @param imageFilename The file location to save the image to.
      */
-    public void saveAs(String imageFilename) throws Exception {
+    public void saveAs(String imageFilename) {
         // Check that the image file name is valid.
         if (isValidPNGName(imageFilename) == false) {
             // The image file name is not valid. Show error message and do not save as.

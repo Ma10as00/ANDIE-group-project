@@ -188,11 +188,7 @@ public class FileActions {
             }
             else {
                 // There is an image open, carry on.
-                try {
-                    target.getImage().save();
-                } catch (Exception ex) {
-                    System.exit(1);
-                }
+                target.getImage().save();
             }
         }
 
