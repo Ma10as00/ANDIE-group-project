@@ -110,7 +110,7 @@ public class FileActions {
                 try {
                     int option = JOptionPane.showConfirmDialog(null, "If you open another image without saving or exporting this image, any changes will be lost.", "Warning", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
                     if (option == JOptionPane.CANCEL_OPTION || option == JOptionPane.CLOSED_OPTION) {
-                        // User cancelled or closed box, don't open.
+                        // User cancelled or closed box, don't open an image.
                         return;
                     }
                 }
@@ -122,16 +122,19 @@ public class FileActions {
             }
 
             // User either had no image open, or had an image open but decided to still open another one.
+            // So, we attempt to open an image file.
             JFileChooser fileChooser = new JFileChooser();
             int result = fileChooser.showOpenDialog(target);
 
             if (result == JFileChooser.APPROVE_OPTION) {
+                String imageFilepath = "";
                 try {
-                    String imageFilepath = fileChooser.getSelectedFile().getCanonicalPath();
-                    target.getImage().open(imageFilepath);
+                    imageFilepath = fileChooser.getSelectedFile().getCanonicalPath();
                 } catch (Exception ex) {
+                    // Something went terribly wrong?
                     System.exit(1);
                 }
+                target.getImage().open(imageFilepath);
             }
 
             target.repaint();
@@ -247,6 +250,7 @@ public class FileActions {
                         String imageFilepath = fileChooser.getSelectedFile().getCanonicalPath();
                         target.getImage().saveAs(imageFilepath);
                     } catch (Exception ex) {
+                        // Something went terribly wrong?
                         System.exit(1);
                     }
                 }
@@ -350,11 +354,9 @@ public class FileActions {
                 if (result == JFileChooser.APPROVE_OPTION) {
                     try {
                         String imageFilepath = fileChooser.getSelectedFile().getCanonicalPath();
-                        if(imageFilepath.indexOf(".") == -1){ //checks if user has already added own image extension
-                            imageFilepath += ".png"; //adds .png as image type for default if no extension given
-                        }
-                        
-                        target.getImage().export(imageFilepath); //calls export image method in EditableImage.java
+                        // delete this
+                        System.out.println(imageFilepath);
+                        target.getImage().export(imageFilepath); // calls export image method in EditableImage.java
                     } catch (Exception ex) {
                         System.exit(1);
                     }

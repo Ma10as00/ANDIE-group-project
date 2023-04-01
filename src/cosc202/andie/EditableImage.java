@@ -4,6 +4,7 @@ import java.util.*;
 import java.io.*;
 import java.awt.image.*;
 import javax.imageio.*;
+import javax.swing.*;
 
 /**
  * <p>
@@ -41,7 +42,7 @@ class EditableImage {
     private Stack<ImageOperation> ops;
     /** A memory of 'undone' operations to support 'redo'. */
     private Stack<ImageOperation> redoOps;
-    /** The file where the original image is stored/ */
+    /** The file where the original image is stored. */
     private String imageFilename;
     /** The file where the operation sequence is stored. */
     private String opsFilename;
@@ -152,15 +153,48 @@ class EditableImage {
      * </p>
      * 
      * @param filePath The file to open the image from.
-     * @throws Exception If something goes wrong.
      */
-    public void open(String filePath) throws Exception {
-        imageFilename = filePath;
-        opsFilename = imageFilename + ".ops";
-        File imageFile = new File(imageFilename);
-        original = ImageIO.read(imageFile);
-        current = deepCopy(original);
+    public void open(String filePath) {
+        // First, check that the file trying to be opened is a png image
+        if (isValidPNGName(filePath) == false) {
+            // The image file name is not valid. Show error message and do not open.
+            JOptionPane.showMessageDialog(null, "You have not selected a PNG image file.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         
+        // This part opens the image file, only if the filePath is actually
+        // for a png image file.
+        this.imageFilename = filePath;
+        this.opsFilename = this.imageFilename + ".ops";
+        try {
+            File imageFile = new File(imageFilename);
+            original = ImageIO.read(imageFile);
+        }
+        catch (IOException ei){
+            // This happens if the filePath is not for an image file, but
+            // as this point it must be for an image file. So, just exit.
+            System.exit(1);
+        }
+        catch (NullPointerException en) {
+            // This happens if the filePath is null, which it wont be, so just exit.
+            System.exit(1);
+        }
+        catch (IllegalArgumentException ea) {
+            // This happens if the File parameter for read is null, which it won't be.
+            // So, just exit.
+            System.exit(1);
+        }
+        
+        current = deepCopy(original);
+
+        // This part clears the image operations, 
+        // possibly from the prior open image
+        ops.clear();
+        redoOps.clear();
+        
+        // This part tries to also read the operations file
+        // associated with the image that has been opened.
+        // If it doesn't exist yet, no file is read.
         try {
             FileInputStream fileIn = new FileInputStream(this.opsFilename);
             ObjectInputStream objIn = new ObjectInputStream(fileIn);
@@ -175,15 +209,14 @@ class EditableImage {
             @SuppressWarnings("unchecked")
             Stack<ImageOperation> opsFromFile = (Stack<ImageOperation>) objIn.readObject();
             ops = opsFromFile;
-            redoOps.clear();
             objIn.close();
             fileIn.close();
-            // Moved this line here so that if there is no image operations file, 
-            // the image operations from the last open file aren't applied.
-            this.refresh();
         } catch (Exception ex) {
             // Could be no file or something else. Carry on for now.
         }
+        // Moved this line here so that if there is no image operations file, 
+        // the image operations from the last open file aren't applied.
+        this.refresh();
     }
 
     /**
@@ -228,13 +261,21 @@ class EditableImage {
      * </p>
      * 
      * @param imageFilename The file location to save the image to.
-     * @throws Exception If something goes wrong.
      */
     public void saveAs(String imageFilename) throws Exception {
+        // Check that the image file name is valid.
+        if (isValidPNGName(imageFilename) == false) {
+            // The image file name is not valid. Show error message and do not save as.
+            JOptionPane.showMessageDialog(null, "You have not entered a valid PNG image file name.\n(The name must end with .png, cannot contain any other '.', and must contain characters preceeding '.png')", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // The image file name is valid, continue to save as.
         this.imageFilename = imageFilename;
         this.opsFilename = imageFilename + ".ops";
         save();
     }
+
     /**
      * <p>
      * Exports image with operations to new file.
@@ -249,10 +290,18 @@ class EditableImage {
      * @throws Exception If something goes wrong.
      */
     public void export(String imageFilename) throws Exception{
-        this.imageFilename = imageFilename; //sets file name based on export method in FileActions
-        String extension = imageFilename.substring(1+imageFilename.lastIndexOf(".")).toLowerCase(); //finds extension of file
-        ImageIO.write(current, extension, new File(imageFilename));  //writes image to file using ImageIO
+        // Check that the image file name is valid.
+        if (isValidPNGName(imageFilename) == false) {
+            // The image file name is not valid. Show error message and do not export.
+            JOptionPane.showMessageDialog(null, "You have not entered a valid PNG image file name.\n(The name must end with .png, cannot contain any other '.', and must contain characters preceeding '.png')", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
+        // Deleted the code line below so that once you export an image, you are still working with the original image
+        // with the original image opertaions file
+        // this.imageFilename = imageFilename; //sets file name based on export method in FileActions
+        String extension = imageFilename.substring(1+imageFilename.lastIndexOf(".")).toLowerCase(); //finds extension of file
+        ImageIO.write(current, extension, new File(imageFilename));  // writes image to file using ImageIO
     }
 
     /**
@@ -314,6 +363,39 @@ class EditableImage {
         for (ImageOperation op: ops) {
             current = op.apply(current);
         }
+    }
+    /**
+     * <p>
+     * Private method to check whether a given file name is a valid pNG file name. That is,
+     * if it ends in .png, only contains a single '.', and has characters before '.png'.
+     * </p>
+     * @param imageFileName image file name (not the data feild) to check.
+     * @return true if {@link imageFileName} is a valid PNG file name, false otherwise.
+     */
+    private static boolean isValidPNGName(String imageFilename) {
+        boolean isPNGFile = true;
+        if (imageFilename.contains(".") == false) {
+            // The image file name has no '.', cannot be a valid image file name.
+            isPNGFile = false;
+        }
+        else {
+            String extension = imageFilename.substring(imageFilename.lastIndexOf(".")).toLowerCase();
+            if (!extension.equals(".png")) {
+                // The image file name extension is not valid as it doesn't end in .png.
+                isPNGFile = false;
+            }
+            if (imageFilename.lastIndexOf(".") != imageFilename.indexOf(".")) {
+                // There are is more than one '.' in file name, so the image file name is nvalid.
+                isPNGFile = false;
+            }
+
+            String name = imageFilename.substring(imageFilename.lastIndexOf("/"), imageFilename.lastIndexOf("."));
+            if (name.equals("/")) {
+                isPNGFile = false;
+            }
+        }
+
+        return isPNGFile;
     }
 
 }
