@@ -45,7 +45,7 @@ public class FileActions {
         actions.add(new FileOpenAction(LanguageActions.getLocaleString("open"), null, LanguageActions.getLocaleString("openDes"), Integer.valueOf(KeyEvent.VK_O)));
         actions.add(new FileSaveAction(LanguageActions.getLocaleString("save"), null, LanguageActions.getLocaleString("saveDes"), Integer.valueOf(KeyEvent.VK_S)));
         actions.add(new FileSaveAsAction(LanguageActions.getLocaleString("saveAs"), null, LanguageActions.getLocaleString("saveAsDes"), Integer.valueOf(KeyEvent.VK_A)));
-        actions.add(new ExportImage(LanguageActions.getLocaleString("export"), null, LanguageActions.getLocaleString("exportDes"), Integer.valueOf(KeyEvent.VK_E)));
+        actions.add(new FileExportAction(LanguageActions.getLocaleString("export"), null, LanguageActions.getLocaleString("exportDes"), Integer.valueOf(KeyEvent.VK_E)));
         actions.add(new FileExitAction(LanguageActions.getLocaleString("exit"), null, LanguageActions.getLocaleString("exitDes"), Integer.valueOf(0)));
     }
 
@@ -64,6 +64,42 @@ public class FileActions {
         }
 
         return fileMenu;
+    }
+
+    /**
+     * <p>
+     * Method to check whether a given file name is a valid PNG file name. That is,
+     * if it ends in .png, only contains a single '.', and has characters before '.png'.
+     * This is used by {@link FileOpenAction}, {@link FileSaveAsAction}, {@link ExportFileAction}.
+     * </p>
+     * 
+     * @param imageFilename The image file name to check if valid.
+     * @return true if {@link imageFileName} is a valid PNG file name, false otherwise.
+     */
+    private boolean isValidPNGName(String imageFilename) {
+        boolean isPNGFile = true;
+        if (imageFilename.contains(".") == false) {
+            // The image file name has no '.', cannot be a valid image file name.
+            isPNGFile = false;
+        }
+        else {
+            String extension = imageFilename.substring(imageFilename.lastIndexOf(".")).toLowerCase();
+            if (!extension.equals(".png")) {
+                // The image file name extension is not valid as it doesn't end in .png.
+                isPNGFile = false;
+            }
+            if (imageFilename.lastIndexOf(".") != imageFilename.indexOf(".")) {
+                // There are is more than one '.' in file name, so the image file name is nvalid.
+                isPNGFile = false;
+            }
+
+            String name = imageFilename.substring(imageFilename.lastIndexOf("/"), imageFilename.lastIndexOf("."));
+            if (name.equals("/")) {
+                isPNGFile = false;
+            }
+        }
+
+        return isPNGFile;
     }
 
     /**
@@ -125,14 +161,20 @@ public class FileActions {
             int result = fileChooser.showOpenDialog(target);
 
             if (result == JFileChooser.APPROVE_OPTION) {
-                String imageFilepath = "";
                 try {
-                    imageFilepath = fileChooser.getSelectedFile().getCanonicalPath();
+                    String imageFilepath = fileChooser.getSelectedFile().getCanonicalPath();
+                    // First, check that the file trying to be opened is a png image
+                    if (isValidPNGName(imageFilepath) == false) {
+                        // The image file name is not valid. Show error message and do not open.
+                        JOptionPane.showMessageDialog(null, "You have not selected a PNG image file.", "Error", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                    // Open the image file and any associated image operations file.
+                    target.getImage().open(imageFilepath);
                 } catch (Exception ex) {
-                    // Something went terribly wrong?
+                    // Something went wrong, just exit.
                     System.exit(1);
                 }
-                target.getImage().open(imageFilepath);
             }
 
             target.repaint();
@@ -232,24 +274,28 @@ public class FileActions {
         public void actionPerformed(ActionEvent e) {
             // Check if there is an image open.
             if (target.getImage().hasImage() == false) {
-                // There is not an image open, so display error message.
+                // There is not an image open, so display error message, and do not save as.
                 JOptionPane.showMessageDialog(null, "There is no image open to save as.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
             }
-            else {
-                // There is an image open, carry on.
-                JFileChooser fileChooser = new JFileChooser();
-                int result = fileChooser.showSaveDialog(target);
-                if (result == JFileChooser.APPROVE_OPTION) {
-                    try {
-                        String imageFilepath = fileChooser.getSelectedFile().getCanonicalPath();
-                        target.getImage().saveAs(imageFilepath);
-                    } catch (Exception ex) {
-                        // Something went terribly wrong?
-                        System.exit(1);
+            // There is an image open, carry on.
+            JFileChooser fileChooser = new JFileChooser();
+            int result = fileChooser.showSaveDialog(target);
+            if (result == JFileChooser.APPROVE_OPTION) {
+                try {                        
+                    String imageFilepath = fileChooser.getSelectedFile().getCanonicalPath();
+                    // Check that the image file name is valid.
+                    if (isValidPNGName(imageFilepath) == false) {
+                        // The image file name is not valid. Show error message and do not save as.
+                        JOptionPane.showMessageDialog(null, "You have not entered a valid PNG image file name.\n(The name must end with .png, cannot contain any other '.', and must contain characters preceeding '.png')", "Error", JOptionPane.ERROR_MESSAGE);
+                        return;
                     }
+                    target.getImage().saveAs(imageFilepath);
+                } catch (Exception ex) {
+                    // Something went terribly wrong?
+                    System.exit(1);
                 }
             }
-
         }
 
     }
@@ -318,11 +364,11 @@ public class FileActions {
 
     }
 
-    public class ExportImage extends ImageAction {
+    public class FileExportAction extends ImageAction {
 
         /**
          * <p>
-         * Create a new file- Export action.
+         * Create a new file-export action.
          * </p>
          * 
          * @param name     The name of the action (ignored if null).
@@ -330,7 +376,7 @@ public class FileActions {
          * @param desc     A brief description of the action (ignored if null).
          * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
          */
-        ExportImage(String name, ImageIcon icon, String desc, Integer mnemonic) {
+        FileExportAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
         }
 
@@ -339,24 +385,30 @@ public class FileActions {
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
                 JOptionPane.showMessageDialog(null, "There is no image open to export.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
             }
-            else {
-                // There is an image open, carry on.
-                JFileChooser fileChooser = new JFileChooser();
-                int result = fileChooser.showSaveDialog(null);
 
-                if (result == JFileChooser.APPROVE_OPTION) {
-                    try {
-                        String imageFilepath = fileChooser.getSelectedFile().getCanonicalPath();
-                        // delete this
-                        System.out.println(imageFilepath);
-                        target.getImage().export(imageFilepath); // calls export image method in EditableImage.java
-                    } catch (Exception ex) {
-                        System.exit(1);
+            // There is an image open, carry on.
+            // Allow user to name image file and select location to export to.
+            JFileChooser fileChooser = new JFileChooser();
+            int result = fileChooser.showSaveDialog(null);
+            if (result == JFileChooser.APPROVE_OPTION) {
+                try {
+                    // Get file path as inputted by user.
+                    String imageFilepath = fileChooser.getSelectedFile().getCanonicalPath();
+                    // Check that the image file name is valid.
+                    if (isValidPNGName(imageFilepath) == false) {
+                        // The image file name is not valid. Show error message and do not export.
+                        JOptionPane.showMessageDialog(null, "You have not entered a valid PNG image file name.\n(The name must end with .png, cannot contain any other '.', and must contain characters preceeding '.png')", "Error", JOptionPane.ERROR_MESSAGE);
+                        return;
                     }
+
+                    // Export the image.
+                    target.getImage().export(imageFilepath);
+                } catch (Exception ex) {
+                    System.exit(1);
                 }
             }
         }
-
-    }
+    }  
 }

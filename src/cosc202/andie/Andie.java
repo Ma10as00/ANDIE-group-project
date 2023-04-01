@@ -74,7 +74,7 @@ public class Andie {
         Image image = ImageIO.read(Andie.class.getClassLoader().getResource("icon.png"));
         frame.setIconImage(image);
         // Changed default close operation to DO_NOTHING_ON_CLOSE
-        // so that a WindowListener can handle the operation 
+        // so that a WindowListener can handle the operation. 
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
@@ -83,9 +83,9 @@ public class Andie {
         });
 
         
-        // Note, I deleted the ImagePanel instatiation here so that there 
+        // Note, I deleted the ImagePanel declaration here so that there 
         // is a static data feild for the ImagePanel instead. This means
-        // the user windowClosing method can access the ImagePanel as well.
+        // the windowClosing method can access the ImagePanel as well.
 
         // The main content area is an ImagePanel.
         imagePanel = new ImagePanel();

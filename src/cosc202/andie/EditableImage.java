@@ -155,41 +155,21 @@ class EditableImage {
      * @param filePath The file to open the image from.
      */
     public void open(String filePath) {
-        // First, check that the file trying to be opened is a png image
-        if (isValidPNGName(filePath) == false) {
-            // The image file name is not valid. Show error message and do not open.
-            JOptionPane.showMessageDialog(null, "You have not selected a PNG image file.", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        
-        // This part opens the image file, only if the filePath is actually
-        // for a png image file.
-        this.imageFilename = filePath;
-        this.opsFilename = this.imageFilename + ".ops";
         try {
+            this.imageFilename = filePath;
+            this.opsFilename = this.imageFilename + ".ops";
             File imageFile = new File(imageFilename);
             original = ImageIO.read(imageFile);
+            current = deepCopy(original);
+            // This clears the image operations, possibly from the prior open image.
+            ops.clear();
+            redoOps.clear();
         }
-        catch (IOException ei){
-            // This happens if the filePath is not for an image file, but
-            // as this point it must be for an image file. So, just exit.
-            System.exit(1);
-        }
-        catch (NullPointerException en) {
-            // This happens if the filePath is null, which it wont be, so just exit.
-            System.exit(1);
-        }
-        catch (IllegalArgumentException ea) {
-            // This happens if the File parameter for read is null, which it won't be.
+        catch (Exception e){
+            // This will happen for various reasons. But, will not happen by the way it is set up.
             // So, just exit.
             System.exit(1);
         }
-        
-        current = deepCopy(original);
-
-        // This part clears the image operations, possibly from the prior open image.
-        ops.clear();
-        redoOps.clear();
         
         // This part tries to also read the operations file
         // associated with the image that has been opened.
@@ -234,7 +214,6 @@ class EditableImage {
         if (this.opsFilename == null) {
             this.opsFilename = this.imageFilename + ".ops";
         }
-        
         try {
             // Write image file based on file extension
             String extension = imageFilename.substring(1+imageFilename.lastIndexOf(".")).toLowerCase();
@@ -267,14 +246,6 @@ class EditableImage {
      * @param imageFilename The file location to save the image to.
      */
     public void saveAs(String imageFilename) {
-        // Check that the image file name is valid.
-        if (isValidPNGName(imageFilename) == false) {
-            // The image file name is not valid. Show error message and do not save as.
-            JOptionPane.showMessageDialog(null, "You have not entered a valid PNG image file name.\n(The name must end with .png, cannot contain any other '.', and must contain characters preceeding '.png')", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        // The image file name is valid, continue to save as.
         this.imageFilename = imageFilename;
         this.opsFilename = imageFilename + ".ops";
         save();
@@ -290,17 +261,10 @@ class EditableImage {
      * Allows user to enter new name for the file and sets type as .png for default, or whatever user has enterted 
      * </p>
      * 
-     * @param imageFilename the new File name that image will get exported to
+     * @param imageFilename the new file name that image will get exported to.
      * @throws Exception If something goes wrong.
      */
     public void export(String imageFilename) throws Exception{
-        // Check that the image file name is valid.
-        if (isValidPNGName(imageFilename) == false) {
-            // The image file name is not valid. Show error message and do not export.
-            JOptionPane.showMessageDialog(null, "You have not entered a valid PNG image file name.\n(The name must end with .png, cannot contain any other '.', and must contain characters preceeding '.png')", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
         // Deleted the code line below so that once you export an image, you are still working with the original image
         // with the original image opertaions file
         // this.imageFilename = imageFilename; //sets file name based on export method in FileActions
@@ -367,39 +331,6 @@ class EditableImage {
         for (ImageOperation op: ops) {
             current = op.apply(current);
         }
-    }
-    /**
-     * <p>
-     * Private method to check whether a given file name is a valid pNG file name. That is,
-     * if it ends in .png, only contains a single '.', and has characters before '.png'.
-     * </p>
-     * @param imageFileName image file name (not the data feild) to check.
-     * @return true if {@link imageFileName} is a valid PNG file name, false otherwise.
-     */
-    private static boolean isValidPNGName(String imageFilename) {
-        boolean isPNGFile = true;
-        if (imageFilename.contains(".") == false) {
-            // The image file name has no '.', cannot be a valid image file name.
-            isPNGFile = false;
-        }
-        else {
-            String extension = imageFilename.substring(imageFilename.lastIndexOf(".")).toLowerCase();
-            if (!extension.equals(".png")) {
-                // The image file name extension is not valid as it doesn't end in .png.
-                isPNGFile = false;
-            }
-            if (imageFilename.lastIndexOf(".") != imageFilename.indexOf(".")) {
-                // There are is more than one '.' in file name, so the image file name is nvalid.
-                isPNGFile = false;
-            }
-
-            String name = imageFilename.substring(imageFilename.lastIndexOf("/"), imageFilename.lastIndexOf("."));
-            if (name.equals("/")) {
-                isPNGFile = false;
-            }
-        }
-
-        return isPNGFile;
     }
 
 }
