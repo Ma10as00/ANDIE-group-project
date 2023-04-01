@@ -35,10 +35,10 @@ public class ViewActions {
      */
     public ViewActions() {
         actions = new ArrayList<Action>();
-        actions.add(new ZoomInAction("Zoom In", null, "Zoom view in", Integer.valueOf(KeyEvent.VK_PLUS)));
-        actions.add(new ZoomOutAction("Zoom Out", null, "Zoom view out", Integer.valueOf(KeyEvent.VK_MINUS)));
-        actions.add(new ZoomFullAction("Zoom Full", null, "Zoom back to original view", Integer.valueOf(KeyEvent.VK_1)));
-        actions.add(new ZoomChangeAction("Custom Zoom", null, "Use slider to change zoom view", Integer.valueOf(KeyEvent.VK_2)));
+        actions.add(new ZoomInAction(LanguageActions.getLocaleString("zoomIn"), null, LanguageActions.getLocaleString("zoomInDes"), Integer.valueOf(KeyEvent.VK_PLUS)));
+        actions.add(new ZoomOutAction(LanguageActions.getLocaleString("zoomOut"), null, LanguageActions.getLocaleString("zoomOutDes"), Integer.valueOf(KeyEvent.VK_MINUS)));
+        actions.add(new ZoomFullAction(LanguageActions.getLocaleString("zoomFull"), null, LanguageActions.getLocaleString("zoomFullDes"), Integer.valueOf(KeyEvent.VK_1)));
+        actions.add(new ZoomChangeAction(LanguageActions.getLocaleString("customZoom"), null, LanguageActions.getLocaleString("customZoomDes"), Integer.valueOf(KeyEvent.VK_2)));
     }
 
     /**
@@ -49,7 +49,7 @@ public class ViewActions {
      * @return The view menu UI element.
      */
     public JMenu createMenu() {
-        JMenu viewMenu = new JMenu("View");
+        JMenu viewMenu = new JMenu(LanguageActions.getLocaleString("view"));
 
         for (Action action: actions) {
             viewMenu.add(new JMenuItem(action));

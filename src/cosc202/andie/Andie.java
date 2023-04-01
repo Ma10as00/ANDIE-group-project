@@ -2,6 +2,9 @@ package cosc202.andie;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Locale;
+import java.util.prefs.Preferences;
+
 import javax.swing.*;
 import javax.imageio.*;
 
@@ -29,6 +32,8 @@ public class Andie {
     /** An ImagePanel. */
     private static ImagePanel imagePanel;
 
+    private static JFrame frame;
+
     /**
      * <p>
      * Launches the main GUI for the ANDIE program.
@@ -37,26 +42,34 @@ public class Andie {
      * <p>
      * This method sets up an interface consisting of an active image (an
      * {@code ImagePanel})
-     * and various menus which can be used to trigger operations to load, save,
-     * edit, etc.
-     * These operations are implemented {@link ImageOperation}s and triggerd via
-     * {@code ImageAction}s grouped by their general purpose into menus.
-     * </p>
-     * 
-     * @see ImagePanel
-     * @see ImageAction
-     * @see ImageOperation
-     * @see FileActions
-     * @see EditActions
-     * @see ViewActions
-     * @see FilterActions
-     * @see ColourActions
+     * and calls upon renderMenu() to create a JMenuBar.
      * 
      * @throws Exception if something goes wrong.
      */
     private static void createAndShowGUI() throws Exception {
+
+        //Sets the starting language to NZ English
+        Preferences prefs = Preferences.userNodeForPackage(Andie.class);
+        String lang = prefs.get("language", "en");
+        String country = prefs.get("country", "NZ");
+        String languageCode = lang + "_" + country;
+
+        //if language code is en sets default to English
+        if(languageCode.equals("en_NZ")){
+            // Set Default Locale to English
+            Locale.setDefault(new Locale("en", "NZ"));
+        }
+        //if language code is mi set default language to Maori
+        else if(languageCode.equals("mi_NZ")){
+            Locale.setDefault(new Locale("mi", "NZ"));
+        }
+        //if language code is no sets default to Norwegian
+        else if(languageCode.equals("no_NO")){
+            Locale.setDefault(new Locale("no", "NO"));
+        }
+
         // Set up the main GUI frame
-        JFrame frame = new JFrame("ANDIE");
+        frame = new JFrame("ANDIE");
 
         Image image = ImageIO.read(Andie.class.getClassLoader().getResource("icon.png"));
         frame.setIconImage(image);
@@ -80,6 +93,39 @@ public class Andie {
         JScrollPane scrollPane = new JScrollPane(imagePanel);
         frame.add(scrollPane, BorderLayout.CENTER);
 
+        // Calls renderMenu method to render the menu in the selected language.
+        renderMenu();
+        
+        frame.pack();
+        // Make window centered on screen.
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+    }
+
+    /**
+     * <p>
+     * Constructs the JMenuBar separately so the method can be recalled when the language is changed.
+     * </p>
+     * 
+     * <p>
+     * This method sets up various menus which can be used to trigger operations to load, save,
+     * edit, etc.
+     * These operations are implemented {@link ImageOperation}s and triggerd via
+     * {@code ImageAction}s grouped by their general purpose into menus.
+     * </p>
+     * 
+     * @see ImagePanel
+     * @see ImageAction
+     * @see ImageOperation
+     * @see FileActions
+     * @see EditActions
+     * @see ViewActions
+     * @see FilterActions
+     * @see ColourActions
+     * 
+     * @throws Exception if something goes wrong.
+     */
+    public static void renderMenu() {
         // Add in menus for various types of action the user may perform.
         JMenuBar menuBar = new JMenuBar();
 
@@ -112,11 +158,12 @@ public class Andie {
         ColourActions colourActions = new ColourActions();
         menuBar.add(colourActions.createMenu());
 
+        // Ability to change the language from a set of included language bundles
+        LanguageActions languageActions = new LanguageActions();
+        menuBar.add(languageActions.createMenu());
+
         frame.setJMenuBar(menuBar);
         frame.pack();
-        // Make window centered on screen.
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
     }
 
     /**

@@ -34,9 +34,9 @@ public class ResizeActions {
      */
     public ResizeActions() {
         actions = new ArrayList<Action>();
-        actions.add(new ImageResize50Action("Resize 50%", null, "Resize image to 50% its original size", null));
-        actions.add(new ImageResize150Action("Resize 150%", null, "Resize image to 150% its original size", null));
-        actions.add(new ImageResizeNAction("Custom Resize", null, "Use slider to resize image", null));
+        actions.add(new ImageResize50Action(LanguageActions.getLocaleString("resize50"), null, LanguageActions.getLocaleString("resize50Des"), null));
+        actions.add(new ImageResize150Action(LanguageActions.getLocaleString("resize150"), null, LanguageActions.getLocaleString("resize150Des"), null));
+        actions.add(new ImageResizeNAction(LanguageActions.getLocaleString("customResize"), null, LanguageActions.getLocaleString("customResizeDes"), null));
     }
 
     /**
@@ -47,7 +47,7 @@ public class ResizeActions {
      * @return The Resize menu UI element.
      */
     public JMenu createMenu() {
-        JMenu fileMenu = new JMenu("Resize");
+        JMenu fileMenu = new JMenu(LanguageActions.getLocaleString("resize"));
 
         for(Action action: actions) {
             fileMenu.add(new JMenuItem(action));

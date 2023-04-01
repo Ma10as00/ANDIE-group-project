@@ -35,10 +35,10 @@ public class FilterActions {
      */
     public FilterActions() {
         actions = new ArrayList<Action>();
-        actions.add(new SharpenFilterAction("Sharpen Filter", null, "Apply a sharpen filter", Integer.valueOf(KeyEvent.VK_P)));
-        actions.add(new MeanFilterAction("Mean Filter", null, "Apply a mean blur filter", Integer.valueOf(KeyEvent.VK_M)));
-        actions.add(new MedianFilterAction("Median Filter", null, "Apply a median blur filter", Integer.valueOf(KeyEvent.VK_D)));
-        actions.add(new GaussianBlurFilterAction("Gaussian Blur Filter", null, "Apply a Gaussian blur filter", Integer.valueOf(KeyEvent.VK_N)));
+        actions.add(new SharpenFilterAction(LanguageActions.getLocaleString("sharpen"), null, LanguageActions.getLocaleString("sharpenDes"), Integer.valueOf(KeyEvent.VK_P)));
+        actions.add(new MeanFilterAction(LanguageActions.getLocaleString("meanFilter"), null, LanguageActions.getLocaleString("meanFilterDes"), Integer.valueOf(KeyEvent.VK_M)));
+        actions.add(new MedianFilterAction(LanguageActions.getLocaleString("median"), null, LanguageActions.getLocaleString("medianDes"), Integer.valueOf(KeyEvent.VK_D)));
+        actions.add(new GaussianBlurFilterAction(LanguageActions.getLocaleString("gaussian"), null, LanguageActions.getLocaleString("gaussianDes"), Integer.valueOf(KeyEvent.VK_N)));
     }
 
     /**
@@ -49,7 +49,7 @@ public class FilterActions {
      * @return The filter menu UI element.
      */
     public JMenu createMenu() {
-        JMenu fileMenu = new JMenu("Filter");
+        JMenu fileMenu = new JMenu(LanguageActions.getLocaleString("filter"));
 
         for(Action action: actions) {
             fileMenu.add(new JMenuItem(action));

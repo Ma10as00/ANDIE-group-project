@@ -44,11 +44,11 @@ public class FileActions {
     public FileActions(JFrame frame) {
         actions = new ArrayList<Action>();
         this.frame = frame;
-        actions.add(new FileOpenAction("Open", null, "Open an image file", Integer.valueOf(KeyEvent.VK_O)));
-        actions.add(new FileSaveAction("Save", null, "Save the image operations file", Integer.valueOf(KeyEvent.VK_S)));
-        actions.add(new FileSaveAsAction("Save As", null, "Save the image operations file as", Integer.valueOf(KeyEvent.VK_A)));
-        actions.add(new ExportImage("Export", null, "Export the new image file", Integer.valueOf(KeyEvent.VK_E)));
-        actions.add(new FileExitAction("Exit", null, "Exit the program", Integer.valueOf(0)));
+        actions.add(new FileOpenAction(LanguageActions.getLocaleString("open"), null, LanguageActions.getLocaleString("openDes"), Integer.valueOf(KeyEvent.VK_O)));
+        actions.add(new FileSaveAction(LanguageActions.getLocaleString("save"), null, LanguageActions.getLocaleString("saveDes"), Integer.valueOf(KeyEvent.VK_S)));
+        actions.add(new FileSaveAsAction(LanguageActions.getLocaleString("saveAs"), null, LanguageActions.getLocaleString("saveAsDes"), Integer.valueOf(KeyEvent.VK_A)));
+        actions.add(new ExportImage(LanguageActions.getLocaleString("export"), null, LanguageActions.getLocaleString("exportDes"), Integer.valueOf(KeyEvent.VK_E)));
+        actions.add(new FileExitAction(LanguageActions.getLocaleString("exit"), null, LanguageActions.getLocaleString("exitDes"), Integer.valueOf(0)));
     }
 
     /**
@@ -59,7 +59,7 @@ public class FileActions {
      * @return The File menu UI element.
      */
     public JMenu createMenu() {
-        JMenu fileMenu = new JMenu("File");
+        JMenu fileMenu = new JMenu(LanguageActions.getLocaleString("file"));
 
         for (Action action : actions) {
             fileMenu.add(new JMenuItem(action));

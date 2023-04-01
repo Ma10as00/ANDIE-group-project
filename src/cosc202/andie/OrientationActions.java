@@ -13,11 +13,11 @@ public class OrientationActions {
 
     public OrientationActions(){
         actions = new ArrayList<Action>();
-        actions.add(new RotateRightAction("Rotate Right", null, "Rotate image by 90 degrees to the right", Integer.valueOf(KeyEvent.VK_3)));
-        actions.add(new RotateLeftAction("Rotate Left", null, "Rotate image by 90 degrees to the left", Integer.valueOf(KeyEvent.VK_4)));
-        actions.add(new Rotate180Action("Rotate 180 Degrees", null, "Rotate image by 180 degrees", Integer.valueOf(KeyEvent.VK_5)));
-        actions.add(new FlipVertAction("Flip Vertically", null, "Flip image along vertical axis", Integer.valueOf(KeyEvent.VK_6)));
-        actions.add(new FlipHorAction("Flip Horizontally", null, "Flip image along horizontal axis", Integer.valueOf(KeyEvent.VK_7)));
+        actions.add(new RotateRightAction(LanguageActions.getLocaleString("rotateRight"), null, LanguageActions.getLocaleString("rotateRightDes"), Integer.valueOf(KeyEvent.VK_3)));
+        actions.add(new RotateLeftAction(LanguageActions.getLocaleString("rotateLeft"), null, LanguageActions.getLocaleString("rotateLeftDes"), Integer.valueOf(KeyEvent.VK_4)));
+        actions.add(new Rotate180Action(LanguageActions.getLocaleString("rotate180"), null, LanguageActions.getLocaleString("rotate180Des"), Integer.valueOf(KeyEvent.VK_5)));
+        actions.add(new FlipVertAction(LanguageActions.getLocaleString("flipVertically"), null, LanguageActions.getLocaleString("flipVerticallyDes"), Integer.valueOf(KeyEvent.VK_6)));
+        actions.add(new FlipHorAction(LanguageActions.getLocaleString("flipHorizontally"), null, LanguageActions.getLocaleString("flipHorizontallyDes"), Integer.valueOf(KeyEvent.VK_7)));
     }
 
         /**
@@ -28,7 +28,7 @@ public class OrientationActions {
      * @return The orientation menu UI element.
      */
     public JMenu createMenu() {
-        JMenu menu = new JMenu("Orientation");
+        JMenu menu = new JMenu(LanguageActions.getLocaleString("orientation"));
 
         for (Action action: actions) {
             menu.add(new JMenuItem(action));

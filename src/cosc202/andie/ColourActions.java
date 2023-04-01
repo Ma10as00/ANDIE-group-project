@@ -37,9 +37,9 @@ public class ColourActions {
      */
     public ColourActions() {
         actions = new ArrayList<Action>();
-        actions.add(new ConvertToGreyAction("Greyscale", null, "Convert image to greyscale", Integer.valueOf(KeyEvent.VK_G)));
-        actions.add(new BrightnessAction("Brightness", null, "Change brightness of image", Integer.valueOf(KeyEvent.VK_B)));
-        actions.add(new ContrastAction("Contrast", null, "Change contrast of image", Integer.valueOf(KeyEvent.VK_C)));
+        actions.add(new ConvertToGreyAction(LanguageActions.getLocaleString("greyscale"), null, LanguageActions.getLocaleString("greyscaleDes"), Integer.valueOf(KeyEvent.VK_G)));
+        actions.add(new BrightnessAction(LanguageActions.getLocaleString("brightness"), null, LanguageActions.getLocaleString("brightnessDes"), Integer.valueOf(KeyEvent.VK_B)));
+        actions.add(new ContrastAction(LanguageActions.getLocaleString("contrast"), null, LanguageActions.getLocaleString("contrastDes"), Integer.valueOf(KeyEvent.VK_C)));
     }
 
     /**
@@ -50,7 +50,7 @@ public class ColourActions {
      * @return The colour menu UI element.
      */
     public JMenu createMenu() {
-        JMenu fileMenu = new JMenu("Colour");
+        JMenu fileMenu = new JMenu(LanguageActions.getLocaleString("colour"));
 
         for (Action action : actions) {
             fileMenu.add(new JMenuItem(action));
