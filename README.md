@@ -23,7 +23,8 @@ Then, once all features were implemented, James formalised this by writing Junit
 Once we thought all bugs had been dealt with, and that the program ran perfectly, we got our friends, who aren't computer science majors, to test ANDIE. They provided feedback on the user experience and revealed bugs we had never noticed before. 
 
 ## User Guide
-'Image'
+
+!["ANDIE Application"](/pictures/ANDIE_GUI.png)
 
 ### Description
 ‘ANDIE’ stands for A Non-Destructive Image Editor. The purpose of the program is to edit and manipulate images – like Photoshop but much, much simpler. The approach taken in ANDIE is non-destructive image editing. Many image processing operations, such as blurring filters, once applied to an image, cannot be reversed because information is lost in the process. Non-destructive image editors take the approach of storing the original image and the sequence of operations applied. Then, the operations can be applied to the original image to get the desired result. But since the original image and the full sequence of operations have been kept separately, no information is lost. ANDIE supports English, Māori and Norwegian. 
@@ -39,7 +40,7 @@ Then, once you have applied operations to edit the image and are happy with the 
 
 - '**Save**' will save the operations file, which holds the operations currently applied to edit the image. This will be automatically called the name of the image file you opened with a '.ops' appended at the end. It will not do anything to the image file you opened. So, for example, if you open an image file called 'cat.png', apply some operations to edit the image, and then click '**Save**', ANDIE will save the operations in an operations file called 'cat.png.ops'. This means that the next time you open the image in ANDIE, you will see the edited image, but, the image file will remain unchanged.
 
-- 'Save As' will do the same thing as '**Save**', however, it will allow you to choose the name of the operations file. This means that like with '**Save**', the image will remain unchanged, and only the operations applied to the image will be saved. So, for example, if you open an image file called 'cat.png', apply some operations to edit the image, and then click '**Save As**', and enter the file name 'grey_cat', ANDIE will save the operations in an operations file called 'grey_cat.png.ops'. Note, however, this means that the next time you open the image 'cat.png' in ANDIE, the image will appear unedited, as it is not associated with the operations file 'grey_cat.png.ops' since they have different names.
+- '**Save As**' will do the same thing as '**Save**', however, it will allow you to choose the name of the operations file. This means that like with '**Save**', the image will remain unchanged, and only the operations applied to the image will be saved. So, for example, if you open an image file called 'cat.png', apply some operations to edit the image, and then click '**Save As**', and enter the file name 'grey_cat', ANDIE will save the operations in an operations file called 'grey_cat.png.ops'. Note, however, this means that the next time you open the image 'cat.png' in ANDIE, the image will appear unedited, as it is not associated with the operations file 'grey_cat.png.ops' since they have different names.
 
 - '**Export**' will allow you to export your edited image as a new image file, with the operations applied. So, for example, if you open an image file called 'cat.png', apply some operations to edit the image, and then click '**Export**', and enter the file name 'grey_cat.png', ANDIE will save the new image in an image file called 'grey_cat.png'. This means you will have a new image file of the edited image.
 
