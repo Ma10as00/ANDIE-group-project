@@ -3,7 +3,9 @@ package cosc202.andie;
 import java.util.*;
 import java.io.*;
 import java.awt.image.*;
+import java.awt.HeadlessException;
 import javax.imageio.*;
+import javax.swing.*;
 
 /**
  * <p>
@@ -28,7 +30,7 @@ import javax.imageio.*;
  * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>
  * </p>
  * 
- * @author Steven Mills
+ * @author Steven Mills (Modified by Stella Srzich)
  * @version 1.0
  */
 class EditableImage {
@@ -41,7 +43,7 @@ class EditableImage {
     private Stack<ImageOperation> ops;
     /** A memory of 'undone' operations to support 'redo'. */
     private Stack<ImageOperation> redoOps;
-    /** The file where the original image is stored/ */
+    /** The file where the original image is stored. */
     private String imageFilename;
     /** The file where the operation sequence is stored. */
     private String opsFilename;
@@ -73,6 +75,28 @@ class EditableImage {
      */
     public boolean hasImage() {
         return current != null;
+    }
+
+    /**
+     * <p>
+     * Check if there are operations in {@link ops}.
+     * </p>
+     * 
+     * @return True if there is are operations, false otherwise.
+     */
+    public boolean hasOps() {
+        return !ops.empty();
+    }
+
+    /**
+     * <p>
+     * Check if there are operations to redo in {@link redoOps}.
+     * </p>
+     * 
+     * @return True if there is are operations, false otherwise.
+     */
+    public boolean hasRedoOps() {
+        return !redoOps.empty();
     }
 
     /**
@@ -130,15 +154,27 @@ class EditableImage {
      * </p>
      * 
      * @param filePath The file to open the image from.
-     * @throws Exception If something goes wrong.
      */
-    public void open(String filePath) throws Exception {
-        imageFilename = filePath;
-        opsFilename = imageFilename + ".ops";
-        File imageFile = new File(imageFilename);
-        original = ImageIO.read(imageFile);
-        current = deepCopy(original);
+    public void open(String filePath) {
+        try {
+            this.imageFilename = filePath;
+            this.opsFilename = this.imageFilename + ".ops";
+            File imageFile = new File(imageFilename);
+            original = ImageIO.read(imageFile);
+            current = deepCopy(original);
+            // This clears the image operations, possibly from the prior open image.
+            ops.clear();
+            redoOps.clear();
+        }
+        catch (Exception e){
+            // This will happen for various reasons. But, will not happen by the way it is set up.
+            // So, just exit.
+            System.exit(1);
+        }
         
+        // This part tries to also read the operations file
+        // associated with the image that has been opened.
+        // If it doesn't exist yet, no file is read.
         try {
             FileInputStream fileIn = new FileInputStream(this.opsFilename);
             ObjectInputStream objIn = new ObjectInputStream(fileIn);
@@ -153,7 +189,6 @@ class EditableImage {
             @SuppressWarnings("unchecked")
             Stack<ImageOperation> opsFromFile = (Stack<ImageOperation>) objIn.readObject();
             ops = opsFromFile;
-            redoOps.clear();
             objIn.close();
             fileIn.close();
         } catch (Exception ex) {
@@ -174,21 +209,26 @@ class EditableImage {
      * the current operations to <code>some/path/to/image.png.ops</code>.
      * </p>
      * 
-     * @throws Exception If something goes wrong.
      */
-    public void save() throws Exception {
+    public void save() {
         if (this.opsFilename == null) {
             this.opsFilename = this.imageFilename + ".ops";
         }
-        // Write image file based on file extension
-        String extension = imageFilename.substring(1+imageFilename.lastIndexOf(".")).toLowerCase();
-        ImageIO.write(original, extension, new File(imageFilename));
-        // Write operations file
-        FileOutputStream fileOut = new FileOutputStream(this.opsFilename);
-        ObjectOutputStream objOut = new ObjectOutputStream(fileOut);
-        objOut.writeObject(this.ops);
-        objOut.close();
-        fileOut.close();
+        try {
+            // Write image file based on file extension
+            String extension = imageFilename.substring(1+imageFilename.lastIndexOf(".")).toLowerCase();
+            ImageIO.write(original, extension, new File(imageFilename));
+            // Write operations file
+            FileOutputStream fileOut = new FileOutputStream(this.opsFilename);
+            ObjectOutputStream objOut = new ObjectOutputStream(fileOut);
+            objOut.writeObject(this.ops);
+            objOut.close();
+            fileOut.close();
+        }
+        catch (Exception e) {
+            // Something has gone wrong in saving the file. Tell the user and do nothing.
+            JOptionPane.showMessageDialog(null, "Sorry, there has been an error in saving the file. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     /**
@@ -204,13 +244,13 @@ class EditableImage {
      * </p>
      * 
      * @param imageFilename The file location to save the image to.
-     * @throws Exception If something goes wrong.
      */
-    public void saveAs(String imageFilename) throws Exception {
+    public void saveAs(String imageFilename) {
         this.imageFilename = imageFilename;
         this.opsFilename = imageFilename + ".ops";
         save();
     }
+
     /**
      * <p>
      * Exports image with operations to new file.
@@ -221,13 +261,31 @@ class EditableImage {
      * Allows user to enter new name for the file and sets type as .png for default, or whatever user has enterted 
      * </p>
      * 
-     * @param imageFilename the new File name that image will get exported to
-     * @throws Exception If something goes wrong.
+     * @param imageFilename the new file name that image will get exported to.
      */
-    public void export(String imageFilename) throws Exception{
-        this.imageFilename = imageFilename; //sets file name based on export method in FileActions
-        String extension = imageFilename.substring(1+imageFilename.lastIndexOf(".")).toLowerCase(); //finds extension of file
-        ImageIO.write(current, extension, new File(imageFilename));  //writes image to file using ImageIO
+    public void export(String imageFilename) {
+        // Deleted the code line below so that once you export an image, you are still working with the original image
+        // with the original image opertaions file. This felt more natural.
+        // this.imageFilename = imageFilename; //sets file name based on export method in FileActions
+        try {
+            // Find extension of the file. In all cases this will be png.
+            String extension = imageFilename.substring(1+imageFilename.lastIndexOf(".")).toLowerCase();
+            // Writes image to file using ImageIO.
+            ImageIO.write(current, extension, new File(imageFilename));  
+        } catch (Exception e) {
+            // This will not happen by the way we have set it up.
+            // But, occurs if the file name is null, or if there is an error in writting to the file.
+            // So, just in case, let the user know there was an issue and do nothing.
+            try {
+                JOptionPane.showMessageDialog(null, "Sorry, there has been an error in exporting the file.", "Error", JOptionPane.ERROR_MESSAGE);
+            }   
+            catch (HeadlessException eh) {
+                // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                // Won't happen for our users, so just exit.
+                System.exit(1);
+            }
+        }
+        
 
     }
 

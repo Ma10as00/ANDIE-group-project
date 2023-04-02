@@ -35,10 +35,10 @@ public class ViewActions {
      */
     public ViewActions() {
         actions = new ArrayList<Action>();
-        actions.add(new ZoomInAction("Zoom In", null, "Zoom view in", Integer.valueOf(KeyEvent.VK_PLUS)));
-        actions.add(new ZoomOutAction("Zoom Out", null, "Zoom view out", Integer.valueOf(KeyEvent.VK_MINUS)));
-        actions.add(new ZoomFullAction("Zoom Full", null, "Zoom back to original view", Integer.valueOf(KeyEvent.VK_1)));
-        actions.add(new ZoomChangeAction("Change Zoom", null, "Use slider to change zoom view", Integer.valueOf(KeyEvent.VK_2)));
+        actions.add(new ZoomInAction(LanguageActions.getLocaleString("zoomIn"), null, LanguageActions.getLocaleString("zoomInDes"), Integer.valueOf(KeyEvent.VK_PLUS)));
+        actions.add(new ZoomOutAction(LanguageActions.getLocaleString("zoomOut"), null, LanguageActions.getLocaleString("zoomOutDes"), Integer.valueOf(KeyEvent.VK_MINUS)));
+        actions.add(new ZoomFullAction(LanguageActions.getLocaleString("zoomFull"), null, LanguageActions.getLocaleString("zoomFullDes"), Integer.valueOf(KeyEvent.VK_1)));
+        actions.add(new ZoomChangeAction(LanguageActions.getLocaleString("customZoom"), null, LanguageActions.getLocaleString("customZoomDes"), Integer.valueOf(KeyEvent.VK_2)));
     }
 
     /**
@@ -49,7 +49,7 @@ public class ViewActions {
      * @return The view menu UI element.
      */
     public JMenu createMenu() {
-        JMenu viewMenu = new JMenu("View");
+        JMenu viewMenu = new JMenu(LanguageActions.getLocaleString("view"));
 
         for (Action action: actions) {
             viewMenu.add(new JMenuItem(action));
@@ -96,9 +96,17 @@ public class ViewActions {
          * @param e The event triggering this callback.
          */
         public void actionPerformed(ActionEvent e) {
-            target.setZoom(target.getZoom()+10);
-            target.repaint();
-            target.getParent().revalidate();
+            // Check if there is an image open.
+            if (target.getImage().hasImage() == false) {
+                // There is not an image open, so display error message.
+                JOptionPane.showMessageDialog(null, "There is no image to zoom in on.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else {
+                // There is an image open, carry on.
+                target.setZoom(target.getZoom()+10);
+                target.repaint();
+                target.getParent().revalidate();
+            }
         }
 
     }
@@ -141,9 +149,17 @@ public class ViewActions {
          * @param e The event triggering this callback.
          */
         public void actionPerformed(ActionEvent e) {
-            target.setZoom(target.getZoom()-10);
-            target.repaint();
-            target.getParent().revalidate();
+            // Check if there is an image open.
+            if (target.getImage().hasImage() == false) {
+                // There is not an image open, so display error message.
+                JOptionPane.showMessageDialog(null, "There is no image to zoom out on.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else {
+                // There is an image open, carry on.
+                target.setZoom(target.getZoom()-10);
+                target.repaint();
+                target.getParent().revalidate();
+            }
         }
 
     }
@@ -186,32 +202,40 @@ public class ViewActions {
          * @param e The event triggering this callback.
          */
         public void actionPerformed(ActionEvent e) {
-            // Determine the zoom change - ask the user.
-            int change = 0;
-
-            // Set up slider for user to the zoom change.
-            JSlider jslider = new JSlider();
-            jslider.setValue(0);
-            jslider.setMaximum(150);
-            jslider.setMinimum(-150);
-            jslider.setMajorTickSpacing(50);
-            jslider.setPaintLabels(true);
-            jslider.setPaintTicks(true);
-
-            // Ask user for zoom change value with slider.
-            int option = JOptionPane.showOptionDialog(null, jslider, "Zoom Change",
-                    JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
-            if (option == JOptionPane.CANCEL_OPTION) {
-                return;
+            // Check if there is an image open.
+            if (target.getImage().hasImage() == false) {
+                // There is not an image open, so display error message.
+                JOptionPane.showMessageDialog(null, "There is no image to custom zoom on.", "Error", JOptionPane.ERROR_MESSAGE);
             }
-            if (option == JOptionPane.OK_OPTION) {
-                change = jslider.getValue();
-            }
+            else {
+                // There is an image open, carry on.
+                // Determine the zoom change - ask the user.
+                int change = 0;
 
-            // Apply changed zoom.
-            target.setZoom(target.getZoom()+change);
-            target.repaint();
-            target.getParent().revalidate();
+                // Set up slider for user to the zoom change.
+                JSlider jslider = new JSlider();
+                jslider.setValue(0);
+                jslider.setMaximum(150);
+                jslider.setMinimum(-150);
+                jslider.setMajorTickSpacing(50);
+                jslider.setPaintLabels(true);
+                jslider.setPaintTicks(true);
+
+                // Ask user for zoom change value with slider.
+                int option = JOptionPane.showOptionDialog(null, jslider, "Zoom Change",
+                        JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+                if (option == JOptionPane.CANCEL_OPTION) {
+                    return;
+                }
+                if (option == JOptionPane.OK_OPTION) {
+                    change = jslider.getValue();
+                }
+
+                // Apply changed zoom.
+                target.setZoom(target.getZoom()+change);
+                target.repaint();
+                target.getParent().revalidate();
+            }
         }
 
     }
@@ -254,9 +278,19 @@ public class ViewActions {
          * @param e The event triggering this callback.
          */
         public void actionPerformed(ActionEvent e) {
-            target.setZoom(100);
-            target.revalidate();
-            target.getParent().revalidate();
+            // Check if there is an image open.
+            if (target.getImage().hasImage() == false) {
+                // There is not an image open, so display error message.
+                JOptionPane.showMessageDialog(null, "There is no image to zoom full on.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else {
+                // There is an image open, carry on.
+                target.setZoom(100);
+                // Note, the line below was changed from target.revalidate();, as it didin't
+                // return the zoom to initial zoom level after some zoom changes
+                target.repaint();
+                target.getParent().revalidate();
+            }
         }
 
     }

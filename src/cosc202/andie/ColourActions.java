@@ -37,9 +37,9 @@ public class ColourActions {
      */
     public ColourActions() {
         actions = new ArrayList<Action>();
-        actions.add(new ConvertToGreyAction("Greyscale", null, "Convert image to greyscale", Integer.valueOf(KeyEvent.VK_G)));
-        actions.add(new BrightnessAction("Brightness", null, "Change brightness of image", Integer.valueOf(KeyEvent.VK_B)));
-        actions.add(new ContrastAction("Contrast", null, "Change contrast of image", Integer.valueOf(KeyEvent.VK_C)));
+        actions.add(new ConvertToGreyAction(LanguageActions.getLocaleString("greyscale"), null, LanguageActions.getLocaleString("greyscaleDes"), Integer.valueOf(KeyEvent.VK_G)));
+        actions.add(new BrightnessAction(LanguageActions.getLocaleString("brightness"), null, LanguageActions.getLocaleString("brightnessDes"), Integer.valueOf(KeyEvent.VK_B)));
+        actions.add(new ContrastAction(LanguageActions.getLocaleString("contrast"), null, LanguageActions.getLocaleString("contrastDes"), Integer.valueOf(KeyEvent.VK_C)));
     }
 
     /**
@@ -50,7 +50,7 @@ public class ColourActions {
      * @return The colour menu UI element.
      */
     public JMenu createMenu() {
-        JMenu fileMenu = new JMenu("Colour");
+        JMenu fileMenu = new JMenu(LanguageActions.getLocaleString("colour"));
 
         for (Action action : actions) {
             fileMenu.add(new JMenuItem(action));
@@ -95,9 +95,17 @@ public class ColourActions {
          * @param e The event triggering this callback.
          */
         public void actionPerformed(ActionEvent e) {
-            target.getImage().apply(new ConvertToGrey());
-            target.repaint();
-            target.getParent().revalidate();
+            // Check if there is an image open.
+            if (target.getImage().hasImage() == false) {
+                // There is not an image open, so display error message.
+                JOptionPane.showMessageDialog(null, "There is no image to convert to greyscale.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else {
+                // There is an image open, carry on.
+                target.getImage().apply(new ConvertToGrey());
+                target.repaint();
+                target.getParent().revalidate();
+            }
         }
     }
 
@@ -109,26 +117,32 @@ public class ColourActions {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-
-            JSlider jslider = new JSlider();
-            jslider.setValue(0);
-            jslider.setMaximum(10);
-            jslider.setMinimum(-10);
-            jslider.setMajorTickSpacing(2);
-            jslider.setPaintLabels(true);
-            jslider.setPaintTicks(true);
-
-            int select = JOptionPane.showOptionDialog(null, jslider, "Brightness Amount",
-                    JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
-            if (select == JOptionPane.CANCEL_OPTION) {
-                return;
+            // Check if there is an image open.
+            if (target.getImage().hasImage() == false) {
+                // There is not an image open, so display error message.
+                JOptionPane.showMessageDialog(null, "There is no image to change the brightness of.", "Error", JOptionPane.ERROR_MESSAGE);
             }
-            if (select == JOptionPane.OK_OPTION) {
-                target.getImage().apply(new BrightnessFilter(jslider.getValue()));
-                target.repaint();
-                target.getParent().revalidate();
+            else {
+                // There is an image open, carry on.
+                JSlider jslider = new JSlider();
+                jslider.setValue(0);
+                jslider.setMaximum(10);
+                jslider.setMinimum(-10);
+                jslider.setMajorTickSpacing(2);
+                jslider.setPaintLabels(true);
+                jslider.setPaintTicks(true);
+
+                int select = JOptionPane.showOptionDialog(null, jslider, "Brightness Amount",
+                JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+                if (select == JOptionPane.CANCEL_OPTION) {
+                    return;
+                }
+                if (select == JOptionPane.OK_OPTION) {
+                    target.getImage().apply(new BrightnessFilter(jslider.getValue()));
+                    target.repaint();
+                    target.getParent().revalidate();
+                }
             }
-            
         }
     }
 
@@ -141,26 +155,32 @@ public class ColourActions {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            JSlider jslider = new JSlider();
-            jslider.setValue(0);
-            jslider.setMaximum(10);
-            jslider.setMinimum(-10);
-            jslider.setMajorTickSpacing(2);
-            jslider.setPaintLabels(true);
-            jslider.setPaintTicks(true);
-
-            int select = JOptionPane.showOptionDialog(null, jslider, "Contrast Amount",
-                    JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
-            if (select == JOptionPane.CANCEL_OPTION) {
-                return;
+            // Check if there is an image open.
+            if (target.getImage().hasImage() == false) {
+                // There is not an image open, so display error message.
+                JOptionPane.showMessageDialog(null, "There is no image to change the contrast of.", "Error", JOptionPane.ERROR_MESSAGE);
             }
-            if (select == JOptionPane.OK_OPTION) {
-                target.getImage().apply(new ContrastFilter(jslider.getValue()));
-                target.repaint();
-                target.getParent().revalidate();
-            }
+            else {
+                // There is an image open, carry on.
+                JSlider jslider = new JSlider();
+                jslider.setValue(0);
+                jslider.setMaximum(10);
+                jslider.setMinimum(-10);
+                jslider.setMajorTickSpacing(2);
+                jslider.setPaintLabels(true);
+                jslider.setPaintTicks(true);
 
-            
+                int select = JOptionPane.showOptionDialog(null, jslider, "Contrast Amount",
+                JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+                if (select == JOptionPane.CANCEL_OPTION) {
+                    return;
+                }
+                if (select == JOptionPane.OK_OPTION) {
+                    target.getImage().apply(new ContrastFilter(jslider.getValue()));
+                    target.repaint();
+                    target.getParent().revalidate();
+                }
+            }
         }
 
     }
