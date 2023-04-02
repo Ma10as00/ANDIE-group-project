@@ -3,7 +3,10 @@ package cosc202.andie;
 import java.util.*;
 import java.awt.event.*;
 import java.awt.*;
+import java.awt.image.*;
 import javax.swing.*;
+import javax.imageio.*;
+import java.io.*;
 
 /**
  * <p>
@@ -70,7 +73,7 @@ public class FileActions {
      * <p>
      * Method to check whether a given file name is a valid PNG file name. That is,
      * if it ends in .png, only contains a single '.', and has characters before '.png'.
-     * This is used by {@link FileOpenAction}, {@link FileSaveAsAction}, {@link ExportFileAction}.
+     * This is used by {@link FileOpenAction}, {@link FileSaveAsAction}, {@link FileExportAction}.
      * </p>
      * 
      * @param imageFilename The image file name to check if valid.
@@ -100,6 +103,27 @@ public class FileActions {
         }
 
         return isPNGFile;
+    }
+
+    /**
+     * <p>
+     * Method to check whether a given file name is already an image file name.
+     * This is used by {@link FileSaveAsAction} and {@link FileExportAction}
+     * to check if there is a possibility of writting over another file in the same directory.
+     * </p>
+     * @param imageFilename The image file name to check if valid.
+     * @return true if {@link imageFileName} is a valid PNG file name, false otherwise.
+     */
+    private boolean isExistingFilename(String imageFilename) {
+        try {
+            // This just attempts to read in an image from a file.
+            File imageFile = new File(imageFilename);
+            BufferedImage dummyImage = ImageIO.read(imageFile);
+        } catch (Exception e) {
+            // This will happen if the file doesn't already exist, return false.
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -302,6 +326,25 @@ public class FileActions {
                         JOptionPane.showMessageDialog(null, "You have not entered a valid PNG image file name.\n(The name must end with .png, cannot contain any other '.', and must contain characters preceeding '.png')", "Error", JOptionPane.ERROR_MESSAGE);
                         return;
                     }
+
+                    // Check that the image file name does not describe an image that already exists.
+                    if (isExistingFilename(imageFilepath)) {
+                        // The image file name already describes another file name. 
+                        // Ask user if they want to override or cancel.
+                        try {
+                            int option = JOptionPane.showConfirmDialog(null, "Another file already exists with the same name in this directory.\nClick OK to replace it, or cancel.", "Warning", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+                            if (option == JOptionPane.CANCEL_OPTION || option == JOptionPane.CLOSED_OPTION) {
+                                // User cancelled or closed the pop up, don't export.
+                                return;
+                            }
+                        }
+                        catch (HeadlessException ex) {
+                            // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                            // Won't happen for our users, so just exit.
+                            System.exit(1);
+                        }
+                    }
+                    
                     target.getImage().saveAs(imageFilepath);
                 } catch (HeadlessException eh) {
                     // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
@@ -425,6 +468,24 @@ public class FileActions {
                         // The image file name is not valid. Show error message and do not export.
                         JOptionPane.showMessageDialog(null, "You have not entered a valid PNG image file name.\n(The name must end with .png, cannot contain any other '.', and must contain characters preceeding '.png')", "Error", JOptionPane.ERROR_MESSAGE);
                         return;
+                    }
+
+                    // Check that the image file name does not describe an image that already exists.
+                    if (isExistingFilename(imageFilepath)) {
+                        // The image file name already describes another file name. 
+                        // Ask user if they want to override or cancel.
+                        try {
+                            int option = JOptionPane.showConfirmDialog(null, "Another file already exists with the same name in this directory.\nClick OK to replace it, or cancel.", "Warning", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+                            if (option == JOptionPane.CANCEL_OPTION || option == JOptionPane.CLOSED_OPTION) {
+                                // User cancelled or closed the pop up, don't export.
+                                return;
+                            }
+                        }
+                        catch (HeadlessException ex) {
+                            // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                            // Won't happen for our users, so just exit.
+                            System.exit(1);
+                        }
                     }
 
                     // Export the image.
