@@ -11,6 +11,9 @@ public class OrientationActions {
      */
     protected ArrayList<Action> actions;
 
+    /**
+     * Constructs the list of orientation actions.
+     */
     public OrientationActions(){
         actions = new ArrayList<Action>();
         actions.add(new RotateRightAction("Rotate Right", null, "Rotate image by 90 degrees to the right", Integer.valueOf(KeyEvent.VK_3)));
@@ -20,7 +23,7 @@ public class OrientationActions {
         actions.add(new FlipHorAction("Flip Horizontally", null, "Flip image along horizontal axis", Integer.valueOf(KeyEvent.VK_7)));
     }
 
-        /**
+    /**
      * <p>
      * Create a menu containing the list of Orientation actions.
      * </p>
@@ -38,7 +41,7 @@ public class OrientationActions {
     }
 
 
-        /**
+    /**
      * Action to rotate image 90 degrees to the right.
      */
     public class RotateRightAction extends ImageAction{

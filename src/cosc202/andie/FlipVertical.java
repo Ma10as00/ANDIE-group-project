@@ -5,7 +5,9 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
 
-
+/**
+ * @author Mathias Øgaard
+ */
 public class FlipVertical implements ImageOperation, Serializable{
 
     @Override
