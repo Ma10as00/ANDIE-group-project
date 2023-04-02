@@ -1,8 +1,8 @@
-# ANDIE, 'Return A+;'
+# ANDIE, Return 'A+';
 
 ## Team Members
 
-The team behind this ANDIE, 'Return A+;', consists of Michael Campbell, James Liu, Mathias Øgaard, Stella Srzich and Katie Wink. We met every week on Fridays to set goals for the week and reflect on our progress, and on Tuesdays to complete lab tasks and touch base. The team worked in a democratic style, where all team members had a say in the features of ANDIE and who should be responsible for each task. However, the team was somewhat led by Stella, who kept track of progress and had a big-picture view of the project. 
+The team behind this ANDIE, Return 'A+';, consists of Michael Campbell, James Liu, Mathias Øgaard, Stella Srzich and Katie Wink. We met every week on Fridays to set goals for the week and reflect on our progress, and on Tuesdays to complete lab tasks and touch base. The team worked in a democratic style, where all team members had a say in the features of ANDIE and who should be responsible for each task. However, the team was somewhat led by Stella, who kept track of progress and had a big-picture view of the project. 
 
 Each team member had the following responsibilities:
 - Michael: Multilingual support and image resize
