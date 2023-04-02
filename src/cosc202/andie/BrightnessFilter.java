@@ -1,6 +1,8 @@
 package cosc202.andie;
 
 import java.awt.image.*;
+import javax.swing.*;
+import java.awt.HeadlessException;
 
 /**
  * <p>
@@ -54,17 +56,24 @@ public class BrightnessFilter implements ImageOperation, java.io.Serializable  {
      * 
      * @param previousImage the input image to filter
      * @return a new image with the brightness filter applied
-     * @throws NullPointerException if previousImage is null
-     * @throws IllegalArgumentException if the scale value is invalid
      */
     public BufferedImage apply(BufferedImage previousImage) {
         try {
             float brightness = (scale > 0 ? 1.0f + (scale / 10f) : 1 - Math.abs(scale / 10f));
             RescaleOp rescale = new RescaleOp(brightness, 0, null);
             rescale.filter(previousImage, previousImage);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            System.out.println(e.getStackTrace());
+        } catch (IllegalArgumentException e) {
+            // This will not happen by the way we have set it up.
+            // But, occurs if there is an issue with the scaling factors or colour model.
+            // Tell the user and do nothing.
+            try {
+                JOptionPane.showMessageDialog(null, "Sorry, there has been an error in changing the brightness.", "Error", JOptionPane.ERROR_MESSAGE);
+            }   
+            catch (HeadlessException eh) {
+                // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                // Won't happen for our users, so just exit.
+                System.exit(1);
+            }
         }
         return previousImage;
     }

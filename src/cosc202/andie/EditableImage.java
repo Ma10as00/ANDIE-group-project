@@ -3,6 +3,7 @@ package cosc202.andie;
 import java.util.*;
 import java.io.*;
 import java.awt.image.*;
+import java.awt.HeadlessException;
 import javax.imageio.*;
 import javax.swing.*;
 
@@ -208,7 +209,6 @@ class EditableImage {
      * the current operations to <code>some/path/to/image.png.ops</code>.
      * </p>
      * 
-     * @throws Exception If something goes wrong.
      */
     public void save() {
         if (this.opsFilename == null) {
@@ -262,14 +262,31 @@ class EditableImage {
      * </p>
      * 
      * @param imageFilename the new file name that image will get exported to.
-     * @throws Exception If something goes wrong.
      */
-    public void export(String imageFilename) throws Exception{
+    public void export(String imageFilename) {
         // Deleted the code line below so that once you export an image, you are still working with the original image
-        // with the original image opertaions file
+        // with the original image opertaions file. This felt more natural.
         // this.imageFilename = imageFilename; //sets file name based on export method in FileActions
-        String extension = imageFilename.substring(1+imageFilename.lastIndexOf(".")).toLowerCase(); //finds extension of file
-        ImageIO.write(current, extension, new File(imageFilename));  // writes image to file using ImageIO
+        try {
+            // Find extension of the file. In all cases this will be png.
+            String extension = imageFilename.substring(1+imageFilename.lastIndexOf(".")).toLowerCase();
+            // Writes image to file using ImageIO.
+            ImageIO.write(current, extension, new File(imageFilename));  
+        } catch (Exception e) {
+            // This will not happen by the way we have set it up.
+            // But, occurs if the file name is null, or if there is an error in writting to the file.
+            // So, just in case, let the user know there was an issue and do nothing.
+            try {
+                JOptionPane.showMessageDialog(null, "Sorry, there has been an error in exporting the file.", "Error", JOptionPane.ERROR_MESSAGE);
+            }   
+            catch (HeadlessException eh) {
+                // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                // Won't happen for our users, so just exit.
+                System.exit(1);
+            }
+        }
+        
+
     }
 
     /**

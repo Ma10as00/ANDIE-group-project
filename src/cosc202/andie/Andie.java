@@ -188,7 +188,7 @@ public class Andie {
                 }
             }
             catch (HeadlessException ex) {
-                // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                // Headless exception, thrown when the code is dependent on a keyboard or mouse, as with confrim dialog.
                 // Won't happen for our users, so just exit.
                 System.exit(1);
             }

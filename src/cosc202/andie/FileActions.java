@@ -171,10 +171,22 @@ public class FileActions {
                     }
                     // Open the image file and any associated image operations file.
                     target.getImage().open(imageFilepath);
-                } catch (Exception ex) {
-                    // Something went wrong, just exit.
+                } catch (HeadlessException eh) {
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                    // Won't happen for our users, so just exit.
                     System.exit(1);
-                }
+                } catch (Exception ex) {
+                    // There would have been an error in getting canonical pathname.
+                    // Just let the user know. Probably won't happen.
+                    try {
+                        JOptionPane.showMessageDialog(null, "Sorry, there has been an error in opening the file.", "Error", JOptionPane.ERROR_MESSAGE);
+                    }   
+                    catch (HeadlessException eh) {
+                        // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                        // Won't happen for our users, so just exit.
+                        System.exit(1);
+                    }
+                } 
             }
 
             target.repaint();
@@ -291,10 +303,22 @@ public class FileActions {
                         return;
                     }
                     target.getImage().saveAs(imageFilepath);
-                } catch (Exception ex) {
-                    // Something went terribly wrong?
+                } catch (HeadlessException eh) {
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                    // Won't happen for our users, so just exit.
                     System.exit(1);
-                }
+                } catch (Exception ex) {
+                    // There would have been an error in getting canonical pathname.
+                    // Just let the user know. Probably won't happen.
+                    try {
+                        JOptionPane.showMessageDialog(null, "Sorry, there has been an error in saving the file as.", "Error", JOptionPane.ERROR_MESSAGE);
+                    }   
+                    catch (HeadlessException eh) {
+                        // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                        // Won't happen for our users, so just exit.
+                        System.exit(1);
+                    }
+                } 
             }
         }
 
@@ -405,9 +429,22 @@ public class FileActions {
 
                     // Export the image.
                     target.getImage().export(imageFilepath);
-                } catch (Exception ex) {
+                } catch (HeadlessException eh) {
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                    // Won't happen for our users, so just exit.
                     System.exit(1);
-                }
+                } catch (Exception ex) {
+                    // There would have been an error in getting canonical pathname.
+                    // Just let the user know. Probably won't happen.
+                    try {
+                        JOptionPane.showMessageDialog(null, "Sorry, there has been an error in exporting the file.", "Error", JOptionPane.ERROR_MESSAGE);
+                    }   
+                    catch (HeadlessException eh) {
+                        // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                        // Won't happen for our users, so just exit.
+                        System.exit(1);
+                    }
+                } 
             }
         }
     }  

@@ -1,6 +1,8 @@
 package cosc202.andie;
 
 import java.awt.image.*;
+import javax.swing.*;
+import java.awt.HeadlessException;
 
 /**
  * <p>
@@ -45,20 +47,25 @@ public class ContrastFilter implements ImageOperation, java.io.Serializable  {
      *  
      * @param previousImage the input image to filter
      * @return a new image with the contrast filter applied
-     * @throws NullPointerException if previousImage is null
      */
     @Override
     public BufferedImage apply(BufferedImage previousImage) {
-        float contrast;
         try {
-
-            contrast = 1.0f + value / 10f;
-            System.out.print(contrast);
+            float contrast = 1.0f + value / 10f;
             RescaleOp rescale = new RescaleOp(contrast, (-12.75f * contrast), null);
             rescale.filter(previousImage, previousImage);
-
-        } catch (NullPointerException e) {
-            System.out.println("Need an imagine sonny boy");
+        } catch (IllegalArgumentException e) {
+            // This will not happen by the way we have set it up.
+            // But, occurs if there is an issue with the scaling factors or colour model.
+            // Tell the user and do nothing.
+            try {
+                JOptionPane.showMessageDialog(null, "Sorry, there has been an error in changing the contrast.", "Error", JOptionPane.ERROR_MESSAGE);
+            }   
+            catch (HeadlessException eh) {
+                // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                // Won't happen for our users, so just exit.
+                System.exit(1);
+            }
         }
         return previousImage;
     }
