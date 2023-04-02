@@ -11,6 +11,9 @@ public class OrientationActions {
      */
     protected ArrayList<Action> actions;
 
+    /**
+     * Constructs the list of orientation actions.
+     */
     public OrientationActions(){
         actions = new ArrayList<Action>();
         actions.add(new RotateRightAction(LanguageActions.getLocaleString("rotateRight"), null, LanguageActions.getLocaleString("rotateRightDes"), Integer.valueOf(KeyEvent.VK_3)));
@@ -20,7 +23,7 @@ public class OrientationActions {
         actions.add(new FlipHorAction(LanguageActions.getLocaleString("flipHorizontally"), null, LanguageActions.getLocaleString("flipHorizontallyDes"), Integer.valueOf(KeyEvent.VK_7)));
     }
 
-        /**
+    /**
      * <p>
      * Create a menu containing the list of Orientation actions.
      * </p>
