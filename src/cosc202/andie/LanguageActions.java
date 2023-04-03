@@ -8,7 +8,8 @@ import javax.swing.*;
 
 public class LanguageActions {
 
-    /** A list of actions for the Language menu
+    /** 
+     * A list of actions for the Language menu
      */
     protected ArrayList<Action> actions;
 

@@ -29,9 +29,9 @@ import javax.imageio.*;
  */
 public class Andie {
 
-    /** An ImagePanel. */
+    /** An ImagePanel to disply the image currenlty being edited. */
     private static ImagePanel imagePanel;
-
+    /** A JFrame of the main GUI frame. */
     private static JFrame frame;
 
     /**

@@ -49,7 +49,7 @@ public class ImageResizeN implements ImageOperation, Serializable{
      * By default, a ImageResizeN has a resziePercent of 100 (no change to image).
      * </p>
      * 
-     * @see ImageResizeN(int)
+     * @see {@link ImageResizeN(int resizePercent)}
      */
     ImageResizeN() {
         this(100);
