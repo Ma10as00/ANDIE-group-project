@@ -37,6 +37,7 @@ public class LanguageActions {
         actions.add(new EnglishAction("English", null, "Changes the language to English", null));
         actions.add(new MaoriAction("Māori", null, "Ka huri te reo ki te Maori", null));
         actions.add(new NorwegianAction("Norsk", null, "Endrer språket til norsk", null));
+        actions.add(new SpanishAction("Español", null, "cambia el idioma a español", null));
     }
 
     /**
@@ -188,6 +189,50 @@ public class LanguageActions {
 
     /**
      * <p>
+     * Action to change the language to Spanish
+     * </p>
+     * 
+     * 
+     */
+    public class SpanishAction extends ImageAction {
+
+        /**
+         * <p>
+         * Create a new Spanish action.
+         * </p>
+         * 
+         * @param name The name of the action (ignored if null).
+         * @param icon An icon to use to represent the action (ignored if null).
+         * @param desc A brief description of the action  (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
+         */
+        SpanishAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+        }
+
+        /**
+         * <p>
+         * Callback for when the SpanishAction is triggered
+         * </p>
+         * 
+         * <p>
+         * This method is called whenever the SpanishAction is triggered.
+         * </p>
+         * 
+         * @param e The event triggering this callback.
+         */
+        public void actionPerformed(ActionEvent e) {
+
+            Language("spanish");
+            
+            // Calls renderMenu() to repaint the menu in Spanish.
+            Andie.renderMenu();
+        }
+
+    }
+
+    /**
+     * <p>
      * A method to change the language to that provided in param lang.
      * </p>
      * 
@@ -214,6 +259,11 @@ public class LanguageActions {
                 prefs.put("language", "no");
                 prefs.put("country", "NO");
                 Locale.setDefault(new Locale(prefs.get("language", "no"), prefs.get("country", "NO")));
+                break;
+            case "spanish":
+                prefs.put("language", "es");
+                prefs.put("country", "ES");
+                Locale.setDefault(new Locale(prefs.get("language", "es"), prefs.get("country", "ES")));
                 break;
         }
 
