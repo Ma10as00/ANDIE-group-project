@@ -97,7 +97,7 @@ public class FilterActions {
             // Check if there is an image open.
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
-                JOptionPane.showMessageDialog(null, "There is no image apply a mean filter to.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("meanErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
             }
             else {
                 // There is an image open, carry on.
@@ -114,7 +114,7 @@ public class FilterActions {
                 jslider.setPaintTicks(true);
 
                 // Ask user for radius value with slider.
-                int option = JOptionPane.showOptionDialog(null, jslider, "Mean Filter Radius",
+                int option = JOptionPane.showOptionDialog(null, jslider, LanguageActions.getLocaleString("meanSlid"),
                         JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
                 if (option == JOptionPane.CANCEL_OPTION) {
                     return;
@@ -173,7 +173,7 @@ public class FilterActions {
             // Check if there is an image open.
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
-                JOptionPane.showMessageDialog(null, "There is no image to apply a sharpen filter to.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("sharpenErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
             }
             else {
                 // There is an image open, carry on.
@@ -225,7 +225,7 @@ public class FilterActions {
             // Check if there is an image open.
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
-                JOptionPane.showMessageDialog(null, "There is no image to apply a Gaussian blur filter to.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("gaussianErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
             }
             else {
                 // There is an image open, carry on.
@@ -242,7 +242,7 @@ public class FilterActions {
                 jslider.setPaintTicks(true);
 
                 // Ask user for radius value with slider.
-                int option = JOptionPane.showOptionDialog(null, jslider, "Gaussian Blur Filter Radius",
+                int option = JOptionPane.showOptionDialog(null, jslider, LanguageActions.getLocaleString("gaussianSlid"),
                         JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
                 if (option == JOptionPane.CANCEL_OPTION) {
                     return;
@@ -299,7 +299,7 @@ public class FilterActions {
             // Check if there is an image open.
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
-                JOptionPane.showMessageDialog(null, "There is no image to apply a median filter to.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("medianErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
             }
             else {
                 // There is an image open, carry on.
@@ -316,7 +316,7 @@ public class FilterActions {
                 jslider.setPaintTicks(true);
 
                 // Ask user for radius value with slider.
-                int option = JOptionPane.showOptionDialog(null, jslider, "Median Filter Radius",
+                int option = JOptionPane.showOptionDialog(null, jslider, LanguageActions.getLocaleString("medianRad"),
                         JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
                 if (option == JOptionPane.CANCEL_OPTION) {
                     return;

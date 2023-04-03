@@ -171,7 +171,7 @@ public class FileActions {
             if (target.getImage().hasImage()) {
                 // There is an image open, warn user that any unsaved changes will be deleted.
                 try {
-                    int option = JOptionPane.showConfirmDialog(null, "If you open another image without saving or exporting this image, any changes will be lost.", "Warning", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+                    int option = JOptionPane.showConfirmDialog(null, LanguageActions.getLocaleString("warningAddImage"), LanguageActions.getLocaleString("warning"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
                     if (option == JOptionPane.CANCEL_OPTION || option == JOptionPane.CLOSED_OPTION) {
                         // User cancelled or closed box, don't open an image.
                         return;
@@ -195,7 +195,7 @@ public class FileActions {
                     // First, check that the file trying to be opened is a png image
                     if (isValidPNGName(imageFilepath) == false) {
                         // The image file name is not valid. Show error message and do not open.
-                        JOptionPane.showMessageDialog(null, "You have not selected a PNG image file.", "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("errorNotPng"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                         return;
                     }
                     // Open the image file and any associated image operations file.
@@ -208,7 +208,7 @@ public class FileActions {
                     // There would have been an error in getting canonical pathname.
                     // Just let the user know. Probably won't happen.
                     try {
-                        JOptionPane.showMessageDialog(null, "Sorry, there has been an error in opening the file.", "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("errorOpenFile"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                     }   
                     catch (HeadlessException eh) {
                         // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
@@ -267,7 +267,7 @@ public class FileActions {
             // Check if there is an image open.
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
-                JOptionPane.showMessageDialog(null, "There is no image open to save.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("errorNoImage"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
             }
             else {
                 // There is an image open, carry on.
@@ -316,7 +316,7 @@ public class FileActions {
             // Check if there is an image open.
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message, and do not save as.
-                JOptionPane.showMessageDialog(null, "There is no image open to save as.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("errorNoImageAs"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 return;
             }
             // There is an image open, carry on.
@@ -328,7 +328,7 @@ public class FileActions {
                     // Check that the image file name is valid.
                     if (isValidPNGName(imageFilepath) == false) {
                         // The image file name is not valid. Show error message and do not save as.
-                        JOptionPane.showMessageDialog(null, "You have not entered a valid PNG image file name.\n(The name must end with .png, cannot contain any other '.', and must contain characters preceeding '.png')", "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("syntaxError"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                         return;
                     }
 
@@ -337,7 +337,7 @@ public class FileActions {
                         // The image file name already describes another file name. 
                         // Ask user if they want to override or cancel.
                         try {
-                            int option = JOptionPane.showConfirmDialog(null, "Another file already exists with the same name in this directory.\nClick OK to replace it, or cancel.", "Warning", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+                            int option = JOptionPane.showConfirmDialog(null, LanguageActions.getLocaleString("warningAnotherFile"), LanguageActions.getLocaleString("warning"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
                             if (option == JOptionPane.CANCEL_OPTION || option == JOptionPane.CLOSED_OPTION) {
                                 // User cancelled or closed the pop up, don't export.
                                 return;
@@ -359,7 +359,7 @@ public class FileActions {
                     // There would have been an error in getting canonical pathname.
                     // Just let the user know. Probably won't happen.
                     try {
-                        JOptionPane.showMessageDialog(null, "Sorry, there has been an error in saving the file as.", "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("errorSavingFileAs"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                     }   
                     catch (HeadlessException eh) {
                         // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
@@ -412,7 +412,7 @@ public class FileActions {
             if (target.getImage().hasImage()) {
                 // There is an image open, warn user that any unsaved changes will be deleted.
                 try {
-                    int option = JOptionPane.showConfirmDialog(null, "If you exit without saving or exporting, any changes will be lost.", "Warning", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+                    int option = JOptionPane.showConfirmDialog(null, LanguageActions.getLocaleString("warningExitWithoutSaving"), LanguageActions.getLocaleString("warning"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
                     if (option == JOptionPane.CANCEL_OPTION) {
                         // User cancelled, don't exit.
                         return;
@@ -456,7 +456,7 @@ public class FileActions {
             // Check if there is an image to export
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
-                JOptionPane.showMessageDialog(null, "There is no image open to export.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("errorNoExport"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
@@ -471,7 +471,7 @@ public class FileActions {
                     // Check that the image file name is valid.
                     if (isValidPNGName(imageFilepath) == false) {
                         // The image file name is not valid. Show error message and do not export.
-                        JOptionPane.showMessageDialog(null, "You have not entered a valid PNG image file name.\n(The name must end with .png, cannot contain any other '.', and must contain characters preceeding '.png')", "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("errorFileName"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                         return;
                     }
 
@@ -480,7 +480,7 @@ public class FileActions {
                         // The image file name already describes another file name. 
                         // Ask user if they want to override or cancel.
                         try {
-                            int option = JOptionPane.showConfirmDialog(null, "Another file already exists with the same name in this directory.\nClick OK to replace it, or cancel.", "Warning", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+                            int option = JOptionPane.showConfirmDialog(null, LanguageActions.getLocaleString("warningSameName"), LanguageActions.getLocaleString("warning"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
                             if (option == JOptionPane.CANCEL_OPTION || option == JOptionPane.CLOSED_OPTION) {
                                 // User cancelled or closed the pop up, don't export.
                                 return;
@@ -503,7 +503,7 @@ public class FileActions {
                     // There would have been an error in getting canonical pathname.
                     // Just let the user know. Probably won't happen.
                     try {
-                        JOptionPane.showMessageDialog(null, "Sorry, there has been an error in exporting the file.", "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("errorExport"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                     }   
                     catch (HeadlessException eh) {
                         // Headless exception, thrown when the code is dependent on a keyboard or mouse. 

@@ -96,7 +96,7 @@ public class ResizeActions {
             // Check if there is an image open.
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
-                JOptionPane.showMessageDialog(null, "There is no image to resize by 50%.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("resize50Err"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
             }
             else {
                 // There is an image open, carry on.
@@ -147,7 +147,7 @@ public class ResizeActions {
             // Check if there is an image open.
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
-                JOptionPane.showMessageDialog(null, "There is no image to resize by 150%.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("resize150Err"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
             }
             else {
                 // There is an image open, carry on.
@@ -198,7 +198,7 @@ public class ResizeActions {
             // Check if there is an image open.
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
-                JOptionPane.showMessageDialog(null, "There is no image to custom resize.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("resizeErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
             }
             else {
                 // There is an image open, carry on.
@@ -215,7 +215,7 @@ public class ResizeActions {
                 jslider.setPaintTicks(true);
 
                 // Ask user for resizePercent value with slider.
-                int option = JOptionPane.showOptionDialog(null, jslider, "Resize Percent",
+                int option = JOptionPane.showOptionDialog(null, jslider, LanguageActions.getLocaleString("resizeSlid"),
                         JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
                 if (option == JOptionPane.CANCEL_OPTION) {
                     return;

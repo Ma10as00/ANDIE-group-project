@@ -94,11 +94,11 @@ public class EditActions {
             // Check if there is an image open.
             if (target.getImage().hasImage() == false) {
                 // There is not an image undo, so display error message.
-                JOptionPane.showMessageDialog(null, "There is no image to undo operations on.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("noImageToUndo"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
             }
             else if (target.getImage().hasOps() == false) {
                 // There are no image operations to undo, so display error message.
-                JOptionPane.showMessageDialog(null, "There are no image operations to undo.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("noUndo"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
             }
             else {
                 // There is an image open, and operations to undo, carry on.
@@ -149,11 +149,11 @@ public class EditActions {
             // Check if there is an image open.
             if (target.getImage().hasImage() == false) {
                 // There is not an image undo, so display error message.
-                JOptionPane.showMessageDialog(null, "There is no image to redo operations on.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("noImageRedo"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
             }
             else if (target.getImage().hasRedoOps() == false) {
                 // There are no image operations to undo, so display error message.
-                JOptionPane.showMessageDialog(null, "There are no image operations to redo.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("noRedo"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
             }
             else {
                 // There is an image open, and operations to redo, carry on.

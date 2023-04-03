@@ -98,7 +98,7 @@ public class ColourActions {
             // Check if there is an image open.
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
-                JOptionPane.showMessageDialog(null, "There is no image to convert to greyscale.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("greyscaleErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
             }
             else {
                 // There is an image open, carry on.
@@ -120,7 +120,7 @@ public class ColourActions {
             // Check if there is an image open.
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
-                JOptionPane.showMessageDialog(null, "There is no image to change the brightness of.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("brightnessErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
             }
             else {
                 // There is an image open, carry on.
@@ -132,7 +132,7 @@ public class ColourActions {
                 jslider.setPaintLabels(true);
                 jslider.setPaintTicks(true);
 
-                int select = JOptionPane.showOptionDialog(null, jslider, "Brightness Amount",
+                int select = JOptionPane.showOptionDialog(null, jslider, LanguageActions.getLocaleString("brightnessSlid"),
                 JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
                 if (select == JOptionPane.CANCEL_OPTION) {
                     return;
@@ -158,7 +158,7 @@ public class ColourActions {
             // Check if there is an image open.
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
-                JOptionPane.showMessageDialog(null, "There is no image to change the contrast of.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("contrastErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
             }
             else {
                 // There is an image open, carry on.
@@ -170,7 +170,7 @@ public class ColourActions {
                 jslider.setPaintLabels(true);
                 jslider.setPaintTicks(true);
 
-                int select = JOptionPane.showOptionDialog(null, jslider, "Contrast Amount",
+                int select = JOptionPane.showOptionDialog(null, jslider, LanguageActions.getLocaleString("contrastSlid"),
                 JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
                 if (select == JOptionPane.CANCEL_OPTION) {
                     return;
