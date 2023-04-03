@@ -100,7 +100,7 @@ public class GaussianBlurFilter implements ImageOperation, java.io.Serializable 
         }
 
         Kernel kernel = new Kernel(2*radius+1, 2*radius+1, array);
-        ConvolveOp convOp = new ConvolveOp(kernel);
+        ConvolveOp convOp = new ConvolveOp(kernel, ConvolveOp.EDGE_NO_OP, null);
         BufferedImage output = new BufferedImage(input.getColorModel(), input.copyData(null), input.isAlphaPremultiplied(), null);
         convOp.filter(input, output);
 
