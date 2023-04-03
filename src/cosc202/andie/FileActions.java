@@ -7,6 +7,7 @@ import java.awt.image.*;
 import javax.swing.*;
 import javax.imageio.*;
 import java.io.*;
+import java.nio.file.*;
 
 /**
  * <p>
@@ -81,23 +82,27 @@ public class FileActions {
      */
     private boolean isValidPNGName(String imageFilename) {
         boolean isPNGFile = true;
-        if (imageFilename.contains(".") == false) {
+        // Set this up so that I can extract just the file name
+        // as mac and windows have different ways of naming the canonical path.
+        Path dummyPath = Paths.get(imageFilename);
+        String justFilename = dummyPath.getFileName().toString();
+
+        if (justFilename.contains(".") == false) {
             // The image file name has no '.', cannot be a valid image file name.
             isPNGFile = false;
         }
         else {
-            String extension = imageFilename.substring(imageFilename.lastIndexOf(".")).toLowerCase();
+            String extension = justFilename.substring(justFilename.lastIndexOf(".")).toLowerCase();
             if (!extension.equals(".png")) {
                 // The image file name extension is not valid as it doesn't end in .png.
                 isPNGFile = false;
             }
-            if (imageFilename.lastIndexOf(".") != imageFilename.indexOf(".")) {
+            if (justFilename.lastIndexOf(".") != justFilename.indexOf(".")) {
                 // There are is more than one '.' in file name, so the image file name is nvalid.
                 isPNGFile = false;
             }
-
-            String name = imageFilename.substring(imageFilename.lastIndexOf("/"), imageFilename.lastIndexOf("."));
-            if (name.equals("/")) {
+            if (justFilename.equals(".png")) {
+                // The name of the image is null, i.e. the file name is ".png". This is not valid.
                 isPNGFile = false;
             }
         }
@@ -187,6 +192,7 @@ public class FileActions {
             if (result == JFileChooser.APPROVE_OPTION) {
                 try {
                     String imageFilepath = fileChooser.getSelectedFile().getCanonicalPath();
+                    System.out.println(imageFilepath);
                     // First, check that the file trying to be opened is a png image
                     if (isValidPNGName(imageFilepath) == false) {
                         // The image file name is not valid. Show error message and do not open.
@@ -210,7 +216,7 @@ public class FileActions {
                         // Won't happen for our users, so just exit.
                         System.exit(1);
                     }
-                } 
+                }
             }
 
             target.repaint();
