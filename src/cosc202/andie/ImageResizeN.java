@@ -90,7 +90,7 @@ public class ImageResizeN implements ImageOperation, Serializable{
 
             Image resize = input.getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
 
-            resizedImage = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_RGB);
+            resizedImage = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_ARGB);
             resizedImage.getGraphics().drawImage(resize,0,0,null);
         }
         if (resizePercent < 100) {
@@ -101,7 +101,7 @@ public class ImageResizeN implements ImageOperation, Serializable{
 
             Image resize = input.getScaledInstance(newWidth, newHeight, Image.SCALE_AREA_AVERAGING);
 
-            resizedImage = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_RGB);
+            resizedImage = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_ARGB);
             resizedImage.getGraphics().drawImage(resize,0,0,null);
         }
         

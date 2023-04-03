@@ -22,7 +22,7 @@ public class ImageResize50 implements ImageOperation, Serializable{
 
         Image resize = input.getScaledInstance(newWidth, newHeight, Image.SCALE_AREA_AVERAGING);
 
-        BufferedImage resizedImage = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_RGB);
+        BufferedImage resizedImage = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_ARGB);
         resizedImage.getGraphics().drawImage(resize,0,0,null);
         
         return resizedImage;
