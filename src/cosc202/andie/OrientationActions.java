@@ -238,12 +238,6 @@ public class OrientationActions {
                 target.getImage().apply(new Rotate180());
                 target.repaint();
                 target.getParent().revalidate();
-                // Reset the zoom of the image.
-                target.setZoom(100);
-                // Pack the main GUI frame to the size of the image.
-                frame.pack();
-                // Make main GUI frame centered on screen.
-                frame.setLocationRelativeTo(null);
             }
         }
     }
