@@ -17,22 +17,17 @@ import java.awt.HeadlessException;
  * 
  * <p>
  * 
- *
- * 
  */
 public class ContrastFilter implements ImageOperation, java.io.Serializable  {
-    // The size of the scale which is what is used to determine the contrast
+    /** The size of the scale which is what is used to determine the contrast. */
     int value;
-    
-
     
     /** 
      * <p>
-     * Construct the contrast filter with the given scale
+     * Construct the contrast filter with the given scale.
      * </p>
      * 
-     * 
-     * @param value the value that is used to detetmind the scale of contrast
+     * @param value the value that is used to detetmind the scale of contrast.
      * 
     */
     public ContrastFilter(int value) {
@@ -41,7 +36,7 @@ public class ContrastFilter implements ImageOperation, java.io.Serializable  {
 
     /**
      * <p>
-     * Apply a contrast filter to an image,
+     * Apply a contrast filter to an image.
      * </p>
      * 
      * The apply method takes in a value field that compute a contrast value. 
@@ -55,8 +50,8 @@ public class ContrastFilter implements ImageOperation, java.io.Serializable  {
      * The amount of contrast applied is determined by the value field, which is set by the constructor. 
      * The apply method applies the contrast filter to the input image and returns the filtered image.
      *  
-     * @param previousImage the input image to filter
-     * @return a new image with the contrast filter applied
+     * @param previousImage the input image to filter.
+     * @return a new image with the contrast filter applied.
      */
     @Override
     public BufferedImage apply(BufferedImage previousImage) {

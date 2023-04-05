@@ -6,9 +6,13 @@ import java.awt.image.BufferedImage;
 import java.io.Serializable;
 
 /**
+ * <p>
  * ImageOperation that flips an image vertically, i.e the image is rotated/mirrored around a horizontal axis.
+ * </p>
+ * 
  * <p>
  * The resulting image will have the same dimensions as the original image.
+ * </p>
  * 
  * @author Mathias Øgaard
  */

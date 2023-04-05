@@ -349,5 +349,4 @@ class EditableImage {
             current = op.apply(current);
         }
     }
-
 }

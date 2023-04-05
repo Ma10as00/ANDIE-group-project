@@ -6,9 +6,13 @@ import java.awt.image.BufferedImage;
 import java.io.Serializable;
 
 /**
+ * <p>
  * ImageOperation that rotates an image 90 degrees to the right.
+ * </p>
+ * 
  * <p>
  * If this operation is applyed to an image with dimensions {@code (width, height)}, the resulting image will have dimensions {@code (height, width)}.
+ * </p>
  * 
  * @author Mathias Øgaard
  */
@@ -16,11 +20,7 @@ public class RotateRight implements ImageOperation, Serializable {
 
     /**
      * <p>
-     * Apply RotateRight to an image.
-     * </p>
-     * 
-     * <p>
-     * Apply RotateRight to a image- rotates at 90degrees to the right
+     * Apply RotateRight to a image - Rotates the image by 90 degrees to the right.
      * </p>
      * 
      * @param input The image to Rotate to the right.

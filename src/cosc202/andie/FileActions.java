@@ -455,7 +455,7 @@ public class FileActions {
 
     /**
      * <p>
-     * Action to export the image as a new file with operations.
+     * Action to export the image as a new image file with operations applied.
      * </p>
      * 
      * @see EditableImage#export(String)

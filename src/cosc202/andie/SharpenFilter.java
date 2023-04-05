@@ -57,7 +57,5 @@ public class SharpenFilter implements ImageOperation, java.io.Serializable {
 
         return output;
     }
-
-
 }
 

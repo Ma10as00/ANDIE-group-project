@@ -118,7 +118,7 @@ public class ColourActions {
 
     /**
      * <p>
-     * Action to convert an image to greyscale.
+     * Action to brighten an image.
      * </p>
      * 
      * @see BrightnessFilter
@@ -141,7 +141,7 @@ public class ColourActions {
 
         /**
          * <p>
-         * Callback for when the brightness action is triggered.
+         * Callback for when the BrightnessAction is triggered.
          * </p>
          * 
          * <p>
@@ -190,7 +190,7 @@ public class ColourActions {
 
     /**
      * <p>
-     * Action to convert an image to greyscale.
+     * Action to change the contrast of an image.
      * </p>
      * 
      * @see ConstrastFilter
@@ -199,7 +199,7 @@ public class ColourActions {
 
         /**
          * <p>
-         * Create a new change contrast action.
+         * Create a new contrast action.
          * </p>
          * 
          * @param name     The name of the action (ignored if null).

@@ -5,6 +5,17 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.awt.HeadlessException;
 
+/**
+ * <p>
+ * Actions provided by the Orientation menu.
+ * </p>
+ * 
+ * <p>
+ * The Orientation menu contains actions that affect the orentation of the image.
+ * That is, whether it is flipped or rotated. 
+ * </p>
+ * 
+ */
 public class OrientationActions {
 
     /**
@@ -43,7 +54,11 @@ public class OrientationActions {
 
 
     /**
+     * <p>
      * Action to rotate image 90 degrees to the right.
+     * </p>
+     * 
+     * @see RotateRight
      */
     public class RotateRightAction extends ImageAction{
         /**
@@ -94,7 +109,11 @@ public class OrientationActions {
     }
 
     /**
+     * <p>
      * Action to rotate image 90 degrees to the right.
+     * </p>
+     * 
+     * @see RotateLeft
      */
     public class RotateLeftAction extends ImageAction{
 
@@ -110,7 +129,8 @@ public class OrientationActions {
          */
         RotateLeftAction(String name, ImageIcon icon, String desc, Integer mnemonic){
             super(name,icon,desc,mnemonic);
-        }      
+        }    
+
         /**
          * <p>
          * Callback for when the rotateLeft action is triggered.
@@ -145,7 +165,11 @@ public class OrientationActions {
     }
 
     /**
+     * <p>
      * Action to rotate image 90 degrees to the right.
+     * </p>
+     * 
+     * @see Rotate180
      */
     public class Rotate180Action extends ImageAction{
 
@@ -197,7 +221,11 @@ public class OrientationActions {
     }
 
     /**
+     * <p>
      * Action to flip the image vertically.
+     * </p>
+     * 
+     * @see FlipVertical
      */
     public class FlipVertAction extends ImageAction{
 
@@ -248,7 +276,11 @@ public class OrientationActions {
     }
 
     /**
-     * Action to flip the image vertically.
+     * <p>
+     * Action to flip the image horizontally.
+     * </p>
+     * 
+     * @see FlipHorizontal
      */
     public class FlipHorAction extends ImageAction{
 

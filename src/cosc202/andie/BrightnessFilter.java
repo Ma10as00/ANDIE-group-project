@@ -15,21 +15,15 @@ import java.awt.HeadlessException;
  * which is used to determine the brightness of the image.
  * </p>
  * 
- * <p>
- * 
- *
- * 
  */
-
 public class BrightnessFilter implements ImageOperation, java.io.Serializable  {
-    // The size of the scale which is what is used to determine the brightness
+    /** The size of the scale which is what is used to determine the brightness. */
     public int scale;
 
     /** 
      * <p>
      * Construct the brightness filter with the given scale
      * </p>
-     * 
      * 
      * @param scale the size of the scale used to determine brightness
      * 
@@ -58,8 +52,6 @@ public class BrightnessFilter implements ImageOperation, java.io.Serializable  {
      * If scale is positive, the brightness is increased by scale/10f,
      * and if scale is negative, the brightness is decreased by scale/10f.
      * If scale is 0, the brightness is unchanged.
-     * 
-     * 
      * </p>
      * 
      * @param previousImage the input image to filter

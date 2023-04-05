@@ -6,20 +6,19 @@ import java.io.Serializable;
 
 /**
  * <p>
- * Image operation to resize the image to 50% of it's size
+ * Image operation to resize the image to 50% of it's size.
  * </p>
- * 
  * 
  */
 public class ImageResize50 implements ImageOperation, Serializable{
 
     /**
     * <p>
-    * Image operation to resize the image
+    * Apply an image resize 50 operation to resize the image by 50%.
     * </p>
     * 
-    * @param input a BufferedImage object to apply the image resize to
-    * @return resizedImage the image having been reduced to 50% of it's size
+    * @param input a BufferedImage object to apply the image resize to.
+    * @return resizedImage the image having been reduced to 50% of it's size.
     */
     @Override
     public BufferedImage apply(BufferedImage input) {
