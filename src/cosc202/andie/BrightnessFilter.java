@@ -21,7 +21,7 @@ import java.awt.HeadlessException;
  * 
  */
 
-public class BrightnessFilter implements ImageOperation, java.io.Serializable  {
+public class BrightnessFilter implements ImageOperation, java.io.Serializable {
     // The size of the scale which is what is used to determine the brightness
     public int scale;
 
@@ -67,14 +67,23 @@ public class BrightnessFilter implements ImageOperation, java.io.Serializable  {
             // But, occurs if there is an issue with the scaling factors or colour model.
             // Tell the user and do nothing.
             try {
-                JOptionPane.showMessageDialog(null, "Sorry, there has been an error in changing the brightness.", "Error", JOptionPane.ERROR_MESSAGE);
-            }   
-            catch (HeadlessException eh) {
-                // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                JOptionPane.showMessageDialog(null, "Sorry, there has been an error in changing the brightness.",
+                        "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (HeadlessException eh) {
+                // Headless exception, thrown when the code is dependent on a keyboard or mouse.
                 // Won't happen for our users, so just exit.
                 System.exit(1);
             }
         }
         return previousImage;
+    }
+
+    /**
+     * 
+     * @return scale
+     * @desc test
+     */
+    public int getScale() {
+        return scale;
     }
 }

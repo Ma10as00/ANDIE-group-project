@@ -10,21 +10,23 @@ import java.util.*;
  * 
  * <p>
  * A median filter blurs an image by replacing each pixel with the median of the
- * pixels in a surrounding neighbourhood. This is much more "blocky" than the 
+ * pixels in a surrounding neighbourhood. This is much more "blocky" than the
  * mean or Gaussian blur filters.
  * </p>
  * 
- * <p> 
- * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>
+ * <p>
+ * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA
+ * 4.0</a>
  * </p>
  * 
  * @author Stella Srzich (Modified from Steven Mills)
  * @version 1.0
  */
 public class MedianFilter implements ImageOperation, java.io.Serializable {
-    
+
     /**
-     * The size of filter to apply. A radius of 1 is a 3x3 filter, a radius of 2 a 5x5 filter, and so forth.
+     * The size of filter to apply. A radius of 1 is a 3x3 filter, a radius of 2 a
+     * 5x5 filter, and so forth.
      */
     private int radius;
 
@@ -42,7 +44,7 @@ public class MedianFilter implements ImageOperation, java.io.Serializable {
      * @param radius The radius of the newly constructed MedianFilter
      */
     MedianFilter(int radius) {
-        this.radius = radius;    
+        this.radius = radius;
     }
 
     /**
@@ -67,12 +69,12 @@ public class MedianFilter implements ImageOperation, java.io.Serializable {
      * 
      * <p>
      * The median filter is implemented by storing the alpha, red, green, and blue
-     * channel values from the local neighbourhood of a pixel in an array 
+     * channel values from the local neighbourhood of a pixel in an array
      * and then finding the median values, and assigning that argb value
-     * to the pixel in the output image. The size of the local neighbourhood is 
+     * to the pixel in the output image. The size of the local neighbourhood is
      * specified by the {@link radius}. Larger radii lead to stronger blurring.
      * Note, this implementation does not change the value of pixels at the edge of
-     * an image. That is, argb values at position (x, y) with x < radius + 1, 
+     * an image. That is, argb values at position (x, y) with x < radius + 1,
      * x >= image width - radius, y < radius + 1, or y >= image width - radius
      * will just be copied to the output image.
      * </p>
@@ -87,9 +89,9 @@ public class MedianFilter implements ImageOperation, java.io.Serializable {
         ColorModel cm = input.getColorModel();
         boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
         WritableRaster raster = input.copyData(null);
-        BufferedImage output =  new BufferedImage(cm, raster, isAlphaPremultiplied, null);
+        BufferedImage output = new BufferedImage(cm, raster, isAlphaPremultiplied, null);
 
-        // Loop through each pixel and get the median values for 
+        // Loop through each pixel and get the median values for
         // red, green, blue and alpha channels, then set each corresponding
         // pixel in our output BufferedImage to the given value.
         for (int y = radius; y < input.getHeight() - radius; ++y) {
@@ -97,7 +99,8 @@ public class MedianFilter implements ImageOperation, java.io.Serializable {
 
                 // Collect TYPE_INT_ARGB values for
                 // all pixels in the neighbourhood.
-                int[] argb = input.getRGB(x - radius, y - radius, 2*radius+1, 2*radius+1, null, 0, 2*radius+1);
+                int[] argb = input.getRGB(x - radius, y - radius, 2 * radius + 1, 2 * radius + 1, null, 0,
+                        2 * radius + 1);
                 int[] a = new int[argb.length];
                 int[] r = new int[argb.length];
                 int[] g = new int[argb.length];
@@ -117,10 +120,10 @@ public class MedianFilter implements ImageOperation, java.io.Serializable {
                 Arrays.sort(g);
                 Arrays.sort(b);
 
-                int aVal = a[a.length/2];
-                int rVal = r[r.length/2];
-                int gVal = g[g.length/2];
-                int bVal = b[b.length/2];
+                int aVal = a[a.length / 2];
+                int rVal = r[r.length / 2];
+                int gVal = g[g.length / 2];
+                int bVal = b[b.length / 2];
 
                 int val = (aVal << 24) | (rVal << 16) | (gVal << 8) | bVal;
 
@@ -129,10 +132,14 @@ public class MedianFilter implements ImageOperation, java.io.Serializable {
                 output.setRGB(x, y, val);
             }
         }
-        
+
         return output;
     }
 
-
+    /**
+     * @return radius
+     */
+    // public int getRadValue(){
+    // return radius;
+    // }
 }
-
