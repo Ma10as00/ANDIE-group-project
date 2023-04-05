@@ -148,8 +148,8 @@ public class EditActions {
         public void actionPerformed(ActionEvent e) {
             // Check if there is an image open.
             if (target.getImage().hasImage() == false) {
-                // There is not an image undo, so display error message.
-                JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("noImageRedo"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                // There is not an image open to undo, so display error message.
+                JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("noImageToRedo"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
             }
             else if (target.getImage().hasRedoOps() == false) {
                 // There are no image operations to undo, so display error message.
