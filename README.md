@@ -6,7 +6,7 @@ The team behind this ANDIE, Return 'A+';, consists of Michael Campbell, James Li
 
 Each team member had the following responsibilities:
 - Michael: Multilingual support and image resize
-- James: Brightness/contrast adjustment and JUnit testing
+- James: Brightness/contrast adjustment and testing
 - Mathias: Image rotations and flips
 - Stella: Filters and error avoidance/prevention
 - Katie: Image export and error avoidance/prevention
@@ -16,9 +16,9 @@ Note, however, all team members helped others with their responsibilities from t
 
 ## Testing
 
-We tested ANDIE through JUnit testing and interaction with the GUI. In the beginning, when we started to implement our features, we each focused on making sure our features worked for expected inputs. So, we only interacted with the GUI, acting as a perfect user, meaning we had a baseline to improve on. We also entered statements within methods to print to the command line to make sure values, such as floats in a kernel, widths and heights of an image, or values returned by methods, were matching what we expected. 
+We tested ANDIE through inserting lines of code and interaction with the GUI. In the beginning, when we started to implement our features, we each focused on making sure our features worked for expected inputs. So, we only interacted with the GUI, acting as a perfect user, meaning we had a baseline to improve on. We also entered statements within methods to print to the command line to make sure values, such as floats in a kernel, widths and heights of an image, or values returned by methods, were matching what we expected. These print statements helped us to validate that the expected behaviour was occuring, even when we could not exactly check that it was with our bare eyes.
 
-Then, once all features were implemented, James formalised this by writing JUnit tests. This also meant that before any team members pushed edits, messing around in many classes, they could tell before it was too late if it created unexpected issues. Concurrently, once features worked in the perfect case, all team members tested by interacting with the GUI, acting as normal users. Then, we noted down any issues, including ones that crashed the program, such as opening non-image files or entering non-ints for the radius of a filter, and ones that could cause problems for the user, such as allowing them to exit without reminding them to save changes or apply a resize with no image open.
+Then, once all features were implemented, James tested how all of them interacted together. He thoroughly applied many combinations of different actions after each push was made, and then texted on the group chat to let us know if anything unexpected occurred. Then, whoever was responsible for the feature, could go in and fix it. Concurrently, once features worked in the perfect case, all team members tested by interacting with the GUI, acting as normal, fallible users. Then, we noted down any issues, including ones that crashed the program, such as opening non-image files or entering non-ints for the radius of a filter, and ones that could cause problems for the user, such as allowing them to exit without reminding them to save changes or apply a resize with no image open.
 
 Once we thought all bugs had been dealt with, and that the program ran perfectly, we got our friends, who aren't computer science majors, to test ANDIE. They provided feedback on the user experience and revealed bugs we had never noticed before. 
 
