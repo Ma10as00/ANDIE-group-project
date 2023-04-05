@@ -22,6 +22,7 @@ Then, once all features were implemented, James formalised this by writing JUnit
 
 Once we thought all bugs had been dealt with, and that the program ran perfectly, we got our friends, who aren't computer science majors, to test ANDIE. They provided feedback on the user experience and revealed bugs we had never noticed before. 
 
+
 ## User Guide
 
 !["ANDIE Application"](/pictures/ANDIE_GUI.png)
@@ -57,9 +58,10 @@ To edit an image, ANDIE allows you to apply operations to filter the image and t
 
 If you would like to undo or redo an operation you have applied to your image, you can do so under the '**Edit**' menu. Note, however, you can only undo and redo operations that you have applied since you opened an image file, or that have been saved in an operations file associated with the image file.
 
+
 ## Note
 
-We slightly changed the structure of the Andie and FileActions classes. However, the code should still build and run akin to the skeleton code that was provided. The Andie class now has a private static data field of type ImagePanel called imagePanel, which is initialised in the method createAndShowGUI. This was only so that a private static method that was added to Andie, called frameClosing, could access the ImagePanel. Thus, it can warn the user that any unsaved changes will be lost if they close the window, only if there is an image open. We also added a private data field of type Jframe called frame to FileActions, which is initialised in the FileActions constructor. This was only done so that the frame could be packed around an image when it is opened. 
+We slightly changed the structure of the Andie and FileActions classes. However, the code should still build and run akin to the skeleton code that was provided. The Andie class now has a private static data field of type ImagePanel called imagePanel, which is initialised in the method createAndShowGUI. This was only so that a private static method that was added to Andie, called frameClosing, could access the ImagePanel. Thus, it can warn the user that any unsaved changes will be lost if they close the window, only if there is an image open. We also added private data fields of type Jframe called frame to FileActions, ReszieActions and EditActions which are initialised in their respective constructors. This was only done so that the main GUI frame could be packed around an image when it is opened, resized, or when an image operation is applied. 
 
 
 ## Folder Structure
@@ -72,6 +74,7 @@ The workspace contains two folders by default, where:
 Meanwhile, the compiled output files will be generated in the `bin` folder by default.
 
 > If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
+
 
 ## Dependency Management
 

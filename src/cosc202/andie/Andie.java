@@ -82,7 +82,6 @@ public class Andie {
             }
         });
 
-        
         // Note, I deleted the ImagePanel declaration here so that there 
         // is a static data feild for the ImagePanel instead. This means
         // the windowClosing method can access the ImagePanel as well.
@@ -138,7 +137,8 @@ public class Andie {
         menuBar.add(fileActions.createMenu());
 
         // Likewise Edit menus are very common, so should be clear what might go here.
-        EditActions editActions = new EditActions();
+        // We pass a frame so that when we undo or redo operations on an image, possiby changing its size the frame is packed to the new image size.
+        EditActions editActions = new EditActions(frame);
         menuBar.add(editActions.createMenu());
 
         // View actions control how the image is displayed, its zoom, but do not alter its actual content
@@ -150,7 +150,8 @@ public class Andie {
         menuBar.add(orientationActions.createMenu());
 
         // Resize actions change the size of the image, altering its content.
-        ResizeActions resizeActions = new ResizeActions();
+        // We pass a frame so that when we resize an image, the frame is packed to the new image size.
+        ResizeActions resizeActions = new ResizeActions(frame);
         menuBar.add(resizeActions.createMenu());
 
         // Filters apply a per-pixel operation to the image, generally based on a local window.
@@ -161,7 +162,7 @@ public class Andie {
         ColourActions colourActions = new ColourActions();
         menuBar.add(colourActions.createMenu());
 
-        // Ability to change the language from a set of included language bundles
+        // Ability to change the language from a set of included language bundles.
         LanguageActions languageActions = new LanguageActions();
         menuBar.add(languageActions.createMenu());
 
