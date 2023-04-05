@@ -119,6 +119,8 @@ public class EditActions {
                     target.getParent().revalidate();
                     if (resize == 1) {
                         // The undone operation was a resize.
+                        // Reset the zoom of the image.
+                        target.setZoom(100);
                         // Pack the main GUI frame to the size of the image.
                         frame.pack();
                         // Make main GUI frame centered on screen.
@@ -188,6 +190,8 @@ public class EditActions {
                     target.getParent().revalidate();
                     if (resize == 1) {
                         // The redone operation was a resize.
+                        // Reset the zoom of the image.
+                        target.setZoom(100);
                         // Pack the main GUI frame to the size of the image.
                         frame.pack();
                         // Make main GUI frame centered on screen.
