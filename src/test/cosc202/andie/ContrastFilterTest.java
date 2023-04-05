@@ -9,9 +9,9 @@ import cosc202.andie.ContrastFilter;
 class ContrastFilterTest {
     @RepeatedTest(10)
     @Test
-    public void bfTest() {
+    public void cfTest() {
         int test = 1;
-        ContrastFilter bfTest = new ContrastFilter(test);
-        assertEquals(test, bfTest.getConValue());
+        ContrastFilter cfTest = new ContrastFilter(test);
+        assertEquals(test, cfTest.getConValue());
     }
 }

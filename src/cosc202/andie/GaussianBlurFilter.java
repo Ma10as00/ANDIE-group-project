@@ -8,14 +8,18 @@ import java.awt.image.*;
  * </p>
  * 
  * <p>
- * A Gaussian blur filter blurs an image by applying a convolution where each entry
- * is taken from the 2-dimensional Gaussian function, with x and y (positions) and 
- * sigma (standard deviation) as parameters. Sigma is about one third of the kernel radius.
+ * A Gaussian blur filter blurs an image by applying a convolution where each
+ * entry
+ * is taken from the 2-dimensional Gaussian function, with x and y (positions)
+ * and
+ * sigma (standard deviation) as parameters. Sigma is about one third of the
+ * kernel radius.
  * So, bigger values of the radius make sigma bigger, and thus a stronger blur.
  * </p>
  * 
- * <p> 
- * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>
+ * <p>
+ * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA
+ * 4.0</a>
  * </p>
  * 
  * @see java.awt.image.ConvolveOp
@@ -23,9 +27,10 @@ import java.awt.image.*;
  * @version 1.0
  */
 public class GaussianBlurFilter implements ImageOperation, java.io.Serializable {
-    
+
     /**
-     * The size of filter to apply. A radius of 1 is a 3x3 filter, a radius of 2 a 5x5 filter, and so forth.
+     * The size of filter to apply. A radius of 1 is a 3x3 filter, a radius of 2 a
+     * 5x5 filter, and so forth.
      */
     private int radius;
 
@@ -44,7 +49,7 @@ public class GaussianBlurFilter implements ImageOperation, java.io.Serializable 
      * @param radius The radius of the newly constructed GaussianBlurFilter
      */
     GaussianBlurFilter(int radius) {
-        this.radius = radius;    
+        this.radius = radius;
     }
 
     /**
@@ -68,8 +73,9 @@ public class GaussianBlurFilter implements ImageOperation, java.io.Serializable 
      * </p>
      * 
      * <p>
-     * As with many filters, the Gaussian blur filter is implemented via convolution.
-     * The size of the convolution kernel is specified by the {@link radius}.  
+     * As with many filters, the Gaussian blur filter is implemented via
+     * convolution.
+     * The size of the convolution kernel is specified by the {@link radius}.
      * Larger radii lead to stronger blurring, and affects sigma.
      * </p>
      * 
@@ -79,11 +85,11 @@ public class GaussianBlurFilter implements ImageOperation, java.io.Serializable 
     public BufferedImage apply(BufferedImage input) {
         // Convert the radius to sigma for creating our array for our kernel.
         // Note this is not entirely accurate, but is good enough.
-        float sigma = ((float)radius)/3.0f;
+        float sigma = ((float) radius) / 3.0f;
 
         // Create array to store kernel values.
-        int size = (2*radius+1) * (2*radius+1);
-        float [] array = new float[size];
+        int size = (2 * radius + 1) * (2 * radius + 1);
+        float[] array = new float[size];
 
         // Fill array with corresponding Gaussian values (unnormalized).
         for (int i = 0; i < size; i++) {
@@ -99,9 +105,10 @@ public class GaussianBlurFilter implements ImageOperation, java.io.Serializable 
             array[i] = array[i] / sum;
         }
 
-        Kernel kernel = new Kernel(2*radius+1, 2*radius+1, array);
+        Kernel kernel = new Kernel(2 * radius + 1, 2 * radius + 1, array);
         ConvolveOp convOp = new ConvolveOp(kernel);
-        BufferedImage output = new BufferedImage(input.getColorModel(), input.copyData(null), input.isAlphaPremultiplied(), null);
+        BufferedImage output = new BufferedImage(input.getColorModel(), input.copyData(null),
+                input.isAlphaPremultiplied(), null);
         convOp.filter(input, output);
 
         return output;
@@ -120,27 +127,25 @@ public class GaussianBlurFilter implements ImageOperation, java.io.Serializable 
      * </p>
      * 
      * @param index The index of the array we are calculating the Gaussian for.
-     * @param size The size of the array.
+     * @param size  The size of the array.
      * @param sigma The value of sigma (the standard deviation).
      * @return The resulting (blurred)) image.
      */
     private float calculateGaussian(int index, int size, float sigma) {
         // Calculate x and y, the integer coordinates in our kernel.
         // Note, (x, y) = (0, 0) is the center of the kernel.
-        // Also note, implicit assumption, which is true when called from 
+        // Also note, implicit assumption, which is true when called from
         // the apply method, that size is a square number.
-        int side = (int)Math.sqrt(size); 
+        int side = (int) Math.sqrt(size);
         int x = (index % side) - 1;
         int y = 1 - (index / side);
 
         // Calulate G(x, y, sigma).
-        float value = 1.0f/(2 * (float)Math.PI * sigma * sigma);
-        double pow = Math.exp((double)((float)(-1 * (x * x + y * y))) / (2 * sigma * sigma));
-        value = value * (float)pow;
+        float value = 1.0f / (2 * (float) Math.PI * sigma * sigma);
+        double pow = Math.exp((double) ((float) (-1 * (x * x + y * y))) / (2 * sigma * sigma));
+        value = value * (float) pow;
 
         return value;
     }
 
-
 }
-
