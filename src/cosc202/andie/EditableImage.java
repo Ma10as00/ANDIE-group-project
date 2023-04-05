@@ -304,20 +304,41 @@ class EditableImage {
     /**
      * <p>
      * Undo the last {@link ImageOperation} applied to the image.
+     * Also tells you if the undone image operation was a resize by returing 1, 
+     * or that it wasn't by returning 0.
      * </p>
+     * @return 1 if the undone operation was a resize, 0 otherwise.
      */
-    public void undo() {
-        redoOps.push(ops.pop());
+    public int undo() {
+        // int to tell us if the redone operation was a resize.
+        int resize = 0;
+        ImageOperation un = ops.pop();
+        if (un instanceof ImageResize50 || un instanceof ImageResize150 || un instanceof ImageResizeN) {
+            resize = 1;
+        }
+        redoOps.push(un);
         refresh();
+        return resize;
     }
 
     /**
      * <p>
      * Reapply the most recently {@link undo}ne {@link ImageOperation} to the image.
+     * Also tells you if the redone image operation was a resize by returing 1, 
+     * or that it wasn't by returning 0.
      * </p>
+     * @return 1 if the redone operation was a resize, 0 otherwise.
      */
-    public void redo()  {
-        apply(redoOps.pop());
+    public int redo()  {
+        // int to tell us if the redone operation was a resize.
+        int resize = 0;
+        ImageOperation re = redoOps.pop();
+        // If the image operation was a resize operation, return 1.
+        if (re instanceof ImageResize50 || re instanceof ImageResize150 || re instanceof ImageResizeN) {
+            resize = 1;
+        }
+        apply(re);
+        return resize;
     }
 
     /**

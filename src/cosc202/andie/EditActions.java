@@ -112,13 +112,18 @@ public class EditActions {
                 }
                 else {
                     // There is an image open, and operations to undo, carry on.
-                    target.getImage().undo();
+                    // Note, we are also checking if the undone operation was a resize
+                    // to decide whether the frame should be packed.
+                    int resize = target.getImage().undo();
                     target.repaint();
                     target.getParent().revalidate();
-                    // Pack the main GUI frame to the size of the image.
-                    frame.pack();
-                    // Make main GUI frame centered on screen.
-                    frame.setLocationRelativeTo(null);
+                    if (resize == 1) {
+                        // The undone operation was a resize.
+                        // Pack the main GUI frame to the size of the image.
+                        frame.pack();
+                        // Make main GUI frame centered on screen.
+                        frame.setLocationRelativeTo(null);
+                    }
                 }
             } catch (HeadlessException ex) {
                 // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
@@ -176,13 +181,18 @@ public class EditActions {
                 }
                 else {
                     // There is an image open, and operations to redo, carry on.
-                    target.getImage().redo();
+                    // Note, we are also checking if the redone operation was a resize
+                    // to decide whether the frame should be packed.
+                    int resize = target.getImage().redo();
                     target.repaint();
                     target.getParent().revalidate();
-                    // Pack the main GUI frame to the size of the image.
-                    frame.pack();
-                    // Make main GUI frame centered on screen.
-                    frame.setLocationRelativeTo(null);
+                    if (resize == 1) {
+                        // The redone operation was a resize.
+                        // Pack the main GUI frame to the size of the image.
+                        frame.pack();
+                        // Make main GUI frame centered on screen.
+                        frame.setLocationRelativeTo(null);
+                    }
                 }
             } catch (HeadlessException ex) {
                 // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
