@@ -14,6 +14,18 @@ import java.io.Serializable;
  */
 public class RotateRight implements ImageOperation, Serializable {
 
+    /**
+     * <p>
+     * Apply RotateRight to an image.
+     * </p>
+     * 
+     * <p>
+     * Apply RotateRight to a image- rotates at 90degrees to the right
+     * </p>
+     * 
+     * @param input The image to Rotate to the right.
+     * @return The resulting (rotated) image.
+     */
     @Override
     public BufferedImage apply(BufferedImage input) {
 

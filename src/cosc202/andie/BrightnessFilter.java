@@ -25,7 +25,15 @@ public class BrightnessFilter implements ImageOperation, java.io.Serializable  {
     // The size of the scale which is what is used to determine the brightness
     public int scale;
 
-    // Construct the brightness filter with the given scale
+    /** 
+     * <p>
+     * Construct the brightness filter with the given scale
+     * </p>
+     * 
+     * 
+     * @param scale the size of the scale used to determine brightness
+     * 
+    */
     public BrightnessFilter(int scale) {
         this.scale = scale;
     }

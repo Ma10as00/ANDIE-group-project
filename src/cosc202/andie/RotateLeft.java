@@ -14,6 +14,18 @@ import java.io.Serializable;
  */
 public class RotateLeft implements ImageOperation, Serializable{
 
+    /**
+     * <p>
+     * Apply RotateLeft to an image.
+     * </p>
+     * 
+     * <p>
+     * Apply RotateLeft to a image- rotates at 90degrees to the left
+     * </p>
+     * 
+     * @param input The image to Rotate to the left.
+     * @return The resulting (rotated) image.
+     */
     @Override
     public BufferedImage apply(BufferedImage input) {
         //When rotating 90 degrees, the width and height of the image swap places

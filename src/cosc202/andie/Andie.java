@@ -122,6 +122,9 @@ public class Andie {
      * @see ViewActions
      * @see FilterActions
      * @see ColourActions
+     * @see OrientationActions
+     * @see ResizeActions 
+     * @see LanguageActions 
      * 
      * @throws Exception if something goes wrong.
      */

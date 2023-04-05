@@ -8,12 +8,17 @@ import java.io.Serializable;
  * <p>
  * Image operation to resize the image to 150% of it's size
  * </p>
- * 
- * @param input a BufferedImage object to apply the image resize to
- * @return resizedImage the image having been increased to 150% of it's size
  */
 public class ImageResize150 implements ImageOperation, Serializable{
 
+    /**
+    * <p>
+    * Image operation to resize the image
+    * </p>
+    * 
+    * @param input a BufferedImage object to apply the image resize to
+    * @return resizedImage the image having been reduced to 150% of it's size
+    */
     @Override
     public BufferedImage apply(BufferedImage input) {
 

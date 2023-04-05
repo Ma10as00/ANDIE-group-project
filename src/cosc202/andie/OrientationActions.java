@@ -45,11 +45,31 @@ public class OrientationActions {
      * Action to rotate image 90 degrees to the right.
      */
     public class RotateRightAction extends ImageAction{
-
+        /**
+         * <p>
+         * Create a new RotateRightAction action.
+         * </p>
+         * 
+         * @param name     The name of the action (ignored if null).
+         * @param icon     An icon to use to represent the action (ignored if null).
+         * @param desc     A brief description of the action (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
+         */
         RotateRightAction(String name, ImageIcon icon, String desc, Integer mnemonic){
             super(name,icon,desc,mnemonic);
         }      
 
+        /**
+         * <p>
+         * Callback for when the RotateRight action is triggered.
+         * </p>
+         * 
+         * <p>
+         * This method is called whenever the RotateRight is triggered.
+         * </p>
+         * 
+         * @param e The event triggering this callback.
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             // Check if there is an image open.
@@ -71,10 +91,30 @@ public class OrientationActions {
      */
     public class RotateLeftAction extends ImageAction{
 
+        /**
+         * <p>
+         * Create a new RotateLeftAction action.
+         * </p>
+         * 
+         * @param name     The name of the action (ignored if null).
+         * @param icon     An icon to use to represent the action (ignored if null).
+         * @param desc     A brief description of the action (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
+         */
         RotateLeftAction(String name, ImageIcon icon, String desc, Integer mnemonic){
             super(name,icon,desc,mnemonic);
         }      
-
+        /**
+         * <p>
+         * Callback for when the rotateLeft action is triggered.
+         * </p>
+         * 
+         * <p>
+         * This method is called whenever the RotateLeftAction is triggered.
+         * </p>
+         * 
+         * @param e The event triggering this callback.
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             // Check if there is an image open.
@@ -96,10 +136,30 @@ public class OrientationActions {
      */
     public class Rotate180Action extends ImageAction{
 
+        /**
+         * <p>
+         * Create a new Rotate180Action action.
+         * </p>
+         * 
+         * @param name     The name of the action (ignored if null).
+         * @param icon     An icon to use to represent the action (ignored if null).
+         * @param desc     A brief description of the action (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
+         */
         Rotate180Action(String name, ImageIcon icon, String desc, Integer mnemonic){
             super(name,icon,desc,mnemonic);
         }      
-
+        /**
+         * <p>
+         * Callback for when the rotate180 action is triggered.
+         * </p>
+         * 
+         * <p>
+         * This method is called whenever the Rotate180 is triggered.
+         * </p>
+         * 
+         * @param e The event triggering this callback.
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             // Check if there is an image open.
@@ -121,10 +181,30 @@ public class OrientationActions {
      */
     public class FlipVertAction extends ImageAction{
 
+        /**
+         * <p>
+         * Create a new FlipVertAction action.
+         * </p>
+         * 
+         * @param name     The name of the action (ignored if null).
+         * @param icon     An icon to use to represent the action (ignored if null).
+         * @param desc     A brief description of the action (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
+         */
         FlipVertAction(String name, ImageIcon icon, String desc, Integer mnemonic){
             super(name,icon,desc,mnemonic);
         }
-
+        /**
+         * <p>
+         * Callback for when the FlipVertical action is triggered.
+         * </p>
+         * 
+         * <p>
+         * This method is called whenever the FlipVertical is triggered.
+         * </p>
+         * 
+         * @param e The event triggering this callback.
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             // Check if there is an image open.
@@ -146,10 +226,31 @@ public class OrientationActions {
      */
     public class FlipHorAction extends ImageAction{
 
+        /**
+         * <p>
+         * Create a new FlipHorizontalAction action.
+         * </p>
+         * 
+         * @param name     The name of the action (ignored if null).
+         * @param icon     An icon to use to represent the action (ignored if null).
+         * @param desc     A brief description of the action (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
+         */
         FlipHorAction(String name, ImageIcon icon, String desc, Integer mnemonic){
             super(name,icon,desc,mnemonic);
         }
 
+        /**
+         * <p>
+         * Callback for when the FlipHorizontal action is triggered.
+         * </p>
+         * 
+         * <p>
+         * This method is called whenever the FlipHorizontal is triggered.
+         * </p>
+         * 
+         * @param e The event triggering this callback.
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             // Check if there is an image open.

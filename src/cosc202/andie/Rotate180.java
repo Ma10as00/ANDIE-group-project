@@ -14,6 +14,18 @@ import java.io.Serializable;
  */
 public class Rotate180 implements ImageOperation, Serializable{
 
+    /**
+     * <p>
+     * Apply Rotate180 to an image.
+     * </p>
+     * 
+     * <p>
+     * Apply Rotate180 degrees to a image
+     * </p>
+     * 
+     * @param input The image to Rotate180 to.
+     * @return The resulting (rotated) image.
+     */
     @Override
     public BufferedImage apply(BufferedImage input) {
         //When rotating 180 degrees, the width and height of the image stays the same

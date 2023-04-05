@@ -435,7 +435,13 @@ public class FileActions {
         }
 
     }
-
+    /**
+     * <p>
+     * Action to export the image as a new file with operations.
+     * </p>
+     * 
+     * @see EditableImage#export(String)
+     */
     public class FileExportAction extends ImageAction {
 
         /**
@@ -451,7 +457,18 @@ public class FileActions {
         FileExportAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
         }
-
+        /**
+         * <p>
+         * Callback for when the file-export action is triggered.
+         * </p>
+         * 
+         * <p>
+         * This method is called whenever the export is triggered.
+         * It saves the file.
+         * </p>
+         * 
+         * @param e The event triggering this callback.
+         */
         public void actionPerformed(ActionEvent e) {
             // Check if there is an image to export
             if (target.getImage().hasImage() == false) {

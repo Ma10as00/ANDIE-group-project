@@ -257,8 +257,8 @@ class EditableImage {
      * </p>
      * 
      * <p>
-     * Exports an image to a file (28/3/23)- default extension is type .png 
-     * Allows user to enter new name for the file and sets type as .png for default, or whatever user has enterted 
+     * Exports an image to a file default extension is type .png 
+     * Allows user to enter new name for the file and sets type as .png for default
      * </p>
      * 
      * @param imageFilename the new file name that image will get exported to.

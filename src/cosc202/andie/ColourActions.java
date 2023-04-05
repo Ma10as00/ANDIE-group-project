@@ -109,12 +109,41 @@ public class ColourActions {
         }
     }
 
+    /**
+     * <p>
+     * Action to convert an image to greyscale.
+     * </p>
+     * 
+     * @see BrightnessFilter
+     */
     public class BrightnessAction extends ImageAction {
 
+        /**
+         * <p>
+         * Create a new change brightness action.
+         * </p>
+         * 
+         * @param name     The name of the action (ignored if null).
+         * @param icon     An icon to use to represent the action (ignored if null).
+         * @param desc     A brief description of the action (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
+         */
         BrightnessAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
         }
 
+        /**
+         * <p>
+         * Callback for when the brightness action is triggered.
+         * </p>
+         * 
+         * <p>
+         * This method is called whenever the BrightnessFilter is triggered.
+         * It changes the image's brightness depending on user input.
+         * </p>
+         * 
+         * @param e The event triggering this callback.
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             // Check if there is an image open.
@@ -146,13 +175,42 @@ public class ColourActions {
         }
     }
 
+    /**
+     * <p>
+     * Action to convert an image to greyscale.
+     * </p>
+     * 
+     * @see ConstrastFilter
+     */
     public class ContrastAction extends ImageAction {
 
+        /**
+         * <p>
+         * Create a new change contrast action.
+         * </p>
+         * 
+         * @param name     The name of the action (ignored if null).
+         * @param icon     An icon to use to represent the action (ignored if null).
+         * @param desc     A brief description of the action (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
+         */
         ContrastAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
 
         }
 
+        /**
+         * <p>
+         * Callback for when the contrast action is triggered.
+         * </p>
+         * 
+         * <p>
+         * This method is called whenever the ContrastFilter is triggered.
+         * It changes the image's contrast depending on user input.
+         * </p>
+         * 
+         * @param e The event triggering this callback.
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             // Check if there is an image open.

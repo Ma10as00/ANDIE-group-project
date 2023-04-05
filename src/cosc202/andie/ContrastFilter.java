@@ -24,7 +24,17 @@ public class ContrastFilter implements ImageOperation, java.io.Serializable  {
     // The size of the scale which is what is used to determine the contrast
     int value;
     
-    // Construct the contrast filter with the given scale
+
+    
+    /** 
+     * <p>
+     * Construct the contrast filter with the given scale
+     * </p>
+     * 
+     * 
+     * @param value the value that is used to detetmind the scale of contrast
+     * 
+    */
     public ContrastFilter(int value) {
         this.value = value;
     }

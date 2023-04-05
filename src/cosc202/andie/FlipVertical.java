@@ -14,6 +14,19 @@ import java.io.Serializable;
  */
 public class FlipVertical implements ImageOperation, Serializable{
 
+    /**
+     * <p>
+     * Apply vertical flip operation.
+     * </p>
+     * 
+     * <p>
+     * ImageOperation that flips an image vertically, i.e the image is rotated/mirrored around a horizontal axis.
+     * The resulting image will have the same dimensions as the original image.
+     * </p>
+     * 
+     * @param input The image to be flipped
+     * @return The resulting flipped image.
+     */
     @Override
     public BufferedImage apply(BufferedImage input) {
 
