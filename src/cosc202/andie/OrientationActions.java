@@ -3,6 +3,7 @@ package cosc202.andie;
 import java.util.*;
 import java.awt.event.*;
 import javax.swing.*;
+import java.awt.HeadlessException;
 
 public class OrientationActions {
 
@@ -75,7 +76,13 @@ public class OrientationActions {
             // Check if there is an image open.
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
-                JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("rotateRightErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                try {
+                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("rotateRightErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                } catch (HeadlessException ex) {
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                    // Won't happen for our users, so just exit.
+                    System.exit(1);
+                }
             }
             else {
                 // There is an image open, carry on.
@@ -120,7 +127,13 @@ public class OrientationActions {
             // Check if there is an image open.
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
-                JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("rotateLeftErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                try {
+                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("rotateLeftErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                } catch (HeadlessException ex) {
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                    // Won't happen for our users, so just exit.
+                    System.exit(1);
+                }
             }
             else {
                 // There is an image open, carry on.
@@ -148,7 +161,8 @@ public class OrientationActions {
          */
         Rotate180Action(String name, ImageIcon icon, String desc, Integer mnemonic){
             super(name,icon,desc,mnemonic);
-        }      
+        } 
+
         /**
          * <p>
          * Callback for when the rotate180 action is triggered.
@@ -165,7 +179,13 @@ public class OrientationActions {
             // Check if there is an image open.
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
-                JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("rotate180Err"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                try {
+                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("rotate180Err"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                } catch (HeadlessException ex) {
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                    // Won't happen for our users, so just exit.
+                    System.exit(1);
+                }
             }
             else {
                 // There is an image open, carry on.
@@ -210,7 +230,13 @@ public class OrientationActions {
             // Check if there is an image open.
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
-                JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("flipVerErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                try {
+                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("flipVerErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                } catch (HeadlessException ex) {
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                    // Won't happen for our users, so just exit.
+                    System.exit(1);
+                }
             }
             else {
                 // There is an image open, carry on.
@@ -256,7 +282,13 @@ public class OrientationActions {
             // Check if there is an image open.
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
-                JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("flipHorErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                try {
+                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("flipHorErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                } catch (HeadlessException ex) {
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                    // Won't happen for our users, so just exit.
+                    System.exit(1);
+                }
             }
             else {
                 // There is an image open, carry on.
@@ -266,5 +298,4 @@ public class OrientationActions {
             }
         }
     }
-    
 }

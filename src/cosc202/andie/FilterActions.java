@@ -3,6 +3,7 @@ package cosc202.andie;
 import java.util.*;
 import java.awt.event.*;
 import javax.swing.*;
+import java.awt.HeadlessException;
 
 /**
  * <p>
@@ -97,7 +98,13 @@ public class FilterActions {
             // Check if there is an image open.
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
-                JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("meanErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                try {
+                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("meanErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                } catch (HeadlessException ex) {
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                    // Won't happen for our users, so just exit.
+                    System.exit(1);
+                }
             }
             else {
                 // There is an image open, carry on.
@@ -114,13 +121,19 @@ public class FilterActions {
                 jslider.setPaintTicks(true);
 
                 // Ask user for radius value with slider.
-                int option = JOptionPane.showOptionDialog(null, jslider, LanguageActions.getLocaleString("meanSlid"),
-                        JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
-                if (option == JOptionPane.CANCEL_OPTION) {
-                    return;
-                }
-                if (option == JOptionPane.OK_OPTION) {
-                    radius = jslider.getValue();
+                try {
+                    int option = JOptionPane.showOptionDialog(null, jslider, LanguageActions.getLocaleString("meanSlid"),
+                            JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+                    if (option == JOptionPane.CANCEL_OPTION) {
+                        return;
+                    }
+                    if (option == JOptionPane.OK_OPTION) {
+                        radius = jslider.getValue();
+                    }
+                } catch (HeadlessException ex) {
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                    // Won't happen for our users, so just exit.
+                    System.exit(1);
                 }
 
                 // Create and apply the filter.
@@ -128,10 +141,7 @@ public class FilterActions {
                 target.repaint();
                 target.getParent().revalidate();
             }
-
-            
         }
-
     }
 
      /**
@@ -173,7 +183,13 @@ public class FilterActions {
             // Check if there is an image open.
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
-                JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("sharpenErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                try {
+                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("sharpenErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                } catch (HeadlessException ex) {
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                    // Won't happen for our users, so just exit.
+                    System.exit(1);
+                }
             }
             else {
                 // There is an image open, carry on.
@@ -183,7 +199,6 @@ public class FilterActions {
                 target.getParent().revalidate();
             }
         }
-
     }
 
     /**
@@ -225,7 +240,13 @@ public class FilterActions {
             // Check if there is an image open.
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
-                JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("gaussianErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                try { 
+                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("gaussianErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                } catch (HeadlessException ex) {
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                    // Won't happen for our users, so just exit.
+                    System.exit(1);
+                }
             }
             else {
                 // There is an image open, carry on.
@@ -242,13 +263,19 @@ public class FilterActions {
                 jslider.setPaintTicks(true);
 
                 // Ask user for radius value with slider.
-                int option = JOptionPane.showOptionDialog(null, jslider, LanguageActions.getLocaleString("gaussianSlid"),
-                        JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
-                if (option == JOptionPane.CANCEL_OPTION) {
-                    return;
-                }
-                if (option == JOptionPane.OK_OPTION) {
-                    radius = jslider.getValue();
+                try {
+                    int option = JOptionPane.showOptionDialog(null, jslider, LanguageActions.getLocaleString("gaussianSlid"),
+                            JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+                    if (option == JOptionPane.CANCEL_OPTION) {
+                        return;
+                    }
+                    if (option == JOptionPane.OK_OPTION) {
+                        radius = jslider.getValue();
+                    }
+                } catch (HeadlessException ex) {
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                    // Won't happen for our users, so just exit.
+                    System.exit(1);
                 }
 
                 // Create and apply the filter.
@@ -257,7 +284,6 @@ public class FilterActions {
                 target.getParent().revalidate();
             }
         }
-
     }
 
     /**
@@ -299,7 +325,13 @@ public class FilterActions {
             // Check if there is an image open.
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
-                JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("medianErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                try{
+                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("medianErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                } catch (HeadlessException ex) {
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                    // Won't happen for our users, so just exit.
+                    System.exit(1);
+                }
             }
             else {
                 // There is an image open, carry on.
@@ -316,13 +348,19 @@ public class FilterActions {
                 jslider.setPaintTicks(true);
 
                 // Ask user for radius value with slider.
-                int option = JOptionPane.showOptionDialog(null, jslider, LanguageActions.getLocaleString("medianRad"),
-                        JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
-                if (option == JOptionPane.CANCEL_OPTION) {
-                    return;
-                }
-                if (option == JOptionPane.OK_OPTION) {
-                    radius = jslider.getValue();
+                try {
+                    int option = JOptionPane.showOptionDialog(null, jslider, LanguageActions.getLocaleString("medianRad"),
+                            JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+                    if (option == JOptionPane.CANCEL_OPTION) {
+                        return;
+                    }
+                    if (option == JOptionPane.OK_OPTION) {
+                        radius = jslider.getValue();
+                    }
+                } catch (HeadlessException ex) {
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                    // Won't happen for our users, so just exit.
+                    System.exit(1);
                 }
 
                 // Create and apply the filter.
@@ -331,6 +369,5 @@ public class FilterActions {
                 target.getParent().revalidate();
             }
         }
-
     }
 }

@@ -3,6 +3,7 @@ package cosc202.andie;
 import java.util.*;
 import java.awt.event.*;
 import javax.swing.*;
+import java.awt.HeadlessException;
 
 /**
  * <p>
@@ -98,7 +99,13 @@ public class ColourActions {
             // Check if there is an image open.
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
-                JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("greyscaleErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                try {
+                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("greyscaleErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                } catch (HeadlessException ex) {
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                    // Won't happen for our users, so just exit.
+                    System.exit(1);
+                }
             }
             else {
                 // There is an image open, carry on.
@@ -147,30 +154,36 @@ public class ColourActions {
         @Override
         public void actionPerformed(ActionEvent e) {
             // Check if there is an image open.
-            if (target.getImage().hasImage() == false) {
-                // There is not an image open, so display error message.
-                JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("brightnessErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
-            }
-            else {
-                // There is an image open, carry on.
-                JSlider jslider = new JSlider();
-                jslider.setValue(0);
-                jslider.setMaximum(10);
-                jslider.setMinimum(-10);
-                jslider.setMajorTickSpacing(2);
-                jslider.setPaintLabels(true);
-                jslider.setPaintTicks(true);
+            try {
+                if (target.getImage().hasImage() == false) {
+                    // There is not an image open, so display error message.
+                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("brightnessErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                }
+                else {
+                    // There is an image open, carry on.
+                    JSlider jslider = new JSlider();
+                    jslider.setValue(0);
+                    jslider.setMaximum(10);
+                    jslider.setMinimum(-10);
+                    jslider.setMajorTickSpacing(2);
+                    jslider.setPaintLabels(true);
+                    jslider.setPaintTicks(true);
 
-                int select = JOptionPane.showOptionDialog(null, jslider, LanguageActions.getLocaleString("brightnessSlid"),
-                JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
-                if (select == JOptionPane.CANCEL_OPTION) {
-                    return;
+                    int select = JOptionPane.showOptionDialog(null, jslider, LanguageActions.getLocaleString("brightnessSlid"),
+                    JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+                    if (select == JOptionPane.CANCEL_OPTION) {
+                        return;
+                    }
+                    if (select == JOptionPane.OK_OPTION) {
+                        target.getImage().apply(new BrightnessFilter(jslider.getValue()));
+                        target.repaint();
+                        target.getParent().revalidate();
+                    }
                 }
-                if (select == JOptionPane.OK_OPTION) {
-                    target.getImage().apply(new BrightnessFilter(jslider.getValue()));
-                    target.repaint();
-                    target.getParent().revalidate();
-                }
+            } catch (HeadlessException ex) {
+                // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                // Won't happen for our users, so just exit.
+                System.exit(1);
             }
         }
     }
@@ -214,33 +227,37 @@ public class ColourActions {
         @Override
         public void actionPerformed(ActionEvent e) {
             // Check if there is an image open.
-            if (target.getImage().hasImage() == false) {
-                // There is not an image open, so display error message.
-                JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("contrastErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
-            }
-            else {
-                // There is an image open, carry on.
-                JSlider jslider = new JSlider();
-                jslider.setValue(0);
-                jslider.setMaximum(10);
-                jslider.setMinimum(-10);
-                jslider.setMajorTickSpacing(2);
-                jslider.setPaintLabels(true);
-                jslider.setPaintTicks(true);
+            try {
+                if (target.getImage().hasImage() == false) {
+                    // There is not an image open, so display error message.
+                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("contrastErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                }
+                else {
+                    // There is an image open, carry on.
+                    JSlider jslider = new JSlider();
+                    jslider.setValue(0);
+                    jslider.setMaximum(10);
+                    jslider.setMinimum(-10);
+                    jslider.setMajorTickSpacing(2);
+                    jslider.setPaintLabels(true);
+                    jslider.setPaintTicks(true);
 
-                int select = JOptionPane.showOptionDialog(null, jslider, LanguageActions.getLocaleString("contrastSlid"),
-                JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
-                if (select == JOptionPane.CANCEL_OPTION) {
-                    return;
+                    int select = JOptionPane.showOptionDialog(null, jslider, LanguageActions.getLocaleString("contrastSlid"),
+                    JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+                    if (select == JOptionPane.CANCEL_OPTION) {
+                        return;
+                    }
+                    if (select == JOptionPane.OK_OPTION) {
+                        target.getImage().apply(new ContrastFilter(jslider.getValue()));
+                        target.repaint();
+                        target.getParent().revalidate();
+                    }
                 }
-                if (select == JOptionPane.OK_OPTION) {
-                    target.getImage().apply(new ContrastFilter(jslider.getValue()));
-                    target.repaint();
-                    target.getParent().revalidate();
-                }
+            } catch (HeadlessException ex) {
+                // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                // Won't happen for our users, so just exit.
+                System.exit(1);
             }
         }
-
     }
-
 }

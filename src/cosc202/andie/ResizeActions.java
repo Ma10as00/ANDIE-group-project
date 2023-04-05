@@ -3,6 +3,7 @@ package cosc202.andie;
 import java.util.*;
 import java.awt.event.*;
 import javax.swing.*;
+import java.awt.HeadlessException;
 
 /**
  * <p>
@@ -96,7 +97,13 @@ public class ResizeActions {
             // Check if there is an image open.
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
-                JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("resize50Err"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                try {
+                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("resize50Err"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                } catch (HeadlessException ex) {
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                    // Won't happen for our users, so just exit.
+                    System.exit(1);
+                }
             }
             else {
                 // There is an image open, carry on.
@@ -147,7 +154,13 @@ public class ResizeActions {
             // Check if there is an image open.
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
-                JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("resize150Err"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                try {
+                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("resize150Err"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                } catch (HeadlessException ex) {
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                    // Won't happen for our users, so just exit.
+                    System.exit(1);
+                }
             }
             else {
                 // There is an image open, carry on.
@@ -198,7 +211,13 @@ public class ResizeActions {
             // Check if there is an image open.
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
-                JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("resizeErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                try {
+                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("resizeErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                } catch (HeadlessException ex) {
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                    // Won't happen for our users, so just exit.
+                    System.exit(1);
+                }
             }
             else {
                 // There is an image open, carry on.
@@ -215,15 +234,21 @@ public class ResizeActions {
                 jslider.setPaintTicks(true);
 
                 // Ask user for resizePercent value with slider.
-                int option = JOptionPane.showOptionDialog(null, jslider, LanguageActions.getLocaleString("resizeSlid"),
-                        JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
-                if (option == JOptionPane.CANCEL_OPTION) {
-                    return;
+                try {
+                    int option = JOptionPane.showOptionDialog(null, jslider, LanguageActions.getLocaleString("resizeSlid"),
+                            JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+                    if (option == JOptionPane.CANCEL_OPTION) {
+                        return;
+                    }
+                    if (option == JOptionPane.OK_OPTION) {
+                        resizePercent = jslider.getValue();
+                    }
+                } catch (HeadlessException ex) {
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                    // Won't happen for our users, so just exit.
+                    System.exit(1);
                 }
-                if (option == JOptionPane.OK_OPTION) {
-                    resizePercent = jslider.getValue();
-                }
-
+                
                 // Apply the image resize with n given from user.
                 target.getImage().apply(new ImageResizeN(resizePercent));
                 target.repaint();

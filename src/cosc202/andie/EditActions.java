@@ -3,6 +3,7 @@ package cosc202.andie;
 import java.util.*;
 import java.awt.event.*;
 import javax.swing.*;
+import java.awt.HeadlessException;
 
  /**
  * <p>
@@ -92,19 +93,25 @@ public class EditActions {
          */
         public void actionPerformed(ActionEvent e) {
             // Check if there is an image open.
-            if (target.getImage().hasImage() == false) {
-                // There is not an image undo, so display error message.
-                JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("noImageToUndo"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
-            }
-            else if (target.getImage().hasOps() == false) {
-                // There are no image operations to undo, so display error message.
-                JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("noUndo"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
-            }
-            else {
-                // There is an image open, and operations to undo, carry on.
-                target.getImage().undo();
-                target.repaint();
-                target.getParent().revalidate();
+            try {
+                if (target.getImage().hasImage() == false) {
+                    // There is not an image undo, so display error message.
+                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("noImageToUndo"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                }
+                else if (target.getImage().hasOps() == false) {
+                    // There are no image operations to undo, so display error message.
+                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("noUndo"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                }
+                else {
+                    // There is an image open, and operations to undo, carry on.
+                    target.getImage().undo();
+                    target.repaint();
+                    target.getParent().revalidate();
+                }
+            } catch (HeadlessException ex) {
+                // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                // Won't happen for our users, so just exit.
+                System.exit(1);
             }
         }
     }
@@ -131,7 +138,6 @@ public class EditActions {
         RedoAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
         }
-
         
         /**
          * <p>
@@ -147,21 +153,26 @@ public class EditActions {
          */
         public void actionPerformed(ActionEvent e) {
             // Check if there is an image open.
-            if (target.getImage().hasImage() == false) {
-                // There is not an image open to undo, so display error message.
-                JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("noImageToRedo"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
-            }
-            else if (target.getImage().hasRedoOps() == false) {
-                // There are no image operations to undo, so display error message.
-                JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("noRedo"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
-            }
-            else {
-                // There is an image open, and operations to redo, carry on.
-                target.getImage().redo();
-                target.repaint();
-                target.getParent().revalidate();
+            try {
+                if (target.getImage().hasImage() == false) {
+                    // There is not an image open to undo, so display error message.
+                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("noImageToRedo"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                }
+                else if (target.getImage().hasRedoOps() == false) {
+                    // There are no image operations to undo, so display error message.
+                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("noRedo"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                }
+                else {
+                    // There is an image open, and operations to redo, carry on.
+                    target.getImage().redo();
+                    target.repaint();
+                    target.getParent().revalidate();
+                }
+            } catch (HeadlessException ex) {
+                // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                // Won't happen for our users, so just exit.
+                System.exit(1);
             }
         }
     }
-
 }
