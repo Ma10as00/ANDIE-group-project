@@ -54,25 +54,25 @@ public class Andie {
         String country = prefs.get("country", "NZ");
         String languageCode = lang + "_" + country;
 
-        //if language code is en sets default to English
+        // If language code is en sets default to English.
         if(languageCode.equals("en_NZ")){
             // Set Default Locale to English
             Locale.setDefault(new Locale("en", "NZ"));
         }
-        //if language code is mi set default language to Maori
+        // If language code is mi set default language to Maori.
         else if(languageCode.equals("mi_NZ")){
             Locale.setDefault(new Locale("mi", "NZ"));
         }
-        //if language code is no sets default to Norwegian
+        // If language code is no sets default to Norwegian.
         else if(languageCode.equals("no_NO")){
             Locale.setDefault(new Locale("no", "NO"));
         }
-        //if language code is es sets default to Spanish
+        // If language code is es sets default to Spanish.
         else if(languageCode.equals("es_ES")){
             Locale.setDefault(new Locale("es", "ES"));
         }
 
-        // Set up the main GUI frame
+        // Set up the main GUI frame.
         frame = new JFrame("ANDIE");
 
         Image image = ImageIO.read(Andie.class.getClassLoader().getResource("icon.png"));
