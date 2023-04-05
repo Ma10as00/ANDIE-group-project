@@ -22,12 +22,22 @@ public class OrientationActions {
      * A list of actions for the Orientation menu.
      */
     protected ArrayList<Action> actions;
+    /** 
+     * The main GUI frame. Only here so that we can pack the 
+     * frame when we rotate an image.
+     */
+    private JFrame frame;
 
     /**
+     * <p>
      * Constructs the list of orientation actions.
+     * </p>
+     * 
+     *  @param frame the main GUI frame from which we will apply OrientationActions.
      */
-    public OrientationActions(){
+    public OrientationActions(JFrame frame){
         actions = new ArrayList<Action>();
+        this.frame = frame;
         actions.add(new RotateRightAction(LanguageActions.getLocaleString("rotateRight"), null, LanguageActions.getLocaleString("rotateRightDes"), Integer.valueOf(KeyEvent.VK_3)));
         actions.add(new RotateLeftAction(LanguageActions.getLocaleString("rotateLeft"), null, LanguageActions.getLocaleString("rotateLeftDes"), Integer.valueOf(KeyEvent.VK_4)));
         actions.add(new Rotate180Action(LanguageActions.getLocaleString("rotate180"), null, LanguageActions.getLocaleString("rotate180Des"), Integer.valueOf(KeyEvent.VK_5)));
@@ -104,6 +114,12 @@ public class OrientationActions {
                 target.getImage().apply(new RotateRight());
                 target.repaint();
                 target.getParent().revalidate();
+                // Reset the zoom of the image.
+                target.setZoom(100);
+                // Pack the main GUI frame to the size of the image.
+                frame.pack();
+                // Make main GUI frame centered on screen.
+                frame.setLocationRelativeTo(null);
             }
         }
     }
@@ -160,6 +176,12 @@ public class OrientationActions {
                 target.getImage().apply(new RotateLeft());
                 target.repaint();
                 target.getParent().revalidate();
+                // Reset the zoom of the image.
+                target.setZoom(100);
+                // Pack the main GUI frame to the size of the image.
+                frame.pack();
+                // Make main GUI frame centered on screen.
+                frame.setLocationRelativeTo(null);
             }
         }
     }
@@ -216,6 +238,12 @@ public class OrientationActions {
                 target.getImage().apply(new Rotate180());
                 target.repaint();
                 target.getParent().revalidate();
+                // Reset the zoom of the image.
+                target.setZoom(100);
+                // Pack the main GUI frame to the size of the image.
+                frame.pack();
+                // Make main GUI frame centered on screen.
+                frame.setLocationRelativeTo(null);
             }
         }
     }

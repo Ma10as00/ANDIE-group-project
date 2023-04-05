@@ -150,7 +150,8 @@ public class Andie {
         menuBar.add(viewActions.createMenu());
 
         // Orientation actions change the orientation of the image, altering its content.
-        OrientationActions orientationActions = new OrientationActions();
+        // We pass a frame so that when we rotate an image, possiby changing its size the frame is packed to the new image size.
+        OrientationActions orientationActions = new OrientationActions(frame);
         menuBar.add(orientationActions.createMenu());
 
         // Resize actions change the size of the image, altering its content.

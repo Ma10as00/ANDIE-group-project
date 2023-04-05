@@ -304,41 +304,41 @@ class EditableImage {
     /**
      * <p>
      * Undo the last {@link ImageOperation} applied to the image.
-     * Also tells you if the undone image operation was a resize by returing 1, 
+     * Also tells you if the undone image operation was a resize or rotation by returing 1, 
      * or that it wasn't by returning 0.
      * </p>
-     * @return 1 if the undone operation was a resize, 0 otherwise.
+     * @return 1 if the undone operation was a resize or rotation, 0 otherwise.
      */
     public int undo() {
         // int to tell us if the redone operation was a resize.
-        int resize = 0;
+        int resizeOrRotate = 0;
         ImageOperation un = ops.pop();
-        if (un instanceof ImageResize50 || un instanceof ImageResize150 || un instanceof ImageResizeN) {
-            resize = 1;
+        if (un instanceof ImageResize50 || un instanceof ImageResize150 || un instanceof ImageResizeN || un instanceof RotateRight || un instanceof RotateLeft || un instanceof Rotate180) {
+            resizeOrRotate = 1;
         }
         redoOps.push(un);
         refresh();
-        return resize;
+        return resizeOrRotate;
     }
 
     /**
      * <p>
      * Reapply the most recently {@link undo}ne {@link ImageOperation} to the image.
-     * Also tells you if the redone image operation was a resize by returing 1, 
+     * Also tells you if the redone image operation was a resize or rotation by returing 1, 
      * or that it wasn't by returning 0.
      * </p>
-     * @return 1 if the redone operation was a resize, 0 otherwise.
+     * @return 1 if the redone operation was a resize or rotation, 0 otherwise.
      */
     public int redo()  {
         // int to tell us if the redone operation was a resize.
-        int resize = 0;
+        int resizeOrRotate = 0;
         ImageOperation re = redoOps.pop();
         // If the image operation was a resize operation, return 1.
-        if (re instanceof ImageResize50 || re instanceof ImageResize150 || re instanceof ImageResizeN) {
-            resize = 1;
+        if (re instanceof ImageResize50 || re instanceof ImageResize150 || re instanceof ImageResizeN || re instanceof RotateRight || re instanceof RotateLeft || re instanceof Rotate180) {
+            resizeOrRotate = 1;
         }
         apply(re);
-        return resize;
+        return resizeOrRotate;
     }
 
     /**

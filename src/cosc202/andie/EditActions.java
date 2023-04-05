@@ -183,12 +183,12 @@ public class EditActions {
                 }
                 else {
                     // There is an image open, and operations to redo, carry on.
-                    // Note, we are also checking if the redone operation was a resize
+                    // Note, we are also checking if the redone operation was a resize or rotation
                     // to decide whether the frame should be packed.
-                    int resize = target.getImage().redo();
+                    int resizeOrRotate = target.getImage().redo();
                     target.repaint();
                     target.getParent().revalidate();
-                    if (resize == 1) {
+                    if (resizeOrRotate == 1) {
                         // The redone operation was a resize.
                         // Reset the zoom of the image.
                         target.setZoom(100);

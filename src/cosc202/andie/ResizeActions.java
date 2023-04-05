@@ -29,7 +29,7 @@ public class ResizeActions {
     protected ArrayList<Action> actions;
     /** 
      * The main GUI frame. Only here so that we can pack the 
-     * frame when we open a new image.
+     * frame when we resize an image.
      */
     private JFrame frame;
 
@@ -38,7 +38,7 @@ public class ResizeActions {
      * Create a set of Resize menu actions.
      * </p>
      * 
-     * @param frame the main GUI frame from which we will apply FileActions.
+     * @param frame the main GUI frame from which we will apply ResizeActions.
      */
     public ResizeActions(JFrame frame) {
         actions = new ArrayList<Action>();
@@ -118,6 +118,8 @@ public class ResizeActions {
                 target.getImage().apply(new ImageResize50());
                 target.repaint();
                 target.getParent().revalidate();
+                // Reset the zoom of the image.
+                target.setZoom(100);
                 // Pack the main GUI frame to the size of the image.
                 frame.pack();
                 // Make main GUI frame centered on screen.
@@ -179,6 +181,8 @@ public class ResizeActions {
                 target.getImage().apply(new ImageResize150());
                 target.repaint();
                 target.getParent().revalidate();
+                // Reset the zoom of the image.
+                target.setZoom(100);
                 // Pack the main GUI frame to the size of the image.
                 frame.pack();
                 // Make main GUI frame centered on screen.
@@ -269,6 +273,8 @@ public class ResizeActions {
                 target.getImage().apply(new ImageResizeN(resizePercent));
                 target.repaint();
                 target.getParent().revalidate();
+                // Reset the zoom of the image.
+                target.setZoom(100);
                 // Pack the main GUI frame to the size of the image.
                 frame.pack();
                 // Make main GUI frame centered on screen.
