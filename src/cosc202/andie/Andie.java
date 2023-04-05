@@ -67,6 +67,10 @@ public class Andie {
         else if(languageCode.equals("no_NO")){
             Locale.setDefault(new Locale("no", "NO"));
         }
+        //if language code is es sets default to Spanish
+        else if(languageCode.equals("es_ES")){
+            Locale.setDefault(new Locale("es", "ES"));
+        }
 
         // Set up the main GUI frame
         frame = new JFrame("ANDIE");
