@@ -42,6 +42,8 @@ public class FileActions {
      * <p>
      * Create a set of File menu actions.
      * </p>
+     * 
+     * @param frame the main GUI frame from which we will apply FileActions.
      */
     public FileActions(JFrame frame) {
         actions = new ArrayList<Action>();

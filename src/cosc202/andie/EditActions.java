@@ -27,14 +27,22 @@ public class EditActions {
     
     /** A list of actions for the Edit menu. */
     protected ArrayList<Action> actions;
+    /** 
+     * The main GUI frame. Only here so that we can pack the 
+     * frame when we undo or redo operations to an image.
+     */
+    private JFrame frame;
 
     /**
      * <p>
      * Create a set of Edit menu actions.
      * </p>
+     * 
+     * * @param frame the main GUI frame from which we will apply FileActions.
      */
-    public EditActions() {
+    public EditActions(JFrame frame) {
         actions = new ArrayList<Action>();
+        this.frame = frame;
         actions.add(new UndoAction(LanguageActions.getLocaleString("undo"), null, LanguageActions.getLocaleString("undoDes"), Integer.valueOf(KeyEvent.VK_Z)));
         actions.add(new RedoAction(LanguageActions.getLocaleString("redo"), null, LanguageActions.getLocaleString("redoDes"), Integer.valueOf(KeyEvent.VK_Y)));
     }
@@ -107,6 +115,10 @@ public class EditActions {
                     target.getImage().undo();
                     target.repaint();
                     target.getParent().revalidate();
+                    // Pack the main GUI frame to the size of the image.
+                    frame.pack();
+                    // Make main GUI frame centered on screen.
+                    frame.setLocationRelativeTo(null);
                 }
             } catch (HeadlessException ex) {
                 // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
@@ -167,6 +179,10 @@ public class EditActions {
                     target.getImage().redo();
                     target.repaint();
                     target.getParent().revalidate();
+                    // Pack the main GUI frame to the size of the image.
+                    frame.pack();
+                    // Make main GUI frame centered on screen.
+                    frame.setLocationRelativeTo(null);
                 }
             } catch (HeadlessException ex) {
                 // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
