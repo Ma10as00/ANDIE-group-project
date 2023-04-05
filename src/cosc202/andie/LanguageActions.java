@@ -259,9 +259,9 @@ public class LanguageActions {
                 Locale.setDefault(new Locale(prefs.get("language", "no"), prefs.get("country", "NO")));
                 break;
             case "spanish":
-                prefs.put("language", "es");
+                prefs.put("language", "sp");
                 prefs.put("country", "ES");
-                Locale.setDefault(new Locale(prefs.get("language", "es"), prefs.get("country", "ES")));
+                Locale.setDefault(new Locale(prefs.get("language", "sp"), prefs.get("country", "ES")));
                 break;
         }
     }

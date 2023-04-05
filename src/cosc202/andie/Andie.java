@@ -68,8 +68,8 @@ public class Andie {
             Locale.setDefault(new Locale("no", "NO"));
         }
         // If language code is es sets default to Spanish.
-        else if(languageCode.equals("es_ES")){
-            Locale.setDefault(new Locale("es", "ES"));
+        else if(languageCode.equals("sp_ES")){
+            Locale.setDefault(new Locale("sp", "ES"));
         }
 
         // Set up the main GUI frame.
