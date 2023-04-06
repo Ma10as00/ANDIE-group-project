@@ -61,21 +61,4 @@ If you would like to undo or redo an operation you have applied to your image, y
 
 ## Note
 
-We slightly changed the structure of the Andie and FileActions classes. However, the code should still build and run akin to the skeleton code that was provided. The Andie class now has a private static data field of type ImagePanel called imagePanel, which is initialised in the method createAndShowGUI. This was only so that a private static method that was added to Andie, called frameClosing, could access the ImagePanel. Thus, it can warn the user that any unsaved changes will be lost if they close the window, only if there is an image open. We also added private data fields of type Jframe called frame to FileActions, ReszieActions, OrientationActions and EditActions which are initialised in their respective constructors. This was only done so that the main GUI frame could be packed around an image when it is opened, resized, rotated, or when an image operation is undone or redone that is a rotation or resize. 
-
-
-## Folder Structure
-
-The workspace contains two folders by default, where:
-
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
-
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
-
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
-
-
-## Dependency Management
-
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+We slightly changed the structure of the Andie and FileActions classes. However, the code should still build and run akin to the skeleton code that was provided. The Andie class now has a private static data field of type ImagePanel called imagePanel, which is initialised in the method createAndShowGUI. This was only so that a private static method that was added to Andie, called frameClosing, could access the ImagePanel. Thus, it can warn the user that any unsaved changes will be lost if they close the window, only if there is an image open. We also added private data fields of type Jframe called frame to FileActions, ReszieActions, OrientationActions and EditActions which are initialised in their respective constructors. This was only done so that the main GUI frame could be packed around an image when it is opened, resized, rotated, or when an image operation is undone or redone that is a rotation or resize.
