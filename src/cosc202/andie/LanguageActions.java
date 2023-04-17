@@ -5,6 +5,19 @@ import java.util.prefs.Preferences;
 import java.awt.event.*;
 import javax.swing.*;
 
+
+/**
+ * <p>
+ * Actions provided by the Language.
+ * </p>
+ * 
+ * <p>
+ * The Language menu contains actions that can change the langauge used in ANDIE. This
+ * includes English, Māori, Spanish and Norwegian.
+ * </p>
+ * 
+ * @author Michael Campbell
+ */
 public class LanguageActions {
 
     /** 
@@ -17,7 +30,7 @@ public class LanguageActions {
      * Returns a term from the ResourceBundle with a given key.
      * </p>
      * 
-     * @param String key a string representing the term to be pulled from the bundle.
+     * @param key a string representing the term to be pulled from the bundle.
      * @return a given string from the bundle related to key.
      */
     public static String getLocaleString(String key) {
