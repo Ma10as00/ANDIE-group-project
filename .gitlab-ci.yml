@@ -48,7 +48,6 @@ deploy-job:      # This job runs in the deploy stage.
     - echo "Deploying application..."
     - echo "Application successfully deployed."
 
-
 pages: # publish Javadoc website
   tags:
     - docker
@@ -66,5 +65,24 @@ pages: # publish Javadoc website
       - public
   only:
     - main
+
+unit-test-job:
+  tags:
+    - docker
+  image: eclipse-temurin:17
+  stage: test
+  script:
+    - echo "Attempting to run unit tests..."
+    - javac -d bin src/cosc202/andie/*.java
+    - javac -d bin -classpath
+      bin:lib/junit-platform-console-standalone-1.8.2.jar
+      src/test/cosc202/andie/*.java
+    - java -jar lib/junit-platform-console-standalone-1.8.2.jar -classpath
+      bin --select-package test.cosc202.andie
+  
+
+
+
+
 
 
