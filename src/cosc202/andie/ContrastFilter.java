@@ -14,9 +14,8 @@ import java.awt.HeadlessException;
  * The class has a constructor that takes an integer parameter scale,
  * which is used to determine the contrast of the image.
  * </p>
- * 
- * <p>
- * 
+ *
+ * @author James Liu
  */
 public class ContrastFilter implements ImageOperation, java.io.Serializable  {
     /** The size of the scale which is what is used to determine the contrast. */

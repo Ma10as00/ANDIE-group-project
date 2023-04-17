@@ -38,7 +38,7 @@ public class EditActions {
      * Create a set of Edit menu actions.
      * </p>
      * 
-     * * @param frame the main GUI frame from which we will apply FileActions.
+     * @param frame the main GUI frame from which we will apply FileActions.
      */
     public EditActions(JFrame frame) {
         actions = new ArrayList<Action>();

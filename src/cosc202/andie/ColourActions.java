@@ -23,7 +23,7 @@ import java.awt.HeadlessException;
  * 4.0</a>
  * </p>
  * 
- * @author Steven Mills
+ * @author Steven Mills (Modified by James Liu)
  * @version 1.0
  */
 public class ColourActions {
@@ -193,7 +193,7 @@ public class ColourActions {
      * Action to change the contrast of an image.
      * </p>
      * 
-     * @see ConstrastFilter
+     * @see ContrastFilter
      */
     public class ContrastAction extends ImageAction {
 

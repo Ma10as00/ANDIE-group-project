@@ -129,7 +129,6 @@ public class Andie {
      * @see ResizeActions 
      * @see LanguageActions 
      * 
-     * @throws Exception if something goes wrong.
      */
     public static void renderMenu() {
         // Add in menus for various types of action the user may perform.
