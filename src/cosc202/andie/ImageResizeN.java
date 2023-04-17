@@ -36,7 +36,7 @@ public class ImageResizeN implements ImageOperation, Serializable{
      * 
      * @param resizePercent the n% we would like to resize the image by.
      */
-    ImageResizeN(int resizePercent) {
+    public ImageResizeN(int resizePercent) {
         this.resizePercent = resizePercent;    
     }
 
