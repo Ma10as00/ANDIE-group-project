@@ -36,9 +36,9 @@ unit-test-job: # This job runs in the test stage.
   - echo "Attempting to run unit tests..."
   - javac -d bin src/cosc202/andie/*.java
   - javac -d bin -classpath 
-    bin:junit-platform-console-standalone-1.9.2.jar
+    bin:lib/junit-platform-console-standalone-1.9.2.jar
     tests/test/*.java
-  - java -jar junit-platform-console-standalone-1.9.2.jar -classpath
+  - java -jar lib/junit-platform-console-standalone-1.9.2.jar -classpath
     bin --select-package tests.test
 
 lint-test-job:   # This job also runs in the test stage.
