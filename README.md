@@ -54,7 +54,7 @@ To edit an image, ANDIE allows you to apply operations to filter the image and t
 
 - The '**Filter**' menu allows you to apply various filters to your image. You can apply a sharpen filter, which sharpens the image. You can also apply blur filters, which will blur an image according to the radius you have provided. Note, a larger radius creates a stronger blur. Each of the blur filters creates a slightly different blur; The mean filter, which blurs the image by essentially averaging the pixel values, creates a typical blur. The median blur filter creates a blockier blur. And, the Gaussian blur filter creates a more natural blur.
 
-- The '**Colour**' menu allows you to change the colour of the whole image. You can convert your image to greyscale, removing all colour from the image. You can also change the colour and brightness of your image according to the amount you have selected.
+- The '**Colour**' menu allows you to change the colour of the whole image. You can convert your image to greyscale, removing all colour from the image. You can also change the contrast and brightness of your image according to the amount you have selected.
 
 If you would like to undo or redo an operation you have applied to your image, you can do so under the '**Edit**' menu. Note, however, you can only undo and redo operations that you have applied since you opened an image file, or that have been saved in an operations file associated with the image file.
 
