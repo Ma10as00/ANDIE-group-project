@@ -25,7 +25,7 @@ import java.nio.file.*;
  * 4.0</a>
  * </p>
  * 
- * @author Steven Mills
+ * @author Steven Mills (Modified by Katie Wink)
  * @version 1.0
  */
 public class FileActions {

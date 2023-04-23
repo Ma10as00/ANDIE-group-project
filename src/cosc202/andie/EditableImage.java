@@ -30,7 +30,7 @@ import javax.swing.*;
  * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>
  * </p>
  * 
- * @author Steven Mills (Modified by Stella Srzich)
+ * @author Steven Mills (Modified by Stella Srzich and Katie Wink)
  * @version 1.0
  */
 class EditableImage {
