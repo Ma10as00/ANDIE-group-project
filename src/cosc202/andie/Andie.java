@@ -34,6 +34,8 @@ public class Andie {
     /** A JFrame of the main GUI frame. */
     private static JFrame frame;
 
+    static MouseSelection mSelection = new MouseSelection();
+
     /**
      * <p>
      * Launches the main GUI for the ANDIE program.
@@ -103,6 +105,7 @@ public class Andie {
         // Make window centered on screen.
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+        imagePanel.addMouseListener(mSelection); 
     }
 
     /**
@@ -233,4 +236,30 @@ public class Andie {
             }
         });
     }
+
+    public static class MouseSelection implements MouseListener{
+    
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            System.out.println("Mouse clicked");
+        }
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            System.out.println("Mouse entered");
+        }
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            System.out.println("Mouse Release");
+        }
+        @Override
+        public void mouseExited(MouseEvent e) {
+            System.out.println("Mouse exited");
+        }
+        @Override
+        public void mousePressed(MouseEvent e) {
+            System.out.println("Mouse pressed");
+        }
+        
+     }
 }
