@@ -4,7 +4,7 @@ import java.util.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-import cosc202.andie.Andie.MouseHandler;
+import cosc202.andie.ImagePanel.MouseHandler;
 
 import java.awt.HeadlessException;
 
@@ -19,6 +19,7 @@ public class SelectionActions {
     public SelectionActions() {
         actions = new ArrayList<Action>();
         actions.add(new RegionSelectionAction(LanguageActions.getLocaleString("regionselection"), null, LanguageActions.getLocaleString("selectionDesc"), Integer.valueOf(KeyEvent.VK_J)));
+        actions.add(new RegionCropAction(LanguageActions.getLocaleString("regioncrop"), null, LanguageActions.getLocaleString("cropdesc"), Integer.valueOf(KeyEvent.VK_I)));
         
     }
 
@@ -64,7 +65,39 @@ public class SelectionActions {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-                target.getImage().apply(new RegionSelection(MouseHandler.getEnterX(), MouseHandler.getEnterY(), MouseHandler.getExitX(), MouseHandler.getExitY()));
+            target.getImage().apply(new RegionSelection(MouseHandler.getEnterX(), MouseHandler.getEnterY(), MouseHandler.getExitX(), MouseHandler.getExitY()));
+            target.repaint();
+            target.getParent().revalidate();
+        }
+    }
+
+    /**
+     * <p>
+     * Action to select region
+     * </p>
+     * 
+     * @see RegionCrop
+     */
+    public class RegionCropAction extends ImageAction{
+
+        /**
+         * <p>
+         * Create a new select region action.
+         * </p>
+         * 
+         * @param name     The name of the action (ignored if null).
+         * @param icon     An icon to use to represent the action (ignored if null).
+         * @param desc     A brief description of the action (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
+         */
+        RegionCropAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+        }
+
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+                target.getImage().apply(new RegionCrop(MouseHandler.getEnterX(), MouseHandler.getEnterY(), MouseHandler.getExitX(), MouseHandler.getExitY()));
                 target.repaint();
                 target.getParent().revalidate();
         }

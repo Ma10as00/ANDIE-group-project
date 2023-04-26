@@ -1,6 +1,9 @@
 package cosc202.andie;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
 import javax.swing.*;
 
 /**
@@ -26,6 +29,7 @@ public class ImagePanel extends JPanel {
      * The image to display in the ImagePanel.
      */
     private EditableImage image;
+    static MouseHandler mHandler = new MouseHandler();
 
     /**
      * <p>
@@ -51,6 +55,8 @@ public class ImagePanel extends JPanel {
     public ImagePanel() {
         image = new EditableImage();
         scale = 1.0;
+
+        this.addMouseListener(mHandler); 
     }
 
     /**
@@ -138,4 +144,47 @@ public class ImagePanel extends JPanel {
             g2.dispose();
         }
     }
+
+    public static class MouseHandler implements MouseListener{
+        public static int enterX, enterY, exitX, exitY; 
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+
+        }
+        @Override
+        public void mouseEntered(MouseEvent e) {
+
+        }
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            exitX = e.getX();
+            exitY = e.getY(); 
+
+        }
+        @Override
+        public void mouseExited(MouseEvent e) {
+
+        }
+        @Override
+        public void mousePressed(MouseEvent e) {
+            enterX = e.getX();
+            enterY = e.getY();
+
+        }
+        
+        public static int getExitX(){
+            return exitX; 
+        }
+        public static int getExitY(){
+            return exitY; 
+        }
+        public static int getEnterX(){
+            return enterX; 
+        }
+        public static int getEnterY(){
+            return enterY; 
+        }
+        
+     }
 }

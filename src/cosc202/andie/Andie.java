@@ -34,7 +34,7 @@ public class Andie {
     /** A JFrame of the main GUI frame. */
     private static JFrame frame;
 
-    static MouseHandler mHandler = new MouseHandler();
+    
 
     /**
      * <p>
@@ -105,7 +105,7 @@ public class Andie {
         // Make window centered on screen.
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-        imagePanel.addMouseListener(mHandler); 
+        
     }
 
     /**
@@ -240,48 +240,6 @@ public class Andie {
         });
     }
 
-    public static class MouseHandler implements MouseListener{
-        public static int enterX, enterY, exitX, exitY; 
-
-        @Override
-        public void mouseClicked(MouseEvent e) {
-            System.out.println("Mouse clicked");
-        }
-        @Override
-        public void mouseEntered(MouseEvent e) {
-            System.out.println("Mouse entered");
-        }
-        @Override
-        public void mouseReleased(MouseEvent e) {
-            exitX = e.getX();
-            exitY = e.getY(); 
-            System.out.println("Mouse released at x: " + exitX + ", y: " + exitY);
-        }
-        @Override
-        public void mouseExited(MouseEvent e) {
-            System.out.println("Mouse exited");
-        }
-        @Override
-        public void mousePressed(MouseEvent e) {
-            enterX = e.getX();
-            enterY = e.getY();
-            System.out.println("Mouse pressed at x: " + enterX + ", y: " + enterY);
-        }
-        
-        public static int getExitX(){
-            return exitX; 
-        }
-        public static int getExitY(){
-            return exitY; 
-        }
-        public static int getEnterX(){
-            return enterX; 
-        }
-        public static int getEnterY(){
-            return enterY; 
-        }
     
-
-     }
 
 }

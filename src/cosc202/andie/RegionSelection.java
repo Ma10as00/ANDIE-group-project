@@ -1,9 +1,11 @@
 package cosc202.andie;
+import java.awt.*;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.image.*;
 import javax.swing.*;
 
-import cosc202.andie.Andie.MouseHandler;
+
 
 
 public class RegionSelection implements ImageOperation {
@@ -22,10 +24,13 @@ public class RegionSelection implements ImageOperation {
 
 
     public BufferedImage apply(BufferedImage previousImage) {
-        BufferedImage img = previousImage.getSubimage(lX, lY, width, height); //fill in the corners of the desired crop location here
-        BufferedImage copyOfImage = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_RGB);
-        Graphics g = copyOfImage.createGraphics();
-        g.drawImage(img, 0, 0, null);
-        return copyOfImage; 
+        /* MouseHandler.mousePressed(e);
+        MouseHandler.mouseReleased(e);  */
+        Graphics2D g2d = previousImage.createGraphics();
+        AlphaComposite dark = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f);    // 50% opacity
+        g2d.setComposite(dark);
+        g2d.fillRect(lX, lY, width, height);
+        g2d.dispose();
+        return previousImage; 
     } 
 }
