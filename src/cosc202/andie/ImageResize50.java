@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 /**
  * <p>
- * Image operation to resize the image to 50% of it's size.
+ * Image operation to resize the image to 50% of its size.
  * </p>
  * 
  */

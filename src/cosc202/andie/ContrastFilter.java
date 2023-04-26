@@ -63,7 +63,7 @@ public class ContrastFilter implements ImageOperation, java.io.Serializable  {
             // But, occurs if there is an issue with the scaling factors or colour model.
             // Tell the user and do nothing.
             try {
-                JOptionPane.showMessageDialog(null, "Sorry, there has been an error in changing the contrast.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("contrastErr2"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
             }   
             catch (HeadlessException eh) {
                 // Headless exception, thrown when the code is dependent on a keyboard or mouse. 

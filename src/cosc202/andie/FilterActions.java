@@ -135,7 +135,9 @@ public class FilterActions {
                     // Won't happen for our users, so just exit.
                     System.exit(1);
                 }
-
+                if (radius == 0) { // No filter to apply.
+                    return;
+                }
                 // Create and apply the filter.
                 target.getImage().apply(new MeanFilter(radius));
                 target.repaint();
@@ -174,7 +176,8 @@ public class FilterActions {
          * 
          * <p>
          * This method is called whenever the SharpenFilterAction is triggered.
-         * It applys the generic {@link SharpenFilter}.
+         * It prompts the user for an amount to sharpen by, then applies the {@link SharpenFilter}
+         * with that specified amount.
          * </p>
          * 
          * @param e The event triggering this callback.
@@ -193,8 +196,38 @@ public class FilterActions {
             }
             else {
                 // There is an image open, carry on.
+                // Determine the amount - ask the user.
+                int amount = 0;
+
+                // Set up slider for user to enter amount.
+                JSlider jslider = new JSlider();
+                jslider.setValue(0);
+                jslider.setMaximum(5);
+                jslider.setMinimum(0);
+                jslider.setMajorTickSpacing(1);
+                jslider.setPaintLabels(true);
+                jslider.setPaintTicks(true);
+
+                // Ask user for radius value with slider.
+                try {
+                    int option = JOptionPane.showOptionDialog(null, jslider, LanguageActions.getLocaleString("sharpenSlid"),
+                            JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+                    if (option == JOptionPane.CANCEL_OPTION) {
+                        return;
+                    }
+                    if (option == JOptionPane.OK_OPTION) {
+                        amount = jslider.getValue();
+                    }
+                } catch (HeadlessException ex) {
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                    // Won't happen for our users, so just exit.
+                    System.exit(1);
+                }
+                if (amount == 0) { // No filter to apply.
+                    return;
+                }
                 // Create and apply the filter.
-                target.getImage().apply(new SharpenFilter());
+                target.getImage().apply(new SharpenFilter(amount));
                 target.repaint();
                 target.getParent().revalidate();
             }
@@ -277,7 +310,9 @@ public class FilterActions {
                     // Won't happen for our users, so just exit.
                     System.exit(1);
                 }
-
+                if (radius == 0) { // No filter to apply.
+                    return;
+                }
                 // Create and apply the filter.
                 target.getImage().apply(new GaussianBlurFilter(radius));
                 target.repaint();
@@ -362,7 +397,9 @@ public class FilterActions {
                     // Won't happen for our users, so just exit.
                     System.exit(1);
                 }
-
+                if (radius == 0) { // No filter to apply.
+                    return;
+                }
                 // Create and apply the filter.
                 target.getImage().apply(new MedianFilter(radius));
                 target.repaint();
