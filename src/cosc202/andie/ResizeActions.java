@@ -268,7 +268,9 @@ public class ResizeActions {
                     // Won't happen for our users, so just exit.
                     System.exit(1);
                 }
-                
+                if (resizePercent == 100) { // No resize to apply.
+                    return;
+                }
                 // Apply the image resize with n given from user.
                 target.getImage().apply(new ImageResizeN(resizePercent));
                 target.repaint();

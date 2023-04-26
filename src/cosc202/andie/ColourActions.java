@@ -175,6 +175,9 @@ public class ColourActions {
                         return;
                     }
                     if (select == JOptionPane.OK_OPTION) {
+                        if (jslider.getValue() == 0) { // No change in brightness to apply.
+                            return;
+                        }
                         target.getImage().apply(new BrightnessFilter(jslider.getValue()));
                         target.repaint();
                         target.getParent().revalidate();
@@ -248,6 +251,9 @@ public class ColourActions {
                         return;
                     }
                     if (select == JOptionPane.OK_OPTION) {
+                        if (jslider.getValue() == 0) { // No change in contrast to apply.
+                            return;
+                        }
                         target.getImage().apply(new ContrastFilter(jslider.getValue()));
                         target.repaint();
                         target.getParent().revalidate();

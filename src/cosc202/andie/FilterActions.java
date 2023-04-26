@@ -135,7 +135,9 @@ public class FilterActions {
                     // Won't happen for our users, so just exit.
                     System.exit(1);
                 }
-
+                if (radius == 0) { // No filter to apply.
+                    return;
+                }
                 // Create and apply the filter.
                 target.getImage().apply(new MeanFilter(radius));
                 target.repaint();
@@ -221,7 +223,9 @@ public class FilterActions {
                     // Won't happen for our users, so just exit.
                     System.exit(1);
                 }
-
+                if (amount == 0) { // No filter to apply.
+                    return;
+                }
                 // Create and apply the filter.
                 target.getImage().apply(new SharpenFilter(amount));
                 target.repaint();
@@ -306,7 +310,9 @@ public class FilterActions {
                     // Won't happen for our users, so just exit.
                     System.exit(1);
                 }
-
+                if (radius == 0) { // No filter to apply.
+                    return;
+                }
                 // Create and apply the filter.
                 target.getImage().apply(new GaussianBlurFilter(radius));
                 target.repaint();
@@ -391,7 +397,9 @@ public class FilterActions {
                     // Won't happen for our users, so just exit.
                     System.exit(1);
                 }
-
+                if (radius == 0) { // No filter to apply.
+                    return;
+                }
                 // Create and apply the filter.
                 target.getImage().apply(new MedianFilter(radius));
                 target.repaint();
