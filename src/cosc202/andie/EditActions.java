@@ -45,6 +45,7 @@ public class EditActions {
         this.frame = frame;
         actions.add(new UndoAction(LanguageActions.getLocaleString("undo"), null, LanguageActions.getLocaleString("undoDes"), Integer.valueOf(KeyEvent.VK_Z)));
         actions.add(new RedoAction(LanguageActions.getLocaleString("redo"), null, LanguageActions.getLocaleString("redoDes"), Integer.valueOf(KeyEvent.VK_Y)));
+        actions.add(new UndoAllAction(LanguageActions.getLocaleString("undoAll"), null, LanguageActions.getLocaleString("undoAllDes"), Integer.valueOf(KeyEvent.VK_A)));
     }
 
     /**
@@ -112,12 +113,91 @@ public class EditActions {
                 }
                 else {
                     // There is an image open, and operations to undo, carry on.
-                    // Note, we are also checking if the undone operation was a resize
+                    // Note, we are also checking if any of the undone operations was a resize or rotation
                     // to decide whether the frame should be packed.
-                    int resize = target.getImage().undo();
+                    int resizeOrRotate = target.getImage().undo();
                     target.repaint();
                     target.getParent().revalidate();
-                    if (resize == 1) {
+                    if (resizeOrRotate == 1) {
+                        // The undone operation was a resize.
+                        // Reset the zoom of the image.
+                        target.setZoom(100);
+                        // Pack the main GUI frame to the size of the image.
+                        frame.pack();
+                        // Make main GUI frame centered on screen.
+                        frame.setLocationRelativeTo(null);
+                    }
+                }
+            } catch (HeadlessException ex) {
+                // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                // Won't happen for our users, so just exit.
+                System.exit(1);
+            }
+        }
+    }
+
+    /**
+     * <p>
+     * Action to undo all {@link ImageOperation}s.
+     * </p>
+     * 
+     * @see EditableImage#undoAll()
+     */
+    public class UndoAllAction extends ImageAction {
+
+        /**
+         * <p>
+         * Create a new undo all action.
+         * </p>
+         * 
+         * @param name The name of the action (ignored if null).
+         * @param icon An icon to use to represent the action (ignored if null).
+         * @param desc A brief description of the action  (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
+         */
+        UndoAllAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+        }
+
+        /**
+         * <p>
+         * Callback for when the undo all action is triggered.
+         * </p>
+         * 
+         * <p>
+         * This method is called whenever the UndoAllAction is triggered.
+         * It undoes all currenlty applied operations on an image. It also warns
+         * the user in case they clicked it by mistake.
+         * </p>
+         * 
+         * @param e The event triggering this callback.
+         */
+        public void actionPerformed(ActionEvent e) {
+            // Check if there is an image open.
+            try {
+                if (target.getImage().hasImage() == false) {
+                    // There is not an image undo, so display error message.
+                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("noImageToUndoAll"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                }
+                else if (target.getImage().hasOps() == false) {
+                    // There are no image operations to undo, so display error message.
+                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("noUndoAll"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                }
+                else {
+                    // There is an image open, and operations to undo, carry on.
+                    // Check that the user is sure they want to undo all operations.
+                    int option = JOptionPane.showConfirmDialog(null, LanguageActions.getLocaleString("warningUndoAll"), LanguageActions.getLocaleString("warning"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+                    if (option == JOptionPane.CANCEL_OPTION || option == JOptionPane.CLOSED_OPTION) {
+                        // User cancelled or closed box, don't undo all.
+                        return;
+                    }
+                    // There is an image open, and operations to undo, and the user has confirmed, so carry on.
+                    // Note, we are also checking if the undone operation was a resize or rotation
+                    // to decide whether the frame should be packed.
+                    int resizeOrRotate = target.getImage().undoAll();
+                    target.repaint();
+                    target.getParent().revalidate();
+                    if (resizeOrRotate == 1) {
                         // The undone operation was a resize.
                         // Reset the zoom of the image.
                         target.setZoom(100);

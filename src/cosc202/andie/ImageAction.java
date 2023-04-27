@@ -29,7 +29,7 @@ import javax.swing.*;
  * 4.0</a>
  * </p>
  * 
- * @author Steven Mills
+ * @author Steven Mills (Modified by Mathias Øgaard)
  * @version 1.0
  */
 public abstract class ImageAction extends AbstractAction {
@@ -59,7 +59,7 @@ public abstract class ImageAction extends AbstractAction {
      * @param desc     A brief description of the action (ignored if null).
      * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
      */
-    ImageAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+    protected ImageAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
         super(name, icon);
         if (desc != null) {
             putValue(SHORT_DESCRIPTION, desc);
