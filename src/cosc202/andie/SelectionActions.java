@@ -18,8 +18,8 @@ public class SelectionActions {
      */
     public SelectionActions() {
         actions = new ArrayList<Action>();
-        actions.add(new RegionSelectionAction(LanguageActions.getLocaleString("regionselection"), null, LanguageActions.getLocaleString("selectionDesc"), Integer.valueOf(KeyEvent.VK_J)));
-        actions.add(new RegionCropAction(LanguageActions.getLocaleString("regioncrop"), null, LanguageActions.getLocaleString("cropdesc"), Integer.valueOf(KeyEvent.VK_I)));
+        actions.add(new RegionSelectionAction(LanguageActions.getLocaleString("regionSelection"), null, LanguageActions.getLocaleString("regionSelectionDesc"), Integer.valueOf(KeyEvent.VK_J)));
+        actions.add(new RegionCropAction(LanguageActions.getLocaleString("regionCrop"), null, LanguageActions.getLocaleString("regionCropDesc"), Integer.valueOf(KeyEvent.VK_I)));
         
     }
 
@@ -31,7 +31,7 @@ public class SelectionActions {
      * @return The colour menu UI element.
      */
     public JMenu createMenu() {
-        JMenu fileMenu = new JMenu(LanguageActions.getLocaleString("Selection"));
+        JMenu fileMenu = new JMenu(LanguageActions.getLocaleString("selection"));
 
         for (Action action : actions) {
             fileMenu.add(new JMenuItem(action));

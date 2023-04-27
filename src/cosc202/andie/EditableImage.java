@@ -323,6 +323,27 @@ class EditableImage {
 
     /**
      * <p>
+     * Undo all {@link ImageOperation}s currenlty applied to the image.
+     * Also tells you if the undone image operation was a resize or rotation by returing 1, 
+     * or that it wasn't by returning 0.
+     * </p>
+     * @return 1 if any of the undone operations was a resize or rotation, 0 otherwise.
+     */
+    public int undoAll() {
+        // int to tell us if the redone operation was a resize.
+        int resizeOrRotate = 0;
+        while(this.hasOps()) { // Keep undoing until all operations are gone
+            int r = this.undo(); // Undoes the operation
+            if (r == 1) { // If there is a single resize or rotation that was undone, we keep track of it
+                resizeOrRotate = 1;
+            }
+        }
+        refresh();
+        return resizeOrRotate;
+    }
+
+    /**
+     * <p>
      * Reapply the most recently {@link undo}ne {@link ImageOperation} to the image.
      * Also tells you if the redone image operation was a resize or rotation by returing 1, 
      * or that it wasn't by returning 0.
