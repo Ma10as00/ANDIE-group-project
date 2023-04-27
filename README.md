@@ -6,7 +6,7 @@ The team behind this ANDIE, Return 'A+';, consists of Michael Campbell, James Li
 
 Each team member had the following responsibilities:
 - Michael: Multilingual support and image resize
-- James: Brightness/contrast adjustment and JUnit testing
+- James: Brightness/contrast adjustment and testing
 - Mathias: Image rotations and flips
 - Stella: Filters and error avoidance/prevention
 - Katie: Image export and error avoidance/prevention
@@ -16,18 +16,19 @@ Note, however, all team members helped others with their responsibilities from t
 
 ## Testing
 
-We tested ANDIE through JUnit testing and interaction with the GUI. In the beginning, when we started to implement our features, we each focused on making sure our features worked for expected inputs. So, we only interacted with the GUI, acting as a perfect user, meaning we had a baseline to improve on. We also entered statements within methods to print to the command line to make sure values, such as floats in a kernel, widths and heights of an image, or values returned by methods, were matching what we expected. 
+We tested ANDIE through inserting print statements, interaction with the GUI and keeping a testing log. In the beginning, when we started to implement our features, we each focused on making sure our features worked for expected inputs. So, we only interacted with the GUI, acting as a perfect user, meaning we had a baseline to improve on. We also entered statements within methods to print to the command line to make sure values, such as floats in a kernel, widths and heights of an image, or values returned by methods, were matching what we expected. These print statements helped us validate that the expected behaviour was (or was not) occuring, even when we could not check it with our bare eyes.
 
-Then, once all features were implemented, James formalised this by writing JUnit tests. This also meant that before any team members pushed edits, messing around in many classes, they could tell before it was too late if it created unexpected issues. Concurrently, once features worked in the perfect case, all team members tested by interacting with the GUI, acting as normal users. Then, we noted down any issues, including ones that crashed the program, such as opening non-image files or entering non-ints for the radius of a filter, and ones that could cause problems for the user, such as allowing them to exit without reminding them to save changes or apply a resize with no image open.
+Then, once all features were implemented, James tested how they interacted together. He thoroughly applied many combinations of different actions after each push was made, and then texted on the group chat to let us know if anything unexpected occurred. Then, whoever was responsible for the feature could go in and fix it. The result of this testing can be seen under the 'tests' folder in 'testing_log.txt'. This txt file keeps track of what bugs were fixed, what bugs could be fixed, and the current behaviour of ANDIE. Concurrently, once features worked in the perfect case, all team members tested by interacting with the GUI, acting as normal, fallible users. Then, we noted down any issues, including ones that crashed the program, such as opening non-image files or entering non-ints for the radius of a filter, and ones that could cause problems for the user, such as allowing them to exit without reminding them to save changes or apply a resize with no image open.
 
 Once we thought all bugs had been dealt with, and that the program ran perfectly, we got our friends, who aren't computer science majors, to test ANDIE. They provided feedback on the user experience and revealed bugs we had never noticed before. 
+
 
 ## User Guide
 
 !["ANDIE Application"](/pictures/ANDIE_GUI.png)
 
 ### Description
-‘ANDIE’ stands for A Non-Destructive Image Editor. The purpose of the program is to edit and manipulate images – like Photoshop but much, much simpler. The approach taken in ANDIE is non-destructive image editing. Many image processing operations, such as blurring filters, once applied to an image, cannot be reversed because information is lost in the process. Non-destructive image editors take the approach of storing the original image and the sequence of operations applied. Then, the operations can be applied to the original image to get the desired result. But since the original image and the full sequence of operations have been kept separately, no information is lost. ANDIE supports English, Māori and Norwegian, which you can select under the '**Language**' menu.
+‘ANDIE’ stands for A Non-Destructive Image Editor. The purpose of the program is to edit and manipulate images – like Photoshop but much, much simpler. The approach taken in ANDIE is non-destructive image editing. Many image processing operations, such as blurring filters, once applied to an image, cannot be reversed because information is lost in the process. Non-destructive image editors take the approach of storing the original image and the sequence of operations applied. Then, the operations can be applied to the original image to get the desired result. But since the original image and the full sequence of operations have been kept separately, no information is lost. ANDIE supports English, Māori, Norwegian and Spanish, which you can select under the '**Language**' menu.
 
 ### Opening and Saving Images
 ANDIE supports editing images with image file formats of PNG. Images are stored as image files, as you would expect. And, operations, which are the operations you may have applied to edit an image, are stored as operations files of the format png.ops.
@@ -53,26 +54,11 @@ To edit an image, ANDIE allows you to apply operations to filter the image and t
 
 - The '**Filter**' menu allows you to apply various filters to your image. You can apply a sharpen filter, which sharpens the image. You can also apply blur filters, which will blur an image according to the radius you have provided. Note, a larger radius creates a stronger blur. Each of the blur filters creates a slightly different blur; The mean filter, which blurs the image by essentially averaging the pixel values, creates a typical blur. The median blur filter creates a blockier blur. And, the Gaussian blur filter creates a more natural blur.
 
-- The '**Colour**' menu allows you to change the colour of the whole image. You can convert your image to greyscale, removing all colour from the image. You can also change the colour and brightness of your image according to the amount you have selected.
+- The '**Colour**' menu allows you to change the colour of the whole image. You can convert your image to greyscale, removing all colour from the image. You can also change the contrast and brightness of your image according to the amount you have selected.
 
 If you would like to undo or redo an operation you have applied to your image, you can do so under the '**Edit**' menu. Note, however, you can only undo and redo operations that you have applied since you opened an image file, or that have been saved in an operations file associated with the image file.
 
+
 ## Note
 
-We slightly changed the structure of the Andie and FileActions classes. However, the code should still build and run akin to the skeleton code that was provided. The Andie class now has a private static data field of type ImagePanel called imagePanel, which is initialised in the method createAndShowGUI. This was only so that a private static method that was added to Andie, called frameClosing, could access the ImagePanel. Thus, it can warn the user that any unsaved changes will be lost if they close the window, only if there is an image open. We also added a private data field of type Jframe called frame to FileActions, which is initialised in the FileActions constructor. This was only done so that the frame could be packed around an image when it is opened. 
-
-
-## Folder Structure
-
-The workspace contains two folders by default, where:
-
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
-
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
-
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
-
-## Dependency Management
-
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+We slightly changed the structure of the Andie, FileActions and EditActions classes. However, the code should still build and run akin to the skeleton code that was provided. The Andie class now has a private static data field of type ImagePanel called imagePanel, which is initialised in the method createAndShowGUI. This was only so that a private static method that was added to Andie, called frameClosing, could access the ImagePanel. Thus, it can warn the user that any unsaved changes will be lost if they close the window, only if there is an image open. We also added private data fields of type Jframe called frame to FileActions, EditActions, ReszieActions and OrientationActions which are initialised in their respective constructors. This was only done so that the main GUI frame could be packed around an image when it is opened, resized, rotated, or when an image operation is undone or redone that is a rotation or a resize. It also allowed us to change the title of the main GUI frame to 'ANDIE (filename.png)' whenever an image was opened or saved as.

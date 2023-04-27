@@ -6,14 +6,26 @@ import java.awt.image.BufferedImage;
 import java.io.Serializable;
 
 /**
+ * <p>
  * ImageOperation that rotates an image 180 degrees.
+ * </p>
+ * 
  * <p>
  * In other words, applying this operation to an image will return the same image upside-down.
+ * </p>
  * 
  * @author Mathias Øgaard
  */
 public class Rotate180 implements ImageOperation, Serializable{
 
+    /**
+     * <p>
+     * Rotate an image by 180 degrees.
+     * </p>
+     * 
+     * @param input The image to Rotate180 to.
+     * @return The resulting (rotated) image.
+     */
     @Override
     public BufferedImage apply(BufferedImage input) {
         //When rotating 180 degrees, the width and height of the image stays the same
@@ -36,6 +48,5 @@ public class Rotate180 implements ImageOperation, Serializable{
         g.dispose();
 
         return rotated;
-    }
-    
+    } 
 }

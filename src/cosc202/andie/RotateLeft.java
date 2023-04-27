@@ -6,14 +6,26 @@ import java.awt.image.BufferedImage;
 import java.io.Serializable;
 
 /**
+ * <p>
  * ImageOperation that rotates an image 90 degrees to the left.
+ * </p>
+ * 
  * <p>
  * If this operation is applyed to an image with dimensions {@code (width, height)}, the resulting image will have dimensions {@code (height, width)}.
+ * </p>
  * 
  * @author Mathias Øgaard
  */
 public class RotateLeft implements ImageOperation, Serializable{
 
+    /**
+     * <p>
+     * Apply RotateLeft to na image - Rotates image by 90 degrees to the left.
+     * </p>
+     * 
+     * @param input The image to Rotate to the left.
+     * @return The resulting (rotated) image.
+     */
     @Override
     public BufferedImage apply(BufferedImage input) {
         //When rotating 90 degrees, the width and height of the image swap places
@@ -36,6 +48,5 @@ public class RotateLeft implements ImageOperation, Serializable{
         g.dispose();
 
         return rotated;
-    }
-    
+    }   
 }

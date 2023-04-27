@@ -6,14 +6,31 @@ import java.awt.image.BufferedImage;
 import java.io.Serializable;
 
 /**
+ * <p>
  * ImageOperation that flips an image horizontally, i.e the image is rotated/mirrored around a vertical axis.
+ * </p>
+ * 
  * <p>
  * The resulting image will have the same dimensions as the original image.
+ * </p>
  * 
  * @author Mathias Øgaard
  */
 public class FlipHorizontal implements ImageOperation, Serializable{
 
+    /**
+     * <p>
+     * Apply horizontal flip operation.
+     * </p>
+     * 
+     * <p>
+     * ImageOperation that flips an image horizontally, i.e the image is rotated/mirrored around a vertical axis.
+     * The resulting image will have the same dimensions as the original image.
+     * </p>
+     * 
+     * @param input The image to be flipped.
+     * @return The resulting flipped image.
+     */
     @Override
     public BufferedImage apply(BufferedImage input) {
         int width = input.getWidth();

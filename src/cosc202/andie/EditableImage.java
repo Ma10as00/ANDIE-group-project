@@ -30,7 +30,7 @@ import javax.swing.*;
  * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>
  * </p>
  * 
- * @author Steven Mills (Modified by Stella Srzich and Mathias Øgaard)
+ * @author Steven Mills (Modified by Stella Srzich, Katie Wink and Mathias Øgaard)
  * @version 1.0
  */
 public class EditableImage {
@@ -64,6 +64,31 @@ public class EditableImage {
         redoOps = new Stack<ImageOperation>();
         imageFilename = null;
         opsFilename = null;
+    }
+
+    /**
+     * <p>
+     * Create a new EditableImage.
+     * </p>
+     * 
+     * <p>
+     * This constructor is only used within EditableImage. It constructs a new EditableImage with the specified
+     * parameters. This is used in {@link deepCopyEditableImage} to create a deep copy of this EditableImage.
+     * </p>
+     * @param original The original image. This should never be altered by ANDIE.
+     * @param current The current image, the result of applying {@link ops} to {@link original}.
+     * @param ops The sequence of operations currently applied to the image.
+     * @param redoOps A memory of 'undone' operations to support 'redo'.
+     * @param imageFilename The file where the original image is stored.
+     * @param opsFilename The file where the operation sequence is stored.
+     */
+    private EditableImage(BufferedImage original, BufferedImage current, Stack<ImageOperation> ops, Stack<ImageOperation> redoOps, String imageFilename, String opsFilename) {
+        this.original = original;
+        this.current = current;
+        this.ops = ops;
+        this.redoOps = redoOps;
+        this.imageFilename = imageFilename;
+        this.opsFilename = opsFilename;
     }
 
     /**
@@ -257,8 +282,8 @@ public class EditableImage {
      * </p>
      * 
      * <p>
-     * Exports an image to a file (28/3/23)- default extension is type .png 
-     * Allows user to enter new name for the file and sets type as .png for default, or whatever user has enterted 
+     * Exports an image to a file default extension is type .png 
+     * Allows user to enter new name for the file and sets type as .png for default
      * </p>
      * 
      * @param imageFilename the new file name that image will get exported to.
@@ -304,20 +329,62 @@ public class EditableImage {
     /**
      * <p>
      * Undo the last {@link ImageOperation} applied to the image.
+     * Also tells you if the undone image operation was a resize or rotation by returing 1, 
+     * or that it wasn't by returning 0.
      * </p>
+     * @return 1 if the undone operation was a resize or rotation, 0 otherwise.
      */
-    public void undo() {
-        redoOps.push(ops.pop());
+    public int undo() {
+        // int to tell us if the redone operation was a resize.
+        int resizeOrRotate = 0;
+        ImageOperation un = ops.pop();
+        if (un instanceof ImageResize50 || un instanceof ImageResize150 || un instanceof ImageResizeN || un instanceof RotateRight || un instanceof RotateLeft) {
+            resizeOrRotate = 1;
+        }
+        redoOps.push(un);
         refresh();
+        return resizeOrRotate;
+    }
+
+    /**
+     * <p>
+     * Undo all {@link ImageOperation}s currenlty applied to the image.
+     * Also tells you if the undone image operation was a resize or rotation by returing 1, 
+     * or that it wasn't by returning 0.
+     * </p>
+     * @return 1 if any of the undone operations was a resize or rotation, 0 otherwise.
+     */
+    public int undoAll() {
+        // int to tell us if the redone operation was a resize.
+        int resizeOrRotate = 0;
+        while(this.hasOps()) { // Keep undoing until all operations are gone
+            int r = this.undo(); // Undoes the operation
+            if (r == 1) { // If there is a single resize or rotation that was undone, we keep track of it
+                resizeOrRotate = 1;
+            }
+        }
+        refresh();
+        return resizeOrRotate;
     }
 
     /**
      * <p>
      * Reapply the most recently {@link undo}ne {@link ImageOperation} to the image.
+     * Also tells you if the redone image operation was a resize or rotation by returing 1, 
+     * or that it wasn't by returning 0.
      * </p>
+     * @return 1 if the redone operation was a resize or rotation, 0 otherwise.
      */
-    public void redo()  {
-        apply(redoOps.pop());
+    public int redo()  {
+        // int to tell us if the redone operation was a resize.
+        int resizeOrRotate = 0;
+        ImageOperation re = redoOps.pop();
+        // If the image operation was a resize operation, return 1.
+        if (re instanceof ImageResize50 || re instanceof ImageResize150 || re instanceof ImageResizeN || re instanceof RotateRight || re instanceof RotateLeft) {
+            resizeOrRotate = 1;
+        }
+        apply(re);
+        return resizeOrRotate;
     }
 
     /**
@@ -358,4 +425,32 @@ public class EditableImage {
         }
     }
 
+    /**
+     * <p>
+     * Method to create and return a reference to a deep copy of this {@link EditableImage}.
+     * </p>
+     * 
+     * <p>
+     * Note, this essentially creates a new EditableImage instance with
+     * the behaviour as this EditableImage. That is, the new EditableImage 
+     * will have data feilds that are different to the data feilds of
+     * this EditableImage, i.e. different references. But, the values within
+     * the objects of the data feilds will be the same.
+     * </p>
+     * @return a reference to a deep copy of this {@link EditableImage}.
+     */
+    @SuppressWarnings("unchecked")
+    public EditableImage deepCopyEditableImage()  {
+        // Create deep copies of all data feilds.
+        BufferedImage origin = deepCopy(original);
+        BufferedImage curr = deepCopy(current);
+        Stack<ImageOperation> o = (Stack<ImageOperation>)ops.clone();
+        Stack<ImageOperation> r = (Stack<ImageOperation>)redoOps.clone();
+        String ifn = imageFilename; // Strings are immutable, do don't need to clone
+        String ofn = opsFilename;
+        // Construct a new editable image.
+        EditableImage copy = new EditableImage(origin, curr, o, r, ifn, ofn);
+        // Return new editable image.
+        return copy;
+    }
 }

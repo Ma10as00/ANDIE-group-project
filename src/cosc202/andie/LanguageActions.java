@@ -1,24 +1,36 @@
 package cosc202.andie;
 
-
 import java.util.*;
 import java.util.prefs.Preferences;
 import java.awt.event.*;
 import javax.swing.*;
 
+
+/**
+ * <p>
+ * Actions provided by the Language.
+ * </p>
+ * 
+ * <p>
+ * The Language menu contains actions that can change the langauge used in ANDIE. This
+ * includes English, Māori, Spanish and Norwegian.
+ * </p>
+ * 
+ * @author Michael Campbell
+ */
 public class LanguageActions {
 
     /** 
-     * A list of actions for the Language menu
+     * A list of actions for the Language menu.
      */
     protected ArrayList<Action> actions;
 
     /**
      * <p>
-     * Returns a term from the ResourceBundle with a given key
+     * Returns a term from the ResourceBundle with a given key.
      * </p>
      * 
-     * @param String key a string representing the term to be pulled from the bundle.
+     * @param key a string representing the term to be pulled from the bundle.
      * @return a given string from the bundle related to key.
      */
     public static String getLocaleString(String key) {
@@ -29,7 +41,7 @@ public class LanguageActions {
 
     /**
      * <p>
-     * Create a set of Language menu actions
+     * Construct a LanguageActions.
      * </p>
      */
     public LanguageActions() {
@@ -42,7 +54,7 @@ public class LanguageActions {
 
     /**
      * <p>
-     * Create a menu contianing the list of Language actions
+     * Create a menu contianing the list of Language actions.
      * </p>
      * 
      * @return The Language menu UI element.
@@ -59,9 +71,8 @@ public class LanguageActions {
 
     /**
      * <p>
-     * Action to change the language to English
+     * Action to change the language to English.
      * </p>
-     * 
      * 
      */
     public class EnglishAction extends ImageAction {
@@ -82,7 +93,7 @@ public class LanguageActions {
 
         /**
          * <p>
-         * Callback for when the EnglishAction is triggered
+         * Callback for when the EnglishAction is triggered.
          * </p>
          * 
          * <p>
@@ -103,7 +114,7 @@ public class LanguageActions {
 
     /**
      * <p>
-     * Action to change the language to Māori
+     * Action to change the language to Māori.
      * </p>
      * 
      */
@@ -125,7 +136,7 @@ public class LanguageActions {
 
         /**
          * <p>
-         * Callback for when the MaoriAction is triggered
+         * Callback for when the MaoriAction is triggered.
          * </p>
          * 
          * <p>
@@ -146,7 +157,7 @@ public class LanguageActions {
 
     /**
      * <p>
-     * Action to change the language to Norwegian
+     * Action to change the language to Norwegian.
      * </p>
      * 
      */
@@ -168,7 +179,7 @@ public class LanguageActions {
 
         /**
          * <p>
-         * Callback for when the NorwegianAction is triggered
+         * Callback for when the NorwegianAction is triggered.
          * </p>
          * 
          * <p>
@@ -189,7 +200,7 @@ public class LanguageActions {
 
     /**
      * <p>
-     * Action to change the language to Spanish
+     * Action to change the language to Spanish.
      * </p>
      * 
      * 
@@ -212,7 +223,7 @@ public class LanguageActions {
 
         /**
          * <p>
-         * Callback for when the SpanishAction is triggered
+         * Callback for when the SpanishAction is triggered.
          * </p>
          * 
          * <p>
@@ -261,12 +272,10 @@ public class LanguageActions {
                 Locale.setDefault(new Locale(prefs.get("language", "no"), prefs.get("country", "NO")));
                 break;
             case "spanish":
-                prefs.put("language", "es");
+                prefs.put("language", "sp");
                 prefs.put("country", "ES");
-                Locale.setDefault(new Locale(prefs.get("language", "es"), prefs.get("country", "ES")));
+                Locale.setDefault(new Locale(prefs.get("language", "sp"), prefs.get("country", "ES")));
                 break;
         }
-
     }
-
 }
