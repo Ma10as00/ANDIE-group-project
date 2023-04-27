@@ -1,8 +1,10 @@
 package cosc202.andie;
 
 import java.awt.*;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
 import javax.swing.*;
 
@@ -30,6 +32,8 @@ public class ImagePanel extends JPanel {
      */
     private EditableImage image;
     static MouseHandler mHandler = new MouseHandler();
+    public static int enterX, enterY, exitX, exitY, width, height; 
+    public Rectangle rect; 
 
     /**
      * <p>
@@ -56,7 +60,23 @@ public class ImagePanel extends JPanel {
         image = new EditableImage();
         scale = 1.0;
 
-        this.addMouseListener(mHandler); 
+        this.addMouseListener(mHandler);
+        
+        addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent e){
+                enterX = e.getX();
+                enterY = e.getY(); 
+            }
+        });
+
+        addMouseMotionListener(new MouseAdapter() {      
+            public void mouseDragged(MouseEvent e) {
+                exitX = e.getX();
+                exitY = e.getY();
+                rect = new Rectangle(Math.min(enterX, exitX), Math.min(enterY, exitY), Math.abs(exitX - enterX), Math.abs(exitY - enterY));
+                repaint(); 
+            }
+        });
     }
 
     /**
@@ -152,10 +172,16 @@ public class ImagePanel extends JPanel {
             g2.drawImage(image.getCurrentImage(), null, 0, 0);
             g2.dispose();
         }
+        Graphics2D g2d = (Graphics2D) g; 
+        if(rect!= null){
+            g2d.setColor(Color.blue);
+            g2d.draw(rect); 
+        }
     }
 
-    public static class MouseHandler implements MouseListener{
-        public static int enterX, enterY, exitX, exitY; 
+    public static class MouseHandler implements MouseListener, MouseMotionListener{
+        public static int enterX, enterY, exitX, exitY, width, height; 
+        public Rectangle rect; 
 
         @Override
         public void mouseClicked(MouseEvent e) {
@@ -193,6 +219,16 @@ public class ImagePanel extends JPanel {
         }
         public static int getEnterY(){
             return enterY; 
+        }
+        @Override
+        public void mouseDragged(MouseEvent e) {
+            
+
+        }
+        @Override
+        public void mouseMoved(MouseEvent e) {
+            // TODO Auto-generated method stub
+            throw new UnsupportedOperationException("Unimplemented method 'mouseMoved'");
         }
         
      }
