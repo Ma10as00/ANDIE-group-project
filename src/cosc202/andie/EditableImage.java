@@ -68,6 +68,31 @@ class EditableImage {
 
     /**
      * <p>
+     * Create a new EditableImage.
+     * </p>
+     * 
+     * <p>
+     * This constructor is only used within EditableImage. It constructs a new EditableImage with the specified
+     * parameters. This is used in {@link deepCopyEditableImage} to create a deep copy of this EditableImage.
+     * </p>
+     * @param original The original image. This should never be altered by ANDIE.
+     * @param current The current image, the result of applying {@link ops} to {@link original}.
+     * @param ops The sequence of operations currently applied to the image.
+     * @param redoOps A memory of 'undone' operations to support 'redo'.
+     * @param imageFilename The file where the original image is stored.
+     * @param opsFilename The file where the operation sequence is stored.
+     */
+    private EditableImage(BufferedImage original, BufferedImage current, Stack<ImageOperation> ops, Stack<ImageOperation> redoOps, String imageFilename, String opsFilename) {
+        this.original = original;
+        this.current = current;
+        this.ops = ops;
+        this.redoOps = redoOps;
+        this.imageFilename = imageFilename;
+        this.opsFilename = opsFilename;
+    }
+
+    /**
+     * <p>
      * Check if there is an image loaded.
      * </p>
      * 
@@ -390,5 +415,34 @@ class EditableImage {
         for (ImageOperation op: ops) {
             current = op.apply(current);
         }
+    }
+
+    /**
+     * <p>
+     * Method to create and return a reference to a deep copy of this {@link EditableImage}.
+     * </p>
+     * 
+     * <p>
+     * Note, this essentially creates a new EditableImage instance with
+     * the behaviour as this EditableImage. That is, the new EditableImage 
+     * will have data feilds that are different to the data feilds of
+     * this EditableImage, i.e. different references. But, the values within
+     * the objects of the data feilds will be the same.
+     * </p>
+     * @return a reference to a deep copy of this {@link EditableImage}.
+     */
+    @SuppressWarnings("unchecked")
+    public EditableImage deepCopyEditableImage()  {
+        // Create deep copies of all data feilds.
+        BufferedImage origin = deepCopy(original);
+        BufferedImage curr = deepCopy(current);
+        Stack<ImageOperation> o = (Stack<ImageOperation>)ops.clone();
+        Stack<ImageOperation> r = (Stack<ImageOperation>)redoOps.clone();
+        String ifn = imageFilename; // Strings are immutable, do don't need to clone
+        String ofn = opsFilename;
+        // Construct a new editable image.
+        EditableImage copy = new EditableImage(origin, curr, o, r, ifn, ofn);
+        // Return new editable image.
+        return copy;
     }
 }

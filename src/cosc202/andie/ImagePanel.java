@@ -61,13 +61,22 @@ public class ImagePanel extends JPanel {
 
     /**
      * <p>
-     * Get the currently displayed image
+     * Get the currently displayed image.
      * </p>
      *
      * @return the image currently displayed.
      */
     public EditableImage getImage() {
         return image;
+    }
+
+    /**
+     * <p>
+     * Set the image to a new {@link EditableImage}.
+     * </p>
+     */
+    public void setImage(EditableImage image) {
+        this.image = image;
     }
 
     /**
