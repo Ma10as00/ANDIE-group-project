@@ -163,9 +163,9 @@ public class ColourActions {
                     // There is an image open, carry on.
                     JSlider jslider = new JSlider();
                     jslider.setValue(0);
-                    jslider.setMaximum(10);
-                    jslider.setMinimum(-10);
-                    jslider.setMajorTickSpacing(2);
+                    jslider.setMaximum(100);
+                    jslider.setMinimum(-100);
+                    jslider.setMajorTickSpacing(50);
                     jslider.setPaintLabels(true);
                     jslider.setPaintTicks(true);
 
@@ -239,9 +239,9 @@ public class ColourActions {
                     // There is an image open, carry on.
                     JSlider jslider = new JSlider();
                     jslider.setValue(0);
-                    jslider.setMaximum(10);
-                    jslider.setMinimum(-10);
-                    jslider.setMajorTickSpacing(2);
+                    jslider.setMaximum(100);
+                    jslider.setMinimum(-100);
+                    jslider.setMajorTickSpacing(50);
                     jslider.setPaintLabels(true);
                     jslider.setPaintTicks(true);
 

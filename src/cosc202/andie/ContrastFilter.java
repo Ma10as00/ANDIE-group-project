@@ -55,7 +55,7 @@ public class ContrastFilter implements ImageOperation, java.io.Serializable  {
     @Override
     public BufferedImage apply(BufferedImage previousImage) {
         try {
-            float contrast = 1.0f + value / 10f;
+            float contrast = 1.0f + ((float)value) / 100.0f;
             RescaleOp rescale = new RescaleOp(contrast, (-12.75f * contrast), null);
             rescale.filter(previousImage, previousImage);
         } catch (IllegalArgumentException e) {

@@ -59,7 +59,7 @@ public class BrightnessFilter implements ImageOperation, java.io.Serializable  {
      */
     public BufferedImage apply(BufferedImage previousImage) {
         try {
-            float brightness = (scale > 0 ? 1.0f + (scale / 10f) : 1 - Math.abs(scale / 10f));
+            float brightness = (scale > 0 ? 1.0f + (((float)scale) / 100.0f) : 1 - Math.abs(((float)scale) / 100.0f));
             RescaleOp rescale = new RescaleOp(brightness, 0, null);
             rescale.filter(previousImage, previousImage);
         } catch (IllegalArgumentException e) {
