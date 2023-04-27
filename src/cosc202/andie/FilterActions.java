@@ -348,14 +348,40 @@ public class FilterActions {
                 jslider.setPaintLabels(true);
                 jslider.setPaintTicks(true);
 
+                // Copy this here so that we still have reference to the actual EditableImage.
+                EditableImage actualImage = target.getImage();
+
+                // This part updates how the image looks when the slider is moved.
+                jslider.addChangeListener(new ChangeListener() {
+                    public void stateChanged(ChangeEvent ce) {
+                        // Create a deep copy of the editable image (so that we don't change the actual editable image)
+                        EditableImage copyImage = actualImage.deepCopyEditableImage();
+                        // Set the target to have this new copy of the actual image.
+                        target.setImage(copyImage);
+                        // Apply the brightness change to the new copy of the actual image.
+                        if (jslider.getValue() == 0) { // No change to apply.
+                            return;
+                        }
+                        target.getImage().apply(new GaussianBlurFilter(jslider.getValue()));
+                        target.repaint();
+                        target.getParent().revalidate();
+                    }
+                });
+
                 // Ask user for radius value with slider.
                 try {
                     int option = JOptionPane.showOptionDialog(null, jslider, LanguageActions.getLocaleString("gaussianSlid"),
                             JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
                     if (option == JOptionPane.CANCEL_OPTION) {
+                        // Set the image in target back to the actual image and repaint.
+                        target.setImage(actualImage);
+                        target.repaint();
+                        target.getParent().revalidate();
                         return;
                     }
                     if (option == JOptionPane.OK_OPTION) {
+                        // Set the image in the target back to the actual image.
+                        target.setImage(actualImage);
                         radius = jslider.getValue();
                     }
                 } catch (HeadlessException ex) {
@@ -435,14 +461,40 @@ public class FilterActions {
                 jslider.setPaintLabels(true);
                 jslider.setPaintTicks(true);
 
+                // Copy this here so that we still have reference to the actual EditableImage.
+                EditableImage actualImage = target.getImage();
+
+                // This part updates how the image looks when the slider is moved.
+                jslider.addChangeListener(new ChangeListener() {
+                    public void stateChanged(ChangeEvent ce) {
+                        // Create a deep copy of the editable image (so that we don't change the actual editable image)
+                        EditableImage copyImage = actualImage.deepCopyEditableImage();
+                        // Set the target to have this new copy of the actual image.
+                        target.setImage(copyImage);
+                        // Apply the brightness change to the new copy of the actual image.
+                        if (jslider.getValue() == 0) { // No change to apply.
+                            return;
+                        }
+                        target.getImage().apply(new MedianFilter(jslider.getValue()));
+                        target.repaint();
+                        target.getParent().revalidate();
+                    }
+                });
+
                 // Ask user for radius value with slider.
                 try {
                     int option = JOptionPane.showOptionDialog(null, jslider, LanguageActions.getLocaleString("medianRad"),
                             JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
                     if (option == JOptionPane.CANCEL_OPTION) {
+                        // Set the image in target back to the actual image and repaint.
+                        target.setImage(actualImage);
+                        target.repaint();
+                        target.getParent().revalidate();
                         return;
                     }
                     if (option == JOptionPane.OK_OPTION) {
+                        // Set the image in the target back to the actual image.
+                        target.setImage(actualImage);
                         radius = jslider.getValue();
                     }
                 } catch (HeadlessException ex) {

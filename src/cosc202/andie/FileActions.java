@@ -206,6 +206,8 @@ public class FileActions {
                         JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("errorNotPng"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                         return;
                     }
+                    // Reset the zoom to default of 100%.
+                    target.setZoom(100);
                     // Open the image file and any associated image operations file.
                     target.getImage().open(imageFilepath);
                     // Make the image file name appear in the header of the main GUI.

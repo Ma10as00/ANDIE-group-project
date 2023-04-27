@@ -3,6 +3,7 @@ package cosc202.andie;
 import java.util.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.event.*;
 import java.awt.HeadlessException;
 
 /**
@@ -253,14 +254,47 @@ public class ResizeActions {
                 jslider.setPaintLabels(true);
                 jslider.setPaintTicks(true);
 
+                // Copy this here so that we still have reference to the actual EditableImage.
+                EditableImage actualImage = target.getImage();
+
+                // This part updates how the image looks when the slider is moved.
+                jslider.addChangeListener(new ChangeListener() {
+                    public void stateChanged(ChangeEvent ce) {
+                        // Create a deep copy of the editable image (so that we don't change the actual editable image)
+                        EditableImage copyImage = actualImage.deepCopyEditableImage();
+                        // Set the target to have this new copy of the actual image.
+                        target.setImage(copyImage);
+                        // Apply the brightness change to the new copy of the actual image.
+                        if (jslider.getValue() == 0) { // No change to apply.
+                            return;
+                        }
+                        // Apply the image resize with n given from user.
+                        target.getImage().apply(new ImageResizeN(jslider.getValue()));
+                        target.repaint();
+                        target.getParent().revalidate();
+                        // Reset the zoom of the image.
+                        target.setZoom(100);
+                        // Pack the main GUI frame to the size of the image.
+                        frame.pack();
+                        // Make main GUI frame centered on screen.
+                        frame.setLocationRelativeTo(null);
+                    }
+                });
+
                 // Ask user for resizePercent value with slider.
                 try {
                     int option = JOptionPane.showOptionDialog(null, jslider, LanguageActions.getLocaleString("resizeSlid"),
                             JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
                     if (option == JOptionPane.CANCEL_OPTION) {
+                        // Set the image in target back to the actual image and repaint.
+                        target.setImage(actualImage);
+                        target.repaint();
+                        target.getParent().revalidate();
                         return;
                     }
                     if (option == JOptionPane.OK_OPTION) {
+                        // Set the image in the target back to the actual image.
+                        target.setImage(actualImage);
                         resizePercent = jslider.getValue();
                     }
                 } catch (HeadlessException ex) {
