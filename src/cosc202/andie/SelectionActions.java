@@ -10,6 +10,7 @@ import java.awt.HeadlessException;
 
 public class SelectionActions {
     protected ArrayList<Action> actions;
+    public int startX, startY, endX, endY; 
 
     /**
      * <p>
@@ -97,9 +98,28 @@ public class SelectionActions {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-                target.getImage().apply(new RegionCrop(MouseHandler.getEnterX(), MouseHandler.getEnterY(), MouseHandler.getExitX(), MouseHandler.getExitY()));
+                addMouseListener(new MouseAdapter() {
+                    public void mousePressed(MouseEvent e){
+                        startX = e.getX(); 
+                        startY = e.getY(); 
+                    }
+                });
+                addMouseListener(new MouseAdapter() {
+                    public void mouseReleased(MouseEvent e){
+                        endX = e.getX();
+                        endY = e.getY(); 
+                    }
+                });
+                JOptionPane.showMessageDialog(null, "Crop Image"); 
+                target.getImage().apply(new RegionCrop(startX, startY, endX, endY));
                 target.repaint();
                 target.getParent().revalidate();
         }
+
+
+        private void addMouseListener(MouseAdapter mouseAdapter) {
+        }
+
+
     }
 }
