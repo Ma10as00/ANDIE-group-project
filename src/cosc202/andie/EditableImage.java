@@ -30,10 +30,10 @@ import javax.swing.*;
  * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>
  * </p>
  * 
- * @author Steven Mills (Modified by Stella Srzich)
+ * @author Steven Mills (Modified by Stella Srzich and Mathias Øgaard)
  * @version 1.0
  */
-class EditableImage {
+public class EditableImage {
 
     /** The original image. This should never be altered by ANDIE. */
     private BufferedImage original;
@@ -318,6 +318,14 @@ class EditableImage {
      */
     public void redo()  {
         apply(redoOps.pop());
+    }
+
+    /**
+     * Method to help an {@code IOperationRecorder} to see the last operation that was applied to the image.
+     * @return The last {@link ImageOperation} that was applied
+     */
+    public ImageOperation getLastOp(){
+        return ops.peek();
     }
 
     /**
