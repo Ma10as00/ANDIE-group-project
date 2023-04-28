@@ -7,10 +7,12 @@ import javax.swing.*;
 import cosc202.andie.ImagePanel.MouseHandler;
 
 import java.awt.HeadlessException;
+import java.awt.*;
 
 public class SelectionActions {
     protected ArrayList<Action> actions;
     public int startX, startY, endX, endY; 
+    public Rectangle rect; 
 
     /**
      * <p>
@@ -94,10 +96,21 @@ public class SelectionActions {
         RegionCropAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
         }
+        public void paintComponent(Graphics g) {
+            Graphics2D g2d = (Graphics2D) g; 
+            if(rect!= null){
+                Stroke dashed = new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL,0, new float[]{9}, 0);
+                g2d.setStroke(dashed);
+                g2d.setColor(Color.black);
+                g2d.draw(rect);
+      
+            }
+        }
 
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            while(rect == null){
                 addMouseListener(new MouseAdapter() {
                     public void mousePressed(MouseEvent e){
                         startX = e.getX(); 
@@ -108,9 +121,14 @@ public class SelectionActions {
                     public void mouseReleased(MouseEvent e){
                         endX = e.getX();
                         endY = e.getY(); 
+                        rect = new Rectangle(Math.min(startX, endX), Math.min(startY, endY), Math.abs(endX - startX), Math.abs(endY - startY));
+
                     }
                 });
-                JOptionPane.showMessageDialog(null, "Crop Image"); 
+                
+            }
+            
+                //JOptionPane.showMessageDialog(null, "Crop Image"); 
                 target.getImage().apply(new RegionCrop(startX, startY, endX, endY));
                 target.repaint();
                 target.getParent().revalidate();
@@ -122,4 +140,6 @@ public class SelectionActions {
 
 
     }
+   
+
 }

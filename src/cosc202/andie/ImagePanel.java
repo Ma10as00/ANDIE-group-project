@@ -62,21 +62,6 @@ public class ImagePanel extends JPanel {
 
         this.addMouseListener(mHandler);
         
-        addMouseListener(new MouseAdapter() {
-            public void mousePressed(MouseEvent e){
-                enterX = e.getX();
-                enterY = e.getY(); 
-            }
-        });
-
-        addMouseMotionListener(new MouseAdapter() {      
-            public void mouseDragged(MouseEvent e) {
-                exitX = e.getX();
-                exitY = e.getY();
-                rect = new Rectangle(Math.min(enterX, exitX), Math.min(enterY, exitY), Math.abs(exitX - enterX), Math.abs(exitY - enterY));
-                repaint(); 
-            }
-        });
     }
 
     /**
@@ -171,11 +156,6 @@ public class ImagePanel extends JPanel {
             g2.scale(scale, scale);
             g2.drawImage(image.getCurrentImage(), null, 0, 0);
             g2.dispose();
-        }
-        Graphics2D g2d = (Graphics2D) g; 
-        if(rect!= null){
-            g2d.setColor(Color.blue);
-            g2d.draw(rect); 
         }
     }
 
