@@ -7,6 +7,8 @@ import cosc202.andie.ImageOperation;
 
 /**
  * Implementation of an IMacro, keeping the "child operations" in an {@link ArrayList}.
+ * <p>
+ * This class also provides a toString() method, printing out all operations that are contained in the Macro.
  * 
  * @author Mathias Øgaard
  */
