@@ -6,6 +6,9 @@ import java.util.Locale;
 import java.util.prefs.Preferences;
 
 import javax.swing.*;
+
+import cosc202.andie.macros.*;
+
 import javax.imageio.*;
 
 /**
@@ -168,6 +171,10 @@ public class Andie {
         // Actions that affect the representation of colour in the image.
         ColourActions colourActions = new ColourActions();
         menuBar.add(colourActions.createMenu());
+
+        // Macro actions can record what operations are applied to the image, and put them together into macros.
+        MacroActions ma = new MacroActions();
+        menuBar.add(ma.createMenu());
 
         // Ability to change the language from a set of included language bundles.
         LanguageActions languageActions = new LanguageActions();

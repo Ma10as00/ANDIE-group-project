@@ -16,15 +16,15 @@ import cosc202.andie.*;
  */
 public class OperationRecorder extends ArrayList<ImageOperation> implements IOperationRecorder{
 
-    private EditableImage image;
+    private ImagePanel panel;
 
     public OperationRecorder(ImagePanel target){
-        image = target.getImage();
+        panel = target;
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        add(image.getLastOp());
+        add(panel.getImage().getLastOp());
     }
 
 }
