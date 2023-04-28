@@ -7,7 +7,7 @@ import java.util.prefs.Preferences;
 
 import javax.swing.*;
 
-import cosc202.andie.macros.MacroActions;
+import cosc202.andie.macros.*;
 
 import javax.imageio.*;
 

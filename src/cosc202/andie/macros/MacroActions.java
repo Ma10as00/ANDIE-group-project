@@ -8,6 +8,14 @@ import javax.swing.*;
 
 import cosc202.andie.*;
 
+/**
+ * Class keeping track of all the {@link ImageAction}s concerning macros, and providing a drop-down menu to the GUI.
+ * <p>
+ * Actions involve letting the user record the operations they apply to their image, and save them in a {@link Macro} for reuse.
+ * 
+ * 
+ * @author Mathias Øgaard 
+ */
 public class MacroActions{
 
     /**
@@ -25,6 +33,7 @@ public class MacroActions{
         // TODO Add language support
         actions.add(new InitMacroAction("Initiate recording", null, "Records all operations applied to the image after this button is pushed.", Integer.valueOf(KeyEvent.VK_8)));
         actions.add(new FinnishMacroAction("End recording", null, "Ends an ongoing recording, and gives you the option to save the recorded operations as a macro.", Integer.valueOf(KeyEvent.VK_9)));
+        actions.add(new LoadNUseMacroAction("Apply macro", null, "Lets you load a saved macro and apply it to the image.", Integer.valueOf(KeyEvent.VK_L)));
     }
 
     /**
@@ -134,6 +143,27 @@ public class MacroActions{
         private void saveMacro() {
             // TODO Auto-generated method stub
             throw new UnsupportedOperationException("Unimplemented method 'saveMacro'");
+        }
+
+    }
+
+    /**
+     * Action for loading a {@link Macro} from a file, and apply it to the target image.
+     * <p>
+     * If there is an active {@link OperationRecorder}, all the operations from this {@link Macro} should be added to the recording in the correct order.
+     * <p>
+     * @author Mathias Øgaard
+     */
+    public class LoadNUseMacroAction extends ImageAction{
+
+        protected LoadNUseMacroAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            // TODO Auto-generated method stub
+            throw new UnsupportedOperationException("Unimplemented method 'actionPerformed'");
         }
 
     }
