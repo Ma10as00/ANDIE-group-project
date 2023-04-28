@@ -51,8 +51,8 @@ public class MeanFilter implements ImageOperation, java.io.Serializable {
     /**
      * <p>
      * Construct a Mean filter with the default size.
-     * </p
-     * >
+     * </p>
+     * 
      * <p>
      * By default, a Mean filter has radius 1.
      * </p>
@@ -90,6 +90,7 @@ public class MeanFilter implements ImageOperation, java.io.Serializable {
 
         return output;
     }
+<<<<<<< HEAD
     /**
      * @return radValue
      * @desc test
@@ -98,4 +99,6 @@ public class MeanFilter implements ImageOperation, java.io.Serializable {
     // return radius;
     // }
 
+=======
+>>>>>>> 54f0e85ccd2cba52b667ea225bf35f8256410ee8
 }

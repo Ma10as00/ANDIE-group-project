@@ -30,16 +30,26 @@ public class ImageResizeN implements ImageOperation, Serializable {
      * Construct a ImageResizeN with a given resizePercent.
      * </p>
      * 
+<<<<<<< HEAD
      * </p>
      * Note, resizePercent is restricted to the closed interval [50, 200]. If
      * anything outside
+=======
+     * <p>
+     * Note, resizePercent is restricted to the closed interval [50, 200]. If anything outside
+>>>>>>> 54f0e85ccd2cba52b667ea225bf35f8256410ee8
      * of this range is passed, 50% or 200% will be used as resizePercent.
      * </p>
      * 
      * @param resizePercent the n% we would like to resize the image by.
      */
+<<<<<<< HEAD
     ImageResizeN(int resizePercent) {
         this.resizePercent = resizePercent;
+=======
+    public ImageResizeN(int resizePercent) {
+        this.resizePercent = resizePercent;    
+>>>>>>> 54f0e85ccd2cba52b667ea225bf35f8256410ee8
     }
 
     /**

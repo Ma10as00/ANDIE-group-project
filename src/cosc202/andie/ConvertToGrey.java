@@ -65,5 +65,4 @@ public class ConvertToGrey implements ImageOperation, java.io.Serializable {
         
         return input;
     }
-    
 }

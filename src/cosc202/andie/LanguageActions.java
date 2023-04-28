@@ -1,24 +1,36 @@
 package cosc202.andie;
 
-
 import java.util.*;
 import java.util.prefs.Preferences;
 import java.awt.event.*;
 import javax.swing.*;
 
+
+/**
+ * <p>
+ * Actions provided by the Language.
+ * </p>
+ * 
+ * <p>
+ * The Language menu contains actions that can change the langauge used in ANDIE. This
+ * includes English, Māori, Spanish and Norwegian.
+ * </p>
+ * 
+ * @author Michael Campbell
+ */
 public class LanguageActions {
 
     /** 
-     * A list of actions for the Language menu
+     * A list of actions for the Language menu.
      */
     protected ArrayList<Action> actions;
 
     /**
      * <p>
-     * Returns a term from the ResourceBundle with a given key
+     * Returns a term from the ResourceBundle with a given key.
      * </p>
      * 
-     * @param String key a string representing the term to be pulled from the bundle.
+     * @param key a string representing the term to be pulled from the bundle.
      * @return a given string from the bundle related to key.
      */
     public static String getLocaleString(String key) {
@@ -29,7 +41,7 @@ public class LanguageActions {
 
     /**
      * <p>
-     * Create a set of Language menu actions
+     * Construct a LanguageActions.
      * </p>
      */
     public LanguageActions() {
@@ -37,11 +49,12 @@ public class LanguageActions {
         actions.add(new EnglishAction("English", null, "Changes the language to English", null));
         actions.add(new MaoriAction("Māori", null, "Ka huri te reo ki te Maori", null));
         actions.add(new NorwegianAction("Norsk", null, "Endrer språket til norsk", null));
+        actions.add(new SpanishAction("Español", null, "cambia el idioma a español", null));
     }
 
     /**
      * <p>
-     * Create a menu contianing the list of Language actions
+     * Create a menu contianing the list of Language actions.
      * </p>
      * 
      * @return The Language menu UI element.
@@ -58,9 +71,8 @@ public class LanguageActions {
 
     /**
      * <p>
-     * Action to change the language to English
+     * Action to change the language to English.
      * </p>
-     * 
      * 
      */
     public class EnglishAction extends ImageAction {
@@ -81,7 +93,7 @@ public class LanguageActions {
 
         /**
          * <p>
-         * Callback for when the EnglishAction is triggered
+         * Callback for when the EnglishAction is triggered.
          * </p>
          * 
          * <p>
@@ -102,7 +114,7 @@ public class LanguageActions {
 
     /**
      * <p>
-     * Action to change the language to Māori
+     * Action to change the language to Māori.
      * </p>
      * 
      */
@@ -124,7 +136,7 @@ public class LanguageActions {
 
         /**
          * <p>
-         * Callback for when the MaoriAction is triggered
+         * Callback for when the MaoriAction is triggered.
          * </p>
          * 
          * <p>
@@ -145,7 +157,7 @@ public class LanguageActions {
 
     /**
      * <p>
-     * Action to change the language to Norwegian
+     * Action to change the language to Norwegian.
      * </p>
      * 
      */
@@ -167,7 +179,7 @@ public class LanguageActions {
 
         /**
          * <p>
-         * Callback for when the NorwegianAction is triggered
+         * Callback for when the NorwegianAction is triggered.
          * </p>
          * 
          * <p>
@@ -181,6 +193,50 @@ public class LanguageActions {
             Language("norwegian");
             
             // Calls renderMenu() to repaint the menu in Norwegian.
+            Andie.renderMenu();
+        }
+
+    }
+
+    /**
+     * <p>
+     * Action to change the language to Spanish.
+     * </p>
+     * 
+     * 
+     */
+    public class SpanishAction extends ImageAction {
+
+        /**
+         * <p>
+         * Create a new Spanish action.
+         * </p>
+         * 
+         * @param name The name of the action (ignored if null).
+         * @param icon An icon to use to represent the action (ignored if null).
+         * @param desc A brief description of the action  (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
+         */
+        SpanishAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+        }
+
+        /**
+         * <p>
+         * Callback for when the SpanishAction is triggered.
+         * </p>
+         * 
+         * <p>
+         * This method is called whenever the SpanishAction is triggered.
+         * </p>
+         * 
+         * @param e The event triggering this callback.
+         */
+        public void actionPerformed(ActionEvent e) {
+
+            Language("spanish");
+            
+            // Calls renderMenu() to repaint the menu in Spanish.
             Andie.renderMenu();
         }
 
@@ -215,8 +271,11 @@ public class LanguageActions {
                 prefs.put("country", "NO");
                 Locale.setDefault(new Locale(prefs.get("language", "no"), prefs.get("country", "NO")));
                 break;
+            case "spanish":
+                prefs.put("language", "sp");
+                prefs.put("country", "ES");
+                Locale.setDefault(new Locale(prefs.get("language", "sp"), prefs.get("country", "ES")));
+                break;
         }
-
     }
-
 }

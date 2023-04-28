@@ -15,17 +15,25 @@ import java.awt.HeadlessException;
  * which is used to determine the brightness of the image.
  * </p>
  * 
- * <p>
- * 
- *
- * 
  */
+<<<<<<< HEAD
 
 public class BrightnessFilter implements ImageOperation, java.io.Serializable {
     // The size of the scale which is what is used to determine the brightness
+=======
+public class BrightnessFilter implements ImageOperation, java.io.Serializable  {
+    /** The size of the scale which is what is used to determine the brightness. */
+>>>>>>> 54f0e85ccd2cba52b667ea225bf35f8256410ee8
     public int scale;
 
-    // Construct the brightness filter with the given scale
+    /** 
+     * <p>
+     * Construct the brightness filter with the given scale
+     * </p>
+     * 
+     * @param scale the size of the scale used to determine brightness
+     * 
+    */
     public BrightnessFilter(int scale) {
         this.scale = scale;
     }
@@ -50,8 +58,6 @@ public class BrightnessFilter implements ImageOperation, java.io.Serializable {
      * If scale is positive, the brightness is increased by scale/10f,
      * and if scale is negative, the brightness is decreased by scale/10f.
      * If scale is 0, the brightness is unchanged.
-     * 
-     * 
      * </p>
      * 
      * @param previousImage the input image to filter
@@ -59,7 +65,7 @@ public class BrightnessFilter implements ImageOperation, java.io.Serializable {
      */
     public BufferedImage apply(BufferedImage previousImage) {
         try {
-            float brightness = (scale > 0 ? 1.0f + (scale / 10f) : 1 - Math.abs(scale / 10f));
+            float brightness = (scale > 0 ? 1.0f + (((float)scale) / 100.0f) : 1 - Math.abs(((float)scale) / 100.0f));
             RescaleOp rescale = new RescaleOp(brightness, 0, null);
             rescale.filter(previousImage, previousImage);
         } catch (IllegalArgumentException e) {
@@ -67,10 +73,17 @@ public class BrightnessFilter implements ImageOperation, java.io.Serializable {
             // But, occurs if there is an issue with the scaling factors or colour model.
             // Tell the user and do nothing.
             try {
+<<<<<<< HEAD
                 JOptionPane.showMessageDialog(null, "Sorry, there has been an error in changing the brightness.",
                         "Error", JOptionPane.ERROR_MESSAGE);
             } catch (HeadlessException eh) {
                 // Headless exception, thrown when the code is dependent on a keyboard or mouse.
+=======
+                JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("brightnessErr2"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+            }   
+            catch (HeadlessException eh) {
+                // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+>>>>>>> 54f0e85ccd2cba52b667ea225bf35f8256410ee8
                 // Won't happen for our users, so just exit.
                 System.exit(1);
             }

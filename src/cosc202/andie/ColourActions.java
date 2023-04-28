@@ -3,6 +3,8 @@ package cosc202.andie;
 import java.util.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.event.*;
+import java.awt.HeadlessException;
 
 /**
  * <p>
@@ -22,7 +24,7 @@ import javax.swing.*;
  * 4.0</a>
  * </p>
  * 
- * @author Steven Mills
+ * @author Steven Mills (Modified by James Liu)
  * @version 1.0
  */
 public class ColourActions {
@@ -98,7 +100,13 @@ public class ColourActions {
             // Check if there is an image open.
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
-                JOptionPane.showMessageDialog(null, "There is no image to convert to greyscale.", "Error", JOptionPane.ERROR_MESSAGE);
+                try {
+                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("greyscaleErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                } catch (HeadlessException ex) {
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                    // Won't happen for our users, so just exit.
+                    System.exit(1);
+                }
             }
             else {
                 // There is an image open, carry on.
@@ -109,80 +117,206 @@ public class ColourActions {
         }
     }
 
+    /**
+     * <p>
+     * Action to brighten an image.
+     * </p>
+     * 
+     * @see BrightnessFilter
+     */
     public class BrightnessAction extends ImageAction {
 
+        /**
+         * <p>
+         * Create a new change brightness action.
+         * </p>
+         * 
+         * @param name     The name of the action (ignored if null).
+         * @param icon     An icon to use to represent the action (ignored if null).
+         * @param desc     A brief description of the action (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
+         */
         BrightnessAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
         }
 
+        /**
+         * <p>
+         * Callback for when the BrightnessAction is triggered.
+         * </p>
+         * 
+         * <p>
+         * This method is called whenever the BrightnessFilter is triggered.
+         * It changes the image's brightness depending on user input.
+         * </p>
+         * 
+         * @param e The event triggering this callback.
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             // Check if there is an image open.
-            if (target.getImage().hasImage() == false) {
-                // There is not an image open, so display error message.
-                JOptionPane.showMessageDialog(null, "There is no image to change the brightness of.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-            else {
-                // There is an image open, carry on.
-                JSlider jslider = new JSlider();
-                jslider.setValue(0);
-                jslider.setMaximum(10);
-                jslider.setMinimum(-10);
-                jslider.setMajorTickSpacing(2);
-                jslider.setPaintLabels(true);
-                jslider.setPaintTicks(true);
+            try {
+                if (target.getImage().hasImage() == false) {
+                    // There is not an image open, so display error message.
+                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("brightnessErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                }
+                else {
+                    // There is an image open, carry on.
+                    JSlider jslider = new JSlider();
+                    jslider.setValue(0);
+                    jslider.setMaximum(100);
+                    jslider.setMinimum(-100);
+                    jslider.setMajorTickSpacing(50);
+                    jslider.setPaintLabels(true);
+                    jslider.setPaintTicks(true);
+                    
+                    // Copy this here so that we still have reference to the actual EditableImage.
+                    EditableImage actualImage = target.getImage();
 
-                int select = JOptionPane.showOptionDialog(null, jslider, "Brightness Amount",
-                JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
-                if (select == JOptionPane.CANCEL_OPTION) {
-                    return;
+                    // This part updates how the image looks when the slider is moved.
+                    jslider.addChangeListener(new ChangeListener() {
+                        public void stateChanged(ChangeEvent ce) {
+                            // Create a deep copy of the editable image (so that we don't change the actual editable image)
+                            EditableImage copyImage = actualImage.deepCopyEditableImage();
+                            // Set the target to have this new copy of the actual image.
+                            target.setImage(copyImage);
+                            // Apply the brightness change to the new copy of the actual image.
+                            if (jslider.getValue() == 0) { // No change in brightness to apply.
+                                return;
+                            }
+                            target.getImage().apply(new BrightnessFilter(jslider.getValue()));
+                            target.repaint();
+                            target.getParent().revalidate();
+                        }
+                    });
+
+                    int select = JOptionPane.showOptionDialog(null, jslider, LanguageActions.getLocaleString("brightnessSlid"),
+                    JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+                    if (select == JOptionPane.CANCEL_OPTION) {
+                        // Set the image in target back to the actual image and repaint.
+                        target.setImage(actualImage);
+                        target.repaint();
+                        target.getParent().revalidate();
+                        return;
+                    }
+                    if (select == JOptionPane.OK_OPTION) {
+                        // Set the image in the target back to the actual image.
+                        target.setImage(actualImage);
+                        if (jslider.getValue() == 0) { // No change in brightness to apply.
+                            return;
+                        }
+                        target.getImage().apply(new BrightnessFilter(jslider.getValue()));
+                        target.repaint();
+                        target.getParent().revalidate();
+                    }
                 }
-                if (select == JOptionPane.OK_OPTION) {
-                    target.getImage().apply(new BrightnessFilter(jslider.getValue()));
-                    target.repaint();
-                    target.getParent().revalidate();
-                }
+            } catch (HeadlessException ex) {
+                // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                // Won't happen for our users, so just exit.
+                System.exit(1);
             }
         }
     }
 
+    /**
+     * <p>
+     * Action to change the contrast of an image.
+     * </p>
+     * 
+     * @see ContrastFilter
+     */
     public class ContrastAction extends ImageAction {
 
+        /**
+         * <p>
+         * Create a new contrast action.
+         * </p>
+         * 
+         * @param name     The name of the action (ignored if null).
+         * @param icon     An icon to use to represent the action (ignored if null).
+         * @param desc     A brief description of the action (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
+         */
         ContrastAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
 
         }
 
+        /**
+         * <p>
+         * Callback for when the contrast action is triggered.
+         * </p>
+         * 
+         * <p>
+         * This method is called whenever the ContrastFilter is triggered.
+         * It changes the image's contrast depending on user input.
+         * </p>
+         * 
+         * @param e The event triggering this callback.
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             // Check if there is an image open.
-            if (target.getImage().hasImage() == false) {
-                // There is not an image open, so display error message.
-                JOptionPane.showMessageDialog(null, "There is no image to change the contrast of.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-            else {
-                // There is an image open, carry on.
-                JSlider jslider = new JSlider();
-                jslider.setValue(0);
-                jslider.setMaximum(10);
-                jslider.setMinimum(-10);
-                jslider.setMajorTickSpacing(2);
-                jslider.setPaintLabels(true);
-                jslider.setPaintTicks(true);
+            try {
+                if (target.getImage().hasImage() == false) {
+                    // There is not an image open, so display error message.
+                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("contrastErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                }
+                else {
+                    // There is an image open, carry on.
+                    JSlider jslider = new JSlider();
+                    jslider.setValue(0);
+                    jslider.setMaximum(100);
+                    jslider.setMinimum(-100);
+                    jslider.setMajorTickSpacing(50);
+                    jslider.setPaintLabels(true);
+                    jslider.setPaintTicks(true);
 
-                int select = JOptionPane.showOptionDialog(null, jslider, "Contrast Amount",
-                JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
-                if (select == JOptionPane.CANCEL_OPTION) {
-                    return;
+                    // Copy this here so that we still have reference to the actual EditableImage.
+                    EditableImage actualImage = target.getImage();
+
+                    // This part updates how the image looks when the slider is moved.
+                    jslider.addChangeListener(new ChangeListener() {
+                        public void stateChanged(ChangeEvent ce) {
+                            // Create a deep copy of the editable image (so that we don't change the actual editable image)
+                            EditableImage copyImage = actualImage.deepCopyEditableImage();
+                            // Set the target to have this new copy of the actual image.
+                            target.setImage(copyImage);
+                            // Apply the brightness change to the new copy of the actual image.
+                            if (jslider.getValue() == 0) { // No change in contrast to apply.
+                                return;
+                            }
+                            target.getImage().apply(new ContrastFilter(jslider.getValue()));
+                            target.repaint();
+                            target.getParent().revalidate();
+                        }
+                    });
+
+                    int select = JOptionPane.showOptionDialog(null, jslider, LanguageActions.getLocaleString("contrastSlid"),
+                    JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+                    if (select == JOptionPane.CANCEL_OPTION) {
+                        // Set the image in target back to the actual image and repaint.
+                        target.setImage(actualImage);
+                        target.repaint();
+                        target.getParent().revalidate();
+                        return;
+                    }
+                    if (select == JOptionPane.OK_OPTION) {
+                        // Set the image in the target back to the actual image.
+                        target.setImage(actualImage);
+                        if (jslider.getValue() == 0) { // No change in contrast to apply.
+                            return;
+                        }
+                        target.getImage().apply(new ContrastFilter(jslider.getValue()));
+                        target.repaint();
+                        target.getParent().revalidate();
+                    }
                 }
-                if (select == JOptionPane.OK_OPTION) {
-                    target.getImage().apply(new ContrastFilter(jslider.getValue()));
-                    target.repaint();
-                    target.getParent().revalidate();
-                }
+            } catch (HeadlessException ex) {
+                // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                // Won't happen for our users, so just exit.
+                System.exit(1);
             }
         }
-
     }
-
 }

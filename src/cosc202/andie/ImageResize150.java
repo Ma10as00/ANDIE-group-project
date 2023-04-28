@@ -6,14 +6,20 @@ import java.io.Serializable;
 
 /**
  * <p>
- * Image operation to resize the image to 150% of it's size
+ * Image operation to resize the image to 150% of its size.
  * </p>
  * 
- * @param input a BufferedImage object to apply the image resize to
- * @return resizedImage the image having been increased to 150% of it's size
  */
 public class ImageResize150 implements ImageOperation, Serializable {
 
+    /**
+    * <p>
+    * Apply an image resize 150 operation to resize the image by 150%.
+    * </p>
+    * 
+    * @param input a BufferedImage object to apply the image resize to.
+    * @return resizedImage the image having been reduced to 150% of it's size.
+    */
     @Override
     public BufferedImage apply(BufferedImage input) {
 
@@ -26,6 +32,9 @@ public class ImageResize150 implements ImageOperation, Serializable {
         resizedImage.getGraphics().drawImage(resize, 0, 0, null);
 
         return resizedImage;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 54f0e85ccd2cba52b667ea225bf35f8256410ee8
     }
 }

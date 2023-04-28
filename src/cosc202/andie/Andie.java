@@ -6,6 +6,9 @@ import java.util.Locale;
 import java.util.prefs.Preferences;
 
 import javax.swing.*;
+
+import cosc202.andie.macros.*;
+
 import javax.imageio.*;
 
 /**
@@ -34,6 +37,8 @@ public class Andie {
     /** A JFrame of the main GUI frame. */
     private static JFrame frame;
 
+    
+
     /**
      * <p>
      * Launches the main GUI for the ANDIE program.
@@ -54,21 +59,25 @@ public class Andie {
         String country = prefs.get("country", "NZ");
         String languageCode = lang + "_" + country;
 
-        //if language code is en sets default to English
+        // If language code is en sets default to English.
         if(languageCode.equals("en_NZ")){
             // Set Default Locale to English
             Locale.setDefault(new Locale("en", "NZ"));
         }
-        //if language code is mi set default language to Maori
+        // If language code is mi set default language to Maori.
         else if(languageCode.equals("mi_NZ")){
             Locale.setDefault(new Locale("mi", "NZ"));
         }
-        //if language code is no sets default to Norwegian
+        // If language code is no sets default to Norwegian.
         else if(languageCode.equals("no_NO")){
             Locale.setDefault(new Locale("no", "NO"));
         }
+        // If language code is es sets default to Spanish.
+        else if(languageCode.equals("sp_ES")){
+            Locale.setDefault(new Locale("sp", "ES"));
+        }
 
-        // Set up the main GUI frame
+        // Set up the main GUI frame.
         frame = new JFrame("ANDIE");
 
         Image image = ImageIO.read(Andie.class.getClassLoader().getResource("icon.png"));
@@ -82,7 +91,6 @@ public class Andie {
             }
         });
 
-        
         // Note, I deleted the ImagePanel declaration here so that there 
         // is a static data feild for the ImagePanel instead. This means
         // the windowClosing method can access the ImagePanel as well.
@@ -100,6 +108,7 @@ public class Andie {
         // Make window centered on screen.
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+        
     }
 
     /**
@@ -122,8 +131,10 @@ public class Andie {
      * @see ViewActions
      * @see FilterActions
      * @see ColourActions
+     * @see OrientationActions
+     * @see ResizeActions 
+     * @see LanguageActions 
      * 
-     * @throws Exception if something goes wrong.
      */
     public static void renderMenu() {
         // Add in menus for various types of action the user may perform.
@@ -135,7 +146,8 @@ public class Andie {
         menuBar.add(fileActions.createMenu());
 
         // Likewise Edit menus are very common, so should be clear what might go here.
-        EditActions editActions = new EditActions();
+        // We pass a frame so that when we undo or redo operations on an image, possiby changing its size the frame is packed to the new image size.
+        EditActions editActions = new EditActions(frame);
         menuBar.add(editActions.createMenu());
 
         // View actions control how the image is displayed, its zoom, but do not alter its actual content
@@ -143,11 +155,13 @@ public class Andie {
         menuBar.add(viewActions.createMenu());
 
         // Orientation actions change the orientation of the image, altering its content.
-        OrientationActions orientationActions = new OrientationActions();
+        // We pass a frame so that when we rotate an image, possiby changing its size the frame is packed to the new image size.
+        OrientationActions orientationActions = new OrientationActions(frame);
         menuBar.add(orientationActions.createMenu());
 
         // Resize actions change the size of the image, altering its content.
-        ResizeActions resizeActions = new ResizeActions();
+        // We pass a frame so that when we resize an image, the frame is packed to the new image size.
+        ResizeActions resizeActions = new ResizeActions(frame);
         menuBar.add(resizeActions.createMenu());
 
         // Filters apply a per-pixel operation to the image, generally based on a local window.
@@ -158,9 +172,16 @@ public class Andie {
         ColourActions colourActions = new ColourActions();
         menuBar.add(colourActions.createMenu());
 
-        // Ability to change the language from a set of included language bundles
+        // Macro actions can record what operations are applied to the image, and put them together into macros.
+        MacroActions ma = new MacroActions();
+        menuBar.add(ma.createMenu());
+
+        // Ability to change the language from a set of included language bundles.
         LanguageActions languageActions = new LanguageActions();
         menuBar.add(languageActions.createMenu());
+
+        SelectionActions selectionActions = new SelectionActions();
+        menuBar.add(selectionActions.createMenu()); 
 
         frame.setJMenuBar(menuBar);
         frame.pack();
@@ -225,4 +246,8 @@ public class Andie {
             }
         });
     }
+
+    
+
 }
+
