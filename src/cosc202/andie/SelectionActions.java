@@ -11,8 +11,8 @@ import java.awt.*;
 
 public class SelectionActions {
     protected ArrayList<Action> actions;
-    public int startX, startY, endX, endY; 
-    public Rectangle rect; 
+    public int startX, startY, endX, endY;
+    public Rectangle rect;
 
     /**
      * <p>
@@ -21,9 +21,12 @@ public class SelectionActions {
      */
     public SelectionActions() {
         actions = new ArrayList<Action>();
-        actions.add(new RegionSelectionAction(LanguageActions.getLocaleString("regionSelection"), null, LanguageActions.getLocaleString("regionSelectionDesc"), Integer.valueOf(KeyEvent.VK_J)));
-        actions.add(new RegionCropAction(LanguageActions.getLocaleString("regionCrop"), null, LanguageActions.getLocaleString("regionCropDesc"), Integer.valueOf(KeyEvent.VK_I)));
-        
+        actions.add(new RegionSelectionAction(LanguageActions.getLocaleString("regionSelection"), null,
+                LanguageActions.getLocaleString("regionSelectionDesc"), Integer.valueOf(KeyEvent.VK_J)));
+        actions.add(new RegionCropAction(LanguageActions.getLocaleString("regionCrop"), null,
+                LanguageActions.getLocaleString("regionCropDesc"), Integer.valueOf(KeyEvent.VK_I)));
+        acctions.add(new DrawLineAction(languageActions.getLocaleString("drawLine"), null,
+                LanguageActions.getLocaleString("drawLine"), Integer.valueOf(KeyEvent.VK_E)));
     }
 
     /**
@@ -42,6 +45,7 @@ public class SelectionActions {
 
         return fileMenu;
     }
+
     /**
      * <p>
      * Action to select region
@@ -49,7 +53,7 @@ public class SelectionActions {
      * 
      * @see RegionSelection
      */
-    public class RegionSelectionAction extends ImageAction{
+    public class RegionSelectionAction extends ImageAction {
 
         /**
          * <p>
@@ -65,10 +69,10 @@ public class SelectionActions {
             super(name, icon, desc, mnemonic);
         }
 
-
         @Override
         public void actionPerformed(ActionEvent e) {
-            target.getImage().apply(new RegionSelection(MouseHandler.getEnterX(), MouseHandler.getEnterY(), MouseHandler.getExitX(), MouseHandler.getExitY()));
+            target.getImage().apply(new RegionSelection(MouseHandler.getEnterX(), MouseHandler.getEnterY(),
+                    MouseHandler.getExitX(), MouseHandler.getExitY()));
             target.repaint();
             target.getParent().revalidate();
         }
@@ -81,7 +85,7 @@ public class SelectionActions {
      * 
      * @see RegionCrop
      */
-    public class RegionCropAction extends ImageAction{
+    public class RegionCropAction extends ImageAction {
 
         /**
          * <p>
@@ -96,50 +100,49 @@ public class SelectionActions {
         RegionCropAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
         }
+
         public void paintComponent(Graphics g) {
-            Graphics2D g2d = (Graphics2D) g; 
-            if(rect!= null){
-                Stroke dashed = new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL,0, new float[]{9}, 0);
+            Graphics2D g2d = (Graphics2D) g;
+            if (rect != null) {
+                Stroke dashed = new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { 9 },
+                        0);
                 g2d.setStroke(dashed);
                 g2d.setColor(Color.black);
                 g2d.draw(rect);
-      
+
             }
         }
-
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            while(rect == null){
+            while (rect == null) {
                 addMouseListener(new MouseAdapter() {
-                    public void mousePressed(MouseEvent e){
-                        startX = e.getX(); 
-                        startY = e.getY(); 
+                    public void mousePressed(MouseEvent e) {
+                        startX = e.getX();
+                        startY = e.getY();
                     }
                 });
                 addMouseListener(new MouseAdapter() {
-                    public void mouseReleased(MouseEvent e){
+                    public void mouseReleased(MouseEvent e) {
                         endX = e.getX();
-                        endY = e.getY(); 
-                        rect = new Rectangle(Math.min(startX, endX), Math.min(startY, endY), Math.abs(endX - startX), Math.abs(endY - startY));
+                        endY = e.getY();
+                        rect = new Rectangle(Math.min(startX, endX), Math.min(startY, endY), Math.abs(endX - startX),
+                                Math.abs(endY - startY));
 
                     }
                 });
-                
-            }
-            
-                //JOptionPane.showMessageDialog(null, "Crop Image"); 
-                target.getImage().apply(new RegionCrop(startX, startY, endX, endY));
-                target.repaint();
-                target.getParent().revalidate();
-        }
 
+            }
+
+            // JOptionPane.showMessageDialog(null, "Crop Image");
+            target.getImage().apply(new RegionCrop(startX, startY, endX, endY));
+            target.repaint();
+            target.getParent().revalidate();
+        }
 
         private void addMouseListener(MouseAdapter mouseAdapter) {
         }
 
-
     }
-   
 
 }
