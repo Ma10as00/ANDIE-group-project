@@ -90,15 +90,5 @@ public class MeanFilter implements ImageOperation, java.io.Serializable {
 
         return output;
     }
-<<<<<<< HEAD
-    /**
-     * @return radValue
-     * @desc test
-     */
-    // public int getRadValue(){
-    // return radius;
-    // }
 
-=======
->>>>>>> 54f0e85ccd2cba52b667ea225bf35f8256410ee8
 }

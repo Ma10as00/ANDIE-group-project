@@ -17,13 +17,7 @@ import java.awt.HeadlessException;
  *
  * @author James Liu
  */
-<<<<<<< HEAD
-public class ContrastFilter implements ImageOperation, java.io.Serializable {
-    // The size of the scale which is what is used to determine the contrast
-    int value;
 
-    // Construct the contrast filter with the given scale
-=======
 public class ContrastFilter implements ImageOperation, java.io.Serializable  {
     /** The size of the scale which is what is used to determine the contrast. */
     int value;
@@ -36,7 +30,6 @@ public class ContrastFilter implements ImageOperation, java.io.Serializable  {
      * @param value the value that is used to detetmind the scale of contrast.
      * 
     */
->>>>>>> 54f0e85ccd2cba52b667ea225bf35f8256410ee8
     public ContrastFilter(int value) {
         this.value = value;
     }
@@ -55,7 +48,6 @@ public class ContrastFilter implements ImageOperation, java.io.Serializable  {
      * the apply method returns the previousImage.
      * 
      * 
-<<<<<<< HEAD
      * The ContrastFilter class is used to apply a contrast filter to a
      * BufferedImage.
      * The amount of contrast applied is determined by the value field, which is set
@@ -65,14 +57,7 @@ public class ContrastFilter implements ImageOperation, java.io.Serializable  {
      * 
      * @param previousImage the input image to filter
      * @return a new image with the contrast filter applied
-=======
-     * The ContrastFilter class is used to apply a contrast filter to a BufferedImage. 
-     * The amount of contrast applied is determined by the value field, which is set by the constructor. 
-     * The apply method applies the contrast filter to the input image and returns the filtered image.
-     *  
-     * @param previousImage the input image to filter.
-     * @return a new image with the contrast filter applied.
->>>>>>> 54f0e85ccd2cba52b667ea225bf35f8256410ee8
+
      */
     @Override
     public BufferedImage apply(BufferedImage previousImage) {
@@ -85,34 +70,16 @@ public class ContrastFilter implements ImageOperation, java.io.Serializable  {
             // But, occurs if there is an issue with the scaling factors or colour model.
             // Tell the user and do nothing.
             try {
-<<<<<<< HEAD
                 JOptionPane.showMessageDialog(null, "Sorry, there has been an error in changing the contrast.", "Error",
                         JOptionPane.ERROR_MESSAGE);
             } catch (HeadlessException eh) {
                 // Headless exception, thrown when the code is dependent on a keyboard or mouse.
-=======
-                JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("contrastErr2"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
-            }   
-            catch (HeadlessException eh) {
-                // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
->>>>>>> 54f0e85ccd2cba52b667ea225bf35f8256410ee8
+
                 // Won't happen for our users, so just exit.
                 System.exit(1);
             }
         }
         return previousImage;
     }
-<<<<<<< HEAD
 
-    /**
-     * 
-     * @return value
-     * @desc test
-     */
-    public int getConValue() {
-        return value;
-    }
 }
-=======
-}
->>>>>>> 54f0e85ccd2cba52b667ea225bf35f8256410ee8

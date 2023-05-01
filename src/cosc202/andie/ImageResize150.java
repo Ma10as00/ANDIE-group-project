@@ -32,9 +32,6 @@ public class ImageResize150 implements ImageOperation, Serializable {
         resizedImage.getGraphics().drawImage(resize, 0, 0, null);
 
         return resizedImage;
-<<<<<<< HEAD
 
-=======
->>>>>>> 54f0e85ccd2cba52b667ea225bf35f8256410ee8
     }
 }
