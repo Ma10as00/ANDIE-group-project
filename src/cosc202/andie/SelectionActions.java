@@ -25,8 +25,6 @@ public class SelectionActions {
                 LanguageActions.getLocaleString("regionSelectionDesc"), Integer.valueOf(KeyEvent.VK_J)));
         actions.add(new RegionCropAction(LanguageActions.getLocaleString("regionCrop"), null,
                 LanguageActions.getLocaleString("regionCropDesc"), Integer.valueOf(KeyEvent.VK_I)));
-        acctions.add(new DrawLineAction(languageActions.getLocaleString("drawLine"), null,
-                LanguageActions.getLocaleString("drawLine"), Integer.valueOf(KeyEvent.VK_E)));
     }
 
     /**
