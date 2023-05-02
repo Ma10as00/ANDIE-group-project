@@ -455,7 +455,7 @@ public class FilterActions {
                 // Set up slider for user to enter radius.
                 JSlider jslider = new JSlider();
                 jslider.setValue(0);
-                jslider.setMaximum(5);
+                jslider.setMaximum(4);
                 jslider.setMinimum(0);
                 jslider.setMajorTickSpacing(1);
                 jslider.setPaintLabels(true);
@@ -466,18 +466,26 @@ public class FilterActions {
 
                 // This part updates how the image looks when the slider is moved.
                 jslider.addChangeListener(new ChangeListener() {
+                    // Used to keep track of the last value of the slider
+                    private int lastValue = 0;
                     public void stateChanged(ChangeEvent ce) {
                         // Create a deep copy of the editable image (so that we don't change the actual editable image)
                         EditableImage copyImage = actualImage.deepCopyEditableImage();
                         // Set the target to have this new copy of the actual image.
                         target.setImage(copyImage);
-                        // Apply the brightness change to the new copy of the actual image.
+                        // Apply the median filter to the new copy of the actual image.
                         if (jslider.getValue() == 0) { // No change to apply.
                             return;
                         }
-                        target.getImage().apply(new MedianFilter(jslider.getValue()));
-                        target.repaint();
-                        target.getParent().revalidate();
+                        // We only update the image if the difference between the last slider value and
+                        // new slider value is greater than or equal to 1. Otherwise it is too laggy.
+                        if (Math.abs(lastValue - jslider.getValue()) >= 1) {
+                            target.getImage().apply(new MedianFilter(jslider.getValue()));
+                            target.repaint();
+                            target.getParent().revalidate();
+                            // Update the last value.
+                            lastValue = jslider.getValue();
+                        }
                     }
                 });
 
