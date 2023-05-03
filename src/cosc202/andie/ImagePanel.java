@@ -34,6 +34,7 @@ public class ImagePanel extends JPanel {
     static MouseHandler mHandler = new MouseHandler();
     public static int enterX, enterY, exitX, exitY, width, height; 
     public Rectangle rect; 
+    public boolean ongoingRecording = false;
 
     /**
      * <p>
