@@ -89,7 +89,7 @@ public class GaussianBlurFilter implements ImageOperation, java.io.Serializable 
         for (int i = 0; i < size; i++) {
             array[i] = calculateGaussian(i, size, sigma);
         }
-
+        
         // Normalise the values in array (make sure they sum to 1).
         float sum = 0;
         for (int i = 0; i < size; i++) {
@@ -99,10 +99,82 @@ public class GaussianBlurFilter implements ImageOperation, java.io.Serializable 
             array[i] = array[i] / sum;
         }
 
+        // Create the kernel.
         Kernel kernel = new Kernel(2*radius+1, 2*radius+1, array);
-        ConvolveOp convOp = new ConvolveOp(kernel);
-        BufferedImage output = new BufferedImage(input.getColorModel(), input.copyData(null), input.isAlphaPremultiplied(), null);
-        convOp.filter(input, output);
+
+        // Create a new image with the same values as in the original image, but with 
+        // the edge pixel values copied to new edge pixel values (the image is bigger by the radius of the kernel)
+        // on each side and the top and bottom.
+        BufferedImage edgesPlusInput = new BufferedImage(input.getWidth() + 2*radius, input.getHeight() + 2*radius, BufferedImage.TYPE_INT_ARGB);
+        // Fill the pixel values of this new buffered image.
+        for (int y = 0; y < input.getHeight(); ++y) {
+            for (int x = 0; x < input.getWidth(); ++x) {
+                // Copy over pixel values from the original image to pixels to the right and lower by 'radius' amount.
+                edgesPlusInput.setRGB(x + radius, y + radius, input.getRGB(x, y));
+                // If we are at an edge, then we copy that value to the values above/below/right/left.
+                if (y == 0) { // We are at the top of the image.
+                    for (int i = 0; i < radius; i++) {
+                        edgesPlusInput.setRGB(x + radius, i, input.getRGB(x, y));
+                    }
+                }
+                else if (y == input.getHeight() - 1) { // We are at the bottom of the image.
+                    for (int i = 0; i < radius; i++) {
+                        edgesPlusInput.setRGB(x + radius, i + input.getHeight() + radius, input.getRGB(x, y));
+                    }
+                }
+                if (x == 0) { // We are at the left of the image.
+                    for (int i = 0; i < radius; i++) {
+                        edgesPlusInput.setRGB(i, y + radius, input.getRGB(x, y));
+                    }
+                }
+                else if (x == input.getWidth() - 1) { // We are at the right of the image.
+                    for (int i = 0; i < radius; i++) {
+                        edgesPlusInput.setRGB(i + input.getWidth() + radius, y + radius, input.getRGB(x, y));
+                    }
+                }
+                // Dealing with corners.
+                if (x == 0 && y == 0) { // Top left corner.
+                    for (int a = 0; a < radius; a++) {
+                        for (int b = 0; b < radius; b++) {
+                            edgesPlusInput.setRGB(a, b, input.getRGB(x, y));
+                        }
+                    }
+                }
+                else if (x == 0 && y == input.getHeight() - 1) { // Bottom left corner.
+                    for (int a = 0; a < radius; a++) {
+                        for (int b = 0; b < radius; b++) {
+                            edgesPlusInput.setRGB(a, b + input.getHeight() + radius, input.getRGB(x, y));
+                        }
+                    }
+                }
+                else if (x == input.getWidth() - 1 && y == 0) { // Top right corner.
+                    for (int a = 0; a < radius; a++) {
+                        for (int b = 0; b < radius; b++) {
+                            edgesPlusInput.setRGB(a + input.getWidth() + radius, b, input.getRGB(x, y));
+                        }
+                    }
+                }
+                else if (x == input.getWidth() - 1 && y == input.getHeight() - 1) { // Bottom right corner.
+                    for (int a = 0; a < radius; a++) {
+                        for (int b = 0; b < radius; b++) {
+                            edgesPlusInput.setRGB(a + input.getWidth() + radius, b + input.getHeight() + radius, input.getRGB(x, y));
+                        }
+                    }
+                }
+            }
+        }
+        // Apply the filter to the new buffered image that has interpolated edges.
+        ConvolveOp convOp = new ConvolveOp(kernel, ConvolveOp.EDGE_NO_OP, null);
+        BufferedImage uncroppedOutput = new BufferedImage(edgesPlusInput.getColorModel(), edgesPlusInput.copyData(null), edgesPlusInput.isAlphaPremultiplied(), null);
+        convOp.filter(edgesPlusInput, uncroppedOutput);
+
+        // Crop the uncropped output.
+        BufferedImage output = new BufferedImage(input.getWidth(), input.getHeight(), BufferedImage.TYPE_INT_ARGB);
+        for (int x = 0; x < input.getWidth(); x++) {
+            for (int y = 0; y < input.getHeight(); y++) {
+                output.setRGB(x, y, uncroppedOutput.getRGB(x + radius, y + radius));
+            }
+        }
 
         return output;
     }
@@ -130,13 +202,14 @@ public class GaussianBlurFilter implements ImageOperation, java.io.Serializable 
         // Also note, implicit assumption, which is true when called from 
         // the apply method, that size is a square number.
         int side = (int)Math.sqrt(size); 
-        int x = (index % side) - 1;
-        int y = 1 - (index / side);
+        int radius = (side - 1)/2;
+        int x = (index % side) - radius;
+        int y = radius - (index / side);
 
         // Calulate G(x, y, sigma).
-        float value = 1.0f/(2 * (float)Math.PI * sigma * sigma);
-        double pow = Math.exp((double)((float)(-1 * (x * x + y * y))) / (2 * sigma * sigma));
-        value = value * (float)pow;
+        float value = 1.0f/(2 * ((float)Math.PI) * sigma * sigma);
+        double pow = Math.exp((double)((float)(-1.0f * (x * x + y * y))) / (2.0f * sigma * sigma));
+        value = value * ((float)pow);
 
         return value;
     }
