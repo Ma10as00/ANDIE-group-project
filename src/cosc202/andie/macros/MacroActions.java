@@ -111,18 +111,17 @@ public class MacroActions{
         public void actionPerformed(ActionEvent e) {
 
             // Retrieve the recording from the ImagePanel
-            PropertyChangeListener[] plcs = target.getPropertyChangeListeners();
+            PropertyChangeListener[] plcs = target.getPropertyChangeListeners("image");
             if (plcs.length > 1){
                 throw new UnsupportedOperationException("Couldn't finnish recording because there are more than one PropertyChangeListeners.");
             }
             if (plcs.length < 1){
                 throw new UnsupportedOperationException("Couldn't find any recordings to finnish. Panel had no PropertyChangeListeners.");
             }
-            if (!(plcs[0] instanceof IOperationRecorder)){ // TODO This should never happen, but currently it's always happening.
+            if (!(plcs[0] instanceof IOperationRecorder)){
                 throw new ClassCastException("Unknown PropertyChangeListener. Was not instance of IOperationRecorder.");
             }
             IOperationRecorder rec = (IOperationRecorder) plcs[0];
-
             // Build Macro based on the recording
             Macro m = new Macro();
             for(int i=0; i<rec.size(); i++){

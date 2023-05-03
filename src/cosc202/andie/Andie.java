@@ -131,6 +131,7 @@ public class Andie {
      * @see ViewActions
      * @see FilterActions
      * @see ColourActions
+     * @see MacroActions
      * @see OrientationActions
      * @see ResizeActions 
      * @see LanguageActions 
