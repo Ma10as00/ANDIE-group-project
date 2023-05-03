@@ -81,7 +81,9 @@ public class MacroActions{
         @Override
         public void actionPerformed(ActionEvent e) {
             if (target.ongoingRecording){
-                throw new UnsupportedOperationException("A recording is already initiated.");
+                //TODO Add language support
+                JOptionPane.showMessageDialog(null, "A recording is already initiated.", LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                return;
             }
             target.addPropertyChangeListener("image",rec);
             target.ongoingRecording = true;
@@ -125,11 +127,27 @@ public class MacroActions{
                 throw new ClassCastException("Unknown PropertyChangeListener. Was not instance of IOperationRecorder.");
             }
             IOperationRecorder rec = (IOperationRecorder) plcs[0];
+            if(rec.getOps().size() < 1){
+                int choice = JOptionPane.showOptionDialog( //TODO Add language support
+                    null, 
+                    "No operations were recorded. Are you sure you want to end the recording?", 
+                    LanguageActions.getLocaleString("error"), 
+                    JOptionPane.YES_NO_OPTION, 
+                    JOptionPane.QUESTION_MESSAGE, 
+                    null, 
+                    null, 
+                    null);
+                if (choice == JOptionPane.NO_OPTION)
+                    return;
+            }
             // Build Macro based on the recording
             IMacro m = new Macro();
             for(int i=0; i<rec.getOps().size(); i++){
-                m.addOp(rec.getOps().get(i));
+                ImageOperation currentOp = rec.getOps().get(i);
+                m.addOp(currentOp);
+                System.out.println(currentOp);
             }
+            System.out.println(m);
             
             // Close recording
             target.removePropertyChangeListener("image", rec);
@@ -138,6 +156,7 @@ public class MacroActions{
 
             // Give the user an option to save the macro
             try {
+                //TODO Add language support
                 int saveOrNot = JOptionPane.showOptionDialog(null, "Do you want to save the recorded macro?", "Save", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
                 if (saveOrNot == JOptionPane.YES_OPTION)
                     saveMacro(m);
@@ -149,7 +168,7 @@ public class MacroActions{
         /**
          * Method to give the user an option to save a set of operations as a macro.
          */
-        private void saveMacro(IMacro m) {
+        private void saveMacro(IMacro m) { //TODO Add language support
             String filename = JOptionPane.showInputDialog(null, "Write the filename as which the macro should be saved.","Saving macro", JOptionPane.QUESTION_MESSAGE);
             try {
                 FileOutputStream fileOut = new FileOutputStream(filename + ".ops");
@@ -193,6 +212,7 @@ public class MacroActions{
                         System.out.println(macro.toString());
                         target.getImage().apply(macro);
                     }else{
+                        //TODO Add language support
                         JOptionPane.showMessageDialog(null, "File did not contain instance of IMacro.", "Invalid File", JOptionPane.ERROR_MESSAGE);
                     }
 

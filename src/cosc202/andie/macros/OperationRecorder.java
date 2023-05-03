@@ -18,7 +18,7 @@ import cosc202.andie.EditActions.UndoAction;
  * 
  * @author Mathias Øgaard
  */
-public class OperationRecorder implements IOperationRecorder{
+public class OperationRecorder implements IOperationRecorder{ //TODO For some reason, the recorder doesn't pick up the operations when they're applied.
 
     private ArrayList<ImageOperation> recordedOps;
     private ImageOperation last;
