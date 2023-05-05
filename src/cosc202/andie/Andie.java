@@ -131,6 +131,7 @@ public class Andie {
      * @see ViewActions
      * @see FilterActions
      * @see ColourActions
+     * @see MacroActions
      * @see OrientationActions
      * @see ResizeActions 
      * @see LanguageActions 
@@ -172,6 +173,10 @@ public class Andie {
         ColourActions colourActions = new ColourActions();
         menuBar.add(colourActions.createMenu());
 
+        // Selection actions allow you to select parts of the image and crop them.
+        SelectionActions selectionActions = new SelectionActions();
+        menuBar.add(selectionActions.createMenu()); 
+
         // Macro actions can record what operations are applied to the image, and put them together into macros.
         MacroActions ma = new MacroActions();
         menuBar.add(ma.createMenu());
@@ -179,9 +184,6 @@ public class Andie {
         // Ability to change the language from a set of included language bundles.
         LanguageActions languageActions = new LanguageActions();
         menuBar.add(languageActions.createMenu());
-
-        SelectionActions selectionActions = new SelectionActions();
-        menuBar.add(selectionActions.createMenu()); 
 
         frame.setJMenuBar(menuBar);
         frame.pack();

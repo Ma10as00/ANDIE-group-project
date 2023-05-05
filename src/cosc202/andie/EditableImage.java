@@ -390,6 +390,7 @@ public class EditableImage {
     /**
      * Method to help an {@code IOperationRecorder} to see the last operation that was applied to the image.
      * @return The last {@link ImageOperation} that was applied
+     * @author Mathias Øgaard
      */
     public ImageOperation getLastOp(){
         return ops.peek();

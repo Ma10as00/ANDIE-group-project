@@ -256,6 +256,8 @@ public class ResizeActions {
 
                 // Copy this here so that we still have reference to the actual EditableImage.
                 EditableImage actualImage = target.getImage();
+                // Need to keep track of the original zoom as the slider changes its value.
+                double zoom = target.getZoom();
 
                 // This part updates how the image looks when the slider is moved.
                 jslider.addChangeListener(new ChangeListener() {
@@ -288,6 +290,16 @@ public class ResizeActions {
                     if (option == JOptionPane.CANCEL_OPTION) {
                         // Set the image in target back to the actual image and repaint.
                         target.setImage(actualImage);
+                        target.repaint();
+                        target.getParent().revalidate();
+                        // Reset the zoom of the image.
+                        target.setZoom(100);
+                        // Pack the main GUI frame to the size of the image.
+                        frame.pack();
+                        // Make main GUI frame centered on screen.
+                        frame.setLocationRelativeTo(null);
+                        // Reset the zoom value.
+                        target.setZoom(zoom);
                         target.repaint();
                         target.getParent().revalidate();
                         return;

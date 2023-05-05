@@ -1,7 +1,9 @@
 package cosc202.andie.macros;
 
+import java.awt.HeadlessException;
 import java.awt.event.*;
 import java.beans.PropertyChangeListener;
+import java.io.*;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -31,9 +33,9 @@ public class MacroActions{
     public MacroActions(){
         actions = new ArrayList<Action>();
         // TODO Add language support
-        actions.add(new InitMacroAction("Initiate recording", null, "Records all operations applied to the image after this button is pushed.", Integer.valueOf(KeyEvent.VK_8)));
-        actions.add(new FinnishMacroAction("End recording", null, "Ends an ongoing recording, and gives you the option to save the recorded operations as a macro.", Integer.valueOf(KeyEvent.VK_9)));
-        actions.add(new LoadNUseMacroAction("Apply macro", null, "Lets you load a saved macro and apply it to the image.", Integer.valueOf(KeyEvent.VK_L)));
+        actions.add(new StartRecordingAction("Initiate recording", null, "Records all operations applied to the image after this button is pushed.", Integer.valueOf(KeyEvent.VK_8)));
+        actions.add(new StopRecordingAction("End recording", null, "Ends an ongoing recording, and gives you the option to save the recorded operations as a macro.", Integer.valueOf(KeyEvent.VK_9)));
+        actions.add(new ApplyMacroAction("Apply macro", null, "Lets you load a saved macro and apply it to the image.", Integer.valueOf(KeyEvent.VK_L)));
     }
 
     /**
@@ -64,24 +66,27 @@ public class MacroActions{
      * 
      * @author Mathias Øgaard
      */
-    public class InitMacroAction extends ImageAction{
+    public class StartRecordingAction extends ImageAction{
 
         private OperationRecorder rec;
 
         /**
-         * Constructs an {@link InitMacroAction}.
+         * Constructs an {@link StartRecordingAction}.
          */
-        public InitMacroAction(String name, ImageIcon icon, String desc, Integer mnemonic){
+        public StartRecordingAction(String name, ImageIcon icon, String desc, Integer mnemonic){
             super(name, icon, desc, mnemonic);
             rec = new OperationRecorder(target);
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (target.getPropertyChangeListeners().length > 0){
-                throw new UnsupportedOperationException("A recording is already initiated.");
+            if (target.ongoingRecording){
+                //TODO Add language support
+                JOptionPane.showMessageDialog(null, "A recording is already initiated.", LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                return;
             }
             target.addPropertyChangeListener("image",rec);
+            target.ongoingRecording = true;
             // TODO Add some graphics to show the user that recording has started.
         }
         
@@ -98,12 +103,12 @@ public class MacroActions{
      * 
      * @author Mathias Øgaard
      */
-    public class FinnishMacroAction extends ImageAction{
+    public class StopRecordingAction extends ImageAction{
 
         /**
-         * Constructs a {@link FinnishMacroAction}.
+         * Constructs a {@link StopRecordingAction}.
          */
-        protected FinnishMacroAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+        protected StopRecordingAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
         }
 
@@ -111,60 +116,112 @@ public class MacroActions{
         public void actionPerformed(ActionEvent e) {
 
             // Retrieve the recording from the ImagePanel
-            PropertyChangeListener[] plcs = target.getPropertyChangeListeners();
+            PropertyChangeListener[] plcs = target.getPropertyChangeListeners("image");
             if (plcs.length > 1){
                 throw new UnsupportedOperationException("Couldn't finnish recording because there are more than one PropertyChangeListeners.");
             }
             if (plcs.length < 1){
                 throw new UnsupportedOperationException("Couldn't find any recordings to finnish. Panel had no PropertyChangeListeners.");
             }
-            if (!(plcs[0] instanceof IOperationRecorder)){ // TODO This should never happen, but currently it's always happening.
+            if (!(plcs[0] instanceof IOperationRecorder)){
                 throw new ClassCastException("Unknown PropertyChangeListener. Was not instance of IOperationRecorder.");
             }
             IOperationRecorder rec = (IOperationRecorder) plcs[0];
-
-            // Build Macro based on the recording
-            Macro m = new Macro();
-            for(int i=0; i<rec.size(); i++){
-                m.addOp(rec.get(i));
+            if(rec.getOps().size() < 1){
+                int choice = JOptionPane.showOptionDialog( //TODO Add language support
+                    null, 
+                    "No operations were recorded. Are you sure you want to end the recording?", 
+                    LanguageActions.getLocaleString("error"), 
+                    JOptionPane.YES_NO_OPTION, 
+                    JOptionPane.QUESTION_MESSAGE, 
+                    null, 
+                    null, 
+                    null);
+                if (choice == JOptionPane.NO_OPTION)
+                    return;
             }
+            // Build Macro based on the recording
+            IMacro m = new Macro();
+            for(int i=0; i<rec.getOps().size(); i++){
+                ImageOperation currentOp = rec.getOps().get(i);
+                m.addOp(currentOp);
+                System.out.println(currentOp);
+            }
+            System.out.println(m);
             
             // Close recording
             target.removePropertyChangeListener("image", rec);
+            target.ongoingRecording = false;
             // TODO Remove any graphics indicating an ongoing recording
 
             // Give the user an option to save the macro
-            saveMacro();
+            try {
+                //TODO Add language support
+                int saveOrNot = JOptionPane.showOptionDialog(null, "Do you want to save the recorded macro?", "Save", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+                if (saveOrNot == JOptionPane.YES_OPTION)
+                    saveMacro(m);
+            } catch (HeadlessException he) {
+                System.exit(1);
+            } 
         }
 
         /**
          * Method to give the user an option to save a set of operations as a macro.
          */
-        private void saveMacro() {
-            // TODO Auto-generated method stub
-            throw new UnsupportedOperationException("Unimplemented method 'saveMacro'");
+        private void saveMacro(IMacro m) { //TODO Add language support
+            String filename = JOptionPane.showInputDialog(null, "Write the filename as which the macro should be saved.","Saving macro", JOptionPane.QUESTION_MESSAGE);
+            try {
+                FileOutputStream fileOut = new FileOutputStream(filename + ".ops");
+                ObjectOutputStream objOut = new ObjectOutputStream(fileOut);
+                objOut.writeObject(m);
+                objOut.close();
+                fileOut.close();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Sorry, there has been an error in saving the file. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
-
     }
 
     /**
-     * Action for loading a {@link Macro} from a file, and apply it to the target image.
+     * Action for loading a {@link IMacro} from a file, and apply it to the target image.
      * <p>
-     * If there is an active {@link OperationRecorder}, all the operations from this {@link Macro} should be added to the recording in the correct order.
+     * If there is an active {@link IOperationRecorder}, all the operations from this {@link IMacro} should be added to the recording in the correct order.
      * <p>
      * @author Mathias Øgaard
      */
-    public class LoadNUseMacroAction extends ImageAction{
+    public class ApplyMacroAction extends ImageAction{
 
-        protected LoadNUseMacroAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+        protected ApplyMacroAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            // TODO Auto-generated method stub
-            throw new UnsupportedOperationException("Unimplemented method 'actionPerformed'");
-        }
+            JFileChooser fileChooser = new JFileChooser();
+            int result = fileChooser.showOpenDialog(target);
 
+            if(result == JFileChooser.APPROVE_OPTION){
+                File macroFile = fileChooser.getSelectedFile();
+                try {
+                    FileInputStream fileIn = new FileInputStream(macroFile);
+                    ObjectInputStream objIn = new ObjectInputStream(fileIn);
+
+                    Object obj = objIn.readObject(); 
+                    if(obj instanceof IMacro){
+                        IMacro macro = (IMacro) obj;
+                        System.out.println(macro.toString());
+                        target.getImage().apply(macro);
+                    }else{
+                        //TODO Add language support
+                        JOptionPane.showMessageDialog(null, "File did not contain instance of IMacro.", "Invalid File", JOptionPane.ERROR_MESSAGE);
+                    }
+
+                    objIn.close();
+                    fileIn.close();
+                } catch (Exception ex) {
+                    System.exit(1);
+                }
+            }
+        }
     }
 }
