@@ -80,7 +80,7 @@ public class ImagePanel extends JPanel {
             public void mouseClicked(MouseEvent e){
                 clickX = e.getX();
                 clickY = e.getY();
-                if(image.hasImage() && !findPoint(0, 0, image.getCurrentImage().getWidth(), image.getCurrentImage().getHeight(), clickX, clickY)){
+                if(image.hasImage() && clickX != 0){
                     rect = null; 
                     repaint();
                 }
@@ -189,7 +189,7 @@ public class ImagePanel extends JPanel {
             g2.dispose();
         }
         Graphics2D g2d = (Graphics2D) g; 
-            if(rect!= null){
+            if(rect!= null && image.hasImage()){
                 Stroke dashed = new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL,0, new float[]{9}, 0);
                 g2d.setStroke(dashed);
                 g2d.setColor(Color.black);

@@ -316,10 +316,14 @@ public class EditActions {
         @Override
         public void actionPerformed(ActionEvent e) {
               //JOptionPane.showMessageDialog(null, "Crop Image"); 
-                target.getImage().apply(new RegionCrop((MouseHandler.getEnterX()), MouseHandler.getEnterY(), MouseHandler.getExitX(), MouseHandler.getExitY()));
-                ImagePanel.rect = null;
-                target.repaint(); 
-                target.getParent().revalidate();
+              try {
+                    target.getImage().apply(new RegionCrop((MouseHandler.getEnterX()), MouseHandler.getEnterY(), MouseHandler.getExitX(), MouseHandler.getExitY()));
+                    ImagePanel.rect = null;
+                    target.repaint(); 
+                    target.getParent().revalidate();
+                } catch (Exception exception) {
+                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("cropError"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                }
         }
 
     }
