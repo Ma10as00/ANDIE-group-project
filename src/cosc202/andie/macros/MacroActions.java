@@ -23,15 +23,22 @@ public class MacroActions{
     /**
      * A list of actions for the Macro menu.
      */
-    protected ArrayList<Action> actions;
+    protected ArrayList<Action> actions;    
+    
+    /** 
+    * The main GUI frame. Only here so that we can pack the 
+    * frame when we rotate an image.
+    */
+   private JFrame frame;
 
     /**
      * <p>
      * Constructs the list of macro actions.
      * </p>
      */
-    public MacroActions(){
+    public MacroActions(JFrame frame){
         actions = new ArrayList<Action>();
+        this.frame = frame;
         // TODO Add language support
         actions.add(new StartRecordingAction("Initiate recording", null, "Records all operations applied to the image after this button is pushed.", Integer.valueOf(KeyEvent.VK_8)));
         actions.add(new StopRecordingAction("End recording", null, "Ends an ongoing recording, and gives you the option to save the recorded operations as a macro.", Integer.valueOf(KeyEvent.VK_9)));
@@ -68,14 +75,12 @@ public class MacroActions{
      */
     public class StartRecordingAction extends ImageAction{
 
-        private OperationRecorder rec;
-
         /**
          * Constructs an {@link StartRecordingAction}.
          */
         public StartRecordingAction(String name, ImageIcon icon, String desc, Integer mnemonic){
             super(name, icon, desc, mnemonic);
-            rec = new OperationRecorder(target);
+            
         }
 
         @Override
@@ -85,7 +90,8 @@ public class MacroActions{
                 JOptionPane.showMessageDialog(null, "A recording is already initiated.", LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            target.addPropertyChangeListener("image",rec);
+            IOperationRecorder rec = new OperationRecorder();
+            target.getImage().addPropertyChangeListener("ops",rec);
             target.ongoingRecording = true;
             // TODO Add some graphics to show the user that recording has started.
         }
@@ -115,54 +121,63 @@ public class MacroActions{
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            // Retrieve the recording from the ImagePanel
-            PropertyChangeListener[] plcs = target.getPropertyChangeListeners("image");
+            EditableImage targetImage = target.getImage();
+
+            // Retrieve the recording from the ImagePanel -------------------------
+            if(!targetImage.hasListeners("ops")){ //TODO Add language support
+                JOptionPane.showMessageDialog(null, "Couldn't find any recordings to finnish. Panel had no PropertyChangeListeners.", LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+            }
+            
+            PropertyChangeListener[] plcs = targetImage.getPropertyChangeListeners("ops");
+
             if (plcs.length > 1){
                 throw new UnsupportedOperationException("Couldn't finnish recording because there are more than one PropertyChangeListeners.");
-            }
-            if (plcs.length < 1){
-                throw new UnsupportedOperationException("Couldn't find any recordings to finnish. Panel had no PropertyChangeListeners.");
             }
             if (!(plcs[0] instanceof IOperationRecorder)){
                 throw new ClassCastException("Unknown PropertyChangeListener. Was not instance of IOperationRecorder.");
             }
+
             IOperationRecorder rec = (IOperationRecorder) plcs[0];
+            //---------------------------------------------------------------------
+
+            //If no operations were recorded, ask user if they really want to stop the recording
             if(rec.getOps().size() < 1){
-                int choice = JOptionPane.showOptionDialog( //TODO Add language support
-                    null, 
-                    "No operations were recorded. Are you sure you want to end the recording?", 
-                    LanguageActions.getLocaleString("error"), 
-                    JOptionPane.YES_NO_OPTION, 
-                    JOptionPane.QUESTION_MESSAGE, 
-                    null, 
-                    null, 
-                    null);
+                 //TODO Add language support
+                int choice = JOptionPane.showOptionDialog(null,"No operations were recorded. Are you sure you want to end the recording?", LanguageActions.getLocaleString("error"), 
+                                                            JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
                 if (choice == JOptionPane.NO_OPTION)
                     return;
             }
-            // Build Macro based on the recording
+            //----------------------------------------------------------------------
+
+
+            // Build Macro based on the recording ----------------------------------
             IMacro m = new Macro();
             for(int i=0; i<rec.getOps().size(); i++){
                 ImageOperation currentOp = rec.getOps().get(i);
                 m.addOp(currentOp);
-                System.out.println(currentOp);
             }
-            System.out.println(m);
+            //----------------------------------------------------------------------
             
-            // Close recording
-            target.removePropertyChangeListener("image", rec);
+
+            // Close recording -----------------------------------------------------
+            targetImage.removePropertyChangeListener("ops",rec);
             target.ongoingRecording = false;
             // TODO Remove any graphics indicating an ongoing recording
+            //----------------------------------------------------------------------
 
-            // Give the user an option to save the macro
+
+            // Give the user an option to save the macro ---------------------------
             try {
                 //TODO Add language support
-                int saveOrNot = JOptionPane.showOptionDialog(null, "Do you want to save the recorded macro?", "Save", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+                int saveOrNot = JOptionPane.showOptionDialog(null, "Do you want to save the recorded macro?", "Save", 
+                                                                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
                 if (saveOrNot == JOptionPane.YES_OPTION)
                     saveMacro(m);
             } catch (HeadlessException he) {
                 System.exit(1);
             } 
+            //-----------------------------------------------------------------------
         }
 
         /**
@@ -209,8 +224,17 @@ public class MacroActions{
                     Object obj = objIn.readObject(); 
                     if(obj instanceof IMacro){
                         IMacro macro = (IMacro) obj;
-                        System.out.println(macro.toString());
                         target.getImage().apply(macro);
+
+                        target.repaint();
+                        target.getParent().revalidate();
+                        // Reset the zoom of the image.
+                        target.setZoom(100);
+                        // Pack the main GUI frame to the size of the image.
+                        frame.pack();
+                        // Make main GUI frame centered on screen.
+                        frame.setLocationRelativeTo(null);
+
                     }else{
                         //TODO Add language support
                         JOptionPane.showMessageDialog(null, "File did not contain instance of IMacro.", "Invalid File", JOptionPane.ERROR_MESSAGE);

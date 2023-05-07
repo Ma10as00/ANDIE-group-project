@@ -3,6 +3,8 @@ package cosc202.andie;
 import java.util.*;
 import java.io.*;
 import java.awt.image.*;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.awt.HeadlessException;
 import javax.imageio.*;
 import javax.swing.*;
@@ -41,6 +43,8 @@ public class EditableImage {
     private BufferedImage current;
     /** The sequence of operations currently applied to the image. */
     private Stack<ImageOperation> ops;
+    /** Support for recording {@link ImageOperation}s that is applied to this image. */
+    private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
     /** A memory of 'undone' operations to support 'redo'. */
     private Stack<ImageOperation> redoOps;
     /** The file where the original image is stored. */
@@ -323,8 +327,45 @@ public class EditableImage {
      */
     public void apply(ImageOperation op) {
         current = op.apply(current);
+        @SuppressWarnings("unchecked")
+        Stack<ImageOperation> oldOps = (Stack<ImageOperation>) ops.clone();
         ops.add(op);
+        
+        //For PropertyChangeListeners:
+        propertyChangeSupport.firePropertyChange("ops", oldOps, ops);
     }
+
+
+    // ---------------- PropertyChange support ---------------------------------
+    /** @see PropertyChangeSupport#addPropertyChangeListener(String, PropertyChangeListener) 
+     * @author Mathias Øgaard
+    */
+    public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener){
+        propertyChangeSupport.addPropertyChangeListener(propertyName,listener);
+    }
+
+    /** @see PropertyChangeSupport#removePropertyChangeListener(String, PropertyChangeListener)  
+     * @author Mathias Øgaard
+     */
+    public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener){
+        propertyChangeSupport.removePropertyChangeListener(propertyName, listener);
+    }
+
+    /** @see PropertyChangeSupport#getPropertyChangeListeners(String)  
+     * @author Mathias Øgaard
+     */
+    public PropertyChangeListener[] getPropertyChangeListeners(String propertyName){
+        return propertyChangeSupport.getPropertyChangeListeners(propertyName);
+    }
+
+    /** @see PropertyChangeSupport#hasListeners(String)  
+     * @author Mathias Øgaard
+     */
+    public boolean hasListeners(String propertyName){
+        return propertyChangeSupport.hasListeners(propertyName);
+    }
+    //---------------------------------------------------------------------------
+
 
     /**
      * <p>
@@ -394,6 +435,10 @@ public class EditableImage {
      */
     public ImageOperation getLastOp(){
         return ops.peek();
+    }
+
+    public Stack<ImageOperation> getOps(){
+        return ops;
     }
 
     /**

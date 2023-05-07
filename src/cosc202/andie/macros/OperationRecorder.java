@@ -3,6 +3,9 @@ package cosc202.andie.macros;
 import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
+
+import javax.swing.JOptionPane;
 
 import cosc202.andie.*;
 import cosc202.andie.EditActions.UndoAction;
@@ -18,40 +21,30 @@ import cosc202.andie.EditActions.UndoAction;
  * 
  * @author Mathias Øgaard
  */
-public class OperationRecorder implements IOperationRecorder{ //TODO For some reason, the recorder doesn't pick up the operations when they're applied.
+public class OperationRecorder implements IOperationRecorder{
 
     private ArrayList<ImageOperation> recordedOps;
-    private ImageOperation last;
-    private ImagePanel panel;
 
-    public OperationRecorder(ImagePanel target){
+    public OperationRecorder(){
         recordedOps = new ArrayList<>();
-        panel = target;
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if(opsWasChanged())
-            recordedOps.add(getLastOp());
-            last = getLastOp();    
-    }
+        Object newVal = evt.getNewValue();
+        Object oldVal = evt.getOldValue();
 
-    /**
-     * @return The last {@link ImageOperation} in {@link EditableImage#ops}
-     */
-    private ImageOperation getLastOp() {
-        return panel.getImage().getLastOp();
-    }
-
-    /**
-     * Checks if the {@link EditableImage}'s {@code ops} actually was changed. 
-     * <p>
-     * Note that this will missguide the recorder if the user does an {@link UndoAction}. So the program should not allow the user to do so.
-     * 
-     * @return {@code false} if the last recorded {@link ImageOperation} is still the last operation that was applied on the {@link EditableImage}. {@code true} othwerwise.
-     */
-    private boolean opsWasChanged() {
-        return !(last == getLastOp());
+        try {
+            @SuppressWarnings("unchecked")
+            Stack<ImageOperation> oldOps = (Stack<ImageOperation>) oldVal; // Is catched if cast fails
+            @SuppressWarnings("unchecked") 
+            Stack<ImageOperation> newOps = (Stack<ImageOperation>) newVal; // Is catched if cast fails
+            if(!newOps.equals(oldOps)){ //Note that this will missguide the recorder if the user does an UndoAction. So the program should not allow the user to do so.
+                recordedOps.add(newOps.peek());
+            }
+        } catch (ClassCastException e) {
+            JOptionPane.showMessageDialog(null, "Failed to record because the changed values wasn't instances of Stack<ImageOperation>", LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     @Override

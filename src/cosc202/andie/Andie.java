@@ -178,7 +178,7 @@ public class Andie {
         menuBar.add(selectionActions.createMenu()); 
 
         // Macro actions can record what operations are applied to the image, and put them together into macros.
-        MacroActions ma = new MacroActions();
+        MacroActions ma = new MacroActions(frame);
         menuBar.add(ma.createMenu());
 
         // Ability to change the language from a set of included language bundles.

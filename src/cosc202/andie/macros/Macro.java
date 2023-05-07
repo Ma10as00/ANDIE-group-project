@@ -1,5 +1,6 @@
 package cosc202.andie.macros;
 
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -16,8 +17,14 @@ public class Macro extends ArrayList<ImageOperation> implements IMacro {
 
     @Override
     public BufferedImage apply(BufferedImage input) {
-        BufferedImage output = input;
-        for (int i=0; i<size(); i++){   //Apply the operations in the right order
+        //Make copy of input
+        BufferedImage output = new BufferedImage(input.getWidth(), input.getHeight(), input.getType());
+        Graphics g = output.getGraphics();
+        g.drawImage(input, 0, 0, null);
+        g.dispose();
+
+        //Apply the operations in the right order
+        for (int i=0; i<size(); i++){
             ImageOperation op = get(i);
             output = op.apply(output);
         }
