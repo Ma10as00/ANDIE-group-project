@@ -31,9 +31,9 @@ public class ImagePanel extends JPanel {
      * The image to display in the ImagePanel.
      */
     private EditableImage image;
-    static MouseHandler mHandler = new MouseHandler();
-    public static int enterX, enterY, exitX, exitY, width, height; 
-    public Rectangle rect; 
+    MouseHandler mHandler = new MouseHandler();
+    public static int enterX, enterY, exitX, exitY, width, height, clickX, clickY; 
+    public static Rectangle rect; 
     public boolean ongoingRecording = false;
 
     /**
