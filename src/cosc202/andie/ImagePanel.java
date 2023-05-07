@@ -60,10 +60,35 @@ public class ImagePanel extends JPanel {
     public ImagePanel() {
         image = new EditableImage();
         scale = 1.0;
-
         this.addMouseListener(mHandler);
-        
-    }
+        addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent e){
+                enterX = e.getX();
+                enterY = e.getY(); 
+            }
+        });
+
+        addMouseMotionListener(new MouseAdapter() {      
+            public void mouseDragged(MouseEvent e) {
+                exitX = e.getX();
+                exitY = e.getY();
+                rect = new Rectangle(Math.min(enterX, exitX), Math.min(enterY, exitY), Math.abs(exitX - enterX), Math.abs(exitY - enterY));
+                repaint(); 
+            }
+        });
+
+        addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e){
+                clickX = e.getX();
+                clickY = e.getY();
+                if(image.hasImage() && clickX != 0){
+                    rect = null; 
+                    repaint();
+                }
+            }
+            });
+ 
+        }
 
     /**
      * <p>
@@ -142,6 +167,12 @@ public class ImagePanel extends JPanel {
         }
     }
 
+    static boolean findPoint(int x1, int y1, int x2,int y2, int x, int y){
+        if (x > x1 && x < x2 &&y > y1 && y < y2)return true;
+
+        return false;
+    }
+
     /**
      * <p>
      * (Re)draw the component in the GUI.
@@ -158,15 +189,26 @@ public class ImagePanel extends JPanel {
             g2.drawImage(image.getCurrentImage(), null, 0, 0);
             g2.dispose();
         }
-    }
+        Graphics2D g2d = (Graphics2D) g; 
+            if(rect!= null && image.hasImage()){
+                Stroke dashed = new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL,0, new float[]{9}, 0);
+                g2d.setStroke(dashed);
+                g2d.setColor(Color.black);
+                g2d.draw(rect);
+                
+                }
+            }
+            
+   
 
-    public static class MouseHandler implements MouseListener, MouseMotionListener{
-        public static int enterX, enterY, exitX, exitY, width, height; 
+    public class MouseHandler implements MouseListener, MouseMotionListener{
+        public static int enterX, enterY, exitX, exitY, width, height, clickX, clickY; 
         public Rectangle rect; 
 
         @Override
         public void mouseClicked(MouseEvent e) {
-
+            clickX = e.getX();
+            clickY = e.getY();
         }
         @Override
         public void mouseEntered(MouseEvent e) {
@@ -201,9 +243,14 @@ public class ImagePanel extends JPanel {
         public static int getEnterY(){
             return enterY; 
         }
+        public static int getClickX(){
+            return clickX; 
+        }
+        public static int getClickY(){
+            return clickY; 
+        }
         @Override
         public void mouseDragged(MouseEvent e) {
-            
 
         }
         @Override
@@ -213,4 +260,6 @@ public class ImagePanel extends JPanel {
         }
         
      }
-}
+
+    }
+
