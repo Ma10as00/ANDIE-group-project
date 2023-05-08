@@ -41,6 +41,7 @@ public class FilterActions {
         actions.add(new MeanFilterAction(LanguageActions.getLocaleString("meanFilter"), null, LanguageActions.getLocaleString("meanFilterDes"), Integer.valueOf(KeyEvent.VK_M)));
         actions.add(new MedianFilterAction(LanguageActions.getLocaleString("median"), null, LanguageActions.getLocaleString("medianDes"), Integer.valueOf(KeyEvent.VK_D)));
         actions.add(new GaussianBlurFilterAction(LanguageActions.getLocaleString("gaussian"), null, LanguageActions.getLocaleString("gaussianDes"), Integer.valueOf(KeyEvent.VK_N)));
+        actions.add(new SobelHorizontalFilterAction(LanguageActions.getLocaleString("sobelHorizontal"), null, LanguageActions.getLocaleString("sobelHorizontalDes"), null));
     }
 
     /**
@@ -515,6 +516,82 @@ public class FilterActions {
                 }
                 // Create and apply the filter.
                 target.getImage().apply(new MedianFilter(radius));
+                target.repaint();
+                target.getParent().revalidate();
+            }
+        }
+    }
+
+    /**
+     * <p>
+     * Action to blur an image with a sobel horizontal filter.
+     * </p>
+     * 
+     * @see SobelHorizontalFilter
+     */
+    public class SobelHorizontalFilterAction extends ImageAction {
+
+        /**
+         * <p>
+         * Create a new sobel horizontal filter action.
+         * </p>
+         * 
+         * @param name The name of the action (ignored if null).
+         * @param icon An icon to use to represent the action (ignored if null).
+         * @param desc A brief description of the action  (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
+         */
+        SobelHorizontalFilterAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+        }
+
+        /**
+         * <p>
+         * Callback for when the sobel horizontal filter action is triggered.
+         * </p>
+         * 
+         * <p>
+         * This method is called whenever the obelHorizontalFilterAction is triggered.
+         * It asks the user whether they want to get rid of noise, then applys the approprate {@link SobelHorizontalFilter}.
+         * </p>
+         * 
+         * @param e The event triggering this callback.
+         */
+        public void actionPerformed(ActionEvent e) {
+            // Check if there is an image open.
+            if (target.getImage().hasImage() == false) {
+                // There is not an image open, so display error message.
+                try { 
+                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("sobelErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                } catch (HeadlessException ex) {
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                    // Won't happen for our users, so just exit.
+                    System.exit(1);
+                }
+            }
+            else {
+                // There is an image open, carry on.
+                // Determine if the user wants to remove noise - ask the user.
+                boolean removeNoise = false;
+                // Ask user if they want to remove noise.
+                try {
+                    int option = JOptionPane.showOptionDialog(null, LanguageActions.getLocaleString("sobelQuestion"), LanguageActions.getLocaleString("sobelHorizontalTitle"),
+                            JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+                    if (option == JOptionPane.YES_OPTION) {
+                        // The user wants to remove noise.
+                        removeNoise = true;
+                    }
+                    if (option == JOptionPane.CLOSED_OPTION) {
+                        // Do nothing, the user has cancelled the window.
+                        return;
+                    }
+                } catch (HeadlessException ex) {
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                    // Won't happen for our users, so just exit.
+                    System.exit(1);
+                }
+                // Create and apply the filter.
+                target.getImage().apply(new SobelHorizontalFilter(removeNoise));
                 target.repaint();
                 target.getParent().revalidate();
             }
