@@ -437,6 +437,10 @@ public class EditableImage {
         return ops.peek();
     }
 
+    /**
+     * Method to get the stack of operations currently stored in {@link ops}.
+     * @return The stack of operations for this EditableImage.
+     */
     public Stack<ImageOperation> getOps(){
         return ops;
     }
