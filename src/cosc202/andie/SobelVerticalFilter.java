@@ -143,6 +143,7 @@ public class SobelVerticalFilter implements ImageOperation, java.io.Serializable
                 }
             }
         }
+
         // If we want to remove the noise, apply a gaussian blur filter of radius 1.
         if (removeNoise) {
             GaussianBlurFilter blur =  new GaussianBlurFilter();
@@ -174,7 +175,6 @@ public class SobelVerticalFilter implements ImageOperation, java.io.Serializable
                 int val = (int) (((-1 * val00) + (-2 * val01) + (-1 * val02))
                             + ((0 * val10) + (0 * val11) + (0 * val12))
                             + ((1 * val20) + (2 * val21) + (1 * val22)));
-                
                 // Save this value.
                 pixels[x][y] = (int) Math.round((float)val/2.0f);
             }
@@ -212,7 +212,7 @@ public class SobelVerticalFilter implements ImageOperation, java.io.Serializable
         //int grey = (int) Math.round((r + g + b)/3);
         return grey;
     }
-
+    
     /**
      * This support method is used in the final stages of the filter to offset, and rescale, the pixel values
      * to deal with negative results. It takes all pixel values, calculates the range the pixel values
@@ -259,7 +259,7 @@ public class SobelVerticalFilter implements ImageOperation, java.io.Serializable
         return output;
     }
 
-    /**
+     /**
      * This support method is used in the final stages of the filter after the offset and rescaling
      * to be between 0 and 255. This method then takes those values, and gets their absolute
      * difference from 127, and then rescales everything so that it is still between 0 and 255. 
@@ -282,9 +282,9 @@ public class SobelVerticalFilter implements ImageOperation, java.io.Serializable
                 int g = (val >> 8) & 0xff;
                 int b = val & 0xff;
                 // Get absolute difference from 127 and scale back to between 0 and 255.
-                int newR = (int)(Math.abs(r - 139) * (255d/139d));
-                int newG = (int)(Math.abs(g - 139) * (255d/139d));
-                int newB = (int)(Math.abs(b - 139) * (255d/139d));
+                int newR = (int)(Math.abs(r - 127) * (255d/127d));
+                int newG = (int)(Math.abs(g - 127) * (255d/127d));
+                int newB = (int)(Math.abs(b - 127) * (255d/127d));
                 // Put the offset pixel value in output. Note, we keep fully opacity.
                 int pixel = 0xff000000 | (newR << 16) | (newG << 8) | newB;
                 output.setRGB(x, y, pixel);
