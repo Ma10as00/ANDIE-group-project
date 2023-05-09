@@ -192,7 +192,7 @@ public class SobelHorizontalFilter implements ImageOperation, java.io.Serializab
         }
         // Finally, make the edges white and the background black by
         // taking the absolute difference between a pixel channel value and 127.
-        //output = absolute(output);
+        output = absolute(output);
         // Return the output.
         return output;
     }
@@ -277,8 +277,7 @@ public class SobelHorizontalFilter implements ImageOperation, java.io.Serializab
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 int val = input.getRGB(x, y);
-                // Get the ARGB channels.
-                int a = (val >> 24) & 0xff;
+                // Get the RGB channels.
                 int r = (val >> 16) & 0xff;
                 int g = (val >> 8) & 0xff;
                 int b = val & 0xff;

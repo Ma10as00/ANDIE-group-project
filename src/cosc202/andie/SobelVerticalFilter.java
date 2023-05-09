@@ -192,7 +192,7 @@ public class SobelVerticalFilter implements ImageOperation, java.io.Serializable
         }
         // Finally, make the edges white and the background black by
         // taking the absolute difference between a pixel channel value and 127.
-        //output = absolute(output);
+        output = absolute(output);
         // Return the output.
         return output;
     }
@@ -277,15 +277,14 @@ public class SobelVerticalFilter implements ImageOperation, java.io.Serializable
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 int val = input.getRGB(x, y);
-                // Get the ARGB channels.
-                int a = (val >> 24) & 0xff;
+                // Get the RGB channels.
                 int r = (val >> 16) & 0xff;
                 int g = (val >> 8) & 0xff;
                 int b = val & 0xff;
                 // Get absolute difference from 127 and scale back to between 0 and 255.
-                int newR = (int)(Math.abs(r - 128) * (255d/127d));
-                int newG = (int)(Math.abs(g - 128) * (255d/127d));
-                int newB = (int)(Math.abs(b - 128) * (255d/127d));
+                int newR = (int)(Math.abs(r - 139) * (255d/139d));
+                int newG = (int)(Math.abs(g - 139) * (255d/139d));
+                int newB = (int)(Math.abs(b - 139) * (255d/139d));
                 // Put the offset pixel value in output. Note, we keep fully opacity.
                 int pixel = 0xff000000 | (newR << 16) | (newG << 8) | newB;
                 output.setRGB(x, y, pixel);
