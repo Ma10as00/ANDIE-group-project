@@ -81,12 +81,6 @@ public class SobelHorizontalFilter implements ImageOperation, java.io.Serializab
      * @return The resulting (horizontal edge detected) image.
      */
     public BufferedImage apply(BufferedImage input) {
-        // The values for the edge detection kernel as a 9-element array.
-        float [] array = {-1.0f/2.0f, 0, 1.0f/2.0f,
-                         -1.0f,       0, 1.0f,
-                         -1.0f/2.0f,  0, 1.0f/2.0f};
-        
-        Kernel kernel = new Kernel(3, 3, array);
         // Create a new image with the same values as in the original image, but with 
         // the edge pixel values copied to new edge pixel values (the image is bigger by the radius of the kernel)
         // on each side and the top and bottom.
@@ -149,20 +143,45 @@ public class SobelHorizontalFilter implements ImageOperation, java.io.Serializab
                 }
             }
         }
-        // First, convert the image to grey scale.
-        ConvertToGrey grey = new ConvertToGrey();
-        BufferedImage edgesPlusInputGrey = grey.apply(edgesPlusInput);
 
         // If we want to remove the noise, apply a gaussian blur filter of radius 1.
         if (removeNoise) {
             GaussianBlurFilter blur =  new GaussianBlurFilter();
-            edgesPlusInputGrey = blur.apply(edgesPlusInput);
+            edgesPlusInput = blur.apply(edgesPlusInput);
         }
 
         // Apply the edge detection filter to the new buffered image that has extended edges.
-        ConvolveOp convOp = new ConvolveOp(kernel, ConvolveOp.EDGE_NO_OP, null);
-        BufferedImage uncroppedOutput = new BufferedImage(edgesPlusInputGrey.getColorModel(), edgesPlusInputGrey.copyData(null), edgesPlusInputGrey.isAlphaPremultiplied(), null);
-        convOp.filter(edgesPlusInputGrey.getRaster(), uncroppedOutput.getRaster());
+        // Note, I am not using ConvolveOp as it makes the negative values get lost.
+        int width = edgesPlusInput.getWidth();
+        int height = edgesPlusInput.getHeight();
+        // We use an array of int to store the pixel values for now so that the negative ones don't get lost.
+        int[][] pixels = new int[width][height];
+        // We apply the kernel manually.
+        // This part also converts the image to grey.
+        for (int x = 1; x < width - 1; x++) {
+            for (int y = 1; y < height - 1; y++) {
+                int val00 = greyscale(edgesPlusInput.getRGB(x - 1, y - 1));
+                int val01 = greyscale(edgesPlusInput.getRGB(x - 1, y));
+                int val02 = greyscale(edgesPlusInput.getRGB(x - 1, y + 1));
+
+                int val10 = greyscale(edgesPlusInput.getRGB(x, y - 1));
+                int val11 = greyscale(edgesPlusInput.getRGB(x, y));
+                int val12 = greyscale(edgesPlusInput.getRGB(x, y + 1));
+
+                int val20 = greyscale(edgesPlusInput.getRGB(x + 1, y - 1));
+                int val21 = greyscale(edgesPlusInput.getRGB(x + 1, y));
+                int val22 = greyscale(edgesPlusInput.getRGB(x + 1, y + 1));
+                // Manually do the kernel convolution.
+                int val = (int)( (((-1 * val00) + (0 * val01) + (1 * val02)) 
+                            + ((-2 * val10) + (0 * val11) + (2 * val12))
+                            + ((-1 * val20) + (0 * val21) + (1 * val22))));
+                // Save this value.
+                pixels[x][y] = (int) Math.round((float)val/2.0f);
+            }
+        }
+        // Now, we 'squish' all values to be between 0 and 255 by scaling and adding
+        // to deal with negative values. Note, this part makes the image mostly grey rather than mostly black.
+        BufferedImage uncroppedOutput = offset(pixels);
 
         // Crop the uncropped output.
         BufferedImage output = new BufferedImage(input.getWidth(), input.getHeight(), BufferedImage.TYPE_INT_ARGB);
@@ -171,42 +190,106 @@ public class SobelHorizontalFilter implements ImageOperation, java.io.Serializab
                 output.setRGB(x, y, uncroppedOutput.getRGB(x + radius, y + radius));
             }
         }
-
-        // The convolution results in the alpha channel being 0 at all pixels as 
-        // the alpha channel will usually have been 255 everywhere before. So, 
-        // set it back to 255.
-        BufferedImage offsetOutput = makeFullAlpha(output);
-        
+        // Finally, make the edges white and the background black by
+        // taking the absolute difference between a pixel channel value and 127.
+        //output = absolute(output);
         // Return the output.
-        return offsetOutput;
+        return output;
     }
 
     /**
-     * This support method is used in the final stages of the filter to make all
-     * alpha channels 255. That is, make the image opaque.
-     * @param input The image to be made opaque.
-     * @return The opaque image.
+     * This support method is used to convert an individual int RGB pixel value
+     * to grey scale. This follows the convention of weighting green higher and blue lower
+     * as to match how humans perceive brightness.
+     * @param rgb The int RGB value of a pixel in a BufferedImage.
+     * @return rgb converted to an int RGB value of a pixel in grey scale.
      */
-    private static BufferedImage makeFullAlpha(BufferedImage input) {
+    private static int greyscale(int rgb) {
+        int r = (rgb >> 16) & 0xff;
+        int g = (rgb >> 8) & 0xff;
+        int b = (rgb) & 0xff;
+        int grey = (int) Math.round(0.3*r + 0.6*g + 0.1*b);
+        //int grey = (int) Math.round((r + g + b)/3);
+        return grey;
+    }
+
+    /**
+     * This support method is used in the final stages of the filter to offset, and rescale, the pixel values
+     * to deal with negative results. It takes all pixel values, calculates the range the pixel values
+     * are in, and shifts them, potentially squishing or squeezing the range with a scale factor, into
+     * the range 0 to 255. Note, this always makes it fully opaque in alpha.
+     * @param input The image to be offset to the range 0 to 255. 
+     * @return The offset image.
+     */
+    private static BufferedImage offset(int[][] input) {
+        int width = input.length;
+        int height = input[0].length;
+        // Used to store the min and max pixel values.
+        int min = 0;
+        int max = 1;
+        // Create a new BufferedImage to store the offet image. 
+        BufferedImage output = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        // Loop through each pixel in the image to find the minimum and maximum value.
+        for (int y = 1; y < height - 1; y++) {
+            for (int x = 1; x < width - 1; x++) {
+                int val = input[x][y];
+                // Update max and min.
+                if (val < min) {
+                    min = val;
+                }  
+                if (val > max) {
+                    max = val;
+                }            
+            }
+        }
+        // Now, loop through the pixel values to offset and rescale them.
+        int offset = -min;
+        double scale = 255d / ((double) max - min);
+        // Finally, rescale pixel values.
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                int val = input[x][y];
+                // Get the ARGB channels.
+                int newVal = (int)((val + offset) * scale);
+                // Put the offset pixel value in output. Note, we keep fully opacity.
+                int pixel = 0xff000000 | (newVal << 16) | (newVal << 8) | newVal;
+                output.setRGB(x, y, pixel);
+            }
+        }
+        return output;
+    }
+
+    /**
+     * This support method is used in the final stages of the filter after the offset and rescaling
+     * to be between 0 and 255. This method then takes those values, and gets their absolute
+     * difference from 127, and then rescales everything so that it is still between 0 and 255. 
+     * Note, this does not touch the alpha channel. And, this is the stage that means an edge from
+     * dark to light is preceived as the same as an edge from light to dark.
+     * @param input The image to be made absolute.
+     * @return The absolute image, i.e. white edges and black background.
+     */
+    private static BufferedImage absolute(BufferedImage input) {
         int width = input.getWidth();
         int height = input.getHeight();
-        // Create a new BufferedImage to store the new image.
+        // Create output image.
         BufferedImage output = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-        // Loop through each pixel in the image.
+        // Now, loop through the pixel values to offset and rescale them.
         for (int y = 0; y < height; y++) {
-           for (int x = 0; x < width; x++) {
+            for (int x = 0; x < width; x++) {
                 int val = input.getRGB(x, y);
                 // Get the ARGB channels.
                 int a = (val >> 24) & 0xff;
                 int r = (val >> 16) & 0xff;
                 int g = (val >> 8) & 0xff;
                 int b = val & 0xff;
-                // Offset and scale each channel value.
-                int fullA = 255;
-                // Put the offset pixel value in output.
-                int newVal = (fullA << 24) | (r << 16) | (g << 8) | b;
-                output.setRGB(x, y, newVal);
-           }
+                // Get absolute difference from 127 and scale back to between 0 and 255.
+                int newR = (int)(Math.abs(r - 127) * (255d/127d));
+                int newG = (int)(Math.abs(g - 127) * (255d/127d));
+                int newB = (int)(Math.abs(b - 127) * (255d/127d));
+                // Put the offset pixel value in output. Note, we keep fully opacity.
+                int pixel = 0xff000000 | (newR << 16) | (newG << 8) | newB;
+                output.setRGB(x, y, pixel);
+            }
         }
         return output;
     }

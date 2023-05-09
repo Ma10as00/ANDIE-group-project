@@ -203,7 +203,7 @@ public class Andie {
         if (imagePanel.getImage().hasImage()) {
             // There is an image open, warn user that any unsaved changes will be deleted.
             try {
-                int option = JOptionPane.showConfirmDialog(null, "If you exit without saving or exporting this image, any changes will be lost.", "Warning", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+                int option = JOptionPane.showConfirmDialog(null, LanguageActions.getLocaleString("errorExit"), LanguageActions.getLocaleString("warning"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
                 if (option == JOptionPane.OK_OPTION) {
                     // User clicked ok, exit.
                     System.exit(0);

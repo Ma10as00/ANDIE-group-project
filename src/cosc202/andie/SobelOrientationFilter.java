@@ -4,11 +4,11 @@ import java.awt.image.*;
 
 /**
  * <p>
- * ImageOperation to apply a sobel vertical filter.
+ * ImageOperation to apply a sobel horizontal filter.
  * </p>
  * 
  * <p>
- * A sobel vertical filter detects the vertical edges of a given image with a kernel.
+ * A sobel horizontal filter detects the horizontal edges of a given image with a kernel.
  * The outputted image will be dark (possibly black) where there are no edges, and will be 
  * lighter (possibly white) where edges have been detected. This is greyscale. Note, this 
  * implementation gives us the option to apply the filter after a light Gaussian blur filter
@@ -21,10 +21,10 @@ import java.awt.image.*;
  * 
  * @author Stella Srzich (Modified from Steven Mills)
  */
-public class SobelVerticalFilter implements ImageOperation, java.io.Serializable {
+public class SobelOrientationFilter implements ImageOperation, java.io.Serializable {
 
     /**
-     * This boolean gives us the option to apply the sobel vertical filter after a gaussian blur
+     * This boolean gives us the option to apply the sobel horizontal filter after a gaussian blur
      * filter with radius 1 is applied. This works better for natural images where there is a lot of
      * noise potentially obstructing the actual edges. If it is true, the Gaussian blur filter with radiu 1 is applied
      * before we apply the sobel filter.
@@ -33,12 +33,12 @@ public class SobelVerticalFilter implements ImageOperation, java.io.Serializable
 
     /**
      * <p>
-     * Construct a sobel vertical filter.
+     * Construct a sobel horizontal filter.
      * </p>
      * 
      * <p>
-     * This filter converts an image to grey scale and detects the vertical edges.
-     * removeNoise gives us the option to apply the sobel vertical filter after a gaussian blur
+     * This filter converts an image to grey scale and detects the horizontal edges.
+     * removeNoise gives us the option to apply the sobel horizontal filter after a gaussian blur
      * filter with radius 1 is applied. This works better for natural images where there is a lot of
      * noise potentially obstructing the actual edges. If it is true, the gaussian blur filter with radius 1 is applied
      * before we apply the sobel filter.
@@ -46,42 +46,42 @@ public class SobelVerticalFilter implements ImageOperation, java.io.Serializable
      * @see GaussianBlurFilter
      * @param removeNoise True to apply a light Gaussian blur filter before the sobel filter, false otherwise.
      */
-    SobelVerticalFilter(boolean removeNoise) {
+    SobelOrientationFilter(boolean removeNoise) {
         this.removeNoise = removeNoise;
     }
 
     /**
      * <p>
-     * Construct a sobel vertical filter.
+     * Construct a sobel horizontal filter.
      * </p>
      * 
      * <p>
      * By default, removeNoise is true. That is, a light Gaussian blur filter
-     * is applied to the image before its vertical edges are detected.
+     * is applied to the image before its horizontal edges are detected.
      * </p>
      * @see GaussianBlurFilter
-     * @see SobelVerticalFilter(boolean removeNoise)
+     * @see SobelHorizontalFilter(boolean removeNoise)
      */
-    SobelVerticalFilter() {
+    SobelOrientationFilter() {
         this(true);
     }
 
     /**
      * <p>
-     * Apply a sobel vertical filter to an image.
+     * Apply a sobel horizontal filter to an image.
      * </p>
      * 
      * <p>
-     * As with many filters, the sobel vertical filter is implemented via convolution.
+     * As with many filters, the sobel horizontal filter is implemented via convolution.
      * First, the image is converted to grey scale. Then, if removeNoise is true, a light
-     * Gaussian blur filter is applied. Lastly, the vertical edges are detected via convolution.
+     * Gaussian blur filter is applied. Lastly, the horizontal edges are detected via convolution.
      * </p>
      * 
-     * @param input The image to apply the sobel vertical filter to.
-     * @return The resulting (vertical edge detected) image.
+     * @param input The image to apply the sobel horizontal filter to.
+     * @return The resulting (horizontal edge detected) image.
      */
     public BufferedImage apply(BufferedImage input) {
-        // Create a new image with the same values as in the original image, but with 
+       // Create a new image with the same values as in the original image, but with 
         // the edge pixel values copied to new edge pixel values (the image is bigger by the radius of the kernel)
         // on each side and the top and bottom.
         int radius = 1;
@@ -143,6 +143,7 @@ public class SobelVerticalFilter implements ImageOperation, java.io.Serializable
                 }
             }
         }
+
         // If we want to remove the noise, apply a gaussian blur filter of radius 1.
         if (removeNoise) {
             GaussianBlurFilter blur =  new GaussianBlurFilter();
@@ -154,9 +155,10 @@ public class SobelVerticalFilter implements ImageOperation, java.io.Serializable
         int width = edgesPlusInput.getWidth();
         int height = edgesPlusInput.getHeight();
         // We use an array of int to store the pixel values for now so that the negative ones don't get lost.
-        int[][] pixels = new int[width][height];
+        int[][] magnitudes = new int[width][height];
+        double[][] thetas = new double[width][height];
         // We apply the kernel manually.
-        // This part also converts the image to grey.
+        // This part also converts the image to grey scale.
         for (int x = 1; x < width - 1; x++) {
             for (int y = 1; y < height - 1; y++) {
                 int val00 = greyscale(edgesPlusInput.getRGB(x - 1, y - 1));
@@ -171,18 +173,29 @@ public class SobelVerticalFilter implements ImageOperation, java.io.Serializable
                 int val21 = greyscale(edgesPlusInput.getRGB(x + 1, y));
                 int val22 = greyscale(edgesPlusInput.getRGB(x + 1, y + 1));
                 // Manually do the kernel convolution.
-                int val = (int) (((-1 * val00) + (-2 * val01) + (-1 * val02))
+                int dx = (int)( (((-1 * val00) + (0 * val01) + (1 * val02)) 
+                            + ((-2 * val10) + (0 * val11) + (2 * val12))
+                            + ((-1 * val20) + (0 * val21) + (1 * val22))));
+
+                int dy = (int) (((-1 * val00) + (-2 * val01) + (-1 * val02))
                             + ((0 * val10) + (0 * val11) + (0 * val12))
                             + ((1 * val20) + (2 * val21) + (1 * val22)));
-                
+                // Scale the values to normalise.
+                int dxVal = (int) Math.round((float)dx/2.0f);
+                int dyVal = (int) Math.round((float)dy/2.0f);
+                // Calculate the magnitude of the edge.
+                int mag = (int)Math.sqrt(dxVal * dxVal + dyVal * dyVal);
                 // Save this value.
-                pixels[x][y] = (int) Math.round((float)val/2.0f);
+                magnitudes[x][y] = mag;
+                // Calculate the angles in radians this would be, i.e. polar coordinate.
+                // This can be 0 to 2*pi.
+                thetas[x][y] = Math.atan2(dyVal, dxVal) + Math.PI;
             }
         }
         // Now, we 'squish' all values to be between 0 and 255 by scaling and adding
         // to deal with negative values. Note, this part makes the image mostly grey rather than mostly black.
-        BufferedImage uncroppedOutput = offset(pixels);
-
+        BufferedImage uncroppedOutput = offset(magnitudes);
+        // Now, we assign a hue to each pixel based on its 
         // Crop the uncropped output.
         BufferedImage output = new BufferedImage(input.getWidth(), input.getHeight(), BufferedImage.TYPE_INT_ARGB);
         for (int x = 0; x < input.getWidth(); x++) {
@@ -190,14 +203,12 @@ public class SobelVerticalFilter implements ImageOperation, java.io.Serializable
                 output.setRGB(x, y, uncroppedOutput.getRGB(x + radius, y + radius));
             }
         }
-        // Finally, make the edges white and the background black by
-        // taking the absolute difference between a pixel channel value and 127.
-        //output = absolute(output);
+        
         // Return the output.
         return output;
     }
 
-     /**
+    /**
      * This support method is used to convert an individual int RGB pixel value
      * to grey scale. This follows the convention of weighting green higher and blue lower
      * as to match how humans perceive brightness.
@@ -259,42 +270,6 @@ public class SobelVerticalFilter implements ImageOperation, java.io.Serializable
         return output;
     }
 
-    /**
-     * This support method is used in the final stages of the filter after the offset and rescaling
-     * to be between 0 and 255. This method then takes those values, and gets their absolute
-     * difference from 127, and then rescales everything so that it is still between 0 and 255. 
-     * Note, this does not touch the alpha channel. And, this is the stage that means an edge from
-     * dark to light is preceived as the same as an edge from light to dark.
-     * @param input The image to be made absolute.
-     * @return The absolute image, i.e. white edges and black background.
-     */
-    private static BufferedImage absolute(BufferedImage input) {
-        int width = input.getWidth();
-        int height = input.getHeight();
-        // Create output image.
-        BufferedImage output = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-        // Now, loop through the pixel values to offset and rescale them.
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                int val = input.getRGB(x, y);
-                // Get the ARGB channels.
-                int a = (val >> 24) & 0xff;
-                int r = (val >> 16) & 0xff;
-                int g = (val >> 8) & 0xff;
-                int b = val & 0xff;
-                // Get absolute difference from 127 and scale back to between 0 and 255.
-                int newR = (int)(Math.abs(r - 128) * (255d/127d));
-                int newG = (int)(Math.abs(g - 128) * (255d/127d));
-                int newB = (int)(Math.abs(b - 128) * (255d/127d));
-                // Put the offset pixel value in output. Note, we keep fully opacity.
-                int pixel = 0xff000000 | (newR << 16) | (newG << 8) | newB;
-                output.setRGB(x, y, pixel);
-            }
-        }
-        return output;
-    }
-
 }
-
 
 
