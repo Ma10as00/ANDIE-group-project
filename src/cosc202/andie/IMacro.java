@@ -1,9 +1,7 @@
-package cosc202.andie.macros;
+package cosc202.andie;
 
 import java.io.Serializable;
 import java.util.*;
-
-import cosc202.andie.ImageOperation;
 
 /**
  * This interface describes a macro - a list of image operations combined into one.

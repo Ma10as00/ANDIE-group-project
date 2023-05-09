@@ -1,4 +1,4 @@
-package cosc202.andie.macros;
+package cosc202.andie;
 
 import java.awt.HeadlessException;
 import java.awt.event.*;
@@ -7,8 +7,6 @@ import java.io.*;
 import java.util.ArrayList;
 
 import javax.swing.*;
-
-import cosc202.andie.*;
 
 /**
  * Class keeping track of all the {@link ImageAction}s concerning macros, and providing a drop-down menu to the GUI.
