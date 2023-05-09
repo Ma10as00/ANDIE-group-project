@@ -26,7 +26,7 @@ import java.awt.image.*;
 public class SobelOrientationFilter implements ImageOperation, java.io.Serializable {
 
     /**
-     * This boolean gives us the option to apply the sobel horizontal filter after a gaussian blur
+     * This boolean gives us the option to apply the sobel orientation filter after a gaussian blur
      * filter with radius 1 is applied. This works better for natural images where there is a lot of
      * noise potentially obstructing the actual edges. If it is true, the Gaussian blur filter with radiu 1 is applied
      * before we apply the sobel filter.
@@ -61,10 +61,10 @@ public class SobelOrientationFilter implements ImageOperation, java.io.Serializa
      * 
      * <p>
      * By default, removeNoise is true. That is, a light Gaussian blur filter
-     * is applied to the image before its horizontal edges are detected.
+     * is applied to the image before its edges are detected.
      * </p>
      * @see GaussianBlurFilter
-     * @see SobelHorizontalFilter(boolean removeNoise)
+     * @see SobelOrientationFilter(boolean removeNoise)
      */
     SobelOrientationFilter() {
         this(true);
@@ -78,14 +78,14 @@ public class SobelOrientationFilter implements ImageOperation, java.io.Serializa
      * <p>
      * As with many filters, the sobel orientation filter is implemented via convolution.
      * First, this filter will apply a light Gaussian blur if removeNoise is true. Then, 
-     * the horisontal and vertical edges are detected with Sobel kernels. The modulus of the 
+     * the horizontal and vertical edges are detected with Sobel kernels. The modulus of the 
      * 'strength' of this detection is used to decide the brightness of each pixel. So, where the is a bright pixel,
      * there will be an edge, and where there is a black pixel, there won't be an edge. Then, the hue is determined
      * by the orientation of the edge.
      * </p>
      * 
-     * @param input The image to apply the sobel horizontal filter to.
-     * @return The resulting (horizontal edge detected) image.
+     * @param input The image to apply the sobel orientation filter to.
+     * @return The resulting (edge orientation detected) image.
      */
     public BufferedImage apply(BufferedImage input) {
        // Create a new image with the same values as in the original image, but with 

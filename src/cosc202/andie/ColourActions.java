@@ -192,7 +192,7 @@ public class ColourActions {
 
                     int select = JOptionPane.showOptionDialog(null, jslider, LanguageActions.getLocaleString("brightnessSlid"),
                     JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
-                    if (select == JOptionPane.CANCEL_OPTION) {
+                    if (select == JOptionPane.CANCEL_OPTION || select == JOptionPane.CLOSED_OPTION) {
                         // Set the image in target back to the actual image and repaint.
                         target.setImage(actualImage);
                         target.repaint();
@@ -294,7 +294,7 @@ public class ColourActions {
 
                     int select = JOptionPane.showOptionDialog(null, jslider, LanguageActions.getLocaleString("contrastSlid"),
                     JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
-                    if (select == JOptionPane.CANCEL_OPTION) {
+                    if (select == JOptionPane.CANCEL_OPTION || select == JOptionPane.CLOSED_OPTION) {
                         // Set the image in target back to the actual image and repaint.
                         target.setImage(actualImage);
                         target.repaint();

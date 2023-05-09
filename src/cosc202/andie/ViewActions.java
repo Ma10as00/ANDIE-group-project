@@ -265,7 +265,7 @@ public class ViewActions {
                 try {
                     int option = JOptionPane.showOptionDialog(null, jslider, LanguageActions.getLocaleString("zoomChange"),
                             JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
-                    if (option == JOptionPane.CANCEL_OPTION) {
+                    if (option == JOptionPane.CANCEL_OPTION || option == JOptionPane.CLOSED_OPTION) {
                         // Set the image in target back to the actual image and repaint.
                         target.setImage(actualImage);
                         // Reset the zoom value.
