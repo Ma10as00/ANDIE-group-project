@@ -8,10 +8,12 @@ import java.awt.image.*;
  * </p>
  * 
  * <p>
- * A sobel horizontal filter detects the horizontal edges of a given image with a kernel.
+ * A sobel orientation filter detects the horizontal and vertical component of edges of a given image with a kernel.
  * The outputted image will be dark (possibly black) where there are no edges, and will be 
- * lighter (possibly white) where edges have been detected. This is greyscale. Note, this 
- * implementation gives us the option to apply the filter after a light Gaussian blur filter
+ * lighter where edges have been detected. Then, the orientation of the edges decides the hue of the pixel. This
+ * hue is decided by the angle of the polar coordinate of the point (magnitiude of horizontal edge, magnitude of vertical edge)
+ * in the cartesian plane, where the positive x axis is red, negative x axis is green, positive y axis is yellow and negative
+ * y axis is blue. Note, this implementation gives us the option to apply the filter after a light Gaussian blur filter.
  * (of radius 1), which typically detects the edges of a natrual image better.
  * </p>
  * 
@@ -33,12 +35,14 @@ public class SobelOrientationFilter implements ImageOperation, java.io.Serializa
 
     /**
      * <p>
-     * Construct a sobel horizontal filter.
+     * Construct a sobel orientation filter.
      * </p>
      * 
      * <p>
-     * This filter converts an image to grey scale and detects the horizontal edges.
-     * removeNoise gives us the option to apply the sobel horizontal filter after a gaussian blur
+     * This filter detects the horisontal and vertical edges of an image. The modulus of the 
+     * 'strength' of this detection is used to decide the brightness of each pixel. So, where the is a bright pixel,
+     * there will be an edge, and where there is a black pixel, there won't be an edge. Then, the hue is determined
+     * by the orientation of the edge. removeNoise gives us the option to apply the sobel horizontal filter after a gaussian blur
      * filter with radius 1 is applied. This works better for natural images where there is a lot of
      * noise potentially obstructing the actual edges. If it is true, the gaussian blur filter with radius 1 is applied
      * before we apply the sobel filter.
@@ -52,7 +56,7 @@ public class SobelOrientationFilter implements ImageOperation, java.io.Serializa
 
     /**
      * <p>
-     * Construct a sobel horizontal filter.
+     * Construct a sobel orientation filter.
      * </p>
      * 
      * <p>
@@ -68,13 +72,16 @@ public class SobelOrientationFilter implements ImageOperation, java.io.Serializa
 
     /**
      * <p>
-     * Apply a sobel horizontal filter to an image.
+     * Apply a sobel orientation filter to an image.
      * </p>
      * 
      * <p>
-     * As with many filters, the sobel horizontal filter is implemented via convolution.
-     * First, the image is converted to grey scale. Then, if removeNoise is true, a light
-     * Gaussian blur filter is applied. Lastly, the horizontal edges are detected via convolution.
+     * As with many filters, the sobel orientation filter is implemented via convolution.
+     * First, this filter will apply a light Gaussian blur if removeNoise is true. Then, 
+     * the horisontal and vertical edges are detected with Sobel kernels. The modulus of the 
+     * 'strength' of this detection is used to decide the brightness of each pixel. So, where the is a bright pixel,
+     * there will be an edge, and where there is a black pixel, there won't be an edge. Then, the hue is determined
+     * by the orientation of the edge.
      * </p>
      * 
      * @param input The image to apply the sobel horizontal filter to.
@@ -203,7 +210,8 @@ public class SobelOrientationFilter implements ImageOperation, java.io.Serializa
                 output.setRGB(x, y, uncroppedOutput.getRGB(x + radius, y + radius));
             }
         }
-        
+        // Now, add hue to each pixel based on the orientation of the edge at that pixel.
+        output = colour(thetas, output);
         // Return the output.
         return output;
     }
@@ -264,6 +272,64 @@ public class SobelOrientationFilter implements ImageOperation, java.io.Serializa
                 int newVal = (int)((val + offset) * scale);
                 // Put the offset pixel value in output. Note, we keep fully opacity.
                 int pixel = 0xff000000 | (newVal << 16) | (newVal << 8) | newVal;
+                output.setRGB(x, y, pixel);
+            }
+        }
+        return output;
+    }
+
+     /**
+     * This support method is used to decide the hue of each pixel. The brightness of each pixel
+     * will have already been determined before this method has been called. Note, the decision has 
+     * been made that if theta is from a polar coordinate in the cartesian plane, the positive
+     * x axis is red, negative x axis is green, positive y axis is yellow and negative
+     * y axis is blue. Alpha channel is not effected at all.
+     * @param input The image have hue added. This is assumed to be in grey scale.
+     * @oaram theta The 2-d array of theta values for each pixel, which correspond to hue.
+     * @return The image now with hue decided by theta at each pixel.
+     */
+    private static BufferedImage colour(double[][] theta, BufferedImage input) {
+        int width = input.getWidth();
+        int height = input.getHeight();
+        // Create a new BufferedImage to store the offet image. 
+        BufferedImage output = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        // Loop through each pixel to assign the right hue with the brightness.
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                // Get the angle of edge at this pixel. From 0 to 2pi.
+                double angle = theta[x][y];
+                // Get pixel int value.
+                int val = input.getRGB(x, y);
+                // Get the RGB channels. Only really care about this for magnitude.
+                int r = (val >> 16) & 0xff;
+                int g = (val >> 8) & 0xff;
+                int b = val & 0xff;
+                // Define new values. Will convert to int later. 
+                // Due to cos and sin, will always be between 0 and 1.
+                double newR = 0;
+                double newG = 0;
+                double newB = 0;
+                // Assign hue values. These will be relatively scaled later.
+                if (Math.cos(angle) > 0) {
+                    newR = Math.cos(angle); // Red value, green will be 0.
+                }
+                else if (Math.cos(angle) < 0) {
+                    newG = -Math.cos(angle); // Green value, red will be 0.
+                }
+                if (Math.sin(angle) > 0) {
+                    newR += Math.sin(angle); // Yellow (red and green) value, blue will be 0.
+                    newG += Math.sin(angle); // Yellow (red and green) value, blue will be 0.
+                }
+                else if (Math.sin(angle) < 0) {
+                    newB = -Math.sin(angle); // Blue value, yellow will be 0.
+                }
+                // Actually make the int pixel values. Just scaling the values really.
+                // Also scaling them to keep in mind human perception of colour
+                int pixelR = (int)Math.round(((double)r)*newR);
+                int pixelG = (int)Math.round(((double)g)*newG);
+                int pixelB = (int)Math.round(((double)b)*newB);
+                // Put the coloured pixel values in output. Note, we keep fully opacity.
+                int pixel = 0xff000000 | (pixelR << 16) | (pixelG << 8) | pixelB;
                 output.setRGB(x, y, pixel);
             }
         }
