@@ -38,9 +38,9 @@ public class MacroActions{
         actions = new ArrayList<Action>();
         this.frame = frame;
         // TODO Add language support
-        actions.add(new StartRecordingAction("Initiate recording", null, "Records all operations applied to the image after this button is pushed.", Integer.valueOf(KeyEvent.VK_8)));
-        actions.add(new StopRecordingAction("End recording", null, "Ends an ongoing recording, and gives you the option to save the recorded operations as a macro.", Integer.valueOf(KeyEvent.VK_9)));
-        actions.add(new ApplyMacroAction("Apply macro", null, "Lets you load a saved macro and apply it to the image.", Integer.valueOf(KeyEvent.VK_L)));
+        actions.add(new StartRecordingAction(LanguageActions.getLocaleString("initrecord"), null, LanguageActions.getLocaleString("initrecorddesc"), Integer.valueOf(KeyEvent.VK_8)));
+        actions.add(new StopRecordingAction(LanguageActions.getLocaleString("endrecord"), null, LanguageActions.getLocaleString("endrecorddesc"), Integer.valueOf(KeyEvent.VK_9)));
+        actions.add(new ApplyMacroAction(LanguageActions.getLocaleString("applymacro"), null, LanguageActions.getLocaleString("applymacrodesc"), Integer.valueOf(KeyEvent.VK_L)));
     }
 
     /**
@@ -52,7 +52,7 @@ public class MacroActions{
      */
     public JMenu createMenu() {
         // TODO Add mult. language support
-        JMenu menu = new JMenu("Macro");
+        JMenu menu = new JMenu(LanguageActions.getLocaleString("macro"));
 
         for (Action action: actions) {
             menu.add(new JMenuItem(action));
@@ -85,7 +85,7 @@ public class MacroActions{
         public void actionPerformed(ActionEvent e) {
             if (target.ongoingRecording){
                 //TODO Add language support
-                JOptionPane.showMessageDialog(null, "A recording is already initiated.", LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("recorderror"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 return;
             }
             IOperationRecorder rec = new OperationRecorder();
@@ -123,7 +123,7 @@ public class MacroActions{
 
             // Retrieve the recording from the ImagePanel -------------------------
             if(!targetImage.hasListeners("ops")){ //TODO Add language support
-                JOptionPane.showMessageDialog(null, "Couldn't find any recordings to finnish. Panel had no PropertyChangeListeners.", LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("stoprecorderror"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
             }
             
             PropertyChangeListener[] plcs = targetImage.getPropertyChangeListeners("ops");
