@@ -1,6 +1,7 @@
 package cosc202.andie;
 
 import java.awt.HeadlessException;
+import java.awt.Toolkit;
 import java.awt.event.*;
 import java.beans.PropertyChangeListener;
 import java.io.*;
@@ -78,6 +79,7 @@ public class MacroActions{
          */
         public StartRecordingAction(String name, ImageIcon icon, String desc, Integer mnemonic){
             super(name, icon, desc, mnemonic);
+            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_8, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
             
         }
 
@@ -114,6 +116,7 @@ public class MacroActions{
          */
         protected StopRecordingAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
+            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_9, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         }
 
         @Override
@@ -206,6 +209,7 @@ public class MacroActions{
 
         protected ApplyMacroAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
+            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_L, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         }
 
         @Override

@@ -50,9 +50,9 @@ public class FileActions {
         this.frame = frame;
         actions.add(new FileOpenAction(LanguageActions.getLocaleString("open"), null, LanguageActions.getLocaleString("openDes"), Integer.valueOf(KeyEvent.VK_O)));
         actions.add(new FileSaveAction(LanguageActions.getLocaleString("save"), null, LanguageActions.getLocaleString("saveDes"), Integer.valueOf(KeyEvent.VK_S)));
-        actions.add(new FileSaveAsAction(LanguageActions.getLocaleString("saveAs"), null, LanguageActions.getLocaleString("saveAsDes"), Integer.valueOf(KeyEvent.VK_A)));
+        actions.add(new FileSaveAsAction(LanguageActions.getLocaleString("saveAs"), null, LanguageActions.getLocaleString("saveAsDes"), Integer.valueOf(KeyEvent.VK_SHIFT)));
         actions.add(new FileExportAction(LanguageActions.getLocaleString("export"), null, LanguageActions.getLocaleString("exportDes"), Integer.valueOf(KeyEvent.VK_E)));
-        actions.add(new FileExitAction(LanguageActions.getLocaleString("exit"), null, LanguageActions.getLocaleString("exitDes"), Integer.valueOf(0)));
+        actions.add(new FileExitAction(LanguageActions.getLocaleString("exit"), null, LanguageActions.getLocaleString("exitDes"), Integer.valueOf(KeyEvent.VK_ESCAPE)));
     }
 
     /**
@@ -161,6 +161,7 @@ public class FileActions {
          */
         FileOpenAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
+            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_O, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         }
 
         /**
@@ -262,6 +263,7 @@ public class FileActions {
          */
         FileSaveAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
+            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_S, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         }
 
         /**
@@ -316,6 +318,7 @@ public class FileActions {
          */
         FileSaveAsAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
+            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_SHIFT, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         }
 
         /**
@@ -413,6 +416,7 @@ public class FileActions {
             // Note, this now extends ImageAction instead of AbstractAction so it can
             // access the target ImagePanel
             super(name, icon, desc, mnemonic);
+            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         }
 
         /**
@@ -476,6 +480,7 @@ public class FileActions {
          */
         FileExportAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
+            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_E, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         }
         /**
          * <p>
