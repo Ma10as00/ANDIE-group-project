@@ -101,6 +101,9 @@ public class Andie {
         // Calls renderMenu method to render the menu in the selected language.
         renderMenu();
         
+        // Calls renderToolbar method to render the toolbar.
+        renderToolbar();
+
         frame.pack();
         // Make window centered on screen.
         frame.setLocationRelativeTo(null);
@@ -183,6 +186,40 @@ public class Andie {
         menuBar.add(languageActions.createMenu());
 
         frame.setJMenuBar(menuBar);
+        frame.pack();
+    }
+
+    public static void renderToolbar(){
+        JToolBar toolbar = new JToolBar();
+        frame.add(toolbar, BorderLayout.PAGE_START);
+        JButton button = null;
+
+        // Adds the save button to the toolbar.
+        FileActions fileActions = new FileActions(frame);
+        button = new JButton(fileActions.getFileSaveAction());
+        if(button.getIcon() != null){
+            button.setText("");
+        }
+        toolbar.add(button);
+
+        // Adds a separator to the toolbar.
+        toolbar.addSeparator();
+
+        // Adds the undo button to the toolbar.
+        EditActions editActions = new EditActions(frame);
+        button = new JButton(editActions.getUndoAction());
+        if(button.getIcon() != null){
+            button.setText("");
+        }
+        toolbar.add(button);
+
+        // Adds the redo button to the toolbar.
+        button = new JButton(editActions.getRedoAction());
+        if(button.getIcon() != null){
+            button.setText("");
+        }
+        toolbar.add(button);
+
         frame.pack();
     }
 

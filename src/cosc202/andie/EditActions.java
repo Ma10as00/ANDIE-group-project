@@ -31,6 +31,13 @@ public class EditActions {
     
     /** A list of actions for the Edit menu. */
     protected ArrayList<Action> actions;
+
+    // An instance of UndoAction.
+    protected UndoAction undoAction;
+
+    //An instance of RedoAction.
+    protected RedoAction redoAction;
+
     /** 
      * The main GUI frame. Only here so that we can pack the 
      * frame when we undo or redo operations to an image.
@@ -47,8 +54,10 @@ public class EditActions {
     public EditActions(JFrame frame) {
         actions = new ArrayList<Action>();
         this.frame = frame;
-        actions.add(new UndoAction(LanguageActions.getLocaleString("undo"), null, LanguageActions.getLocaleString("undoDes"), Integer.valueOf(KeyEvent.VK_Z)));
-        actions.add(new RedoAction(LanguageActions.getLocaleString("redo"), null, LanguageActions.getLocaleString("redoDes"), Integer.valueOf(KeyEvent.VK_Y)));
+        this.undoAction = new UndoAction(LanguageActions.getLocaleString("undo"), null, LanguageActions.getLocaleString("undoDes"), Integer.valueOf(KeyEvent.VK_Z));
+        this.redoAction = new RedoAction(LanguageActions.getLocaleString("redo"), null, LanguageActions.getLocaleString("redoDes"), Integer.valueOf(KeyEvent.VK_Y));
+        actions.add(undoAction);
+        actions.add(redoAction);
         actions.add(new UndoAllAction(LanguageActions.getLocaleString("undoAll"), null, LanguageActions.getLocaleString("undoAllDes"), Integer.valueOf(KeyEvent.VK_A)));
         actions.add(new RegionCropAction(LanguageActions.getLocaleString("crop"), null, LanguageActions.getLocaleString("regionCropDesc"), Integer.valueOf(KeyEvent.VK_I)));
         
@@ -69,6 +78,17 @@ public class EditActions {
         }
 
         return editMenu;
+    }
+
+    /**
+     * <p>
+     * Accessor method to return UndoAction as a single action.
+     * </p>
+     * 
+     * @return an instance of UndoAction.
+     */
+    public UndoAction getUndoAction() {
+        return this.undoAction;
     }
 
     /**
@@ -229,7 +249,18 @@ public class EditActions {
         }
     }
 
-     /**
+    /**
+     * <p>
+     * Accessor method to return RedoAction as a single action.
+     * </p>
+     * 
+     * @return an instance of RedoAction.
+     */
+    public RedoAction getRedoAction() {
+        return this.redoAction;
+    }
+
+    /**
      * <p>
      * Action to redo an {@link ImageOperation}.
      * </p>
