@@ -38,7 +38,6 @@ public class MacroActions{
     public MacroActions(JFrame frame){
         actions = new ArrayList<Action>();
         this.frame = frame;
-        // TODO Add language support
         actions.add(new StartRecordingAction(LanguageActions.getLocaleString("initrecord"), null, LanguageActions.getLocaleString("initrecorddesc"), Integer.valueOf(KeyEvent.VK_8)));
         actions.add(new StopRecordingAction(LanguageActions.getLocaleString("endrecord"), null, LanguageActions.getLocaleString("endrecorddesc"), Integer.valueOf(KeyEvent.VK_9)));
         actions.add(new ApplyMacroAction(LanguageActions.getLocaleString("applymacro"), null, LanguageActions.getLocaleString("applymacrodesc"), Integer.valueOf(KeyEvent.VK_L)));
@@ -52,7 +51,6 @@ public class MacroActions{
      * @return The macro menu UI element.
      */
     public JMenu createMenu() {
-        // TODO Add mult. language support
         JMenu menu = new JMenu(LanguageActions.getLocaleString("macro"));
 
         for (Action action: actions) {
@@ -86,7 +84,6 @@ public class MacroActions{
         @Override
         public void actionPerformed(ActionEvent e) {
             if (target.ongoingRecording){
-                //TODO Add language support
                 JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("recorderror"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 return;
             }
@@ -125,7 +122,7 @@ public class MacroActions{
             EditableImage targetImage = target.getImage();
 
             // Retrieve the recording from the ImagePanel -------------------------
-            if(!targetImage.hasListeners("ops")){ //TODO Add language support
+            if(!targetImage.hasListeners("ops")){
                 JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("stoprecorderror"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
             }
             
@@ -143,8 +140,7 @@ public class MacroActions{
 
             //If no operations were recorded, ask user if they really want to stop the recording
             if(rec.getOps().size() < 1){
-                 //TODO Add language support
-                int choice = JOptionPane.showOptionDialog(null,"No operations were recorded. Are you sure you want to end the recording?", LanguageActions.getLocaleString("error"), 
+                int choice = JOptionPane.showOptionDialog(null,LanguageActions.getLocaleString("norecord"), LanguageActions.getLocaleString("error"), 
                                                             JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
                 if (choice == JOptionPane.NO_OPTION)
                     return;
@@ -170,8 +166,7 @@ public class MacroActions{
 
             // Give the user an option to save the macro ---------------------------
             try {
-                //TODO Add language support
-                int saveOrNot = JOptionPane.showOptionDialog(null, "Do you want to save the recorded macro?", "Save", 
+                int saveOrNot = JOptionPane.showOptionDialog(null, LanguageActions.getLocaleString("wantsave"), LanguageActions.getLocaleString("save"), 
                                                                 JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
                 if (saveOrNot == JOptionPane.YES_OPTION)
                     saveMacro(m);
@@ -184,8 +179,8 @@ public class MacroActions{
         /**
          * Method to give the user an option to save a set of operations as a macro.
          */
-        private void saveMacro(IMacro m) { //TODO Add language support
-            String filename = JOptionPane.showInputDialog(null, "Write the filename as which the macro should be saved.","Saving macro", JOptionPane.QUESTION_MESSAGE);
+        private void saveMacro(IMacro m) {
+            String filename = JOptionPane.showInputDialog(null, LanguageActions.getLocaleString("macrosaveas"),LanguageActions.getLocaleString("savemacro"), JOptionPane.QUESTION_MESSAGE);
             try {
                 FileOutputStream fileOut = new FileOutputStream(filename + ".ops");
                 ObjectOutputStream objOut = new ObjectOutputStream(fileOut);
@@ -193,7 +188,7 @@ public class MacroActions{
                 objOut.close();
                 fileOut.close();
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Sorry, there has been an error in saving the file. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("savemacroerror"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
             }
         }
     }
@@ -238,8 +233,7 @@ public class MacroActions{
                         frame.setLocationRelativeTo(null);
 
                     }else{
-                        //TODO Add language support
-                        JOptionPane.showMessageDialog(null, "File did not contain instance of IMacro.", "Invalid File", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("filenomacro"), LanguageActions.getLocaleString("invalidfile"), JOptionPane.ERROR_MESSAGE);
                     }
 
                     objIn.close();
