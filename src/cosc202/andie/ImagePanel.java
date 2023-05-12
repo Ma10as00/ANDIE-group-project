@@ -190,13 +190,15 @@ public class ImagePanel extends JPanel {
             g2.dispose();
         }
         Graphics2D g2d = (Graphics2D) g; 
-            if(rect!= null && image.hasImage()){
+        if(image.hasImage()){
+            if(rect!= null){
                 Stroke dashed = new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL,0, new float[]{9}, 0);
                 g2d.setStroke(dashed);
                 g2d.setColor(Color.black);
                 g2d.draw(rect);
                 
                 }
+            }   
             }
             
    

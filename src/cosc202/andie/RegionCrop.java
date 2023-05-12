@@ -1,7 +1,6 @@
 package cosc202.andie;
 import java.awt.Graphics;
 import java.awt.image.*;
-import javax.swing.*;
 
 
 public class RegionCrop implements ImageOperation {
