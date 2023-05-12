@@ -1,9 +1,7 @@
 package cosc202.andie;
 import java.awt.*;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.*;
-import javax.swing.*;
 
 
 
