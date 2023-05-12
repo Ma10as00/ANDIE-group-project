@@ -7,6 +7,7 @@ import javax.swing.*;
 import cosc202.andie.ImagePanel.MouseHandler;
 
 import java.awt.HeadlessException;
+import java.awt.Toolkit;
 
  /**
  * <p>
@@ -30,6 +31,13 @@ public class EditActions {
     
     /** A list of actions for the Edit menu. */
     protected ArrayList<Action> actions;
+
+    // An instance of UndoAction.
+    protected UndoAction undoAction;
+
+    //An instance of RedoAction.
+    protected RedoAction redoAction;
+
     /** 
      * The main GUI frame. Only here so that we can pack the 
      * frame when we undo or redo operations to an image.
@@ -46,8 +54,10 @@ public class EditActions {
     public EditActions(JFrame frame) {
         actions = new ArrayList<Action>();
         this.frame = frame;
-        actions.add(new UndoAction(LanguageActions.getLocaleString("undo"), null, LanguageActions.getLocaleString("undoDes"), Integer.valueOf(KeyEvent.VK_Z)));
-        actions.add(new RedoAction(LanguageActions.getLocaleString("redo"), null, LanguageActions.getLocaleString("redoDes"), Integer.valueOf(KeyEvent.VK_Y)));
+        this.undoAction = new UndoAction(LanguageActions.getLocaleString("undo"), null, LanguageActions.getLocaleString("undoDes"), Integer.valueOf(KeyEvent.VK_Z));
+        this.redoAction = new RedoAction(LanguageActions.getLocaleString("redo"), null, LanguageActions.getLocaleString("redoDes"), Integer.valueOf(KeyEvent.VK_Y));
+        actions.add(undoAction);
+        actions.add(redoAction);
         actions.add(new UndoAllAction(LanguageActions.getLocaleString("undoAll"), null, LanguageActions.getLocaleString("undoAllDes"), Integer.valueOf(KeyEvent.VK_A)));
         actions.add(new RegionCropAction(LanguageActions.getLocaleString("crop"), null, LanguageActions.getLocaleString("regionCropDesc"), Integer.valueOf(KeyEvent.VK_I)));
         
@@ -72,6 +82,17 @@ public class EditActions {
 
     /**
      * <p>
+     * Accessor method to return UndoAction as a single action.
+     * </p>
+     * 
+     * @return an instance of UndoAction.
+     */
+    public UndoAction getUndoAction() {
+        return this.undoAction;
+    }
+
+    /**
+     * <p>
      * Action to undo an {@link ImageOperation}.
      * </p>
      * 
@@ -91,6 +112,7 @@ public class EditActions {
          */
         UndoAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
+            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_Z, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         }
 
         /**
@@ -116,8 +138,8 @@ public class EditActions {
                     // There are no image operations to undo, so display error message.
                     JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("noUndo"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 }
-                else if (target.ongoingRecording){ //TODO: Add language support
-                    JOptionPane.showMessageDialog(null, "Can not undo while recording macro.", LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                else if (target.ongoingRecording){
+                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("recordmacronoundo"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 }
                 else {
                     // There is an image open, and operations to undo, carry on.
@@ -165,6 +187,7 @@ public class EditActions {
          */
         UndoAllAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
+            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_A, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         }
 
         /**
@@ -191,8 +214,8 @@ public class EditActions {
                     // There are no image operations to undo, so display error message.
                     JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("noUndoAll"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 }
-                else if (target.ongoingRecording){ //TODO: Add language support
-                    JOptionPane.showMessageDialog(null, "Can not undo while recording macro.", LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                else if (target.ongoingRecording){
+                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("recordmacronoundo"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 }
                 else {
                     // There is an image open, and operations to undo, carry on.
@@ -226,7 +249,18 @@ public class EditActions {
         }
     }
 
-     /**
+    /**
+     * <p>
+     * Accessor method to return RedoAction as a single action.
+     * </p>
+     * 
+     * @return an instance of RedoAction.
+     */
+    public RedoAction getRedoAction() {
+        return this.redoAction;
+    }
+
+    /**
      * <p>
      * Action to redo an {@link ImageOperation}.
      * </p>
@@ -247,6 +281,7 @@ public class EditActions {
          */
         RedoAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
+            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_Y, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         }
         
         /**
@@ -317,6 +352,7 @@ public class EditActions {
          */
         RegionCropAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
+            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_I, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         }
  
         @Override

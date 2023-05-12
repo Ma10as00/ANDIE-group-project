@@ -5,6 +5,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
 import java.awt.HeadlessException;
+import java.awt.Toolkit;
 
 /**
  * <p>
@@ -41,6 +42,10 @@ public class FilterActions {
         actions.add(new MeanFilterAction(LanguageActions.getLocaleString("meanFilter"), null, LanguageActions.getLocaleString("meanFilterDes"), Integer.valueOf(KeyEvent.VK_M)));
         actions.add(new MedianFilterAction(LanguageActions.getLocaleString("median"), null, LanguageActions.getLocaleString("medianDes"), Integer.valueOf(KeyEvent.VK_D)));
         actions.add(new GaussianBlurFilterAction(LanguageActions.getLocaleString("gaussian"), null, LanguageActions.getLocaleString("gaussianDes"), Integer.valueOf(KeyEvent.VK_N)));
+        actions.add(new SobelHorizontalFilterAction(LanguageActions.getLocaleString("sobelHorizontal"), null, LanguageActions.getLocaleString("sobelHorizontalDes"), null));
+        actions.add(new SobelVerticalFilterAction(LanguageActions.getLocaleString("sobelVertical"), null, LanguageActions.getLocaleString("sobelVerticalDes"), null));
+        actions.add(new SobelOrientationFilterAction(LanguageActions.getLocaleString("sobelOrientation"), null, LanguageActions.getLocaleString("sobelOrientationlDes"), null));
+        actions.add(new EmbossFilterAction(LanguageActions.getLocaleString("emboss"), null, LanguageActions.getLocaleString("embossDes"), null));
     }
 
     /**
@@ -81,6 +86,7 @@ public class FilterActions {
          */
         MeanFilterAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
+            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_M, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         }
 
         /**
@@ -152,6 +158,13 @@ public class FilterActions {
                         target.getParent().revalidate();
                         return;
                     }
+                    if (option == JOptionPane.CLOSED_OPTION) {
+                        // Set the image in target back to the actual image and repaint.
+                        target.setImage(actualImage);
+                        target.repaint();
+                        target.getParent().revalidate();
+                        return;
+                    }
                     if (option == JOptionPane.OK_OPTION) {
                         // Set the image in the target back to the actual image.
                         target.setImage(actualImage);
@@ -194,6 +207,7 @@ public class FilterActions {
          */
         SharpenFilterAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
+            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_P, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         }
 
         /**
@@ -266,6 +280,13 @@ public class FilterActions {
                         target.getParent().revalidate();
                         return;
                     }
+                    if (option == JOptionPane.CLOSED_OPTION) {
+                        // Set the image in target back to the actual image and repaint.
+                        target.setImage(actualImage);
+                        target.repaint();
+                        target.getParent().revalidate();
+                        return;
+                    }
                     if (option == JOptionPane.OK_OPTION) {
                         // Set the image in the target back to the actual image.
                         target.setImage(actualImage);
@@ -308,6 +329,7 @@ public class FilterActions {
          */
         GaussianBlurFilterAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
+            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_N, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         }
 
         /**
@@ -379,6 +401,13 @@ public class FilterActions {
                         target.getParent().revalidate();
                         return;
                     }
+                    if (option == JOptionPane.CLOSED_OPTION) {
+                        // Set the image in target back to the actual image and repaint.
+                        target.setImage(actualImage);
+                        target.repaint();
+                        target.getParent().revalidate();
+                        return;
+                    }
                     if (option == JOptionPane.OK_OPTION) {
                         // Set the image in the target back to the actual image.
                         target.setImage(actualImage);
@@ -421,6 +450,7 @@ public class FilterActions {
          */
         MedianFilterAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
+            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_D, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         }
 
         /**
@@ -500,6 +530,13 @@ public class FilterActions {
                         target.getParent().revalidate();
                         return;
                     }
+                    if (option == JOptionPane.CLOSED_OPTION) {
+                        // Set the image in target back to the actual image and repaint.
+                        target.setImage(actualImage);
+                        target.repaint();
+                        target.getParent().revalidate();
+                        return;
+                    }
                     if (option == JOptionPane.OK_OPTION) {
                         // Set the image in the target back to the actual image.
                         target.setImage(actualImage);
@@ -520,4 +557,353 @@ public class FilterActions {
             }
         }
     }
+
+    /**
+     * <p>
+     * Action to detect horizontal edges a sobel horizontal filter.
+     * </p>
+     * 
+     * @see SobelHorizontalFilter
+     */
+    public class SobelHorizontalFilterAction extends ImageAction {
+
+        /**
+         * <p>
+         * Create a new sobel horizontal filter action.
+         * </p>
+         * 
+         * @param name The name of the action (ignored if null).
+         * @param icon An icon to use to represent the action (ignored if null).
+         * @param desc A brief description of the action  (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
+         */
+        SobelHorizontalFilterAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_LEFT_PARENTHESIS, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+        }
+
+        /**
+         * <p>
+         * Callback for when the sobel horizontal filter action is triggered.
+         * </p>
+         * 
+         * <p>
+         * This method is called whenever the SobelHorizontalFilterAction is triggered.
+         * It asks the user whether they want to get rid of noise, then applys the approprate {@link SobelHorizontalFilter}.
+         * </p>
+         * 
+         * @param e The event triggering this callback.
+         */
+        public void actionPerformed(ActionEvent e) {
+            // Check if there is an image open.
+            if (target.getImage().hasImage() == false) {
+                // There is not an image open, so display error message.
+                try { 
+                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("sobelErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                } catch (HeadlessException ex) {
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                    // Won't happen for our users, so just exit.
+                    System.exit(1);
+                }
+            }
+            else {
+                // There is an image open, carry on.
+                // Determine if the user wants to remove noise - ask the user.
+                boolean removeNoise = false;
+                // Ask user if they want to remove noise.
+                try {
+                    int option = JOptionPane.showOptionDialog(null, LanguageActions.getLocaleString("sobelQuestion"), LanguageActions.getLocaleString("sobelHorizontalTitle"),
+                            JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+                    if (option == JOptionPane.YES_OPTION) {
+                        // The user wants to remove noise.
+                        removeNoise = true;
+                    }
+                    if (option == JOptionPane.CLOSED_OPTION) {
+                        // Do nothing, the user has cancelled the window.
+                        return;
+                    }
+                } catch (HeadlessException ex) {
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                    // Won't happen for our users, so just exit.
+                    System.exit(1);
+                }
+                // Create and apply the filter.
+                target.getImage().apply(new SobelHorizontalFilter(removeNoise));
+                target.repaint();
+                target.getParent().revalidate();
+            }
+        }
+    }
+    
+    /**
+     * <p>
+     * Action to detect vertical edges with a sobel vertical filter.
+     * </p>
+     * 
+     * @see SobelVerticalFilter
+     */
+    public class SobelVerticalFilterAction extends ImageAction {
+
+        /**
+         * <p>
+         * Create a new sobel vertical filter action.
+         * </p>
+         * 
+         * @param name The name of the action (ignored if null).
+         * @param icon An icon to use to represent the action (ignored if null).
+         * @param desc A brief description of the action  (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
+         */
+        SobelVerticalFilterAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT_PARENTHESIS, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+        }
+
+        /**
+         * <p>
+         * Callback for when the sobel vertical filter action is triggered.
+         * </p>
+         * 
+         * <p>
+         * This method is called whenever the SobelVerticalFilterAction is triggered.
+         * It asks the user whether they want to get rid of noise, then applys the approprate {@link SobelVerticalFilter}.
+         * </p>
+         * 
+         * @param e The event triggering this callback.
+         */
+        public void actionPerformed(ActionEvent e) {
+            // Check if there is an image open.
+            if (target.getImage().hasImage() == false) {
+                // There is not an image open, so display error message.
+                try { 
+                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("sobelErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                } catch (HeadlessException ex) {
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                    // Won't happen for our users, so just exit.
+                    System.exit(1);
+                }
+            }
+            else {
+                // There is an image open, carry on.
+                // Determine if the user wants to remove noise - ask the user.
+                boolean removeNoise = false;
+                // Ask user if they want to remove noise.
+                try {
+                    int option = JOptionPane.showOptionDialog(null, LanguageActions.getLocaleString("sobelQuestion"), LanguageActions.getLocaleString("sobelVericalTitle"),
+                            JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+                    if (option == JOptionPane.YES_OPTION) {
+                        // The user wants to remove noise.
+                        removeNoise = true;
+                    }
+                    if (option == JOptionPane.CLOSED_OPTION) {
+                        // Do nothing, the user has cancelled the window.
+                        return;
+                    }
+                } catch (HeadlessException ex) {
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                    // Won't happen for our users, so just exit.
+                    System.exit(1);
+                }
+                // Create and apply the filter.
+                target.getImage().apply(new SobelVerticalFilter(removeNoise));
+                target.repaint();
+                target.getParent().revalidate();
+            }
+        }
+    }
+
+    /**
+     * <p>
+     * Action to detect edges their orientation with a sobel orientation filter.
+     * </p>
+     * 
+     * @see SobelOrientationFilter
+     */
+    public class SobelOrientationFilterAction extends ImageAction {
+
+        /**
+         * <p>
+         * Create a new sobel orientation filter action.
+         * </p>
+         * 
+         * @param name The name of the action (ignored if null).
+         * @param icon An icon to use to represent the action (ignored if null).
+         * @param desc A brief description of the action  (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
+         */
+        SobelOrientationFilterAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_SEMICOLON, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+        }
+
+        /**
+         * <p>
+         * Callback for when the sobel orientation filter action is triggered.
+         * </p>
+         * 
+         * <p>
+         * This method is called whenever the SobelOrientationlFilterAction is triggered.
+         * It asks the user whether they want to get rid of noise, then applys the approprate {@link SobelOrientationFilter}.
+         * </p>
+         * 
+         * @param e The event triggering this callback.
+         */
+        public void actionPerformed(ActionEvent e) {
+            // Check if there is an image open.
+            if (target.getImage().hasImage() == false) {
+                // There is not an image open, so display error message.
+                try { 
+                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("sobelErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                } catch (HeadlessException ex) {
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                    // Won't happen for our users, so just exit.
+                    System.exit(1);
+                }
+            }
+            else {
+                // There is an image open, carry on.
+                // Determine if the user wants to remove noise - ask the user.
+                boolean removeNoise = false;
+                // Ask user if they want to remove noise.
+                try {
+                    int option = JOptionPane.showOptionDialog(null, LanguageActions.getLocaleString("sobelQuestion"), LanguageActions.getLocaleString("sobelOrientationTitle"),
+                            JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+                    if (option == JOptionPane.YES_OPTION) {
+                        // The user wants to remove noise.
+                        removeNoise = true;
+                    }
+                    if (option == JOptionPane.CLOSED_OPTION) {
+                        // Do nothing, the user has cancelled the window.
+                        return;
+                    }
+                } catch (HeadlessException ex) {
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                    // Won't happen for our users, so just exit.
+                    System.exit(1);
+                }
+                // Create and apply the filter.
+                target.getImage().apply(new SobelOrientationFilter(removeNoise));
+                target.repaint();
+                target.getParent().revalidate();
+            }
+        }
+    }
+
+    /**
+     * <p>
+     * Action to emboss an image with an emboss filter.
+     * </p>
+     * 
+     * @see EmbossFilter
+     */
+    public class EmbossFilterAction extends ImageAction {
+
+        /**
+         * <p>
+         * Create a new emboss filter action.
+         * </p>
+         * 
+         * @param name The name of the action (ignored if null).
+         * @param icon An icon to use to represent the action (ignored if null).
+         * @param desc A brief description of the action  (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
+         */
+        EmbossFilterAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_COMMA, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+        }
+
+        /**
+         * <p>
+         * Callback for when the emboss filter action is triggered.
+         * </p>
+         * 
+         * <p>
+         * This method is called whenever the EmbossFilterAction is triggered.
+         * It asks the user whether they want to get rid of noise, then applys the approprate {@link EmbossFilter}.
+         * </p>
+         * 
+         * @param e The event triggering this callback.
+         */
+        public void actionPerformed(ActionEvent e) {
+            // Check if there is an image open.
+            if (target.getImage().hasImage() == false) {
+                // There is not an image open, so display error message.
+                try {
+                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("embossErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                } catch (HeadlessException ex) {
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                    // Won't happen for our users, so just exit.
+                    System.exit(1);
+                }
+            }
+            else {
+                // There is an image open, carry on.
+                // Determine the embossType - ask the user.
+                int embossType = 1;
+
+                // Set up slider for user to enter amount.
+                JSlider jslider = new JSlider();
+                jslider.setValue(1);
+                jslider.setMaximum(8);
+                jslider.setMinimum(1);
+                jslider.setMajorTickSpacing(1);
+                jslider.setPaintLabels(true);
+                jslider.setPaintTicks(true);
+
+                // Copy this here so that we still have reference to the actual EditableImage.
+                EditableImage actualImage = target.getImage();
+
+                // This part updates how the image looks when the slider is moved.
+                jslider.addChangeListener(new ChangeListener() {
+                    public void stateChanged(ChangeEvent ce) {
+                        // Create a deep copy of the editable image (so that we don't change the actual editable image)
+                        EditableImage copyImage = actualImage.deepCopyEditableImage();
+                        // Set the target to have this new copy of the actual image.
+                        target.setImage(copyImage);
+                        // Apply the emboss to the new copy of the actual image.
+                        if (jslider.getValue() == 0) { // No change to apply.
+                            return;
+                        }
+                        target.getImage().apply(new EmbossFilter(true, (int)jslider.getValue()));
+                        target.repaint();
+                        target.getParent().revalidate();
+                    }
+                });
+                // Ask user for emboss type with a slider.
+                try {
+                    int option = JOptionPane.showOptionDialog(null, jslider, LanguageActions.getLocaleString("embossSlid"),
+                            JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+                    if (option == JOptionPane.CANCEL_OPTION) {
+                        // Set the image in target back to the actual image and repaint.
+                        target.setImage(actualImage);
+                        target.repaint();
+                        target.getParent().revalidate();
+                        return;
+                    }
+                    if (option == JOptionPane.CLOSED_OPTION) {
+                        // Set the image in target back to the actual image and repaint.
+                        target.setImage(actualImage);
+                        target.repaint();
+                        target.getParent().revalidate();
+                        return;
+                    }
+                    if (option == JOptionPane.OK_OPTION) {
+                        // Set the image in the target back to the actual image.
+                        target.setImage(actualImage);
+                        embossType = (int)jslider.getValue();
+                    }
+                } catch (HeadlessException ex) {
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                    // Won't happen for our users, so just exit.
+                    System.exit(1);
+                }
+                // Create and apply the filter. This will automatically get rid of noise.
+                target.getImage().apply(new EmbossFilter(true, (int)jslider.getValue()));
+                target.repaint();
+                target.getParent().revalidate();
+            }
+        }
+    }
+
 }

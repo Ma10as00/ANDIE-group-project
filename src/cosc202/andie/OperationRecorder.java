@@ -1,4 +1,4 @@
-package cosc202.andie.macros;
+package cosc202.andie;
 
 import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Stack;
 
 import javax.swing.JOptionPane;
-
-import cosc202.andie.*;
 import cosc202.andie.EditActions.UndoAction;
 
 /**

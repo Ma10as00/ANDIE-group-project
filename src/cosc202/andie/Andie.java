@@ -7,8 +7,6 @@ import java.util.prefs.Preferences;
 
 import javax.swing.*;
 
-import cosc202.andie.macros.*;
-
 import javax.imageio.*;
 
 /**
@@ -34,10 +32,9 @@ public class Andie {
 
     /** An ImagePanel to disply the image currenlty being edited. */
     private static ImagePanel imagePanel;
+    
     /** A JFrame of the main GUI frame. */
     private static JFrame frame;
-
-    
 
     /**
      * <p>
@@ -104,6 +101,9 @@ public class Andie {
         // Calls renderMenu method to render the menu in the selected language.
         renderMenu();
         
+        // Calls renderToolbar method to render the toolbar.
+        renderToolbar();
+
         frame.pack();
         // Make window centered on screen.
         frame.setLocationRelativeTo(null);
@@ -189,6 +189,40 @@ public class Andie {
         frame.pack();
     }
 
+    public static void renderToolbar(){
+        JToolBar toolbar = new JToolBar();
+        frame.add(toolbar, BorderLayout.PAGE_START);
+        JButton button = null;
+
+        // Adds the save button to the toolbar.
+        FileActions fileActions = new FileActions(frame);
+        button = new JButton(fileActions.getFileSaveAction());
+        if(button.getIcon() != null){
+            button.setText("");
+        }
+        toolbar.add(button);
+
+        // Adds a separator to the toolbar.
+        toolbar.addSeparator();
+
+        // Adds the undo button to the toolbar.
+        EditActions editActions = new EditActions(frame);
+        button = new JButton(editActions.getUndoAction());
+        if(button.getIcon() != null){
+            button.setText("");
+        }
+        toolbar.add(button);
+
+        // Adds the redo button to the toolbar.
+        button = new JButton(editActions.getRedoAction());
+        if(button.getIcon() != null){
+            button.setText("");
+        }
+        toolbar.add(button);
+
+        frame.pack();
+    }
+
     /**
      * <p>
      * Handles a user closing the main GUI frame.
@@ -204,7 +238,7 @@ public class Andie {
         if (imagePanel.getImage().hasImage()) {
             // There is an image open, warn user that any unsaved changes will be deleted.
             try {
-                int option = JOptionPane.showConfirmDialog(null, "If you exit without saving or exporting this image, any changes will be lost.", "Warning", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+                int option = JOptionPane.showConfirmDialog(null, LanguageActions.getLocaleString("errorExit"), LanguageActions.getLocaleString("warning"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
                 if (option == JOptionPane.OK_OPTION) {
                     // User clicked ok, exit.
                     System.exit(0);
@@ -248,8 +282,5 @@ public class Andie {
             }
         });
     }
-
-    
-
 }
 

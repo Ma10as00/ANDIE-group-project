@@ -1,9 +1,7 @@
-package cosc202.andie.macros;
+package cosc202.andie;
 
 import java.beans.PropertyChangeListener;
 import java.util.List;
-
-import cosc202.andie.*;
 
 /**
  * This interface describes a class that records what operations are applied to an image, and stores them in an ordered list.

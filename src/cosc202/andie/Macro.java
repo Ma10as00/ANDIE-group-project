@@ -1,10 +1,8 @@
-package cosc202.andie.macros;
+package cosc202.andie;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-
-import cosc202.andie.ImageOperation;
 
 /**
  * Implementation of an IMacro, keeping the "child operations" in an {@link ArrayList}.
