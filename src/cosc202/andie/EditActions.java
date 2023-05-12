@@ -138,8 +138,8 @@ public class EditActions {
                     // There are no image operations to undo, so display error message.
                     JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("noUndo"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 }
-                else if (target.ongoingRecording){ //TODO: Add language support
-                    JOptionPane.showMessageDialog(null, "Can not undo while recording macro.", LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                else if (target.ongoingRecording){
+                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("recordmacronoundo"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 }
                 else {
                     // There is an image open, and operations to undo, carry on.
@@ -214,8 +214,8 @@ public class EditActions {
                     // There are no image operations to undo, so display error message.
                     JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("noUndoAll"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 }
-                else if (target.ongoingRecording){ //TODO: Add language support
-                    JOptionPane.showMessageDialog(null, "Can not undo while recording macro.", LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                else if (target.ongoingRecording){
+                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("recordmacronoundo"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 }
                 else {
                     // There is an image open, and operations to undo, carry on.
