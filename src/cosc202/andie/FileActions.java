@@ -33,7 +33,7 @@ public class FileActions {
     /** A list of actions for the File menu. */
     protected ArrayList<Action> actions;
 
-    // An instance of FileSaveAction to be used in the toolbar.
+    /** An instance of FileSaveAction to be used in renderToolbar. */
     protected FileSaveAction fileSaveAction;
 
     /** 
