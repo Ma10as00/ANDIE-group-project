@@ -4,9 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.Assert.*;
 
-import java.awt.image.*;
 import cosc202.andie.*;
-import java.util.*;
 
 /**
  * <p>
