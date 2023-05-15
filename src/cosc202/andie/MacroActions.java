@@ -173,13 +173,18 @@ public class MacroActions{
     }
     
     /**
+     * <p>
      * Action for finnishing a recording of {@link ImageOperation}s.
+     * </p>
+     * 
      * <p>
      * If there is an active {@link OperationRecorder} on the target {@link ImagePanel}, this action should detach it from the panel, and use its recorded information to build a {@link Macro}.
+     * </p>
+     * 
      * <p>
      * When performed, this should also remove any graphics in the GUI that indicates an ongoing recording.
-     * <p>
      * The user should also be given the opportunity to save the macro as a file.
+     * </p>
      * 
      * @author Mathias Øgaard
      */
