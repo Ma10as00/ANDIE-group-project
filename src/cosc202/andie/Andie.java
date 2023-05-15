@@ -196,6 +196,10 @@ public class Andie {
         LanguageActions languageActions = new LanguageActions();
         menuBar.add(languageActions.createMenu());
 
+        // Drawing action to edit the image
+        // DrawActions drawAction = new DrawActions();
+        // menuBar.add(languageActions.createMenu());
+
         frame.setJMenuBar(menuBar);
         frame.pack();
     }
