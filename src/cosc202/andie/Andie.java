@@ -7,8 +7,6 @@ import java.util.prefs.Preferences;
 
 import javax.swing.*;
 
-import cosc202.andie.macros.*;
-
 import javax.imageio.*;
 
 /**
@@ -34,9 +32,9 @@ public class Andie {
 
     /** An ImagePanel to disply the image currenlty being edited. */
     private static ImagePanel imagePanel;
+
     /** A JFrame of the main GUI frame. */
     private static JFrame frame;
-    public static boolean RegionSelection;
 
     /**
      * <p>
@@ -103,6 +101,9 @@ public class Andie {
         // Calls renderMenu method to render the menu in the selected language.
         renderMenu();
 
+        // Calls renderToolbar method to render the toolbar.
+        renderToolbar();
+
         frame.pack();
         // Make window centered on screen.
         frame.setLocationRelativeTo(null);
@@ -132,6 +133,7 @@ public class Andie {
      * @see ViewActions
      * @see FilterActions
      * @see ColourActions
+     * @see MacroActions
      * @see OrientationActions
      * @see ResizeActions
      * @see LanguageActions
@@ -181,22 +183,73 @@ public class Andie {
         ColourActions colourActions = new ColourActions();
         menuBar.add(colourActions.createMenu());
 
+        // Selection actions allow you to select parts of the image and crop them.
+        SelectionActions selectionActions = new SelectionActions();
+        menuBar.add(selectionActions.createMenu());
+
         // Macro actions can record what operations are applied to the image, and put
         // them together into macros.
-        MacroActions ma = new MacroActions();
+        MacroActions ma = new MacroActions(frame);
         menuBar.add(ma.createMenu());
 
         // Ability to change the language from a set of included language bundles.
         LanguageActions languageActions = new LanguageActions();
         menuBar.add(languageActions.createMenu());
 
-        SelectionActions selectionActions = new SelectionActions();
-        menuBar.add(selectionActions.createMenu());
-
-        // DrawActions drawActions = new DrawActions();
-        // menuBar.add(drawActions.createMenu());
-
         frame.setJMenuBar(menuBar);
+        frame.pack();
+    }
+
+    /**
+     * <p>
+     * Constructs the JToolBar separately so the individual JButton actions can be
+     * applied at once.
+     * </p>
+     * 
+     * <p>
+     * This method adds a JToolBar and JButtons using various Actions from Andie.
+     * </p>
+     * 
+     * @see ImageAction
+     * @see FileActions
+     * @see EditActions
+     * @see ViewActions
+     * 
+     */
+    public static void renderToolbar() {
+        JToolBar toolbar = new JToolBar();
+        frame.add(toolbar, BorderLayout.PAGE_START);
+        JButton button = null;
+
+        // Adds the save button to the toolbar.
+        FileActions fileActions = new FileActions(frame);
+        button = new JButton(fileActions.getFileSaveAction());
+        if (button.getIcon() != null) {
+            button.setText("");
+        }
+        toolbar.add(button);
+
+        // Adds a separator to the toolbar.
+        toolbar.addSeparator();
+
+        // Adds the undo button to the toolbar.
+        EditActions editActions = new EditActions(frame);
+        button = new JButton(editActions.getUndoAction());
+        if (button.getIcon() != null) {
+            button.setText("");
+        }
+        toolbar.add(button);
+
+        // Adds the redo button to the toolbar.
+        button = new JButton(editActions.getRedoAction());
+        if (button.getIcon() != null) {
+            button.setText("");
+        }
+        toolbar.add(button);
+
+        // Adds a separator to the toolbar.
+        toolbar.addSeparator();
+
         frame.pack();
     }
 
@@ -216,9 +269,9 @@ public class Andie {
         if (imagePanel.getImage().hasImage()) {
             // There is an image open, warn user that any unsaved changes will be deleted.
             try {
-                int option = JOptionPane.showConfirmDialog(null,
-                        "If you exit without saving or exporting this image, any changes will be lost.", "Warning",
-                        JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+                int option = JOptionPane.showConfirmDialog(null, LanguageActions.getLocaleString("errorExit"),
+                        LanguageActions.getLocaleString("warning"), JOptionPane.OK_CANCEL_OPTION,
+                        JOptionPane.WARNING_MESSAGE);
                 if (option == JOptionPane.OK_OPTION) {
                     // User clicked ok, exit.
                     System.exit(0);
@@ -261,5 +314,4 @@ public class Andie {
             }
         });
     }
-
 }

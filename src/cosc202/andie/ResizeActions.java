@@ -5,6 +5,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
 import java.awt.HeadlessException;
+import java.awt.Toolkit;
 
 /**
  * <p>
@@ -87,6 +88,7 @@ public class ResizeActions {
          */
         ImageResize50Action(String name, ImageIcon icon, String desc, Integer mnemonic){
             super(name,icon,desc,mnemonic);
+            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_LESS, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         }
 
         /**
@@ -150,6 +152,7 @@ public class ResizeActions {
          */
         ImageResize150Action(String name, ImageIcon icon, String desc, Integer mnemonic){
             super(name,icon,desc,mnemonic);
+            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_GREATER, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         }
 
         /**
@@ -213,6 +216,7 @@ public class ResizeActions {
          */
         ImageResizeNAction(String name, ImageIcon icon, String desc, Integer mnemonic){
             super(name,icon,desc,mnemonic);
+            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_SLASH, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         }
 
         /**
@@ -256,6 +260,8 @@ public class ResizeActions {
 
                 // Copy this here so that we still have reference to the actual EditableImage.
                 EditableImage actualImage = target.getImage();
+                // Need to keep track of the original zoom as the slider changes its value.
+                double zoom = target.getZoom();
 
                 // This part updates how the image looks when the slider is moved.
                 jslider.addChangeListener(new ChangeListener() {
@@ -285,9 +291,19 @@ public class ResizeActions {
                 try {
                     int option = JOptionPane.showOptionDialog(null, jslider, LanguageActions.getLocaleString("resizeSlid"),
                             JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
-                    if (option == JOptionPane.CANCEL_OPTION) {
+                    if (option == JOptionPane.CANCEL_OPTION || option == JOptionPane.CLOSED_OPTION) {
                         // Set the image in target back to the actual image and repaint.
                         target.setImage(actualImage);
+                        target.repaint();
+                        target.getParent().revalidate();
+                        // Reset the zoom of the image.
+                        target.setZoom(100);
+                        // Pack the main GUI frame to the size of the image.
+                        frame.pack();
+                        // Make main GUI frame centered on screen.
+                        frame.setLocationRelativeTo(null);
+                        // Reset the zoom value.
+                        target.setZoom(zoom);
                         target.repaint();
                         target.getParent().revalidate();
                         return;

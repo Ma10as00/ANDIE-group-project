@@ -28,12 +28,38 @@ import javax.swing.*;
 public class ImagePanel extends JPanel {
     
     /**
+     * <p>
      * The image to display in the ImagePanel.
+     * Imports Mouse Handler
+     * Storing variables of mouse clicks and drags 
+     * </p>
      */
     private EditableImage image;
-    static MouseHandler mHandler = new MouseHandler();
-    public static int enterX, enterY, exitX, exitY, width, height; 
-    public Rectangle rect; 
+    /**
+     * <p>
+     * Imports Mouse Handler
+     * </p>
+     */
+    MouseHandler mHandler = new MouseHandler();
+
+    /**
+     * <p>
+     * Storing variables of mouse clicks and drags 
+     * </p>
+     */
+    public static int enterX, enterY, exitX, exitY, width, height, clickX, clickY; 
+    /**
+     * <p>
+     * Storing the rectangle the is selected 
+     * </p>
+     */
+    public static Rectangle rect; 
+    /**
+     * <p>
+     * If marcos is recording 
+     * </p>
+     */
+    public boolean ongoingRecording = false;
 
     /**
      * <p>
@@ -59,10 +85,96 @@ public class ImagePanel extends JPanel {
     public ImagePanel() {
         image = new EditableImage();
         scale = 1.0;
-
         this.addMouseListener(mHandler);
-        
-    }
+    /**
+     * <p>
+     * Adds Mouse Listener to the image panel
+     * </p>
+     */
+        addMouseListener(new MouseAdapter() {
+          /**
+           * <p>
+           * Finds and stores the first point that the user clicks the mouse.
+           * Will not store any value higher than the max width/height of the image so that you cannot select larger than image
+           * </p>
+           * @param e Mouse event
+          */ 
+            public void mousePressed(MouseEvent e){
+                enterX = e.getX();
+                enterY = e.getY();
+                if(image.hasImage()){
+                    if(enterX > image.getCurrentImage().getWidth()){
+                        enterX = image.getCurrentImage().getWidth();
+                    }
+                    if(enterY > image.getCurrentImage().getHeight()){
+                        enterY = image.getCurrentImage().getHeight();
+                    }
+                }
+
+            }
+        });
+
+        /**
+         * <p>
+         * New Mouse Listener added
+         * </p>
+         */
+        addMouseMotionListener(new MouseAdapter() {   
+            /**
+             * <p>
+             * Stores the point where the user releases their mouse
+             * Uses this point and the "enter" points to create a new rectangle with those values 
+             * Takes into account drawing rectangle left to right and right to left
+             * Calls repaint to draw rectangle as you draw
+             * </p>
+             * @param e Mouse event
+             */   
+            public void mouseDragged(MouseEvent e) {
+                exitX = e.getX();
+                exitY = e.getY();
+                if(image.hasImage()){
+                    if(exitX > image.getCurrentImage().getWidth()){
+                        exitX = image.getCurrentImage().getWidth();
+                    }
+                    if(exitY > image.getCurrentImage().getHeight()){
+                        exitY = image.getCurrentImage().getHeight();
+                    }
+                }
+                rect = new Rectangle(Math.min(enterX, exitX), Math.min(enterY, exitY), Math.abs(exitX - enterX), Math.abs(exitY - enterY));
+                repaint(); 
+            }
+        });
+
+        /**
+         * <p>
+         * Adds new mouse listener
+         * </p>
+         */
+        addMouseListener(new MouseAdapter() {
+            /**
+             * <p>
+             * Stores the point where the user clicked
+             * This is used to remove the selected area
+             * Turns the rectangle null- removes drawn shape
+             * Sets other point values to 0, so that you cannot crop a shape when there is no region selected
+             * </p>
+             * @param e Mouse event
+             */
+            public void mouseClicked(MouseEvent e){
+                clickX = e.getX();
+                clickY = e.getY();
+                if(image.hasImage() && clickX != 0){
+                    rect = null; 
+                    enterX = 0; 
+                    exitX = 0;
+                    enterY = 0;
+                    exitY = 0; 
+                    repaint();
+                }
+            }
+            });
+ 
+        }
 
     /**
      * <p>
@@ -79,6 +191,8 @@ public class ImagePanel extends JPanel {
      * <p>
      * Set the image to a new {@link EditableImage}.
      * </p>
+     * 
+     * @param image the editable image
      */
     public void setImage(EditableImage image) {
         this.image = image;
@@ -141,6 +255,7 @@ public class ImagePanel extends JPanel {
         }
     }
 
+
     /**
      * <p>
      * (Re)draw the component in the GUI.
@@ -157,24 +272,36 @@ public class ImagePanel extends JPanel {
             g2.drawImage(image.getCurrentImage(), null, 0, 0);
             g2.dispose();
         }
-    }
-
-    public static class MouseHandler implements MouseListener, MouseMotionListener{
-        public static int enterX, enterY, exitX, exitY, width, height; 
-        public Rectangle rect; 
-
+        Graphics2D g2d = (Graphics2D) g; 
+        if(image.hasImage()){
+            if(rect!= null){
+                Stroke dashed = new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL,0, new float[]{9}, 0);
+                g2d.setStroke(dashed);
+                g2d.setColor(Color.black);
+                g2d.draw(rect);
+                
+                }
+            }   
+            }
+            
+   
+    /**
+     * <p>
+     * Class that implements Mouse Listener and Motion Listener
+     * Includes override methods that are used in ImagePanel
+     * </p>
+     */
+    public class MouseHandler implements MouseListener, MouseMotionListener{
         @Override
         public void mouseClicked(MouseEvent e) {
-
         }
+
         @Override
         public void mouseEntered(MouseEvent e) {
-
         }
+
         @Override
         public void mouseReleased(MouseEvent e) {
-            exitX = e.getX();
-            exitY = e.getY(); 
 
         }
         @Override
@@ -183,33 +310,18 @@ public class ImagePanel extends JPanel {
         }
         @Override
         public void mousePressed(MouseEvent e) {
-            enterX = e.getX();
-            enterY = e.getY();
 
-        }
-        
-        public static int getExitX(){
-            return exitX; 
-        }
-        public static int getExitY(){
-            return exitY; 
-        }
-        public static int getEnterX(){
-            return enterX; 
-        }
-        public static int getEnterY(){
-            return enterY; 
         }
         @Override
         public void mouseDragged(MouseEvent e) {
-            
 
         }
         @Override
         public void mouseMoved(MouseEvent e) {
-            // TODO Auto-generated method stub
-            throw new UnsupportedOperationException("Unimplemented method 'mouseMoved'");
+
         }
         
      }
-}
+
+    }
+

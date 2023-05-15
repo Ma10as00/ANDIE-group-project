@@ -9,6 +9,8 @@ import cosc202.andie.*;
  * Tests to test that the resize actions in 
  * {@link ResizeActions} behave as we would expect.
  * </p>
+ * 
+ * @author Stella Srzich
  */
 public class ResizeTest {
     
