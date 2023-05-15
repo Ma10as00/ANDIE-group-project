@@ -7,7 +7,7 @@ import java.util.List;
  * This interface describes a class that records what operations are applied to an image, and stores them in an ordered list.
  * <p>
  * The recorder only cares about the operations that changes the image {@link ImageOperation}, and not what actions the user performs in the GUI {@link ImageAction}.
- * e.g. if an {@link UndoAction} is made, this will not be detected, because no {@link ImageOperation}s are applied to the image.
+ * e.g. if an {@link UndoAction} is made, this will not be detected, because no {@link ImageOperation} s are applied to the image.
  * </p>
  * 
  * <p>
