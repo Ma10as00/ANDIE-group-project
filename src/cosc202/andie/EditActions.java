@@ -39,6 +39,9 @@ public class EditActions {
     /** An instance of RedoAction to be used in renderToolbar. */
     protected RedoAction redoAction;
 
+    /** An instance of CropAction to be used in renderToolbar. */
+    protected RegionCropAction cropAction;
+
     /** 
      * The main GUI frame. Only here so that we can pack the 
      * frame when we undo or redo operations to an image.
@@ -57,10 +60,11 @@ public class EditActions {
         this.frame = frame;
         this.undoAction = new UndoAction(LanguageActions.getLocaleString("undo"), null, LanguageActions.getLocaleString("undoDes"), Integer.valueOf(KeyEvent.VK_Z));
         this.redoAction = new RedoAction(LanguageActions.getLocaleString("redo"), null, LanguageActions.getLocaleString("redoDes"), Integer.valueOf(KeyEvent.VK_Y));
-        actions.add(undoAction);
-        actions.add(redoAction);
+        actions.add(this.undoAction);
+        actions.add(this.redoAction);
         actions.add(new UndoAllAction(LanguageActions.getLocaleString("undoAll"), null, LanguageActions.getLocaleString("undoAllDes"), Integer.valueOf(KeyEvent.VK_A)));
-        actions.add(new RegionCropAction(LanguageActions.getLocaleString("crop"), null, LanguageActions.getLocaleString("regionCropDesc"), Integer.valueOf(KeyEvent.VK_I)));
+        this.cropAction = new RegionCropAction(LanguageActions.getLocaleString("crop"), null, LanguageActions.getLocaleString("regionCropDesc"), Integer.valueOf(KeyEvent.VK_I));
+        actions.add(this.cropAction);
         
     }
 
@@ -335,6 +339,18 @@ public class EditActions {
             }
         }
     }
+
+    /**
+     * <p>
+     * Accessor method to return CropAction as a single action.
+     * </p>
+     * 
+     * @return an instance of CropAction.
+     */
+    public RegionCropAction getCropAction() {
+        return this.cropAction;
+    }
+
     /**
      * <p>
      * Action to crop a selected region

@@ -45,9 +45,9 @@ public class ResizeActions {
     public ResizeActions(JFrame frame) {
         actions = new ArrayList<Action>();
         this.frame = frame;
-        actions.add(new ImageResize50Action(LanguageActions.getLocaleString("resize50"), null, LanguageActions.getLocaleString("resize50Des"), null));
-        actions.add(new ImageResize150Action(LanguageActions.getLocaleString("resize150"), null, LanguageActions.getLocaleString("resize150Des"), null));
-        actions.add(new ImageResizeNAction(LanguageActions.getLocaleString("customResize"), null, LanguageActions.getLocaleString("customResizeDes"), null));
+        actions.add(new ImageResize50Action(LanguageActions.getLocaleString("resize50"), null, LanguageActions.getLocaleString("resize50Des"), Integer.valueOf(KeyEvent.VK_LESS)));
+        actions.add(new ImageResize150Action(LanguageActions.getLocaleString("resize150"), null, LanguageActions.getLocaleString("resize150Des"), Integer.valueOf(KeyEvent.VK_GREATER)));
+        actions.add(new ImageResizeNAction(LanguageActions.getLocaleString("customResize"), null, LanguageActions.getLocaleString("customResizeDes"), Integer.valueOf(KeyEvent.VK_SLASH)));
     }
 
     /**
