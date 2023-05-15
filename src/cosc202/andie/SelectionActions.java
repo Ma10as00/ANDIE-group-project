@@ -3,10 +3,9 @@ package cosc202.andie;
 import java.util.*;
 import javax.swing.*;
 
-
-public class SelectionActions{
+public class SelectionActions {
     protected ArrayList<Action> actions;
-    public int startX, startY, endX, endY; 
+    public int startX, startY, endX, endY;
 
     /**
      * <p>
@@ -15,8 +14,7 @@ public class SelectionActions{
      */
     public SelectionActions() {
         actions = new ArrayList<Action>();
-        
-        
+
     }
 
     /**
@@ -36,5 +34,4 @@ public class SelectionActions{
         return fileMenu;
     }
 
-   
 }

@@ -275,8 +275,13 @@ public class ImagePanel extends JPanel {
         Graphics2D g2d = (Graphics2D) g; 
         if(image.hasImage()){
             if(rect!= null){
-                Stroke dashed = new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL,0, new float[]{9}, 0);
-                g2d.setStroke(dashed);
+                float[] dash = new float[]{4.0f, 4.0f};
+                BasicStroke solidStroke = new BasicStroke(1.0f);
+                BasicStroke dashStroke = new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0.0f, dash, 0);
+                g2d.setStroke(solidStroke);
+                g2d.setColor(Color.white);
+                g2d.draw(rect);
+                g2d.setStroke(dashStroke);
                 g2d.setColor(Color.black);
                 g2d.draw(rect);
                 
