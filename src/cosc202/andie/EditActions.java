@@ -377,11 +377,19 @@ public class EditActions {
                     target.getImage().apply(new RegionCrop(Math.min(ImagePanel.enterX, ImagePanel.exitX), Math.min(ImagePanel.enterY, ImagePanel.exitY), Math.abs(ImagePanel.exitX - ImagePanel.enterX), Math.abs(ImagePanel.exitY - ImagePanel.enterY)));
                     ImagePanel.rect = null;
                     target.repaint();
+                    target.getParent().revalidate();
+                    target.repaint();
                     ImagePanel.enterX = 0; 
                     ImagePanel.enterY = 0; 
                     ImagePanel.exitX = 0;
                     ImagePanel.exitY = 0;  
                     target.getParent().revalidate();
+                    // Reset the zoom of the image.
+                    target.setZoom(100);
+                    // Pack the main GUI frame to the size of the image.
+                    frame.pack();
+                    // Make main GUI frame centered on screen.
+                    frame.setLocationRelativeTo(null);
                     }
                     catch(RasterFormatException ex){
                         //Trying to crop when there is no region selected

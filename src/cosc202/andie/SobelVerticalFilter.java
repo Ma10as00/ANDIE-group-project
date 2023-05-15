@@ -192,7 +192,7 @@ public class SobelVerticalFilter implements ImageOperation, java.io.Serializable
         }
         // Finally, make the edges white and the background black by
         // taking the absolute difference between a pixel channel value and 127.
-        output = absolute(output);
+        //output = absolute(output);
         // Return the output.
         return output;
     }

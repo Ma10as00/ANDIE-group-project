@@ -379,7 +379,7 @@ public class EditableImage {
         // int to tell us if the redone operation was a resize.
         int resizeOrRotate = 0;
         ImageOperation un = ops.pop();
-        if (un instanceof ImageResize50 || un instanceof ImageResize150 || un instanceof ImageResizeN || un instanceof RotateRight || un instanceof RotateLeft || un instanceof IMacro) {
+        if (un instanceof ImageResize50 || un instanceof ImageResize150 || un instanceof ImageResizeN || un instanceof RotateRight || un instanceof RotateLeft || un instanceof IMacro || un instanceof RegionCrop) {
             resizeOrRotate = 1;
         }
         redoOps.push(un); 
@@ -421,7 +421,7 @@ public class EditableImage {
         int resizeOrRotate = 0;
         ImageOperation re = redoOps.pop();
         // If the image operation was a resize operation, return 1.
-        if (re instanceof ImageResize50 || re instanceof ImageResize150 || re instanceof ImageResizeN || re instanceof RotateRight || re instanceof RotateLeft || re instanceof IMacro) {
+        if (re instanceof ImageResize50 || re instanceof ImageResize150 || re instanceof ImageResizeN || re instanceof RotateRight || re instanceof RotateLeft || re instanceof IMacro || re instanceof RegionCrop) {
             resizeOrRotate = 1;
         }
         apply(re);
