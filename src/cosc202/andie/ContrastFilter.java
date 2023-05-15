@@ -15,7 +15,6 @@ import java.awt.HeadlessException;
  * which is used to determine the contrast of the image.
  * </p>
  *
- * @author James Liu
  */
 
 public class ContrastFilter implements ImageOperation, java.io.Serializable  {

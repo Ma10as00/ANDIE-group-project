@@ -522,9 +522,10 @@ public class FileActions {
                 // There is not an image open, so display error message.
 
                 try {
-                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("errorNoExport"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("errorNoExport"),
+                            LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 } catch (HeadlessException ex) {
-                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse.
                     // Won't happen for our users, so just exit.
                     System.exit(1);
                 }
