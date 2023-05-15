@@ -29,6 +29,8 @@ public class ImagePanel extends JPanel {
     
     /**
      * The image to display in the ImagePanel.
+     * Imports Mouse Handler
+     * Storing variables of mouse clicks and drags 
      */
     private EditableImage image;
     MouseHandler mHandler = new MouseHandler();
@@ -61,7 +63,19 @@ public class ImagePanel extends JPanel {
         image = new EditableImage();
         scale = 1.0;
         this.addMouseListener(mHandler);
+    /**
+     * <p>
+     * Adds Mouse Listener to the image panel
+     * </p>
+     */
         addMouseListener(new MouseAdapter() {
+          /**
+           * <p>
+           * Finds and stores the first point that the user clicks the mouse.
+           * Will not store any value higher than the max width/height of the image so that you cannot select larger than image
+           * </p>
+           * @param e Mouse event
+          */ 
             public void mousePressed(MouseEvent e){
                 enterX = e.getX();
                 enterY = e.getY();
@@ -77,7 +91,21 @@ public class ImagePanel extends JPanel {
             }
         });
 
-        addMouseMotionListener(new MouseAdapter() {      
+        /**
+         * <p>
+         * New Mouse Listener added
+         * </p>
+         */
+        addMouseMotionListener(new MouseAdapter() {   
+            /**
+             * <p>
+             * Stores the point where the user releases their mouse
+             * Uses this point and the "enter" points to create a new rectangle with those values 
+             * Takes into account drawing rectangle left to right and right to left
+             * Calls repaint to draw rectangle as you draw
+             * </p>
+             * @param e Mouse event
+             */   
             public void mouseDragged(MouseEvent e) {
                 exitX = e.getX();
                 exitY = e.getY();
@@ -94,7 +122,21 @@ public class ImagePanel extends JPanel {
             }
         });
 
+        /**
+         * <p>
+         * Adds new mouse listener
+         * </p>
+         */
         addMouseListener(new MouseAdapter() {
+            /**
+             * <p>
+             * Stores the point where the user clicked
+             * This is used to remove the selected area
+             * Turns the rectangle null- removes drawn shape
+             * Sets other point values to 0, so that you cannot crop a shape when there is no region selected
+             * </p>
+             * @param e Mouse event
+             */
             public void mouseClicked(MouseEvent e){
                 clickX = e.getX();
                 clickY = e.getY();
@@ -218,24 +260,26 @@ public class ImagePanel extends JPanel {
             }
             
    
-
+    /**
+     * <p>
+     * Class that implements Mouse Listener and Motion Listener
+     * Includes override methods that are used in ImagePanel
+     * </p>
+     */
     public class MouseHandler implements MouseListener, MouseMotionListener{
         public static int enterX, enterY, exitX, exitY, width, height, clickX, clickY; 
         public Rectangle rect; 
 
         @Override
         public void mouseClicked(MouseEvent e) {
-            clickX = e.getX();
-            clickY = e.getY();
         }
+
         @Override
         public void mouseEntered(MouseEvent e) {
-
         }
+
         @Override
         public void mouseReleased(MouseEvent e) {
-            exitX = e.getX();
-            exitY = e.getY(); 
 
         }
         @Override
@@ -244,28 +288,7 @@ public class ImagePanel extends JPanel {
         }
         @Override
         public void mousePressed(MouseEvent e) {
-            enterX = e.getX();
-            enterY = e.getY();
 
-        }
-        
-        public static int getExitX(){
-            return exitX; 
-        }
-        public static int getExitY(){
-            return exitY; 
-        }
-        public static int getEnterX(){
-            return enterX; 
-        }
-        public static int getEnterY(){
-            return enterY; 
-        }
-        public static int getClickX(){
-            return clickX; 
-        }
-        public static int getClickY(){
-            return clickY; 
         }
         @Override
         public void mouseDragged(MouseEvent e) {
@@ -273,8 +296,7 @@ public class ImagePanel extends JPanel {
         }
         @Override
         public void mouseMoved(MouseEvent e) {
-            // TODO Auto-generated method stub
-            throw new UnsupportedOperationException("Unimplemented method 'mouseMoved'");
+
         }
         
      }
