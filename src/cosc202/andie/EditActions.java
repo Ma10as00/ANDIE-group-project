@@ -308,6 +308,9 @@ public class EditActions {
                     // There are no image operations to undo, so display error message.
                     JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("noRedo"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 }
+                else if (target.ongoingRecording){
+                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("recordmacroredo"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                }
                 else {
                     // There is an image open, and operations to redo, carry on.
                     // Note, we are also checking if the redone operation was a resize or rotation

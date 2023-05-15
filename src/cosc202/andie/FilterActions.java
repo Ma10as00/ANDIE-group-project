@@ -618,7 +618,7 @@ public class FilterActions {
                         // The user wants to remove noise.
                         removeNoise = true;
                     }
-                    if (option == JOptionPane.CLOSED_OPTION) {
+                    if (option == JOptionPane.CLOSED_OPTION || option == JOptionPane.CANCEL_OPTION) {
                         // Do nothing, the user has cancelled the window.
                         return;
                     }
@@ -695,7 +695,7 @@ public class FilterActions {
                         // The user wants to remove noise.
                         removeNoise = true;
                     }
-                    if (option == JOptionPane.CLOSED_OPTION) {
+                    if (option == JOptionPane.CLOSED_OPTION || option == JOptionPane.CANCEL_OPTION) {
                         // Do nothing, the user has cancelled the window.
                         return;
                     }
@@ -772,7 +772,7 @@ public class FilterActions {
                         // The user wants to remove noise.
                         removeNoise = true;
                     }
-                    if (option == JOptionPane.CLOSED_OPTION) {
+                    if (option == JOptionPane.CLOSED_OPTION || option == JOptionPane.CANCEL_OPTION) {
                         // Do nothing, the user has cancelled the window.
                         return;
                     }

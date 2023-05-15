@@ -6,6 +6,7 @@ import java.awt.event.*;
 import java.beans.PropertyChangeListener;
 import java.io.*;
 import java.util.ArrayList;
+import java.nio.file.*;
 
 import javax.swing.*;
 
@@ -60,6 +61,82 @@ public class MacroActions{
         return menu;
     }
     
+    /**
+     * <p>
+     * Method to check whether a given file name is a valid ops.png file name. That is,
+     * if it ends in .ops, only contains a single '.', and has characters before '.ops'.
+     * This is used by {@link ApplyMacroAction} and {@link StopRecordingAction}.
+     * </p>
+     * 
+     * @param opsFilename The ops file name to check if valid.
+     * @return true if {@link opsFileName} is a valid Ops file name, false otherwise.
+     */
+    private boolean isValidOpsName(String opsFilename) {
+        boolean isOpsFile = true;
+        // Set this up so that I can extract just the file name
+        // as mac and windows have different ways of naming the canonical path.
+        String justFilename = "";
+        try {
+            Path dummyPath = Paths.get(opsFilename);
+            justFilename = dummyPath.getFileName().toString();
+        } catch (InvalidPathException e) {
+            // Occurs in imageFilename cannot be converted to a path. This won't happen, 
+            // but just incase return false, as it will not be a valid PNG name
+            return false;
+        }
+
+        if (justFilename.contains(".") == false) {
+            // The image file name has no '.', cannot be a valid image file name.
+            isOpsFile = false;
+        }
+        else {
+            String extension = justFilename.substring(justFilename.lastIndexOf(".")).toLowerCase();
+            if (!extension.equals(".ops")) {
+                // The image file name extension is not valid as it doesn't end in .ops.
+                isOpsFile = false;
+            }
+            if (justFilename.lastIndexOf(".") != justFilename.indexOf(".")) {
+                // There are is more than one '.' in file name, so the image file name is nvalid.
+                isOpsFile = false;
+            }
+            if (justFilename.equals(".ops")) {
+                // The name of the image is null, i.e. the file name is ".ops". This is not valid.
+                isOpsFile = false;
+            }
+        }
+
+        return isOpsFile;
+    }
+
+    /**
+     * <p>
+     * Method to check whether a given file name is already an ops file name.
+     * This is used by {@link StopRecordingAction}.
+     * to check if there is a possibility of writting over another file in the same directory.
+     * </p>
+     * @param opsFilename The image file name to check if valid.
+     * @return true if {@link opsFileName} is a valid Ops file name, false otherwise.
+     */
+    private boolean isExistingFilename(String opsFilename) {
+        try {
+            // This just attempts to read in an ops file.
+            File opsFilepath = new File(opsFilename);
+            FileInputStream fileIn = new FileInputStream(opsFilepath);
+            ObjectInputStream objIn = new ObjectInputStream(fileIn);
+            Object obj = objIn.readObject(); 
+            objIn.close();
+            fileIn.close();
+            if (obj instanceof IMacro){
+                // This will happen if the file exists, return true.
+                return true;
+            }
+        } catch (Exception e) {
+            // This will happen if the file doesn't already exist, return false.
+            return false;
+        }
+        // This will happen if the file doesn't already exist, return false.
+        return false;
+    }
 
     /**
      * Action for starting a recording of {@link ImageOperation}s.
@@ -168,8 +245,14 @@ public class MacroActions{
             try {
                 int saveOrNot = JOptionPane.showOptionDialog(null, LanguageActions.getLocaleString("wantsave"), LanguageActions.getLocaleString("save"), 
                                                                 JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
-                if (saveOrNot == JOptionPane.YES_OPTION)
-                    saveMacro(m);
+                if (saveOrNot == JOptionPane.YES_OPTION) {
+                    // We loop until the file is successfully saved or the user actively cancelled,
+                    // just in case they entered the wrong file name but don't want to lose the macro.
+                    boolean done = false;
+                    while(!done) {
+                        done = saveMacro(m);
+                    }
+                }
             } catch (HeadlessException he) {
                 System.exit(1);
             } 
@@ -177,19 +260,83 @@ public class MacroActions{
         }
 
         /**
-         * Method to give the user an option to save a set of operations as a macro.
+         * Method to give the user an option to save a set of operations as a macro. This will return true
+         * if the user has sucessfully saved the macro or has decided to cancel saving the macro. It will return false
+         * if the user has not saved the macro for any other reason. For example, if they accidentally used an invalid
+         * file name.
+         * @param m The IMacro being saved.
+         * @return True if the user successfully saved the file or decided to cancel saving the file. False otherwise.
          */
-        private void saveMacro(IMacro m) {
-            String filename = JOptionPane.showInputDialog(null, LanguageActions.getLocaleString("macrosaveas"),LanguageActions.getLocaleString("savemacro"), JOptionPane.QUESTION_MESSAGE);
-            try {
-                FileOutputStream fileOut = new FileOutputStream(filename + ".ops");
-                ObjectOutputStream objOut = new ObjectOutputStream(fileOut);
-                objOut.writeObject(m);
-                objOut.close();
-                fileOut.close();
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("savemacroerror"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+        private boolean saveMacro(IMacro m) {
+            // Ask the user if they want to save the macros. Did not do this here as always will want to.
+            // String filename = JOptionPane.showInputDialog(null, LanguageActions.getLocaleString("macrosaveas"),LanguageActions.getLocaleString("savemacro"), JOptionPane.QUESTION_MESSAGE);
+            // Check if there is an image open.
+            if (target.getImage().hasImage() == false) {
+                // There is not an image open, so display error message, and do not save.
+                try {
+                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("errorNoImageAs"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                } catch (HeadlessException ex) {
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                    // Won't happen for our users, so just exit.
+                    System.exit(1);
+                }
+                return true;
             }
+            // There is an image open, carry on.
+            JFileChooser fileChooser = new JFileChooser();
+            int result = fileChooser.showSaveDialog(target);
+            if (result == JFileChooser.APPROVE_OPTION) {
+                try {                        
+                    String opsFilepath = fileChooser.getSelectedFile().getCanonicalPath();
+                    // Check that the ops file name is valid.
+                    if (isValidOpsName(opsFilepath) == false) {
+                        // The image file name is not valid. Show error message and do not save as.
+                        JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("opsSyntaxError"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                        // We return false as the user probably doesn't want to lose the recorded macros.
+                        return false;
+                    }
+
+                    // Check that the ops file name does not describe an image that already exists.
+                    if (isExistingFilename(opsFilepath)) {
+                        // The ops file name already describes another file name. 
+                        // Ask user if they want to override or cancel.
+                        int option = JOptionPane.showConfirmDialog(null, LanguageActions.getLocaleString("warningAnotherFile"), LanguageActions.getLocaleString("warning"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+                        if (option == JOptionPane.CANCEL_OPTION || option == JOptionPane.CLOSED_OPTION) {
+                            // User cancelled or closed the pop up, allow them to try to save again.
+                            return false;
+                        }
+                    }
+                    // Save the ops file.
+                    FileOutputStream fileOut = new FileOutputStream(opsFilepath);
+                    ObjectOutputStream objOut = new ObjectOutputStream(fileOut);
+                    objOut.writeObject(m);
+                    objOut.close();
+                    fileOut.close();
+                    // At this point, the macro is succsefully saved. Return true.
+                    return true;
+                } catch (HeadlessException eh) {
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                    // Won't happen for our users, so just exit.
+                    System.exit(1);
+                } catch (Exception ex) {
+                    // There would have been an error in getting canonical pathname.
+                    // Just let the user know. Probably won't happen.
+                    try {
+                        JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("savemacroerror"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                    }   
+                    catch (HeadlessException eh) {
+                        // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                        // Won't happen for our users, so just exit.
+                        System.exit(1);
+                    }
+                } 
+            }
+            else {
+                // The user closed the window.
+                return true;
+            }
+            // At this point, there was an error. Return false to allow the user to try again.
+            return false;
         }
     }
 
@@ -209,37 +356,77 @@ public class MacroActions{
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            // Check if there is an image to export
+            if (target.getImage().hasImage() == false) {
+                // There is not an image open, so display error message.
+                try {
+                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("errorNoOpen"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                } catch (HeadlessException ex) {
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                    // Won't happen for our users, so just exit.
+                    System.exit(1);
+                }
+                return;
+            }
+
+            // User has an image open, so we can apply macros.
+            // So, we attempt to open an ops file.
             JFileChooser fileChooser = new JFileChooser();
             int result = fileChooser.showOpenDialog(target);
 
-            if(result == JFileChooser.APPROVE_OPTION){
-                File macroFile = fileChooser.getSelectedFile();
+            if (result == JFileChooser.APPROVE_OPTION) {
                 try {
-                    FileInputStream fileIn = new FileInputStream(macroFile);
-                    ObjectInputStream objIn = new ObjectInputStream(fileIn);
-
-                    Object obj = objIn.readObject(); 
-                    if(obj instanceof IMacro){
-                        IMacro macro = (IMacro) obj;
-                        target.getImage().apply(macro);
-
-                        target.repaint();
-                        target.getParent().revalidate();
-                        // Reset the zoom of the image.
-                        target.setZoom(100);
-                        // Pack the main GUI frame to the size of the image.
-                        frame.pack();
-                        // Make main GUI frame centered on screen.
-                        frame.setLocationRelativeTo(null);
-
-                    }else{
-                        JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("filenomacro"), LanguageActions.getLocaleString("invalidfile"), JOptionPane.ERROR_MESSAGE);
+                    String opsFilepath = fileChooser.getSelectedFile().getCanonicalPath();
+                    // First, check that the file trying to be opened is an ops file.
+                    if (isValidOpsName(opsFilepath) == false) {
+                        // The ops file name is not valid. Show error message and do not open.
+                        JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("errorNotOps"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                        return;
                     }
-
-                    objIn.close();
-                    fileIn.close();
-                } catch (Exception ex) {
+                    File macroFile = fileChooser.getSelectedFile();
+                    // Apply the ops file.
+                    try {
+                        FileInputStream fileIn = new FileInputStream(macroFile);
+                        ObjectInputStream objIn = new ObjectInputStream(fileIn);
+    
+                        Object obj = objIn.readObject(); 
+                        if(obj instanceof IMacro){
+                            IMacro macro = (IMacro) obj;
+                            target.getImage().apply(macro);
+                            
+                            ImagePanel.rect = null; 
+                            target.repaint();
+                            target.getParent().revalidate();
+                            // Reset the zoom of the image.
+                            target.setZoom(100);
+                            // Pack the main GUI frame to the size of the newly opened image.
+                            frame.pack();
+                            // Make main GUI frame centered on screen
+                            frame.setLocationRelativeTo(null);
+    
+                        }else{
+                            JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("filenomacro"), LanguageActions.getLocaleString("invalidfile"), JOptionPane.ERROR_MESSAGE);
+                        }
+                        objIn.close();
+                        fileIn.close();
+                    } catch (Exception ex) {
+                        System.exit(1);
+                    }
+                } catch (HeadlessException eh) {
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                    // Won't happen for our users, so just exit.
                     System.exit(1);
+                } catch (Exception ex) {
+                    // There would have been an error in getting canonical pathname.
+                    // Just let the user know. Probably won't happen.
+                    try {
+                        JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("errorOpenFile"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                    }   
+                    catch (HeadlessException eh) {
+                        // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                        // Won't happen for our users, so just exit.
+                        System.exit(1);
+                    }
                 }
             }
         }
