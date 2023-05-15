@@ -782,7 +782,7 @@ public class FilterActions {
                     System.exit(1);
                 }
                 // Create and apply the filter.
-                target.getImage().apply(new SobelOrientationFilter(removeNoise));
+                target.getImage().apply(new SobelOrientationFilter(removeNoise, true));
                 target.repaint();
                 target.getParent().revalidate();
             }
@@ -839,8 +839,30 @@ public class FilterActions {
             }
             else {
                 // There is an image open, carry on.
+                // Determine if the user wants to remove noise - ask the user.
+                boolean removeNoise = false;
+                // Ask user if they want to remove noise.
+                try {
+                    int option = JOptionPane.showOptionDialog(null, LanguageActions.getLocaleString("sobelQuestion"), LanguageActions.getLocaleString("embossOptionTitle"),
+                            JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+                    if (option == JOptionPane.YES_OPTION) {
+                        // The user wants to remove noise.
+                        removeNoise = true;
+                    }
+                    if (option == JOptionPane.CLOSED_OPTION || option == JOptionPane.CANCEL_OPTION) {
+                        // Do nothing, the user has cancelled the window.
+                        return;
+                    }
+                } catch (HeadlessException ex) {
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                    // Won't happen for our users, so just exit.
+                    System.exit(1);
+                }
+
                 // Determine the embossType - ask the user.
                 int embossType = 1;
+                // Here for strange reasons.
+                boolean removeNoise2 = removeNoise;
 
                 // Set up slider for user to enter amount.
                 JSlider jslider = new JSlider();
@@ -865,7 +887,7 @@ public class FilterActions {
                         if (jslider.getValue() == 0) { // No change to apply.
                             return;
                         }
-                        target.getImage().apply(new EmbossFilter(true, (int)jslider.getValue()));
+                        target.getImage().apply(new EmbossFilter(removeNoise2, (int)jslider.getValue()));
                         target.repaint();
                         target.getParent().revalidate();
                     }
@@ -899,7 +921,7 @@ public class FilterActions {
                     System.exit(1);
                 }
                 // Create and apply the filter. This will automatically get rid of noise.
-                target.getImage().apply(new EmbossFilter(true, (int)jslider.getValue()));
+                target.getImage().apply(new EmbossFilter(removeNoise, embossType));
                 target.repaint();
                 target.getParent().revalidate();
             }

@@ -34,6 +34,13 @@ public class SobelOrientationFilter implements ImageOperation, java.io.Serializa
     private boolean removeNoise;
 
     /**
+     * This boolean allows the user to decide if they want to have the edges coloured based on orientation, 
+     * or not colour them. If it is true, the edges are coloured. If it is not, the edges aren't coloured -
+     * this is equivalent to the standard full Sobel filter.
+     */
+    private boolean hue;
+
+    /**
      * <p>
      * Construct a sobel orientation filter.
      * </p>
@@ -47,11 +54,19 @@ public class SobelOrientationFilter implements ImageOperation, java.io.Serializa
      * noise potentially obstructing the actual edges. If it is true, the gaussian blur filter with radius 1 is applied
      * before we apply the sobel filter.
      * </p>
+     * 
+     * <p>
+     * The user may also decide if they want to have the edges coloured based on orientation, 
+     * or not colour them with hue. If it is true, the edges are coloured. If it is not, the edges aren't coloured -
+     * this is equivalent to the standard full Sobel filter.
+     * </p>
      * @see GaussianBlurFilter
      * @param removeNoise True to apply a light Gaussian blur filter before the sobel filter, false otherwise.
+     * @param hue True to colour the edges based on orientation, false otherwise.
      */
-    SobelOrientationFilter(boolean removeNoise) {
+    SobelOrientationFilter(boolean removeNoise, boolean hue) {
         this.removeNoise = removeNoise;
+        this.hue = hue;
     }
 
     /**
@@ -60,14 +75,15 @@ public class SobelOrientationFilter implements ImageOperation, java.io.Serializa
      * </p>
      * 
      * <p>
-     * By default, removeNoise is true. That is, a light Gaussian blur filter
-     * is applied to the image before its edges are detected.
+     * By default, removeNoise and hue are true. That is, a light Gaussian blur filter
+     * is applied to the image before its edges are detected. And, the edges are coloured based
+     * on orientation.
      * </p>
      * @see GaussianBlurFilter
-     * @see SobelOrientationFilter(boolean removeNoise)
+     * @see SobelOrientationFilter(boolean removeNoise, boolean hue)
      */
     SobelOrientationFilter() {
-        this(true);
+        this(true, true);
     }
 
     /**
@@ -211,7 +227,10 @@ public class SobelOrientationFilter implements ImageOperation, java.io.Serializa
             }
         }
         // Now, add hue to each pixel based on the orientation of the edge at that pixel.
-        output = colour(thetas, output);
+        // This is decided with the hue option.
+        if (hue){
+            output = colour(thetas, output);
+        }
         // Return the output.
         return output;
     }
