@@ -17,7 +17,7 @@ public class DrawRec implements ImageOperation {
 
     DrawRec(Rectangle r, Color c, int width, boolean fill) {
         this.r = r;
-        this.col = col;
+        this.col = c;
         this.width = width;
         this.fill = fill;
     }
@@ -40,7 +40,7 @@ public class DrawRec implements ImageOperation {
         } else {
             g.drawRect(r.x, r.y, r.width, r.height);
         }
-        g.dispose();
+        //g.dispose();
         return input;
     }
 }

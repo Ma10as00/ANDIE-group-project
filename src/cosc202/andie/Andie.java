@@ -197,8 +197,8 @@ public class Andie {
         menuBar.add(languageActions.createMenu());
 
         // Drawing action to edit the image
-        // DrawActions drawAction = new DrawActions();
-        // menuBar.add(languageActions.createMenu());
+        DrawActions drawAction = new DrawActions();
+        menuBar.add(drawAction.createMenu());
 
         frame.setJMenuBar(menuBar);
         frame.pack();
@@ -318,4 +318,6 @@ public class Andie {
             }
         });
     }
+
+   
 }
