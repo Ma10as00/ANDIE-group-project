@@ -382,7 +382,7 @@ public class EditableImage {
         if (un instanceof ImageResize50 || un instanceof ImageResize150 || un instanceof ImageResizeN || un instanceof RotateRight || un instanceof RotateLeft) {
             resizeOrRotate = 1;
         }
-        redoOps.push(un);
+        redoOps.push(un); 
         refresh();
         return resizeOrRotate;
     }
@@ -404,7 +404,7 @@ public class EditableImage {
                 resizeOrRotate = 1;
             }
         }
-        refresh();
+        refresh(); 
         return resizeOrRotate;
     }
 

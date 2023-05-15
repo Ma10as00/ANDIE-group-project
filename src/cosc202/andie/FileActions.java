@@ -35,7 +35,7 @@ public class FileActions {
 
     /** An instance of FileSaveAction to be used in renderToolbar. */
     protected FileSaveAction fileSaveAction;
-    
+
 
     /** 
      * The main GUI frame. Only here so that we can pack the 
@@ -391,7 +391,7 @@ public class FileActions {
                     // Make the image file name appear in the header of the main GUI.
                     Path imagePath = Paths.get(imageFilepath);
                     String justFilename = imagePath.getFileName().toString();
-                    frame.setTitle("ANDIE (" + justFilename + ")");
+                    frame.setTitle("ANDIE (" + justFilename + ")");  
                 } catch (HeadlessException eh) {
                     // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
                     // Won't happen for our users, so just exit.
