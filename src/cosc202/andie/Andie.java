@@ -189,6 +189,21 @@ public class Andie {
         frame.pack();
     }
 
+    /**
+     * <p>
+     * Constructs the JToolBar separately so the individual JButton actions can be applied at once.
+     * </p>
+     * 
+     * <p>
+     * This method adds a JToolBar and JButtons using various Actions from Andie.
+     * </p>
+     * 
+     * @see ImageAction
+     * @see FileActions
+     * @see EditActions
+     * @see ViewActions
+     * 
+     */
     public static void renderToolbar(){
         JToolBar toolbar = new JToolBar();
         frame.add(toolbar, BorderLayout.PAGE_START);
@@ -219,6 +234,9 @@ public class Andie {
             button.setText("");
         }
         toolbar.add(button);
+
+        // Adds a separator to the toolbar.
+        toolbar.addSeparator();
 
         frame.pack();
     }

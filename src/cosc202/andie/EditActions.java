@@ -34,10 +34,10 @@ public class EditActions {
     /** A list of actions for the Edit menu. */
     protected ArrayList<Action> actions;
 
-    // An instance of UndoAction.
+    /** An instance of UndoAction to be used in renderToolbar. */
     protected UndoAction undoAction;
 
-    //An instance of RedoAction.
+    /** An instance of RedoAction to be used in renderToolbar. */
     protected RedoAction redoAction;
 
     /** 
