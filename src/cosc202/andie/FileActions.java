@@ -35,6 +35,7 @@ public class FileActions {
 
     // An instance of FileSaveAction to be used in the toolbar.
     protected FileSaveAction fileSaveAction;
+    
 
     /** 
      * The main GUI frame. Only here so that we can pack the 
@@ -237,7 +238,7 @@ public class FileActions {
                     }
                 }
             }
-
+            ImagePanel.rect = null; 
             target.repaint();
             target.getParent().revalidate();
             // Pack the main GUI frame to the size of the newly opened image.

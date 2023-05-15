@@ -64,7 +64,16 @@ public class ImagePanel extends JPanel {
         addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e){
                 enterX = e.getX();
-                enterY = e.getY(); 
+                enterY = e.getY();
+                if(image.hasImage()){
+                    if(enterX > image.getCurrentImage().getWidth()){
+                        enterX = image.getCurrentImage().getWidth();
+                    }
+                    if(enterY > image.getCurrentImage().getHeight()){
+                        enterY = image.getCurrentImage().getHeight();
+                    }
+                }
+
             }
         });
 
@@ -72,6 +81,14 @@ public class ImagePanel extends JPanel {
             public void mouseDragged(MouseEvent e) {
                 exitX = e.getX();
                 exitY = e.getY();
+                if(image.hasImage()){
+                    if(exitX > image.getCurrentImage().getWidth()){
+                        exitX = image.getCurrentImage().getWidth();
+                    }
+                    if(exitY > image.getCurrentImage().getHeight()){
+                        exitY = image.getCurrentImage().getHeight();
+                    }
+                }
                 rect = new Rectangle(Math.min(enterX, exitX), Math.min(enterY, exitY), Math.abs(exitX - enterX), Math.abs(exitY - enterY));
                 repaint(); 
             }
@@ -83,6 +100,10 @@ public class ImagePanel extends JPanel {
                 clickY = e.getY();
                 if(image.hasImage() && clickX != 0){
                     rect = null; 
+                    enterX = 0; 
+                    exitX = 0;
+                    enterY = 0;
+                    exitY = 0; 
                     repaint();
                 }
             }
@@ -167,11 +188,6 @@ public class ImagePanel extends JPanel {
         }
     }
 
-    static boolean findPoint(int x1, int y1, int x2,int y2, int x, int y){
-        if (x > x1 && x < x2 &&y > y1 && y < y2)return true;
-
-        return false;
-    }
 
     /**
      * <p>

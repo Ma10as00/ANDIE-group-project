@@ -2,6 +2,8 @@ package cosc202.andie;
 
 import java.util.*;
 import java.awt.event.*;
+import java.awt.image.RasterFormatException;
+
 import javax.swing.*;
 
 import cosc202.andie.ImagePanel.MouseHandler;
@@ -357,15 +359,23 @@ public class EditActions {
  
         @Override
         public void actionPerformed(ActionEvent e) {
-              //JOptionPane.showMessageDialog(null, "Crop Image"); 
               try {
-                    target.getImage().apply(new RegionCrop((MouseHandler.getEnterX()), MouseHandler.getEnterY(), MouseHandler.getExitX(), MouseHandler.getExitY()));
+                try{
+                    target.getImage().apply(new RegionCrop(Math.min(ImagePanel.enterX, ImagePanel.exitX), Math.min(ImagePanel.enterY, ImagePanel.exitY), Math.abs(ImagePanel.exitX - ImagePanel.enterX), Math.abs(ImagePanel.exitY - ImagePanel.enterY)));
                     ImagePanel.rect = null;
-                    target.repaint(); 
+                    target.repaint();
+                    MouseHandler.enterX = 0; 
+                    MouseHandler.enterY = 0; 
+                    ImagePanel.exitX = 0;
+                    ImagePanel.exitY = 0;  
                     target.getParent().revalidate();
-                } catch (Exception exception) {
+                    }
+                    catch(RasterFormatException ex){
+                        JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("cropErrorNoSelectedRegion"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                    }
+                } catch (NullPointerException exception) {
                     JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("cropError"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
-                }
+               }
         }
 
     }
