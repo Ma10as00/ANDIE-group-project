@@ -36,6 +36,7 @@ public class Andie {
     private static ImagePanel imagePanel;
     /** A JFrame of the main GUI frame. */
     private static JFrame frame;
+    public static boolean RegionSelection;
 
     /**
      * <p>
@@ -134,6 +135,7 @@ public class Andie {
      * @see OrientationActions
      * @see ResizeActions
      * @see LanguageActions
+     * @see DrawActions
      * 
      */
     public static void renderMenu() {
@@ -190,6 +192,9 @@ public class Andie {
 
         SelectionActions selectionActions = new SelectionActions();
         menuBar.add(selectionActions.createMenu());
+
+        // DrawActions drawActions = new DrawActions();
+        // menuBar.add(drawActions.createMenu());
 
         frame.setJMenuBar(menuBar);
         frame.pack();
