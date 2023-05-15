@@ -42,7 +42,7 @@ public class RegionCrop implements ImageOperation {
      * Apply a region crop to an image.
      * </p>
 
-     * @param input The image to crop.
+     * @param previousImage The image to crop.
      * @return The resulting (cropped) image.
      */
     public BufferedImage apply(BufferedImage previousImage) {

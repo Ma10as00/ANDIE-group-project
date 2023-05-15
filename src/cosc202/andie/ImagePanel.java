@@ -28,14 +28,37 @@ import javax.swing.*;
 public class ImagePanel extends JPanel {
     
     /**
+     * <p>
      * The image to display in the ImagePanel.
      * Imports Mouse Handler
      * Storing variables of mouse clicks and drags 
+     * </p>
      */
     private EditableImage image;
+    /**
+     * <p>
+     * Imports Mouse Handler
+     * </p>
+     */
     MouseHandler mHandler = new MouseHandler();
+
+    /**
+     * <p>
+     * Storing variables of mouse clicks and drags 
+     * </p>
+     */
     public static int enterX, enterY, exitX, exitY, width, height, clickX, clickY; 
+    /**
+     * <p>
+     * Storing the rectangle the is selected 
+     * </p>
+     */
     public static Rectangle rect; 
+    /**
+     * <p>
+     * If marcos is recording 
+     * </p>
+     */
     public boolean ongoingRecording = false;
 
     /**
@@ -168,6 +191,8 @@ public class ImagePanel extends JPanel {
      * <p>
      * Set the image to a new {@link EditableImage}.
      * </p>
+     * 
+     * @param image the editable image
      */
     public void setImage(EditableImage image) {
         this.image = image;
@@ -267,9 +292,6 @@ public class ImagePanel extends JPanel {
      * </p>
      */
     public class MouseHandler implements MouseListener, MouseMotionListener{
-        public static int enterX, enterY, exitX, exitY, width, height, clickX, clickY; 
-        public Rectangle rect; 
-
         @Override
         public void mouseClicked(MouseEvent e) {
         }
