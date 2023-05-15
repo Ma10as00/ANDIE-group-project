@@ -31,6 +31,15 @@ public class ViewActions {
      */
     protected ArrayList<Action> actions;
 
+    /** An instance of ZoomInAction to be used in renderToolbar. */
+    protected ZoomInAction zoomInAction;
+
+    /** An instance of ZoomOutAction to be used in renderToolbar. */
+    protected ZoomOutAction zoomOutAction;
+
+    /** An instance of ZoomFullAction to be used in renderToolbar. */
+    protected ZoomFullAction zoomFullAction;
+
     /**
      * <p>
      * Create a set of View menu actions.
@@ -38,9 +47,12 @@ public class ViewActions {
      */
     public ViewActions() {
         actions = new ArrayList<Action>();
-        actions.add(new ZoomInAction(LanguageActions.getLocaleString("zoomIn"), null, LanguageActions.getLocaleString("zoomInDes"), Integer.valueOf(KeyEvent.VK_PLUS)));
-        actions.add(new ZoomOutAction(LanguageActions.getLocaleString("zoomOut"), null, LanguageActions.getLocaleString("zoomOutDes"), Integer.valueOf(KeyEvent.VK_MINUS)));
-        actions.add(new ZoomFullAction(LanguageActions.getLocaleString("zoomFull"), null, LanguageActions.getLocaleString("zoomFullDes"), Integer.valueOf(KeyEvent.VK_1)));
+        this.zoomInAction = new ZoomInAction(LanguageActions.getLocaleString("zoomIn"), null, LanguageActions.getLocaleString("zoomInDes"), Integer.valueOf(KeyEvent.VK_PLUS));
+        actions.add(this.zoomInAction);
+        this.zoomOutAction = new ZoomOutAction(LanguageActions.getLocaleString("zoomOut"), null, LanguageActions.getLocaleString("zoomOutDes"), Integer.valueOf(KeyEvent.VK_MINUS));
+        actions.add(this.zoomOutAction);
+        this.zoomFullAction = new ZoomFullAction(LanguageActions.getLocaleString("zoomFull"), null, LanguageActions.getLocaleString("zoomFullDes"), Integer.valueOf(KeyEvent.VK_1));
+        actions.add(this.zoomFullAction);
         actions.add(new ZoomChangeAction(LanguageActions.getLocaleString("customZoom"), null, LanguageActions.getLocaleString("customZoomDes"), Integer.valueOf(KeyEvent.VK_2)));
     }
 
@@ -59,6 +71,17 @@ public class ViewActions {
         }
 
         return viewMenu;
+    }
+
+    /**
+     * <p>
+     * Accessor method to return ZoomInAction as a single action.
+     * </p>
+     * 
+     * @return an instance of ZoomInAction.
+     */
+    public ZoomInAction getZoomInAction() {
+        return this.zoomInAction;
     }
 
     /**
@@ -118,6 +141,17 @@ public class ViewActions {
                 target.getParent().revalidate();
             }
         }
+    }
+
+    /**
+     * <p>
+     * Accessor method to return ZoomOutAction as a single action.
+     * </p>
+     * 
+     * @return an instance of ZoomOutAction.
+     */
+    public ZoomOutAction getZoomOutAction() {
+        return this.zoomOutAction;
     }
 
     /**
@@ -297,6 +331,17 @@ public class ViewActions {
                 target.getParent().revalidate();
             }
         }
+    }
+
+    /**
+     * <p>
+     * Accessor method to return ZoomFullAction as a single action.
+     * </p>
+     * 
+     * @return an instance of ZoomFullAction.
+     */
+    public ZoomFullAction getZoomFullAction() {
+        return this.zoomFullAction;
     }
 
     /**

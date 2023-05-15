@@ -258,6 +258,56 @@ public class Andie {
         // Adds a separator to the toolbar.
         toolbar.addSeparator();
 
+        // Adds the Zoom In button to the toolbar.
+        ViewActions viewActions = new ViewActions();
+        button = new JButton(viewActions.getZoomInAction());
+        if (button.getIcon() != null) {
+            button.setText("");
+        }
+        toolbar.add(button);
+
+        // Adds the Zoom out button to the toolbar.
+        button = new JButton(viewActions.getZoomOutAction());
+        if (button.getIcon() != null) {
+            button.setText("");
+        }
+        toolbar.add(button);
+
+        // Adds the Zoom Full button to the toolbar.
+        button = new JButton(viewActions.getZoomFullAction());
+        if (button.getIcon() != null) {
+            button.setText("");
+        }
+        toolbar.add(button);
+
+        // Adds a separator to the toolbar.
+        toolbar.addSeparator();
+
+        // Adds the rotate left button to the toolbar.
+        OrientationActions orientationActions = new OrientationActions(frame);
+        button = new JButton(orientationActions.getRotateLeftAction());
+        if (button.getIcon() != null) {
+            button.setText("");
+        }
+        toolbar.add(button);
+
+        // Adds the rotate right button to the toolbar.
+        button = new JButton(orientationActions.getRotateRightAction());
+        if (button.getIcon() != null) {
+            button.setText("");
+        }
+        toolbar.add(button);
+
+        // Adds a separator to the toolbar.
+        toolbar.addSeparator();
+
+        // Adds the Crop button to the toolbar.
+        button = new JButton(editActions.getCropAction());
+        if (button.getIcon() != null) {
+            button.setText("");
+        }
+        toolbar.add(button);
+
         frame.pack();
     }
 
