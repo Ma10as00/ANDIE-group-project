@@ -17,7 +17,10 @@ import java.awt.HeadlessException;
  * 
  */
 public class BrightnessFilter implements ImageOperation, java.io.Serializable {
-    // The size of the scale which is what is used to determine the brightness
+
+    /** 
+     * The size of the scale which is what is used to determine the brightness.
+    */
     public int scale;
 
     /** 
@@ -78,13 +81,5 @@ public class BrightnessFilter implements ImageOperation, java.io.Serializable {
         }
         return previousImage;
     }
-
-    /**
-     * 
-     * @return scale
-     * @desc test
-     */
-    public int getScale() {
-        return scale;
-    }
+    
 }
