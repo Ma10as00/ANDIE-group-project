@@ -74,16 +74,12 @@ public class MedianFilter implements ImageOperation, java.io.Serializable {
      * to the pixel in the output image. The size of the local neighbourhood is
      * specified by the {@link radius}. Larger radii lead to stronger blurring.
      * Note, this implementation does not change the value of pixels at the edge of
-     * <<<<<<< HEAD
      * an image. That is, argb values at position (x, y) with x < radius + 1,
-     * x >= image width - radius, y < radius + 1, or y >= image width - radius
-     * =======
+     * x <= image width - radius, y < radius + 1, or y >= image width - radius
      * an image. That is, argb values at position (x, y) with x less than radius +
      * 1,
      * x >= image width - radius, y less than radius + 1, or y >= image width -
-     * radius
-     * >>>>>>> 54f0e85ccd2cba52b667ea225bf35f8256410ee8
-     * will just be copied to the output image.
+     * radius will just be copied to the output image.
      * </p>
      * 
      * @param input The image to apply the median filter to.
