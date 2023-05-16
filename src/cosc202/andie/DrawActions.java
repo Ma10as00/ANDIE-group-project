@@ -160,7 +160,7 @@ public class DrawActions extends JFrame{
         
                 setContentPane(panel);
                 userColour = bgColor; 
-                setTitle("JColorChooser Demo");
+                setTitle("Colour Chooser");
                 setSize(300, 200);
                 setLocationRelativeTo(null);  
                 setVisible(true);             
