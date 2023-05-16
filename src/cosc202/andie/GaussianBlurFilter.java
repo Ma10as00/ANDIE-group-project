@@ -48,7 +48,7 @@ public class GaussianBlurFilter implements ImageOperation, java.io.Serializable 
      * 
      * @param radius The radius of the newly constructed GaussianBlurFilter
      */
-    GaussianBlurFilter(int radius) {
+    public GaussianBlurFilter(int radius) {
         this.radius = radius;
     }
 
@@ -63,7 +63,7 @@ public class GaussianBlurFilter implements ImageOperation, java.io.Serializable 
      * 
      * @see GaussianBlurFilter(int)
      */
-    GaussianBlurFilter() {
+    public GaussianBlurFilter() {
         this(1);
     }
 
