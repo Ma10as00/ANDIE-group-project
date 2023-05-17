@@ -109,6 +109,7 @@ public class LanguageActions {
             
             // Calls renderMenu() to repaint the menu in English.
             Andie.renderMenu();
+
         }
 
     }
@@ -152,6 +153,7 @@ public class LanguageActions {
 
             // Calls renderMenu() to repaint the menu in Maori.
             Andie.renderMenu();
+
         }
 
     }
@@ -195,6 +197,7 @@ public class LanguageActions {
             
             // Calls renderMenu() to repaint the menu in Norwegian.
             Andie.renderMenu();
+
         }
 
     }
@@ -239,6 +242,7 @@ public class LanguageActions {
             
             // Calls renderMenu() to repaint the menu in Spanish.
             Andie.renderMenu();
+
         }
 
     }
@@ -283,6 +287,7 @@ public class LanguageActions {
             
             // Calls renderMenu() to repaint the menu in German.
             Andie.renderMenu();
+
         }
 
     }
