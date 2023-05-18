@@ -66,7 +66,6 @@ public class OrientationTest {
         }
         catch (Exception e){
             // This will happen for various reasons. But, will not happen by the way it is set up.
-            System.out.println("Error in reading in an image 1.");
         }
         // Now, we read in the image we are comparing to.
         BufferedImage expected = null;
@@ -76,7 +75,6 @@ public class OrientationTest {
         }
         catch (Exception e){
             // This will happen for various reasons. But, will not happen by the way it is set up.
-            System.out.println("Error in reading in an image 2.");
         }
 
         // Now, we try to apply the rotation.
@@ -106,7 +104,6 @@ public class OrientationTest {
         }
         catch (Exception e){
             // This will happen for various reasons. But, will not happen by the way it is set up.
-            System.out.println("Error in reading in an image 1.");
         }
         // Now, we read in the image we are comparing to.
         BufferedImage expected = null;
@@ -116,7 +113,6 @@ public class OrientationTest {
         }
         catch (Exception e){
             // This will happen for various reasons. But, will not happen by the way it is set up.
-            System.out.println("Error in reading in an image 2.");
         }
 
         // Now, we try to apply the rotation.
@@ -146,7 +142,6 @@ public class OrientationTest {
         }
         catch (Exception e){
             // This will happen for various reasons. But, will not happen by the way it is set up.
-            System.out.println("Error in reading in an image 1.");
         }
         // Now, we read in the image we are comparing to.
         BufferedImage expected = null;
@@ -156,7 +151,6 @@ public class OrientationTest {
         }
         catch (Exception e){
             // This will happen for various reasons. But, will not happen by the way it is set up.
-            System.out.println("Error in reading in an image 2.");
         }
 
         // Now, we try to apply the rotation.
@@ -186,7 +180,6 @@ public class OrientationTest {
         }
         catch (Exception e){
             // This will happen for various reasons. But, will not happen by the way it is set up.
-            System.out.println("Error in reading in an image 1.");
         }
         // Now, we read in the image we are comparing to.
         BufferedImage expected = null;
@@ -196,7 +189,6 @@ public class OrientationTest {
         }
         catch (Exception e){
             // This will happen for various reasons. But, will not happen by the way it is set up.
-            System.out.println("Error in reading in an image 2.");
         }
 
         // Now, we try to apply the flip.
@@ -226,7 +218,6 @@ public class OrientationTest {
         }
         catch (Exception e){
             // This will happen for various reasons. But, will not happen by the way it is set up.
-            System.out.println("Error in reading in an image 1.");
         }
         // Now, we read in the image we are comparing to.
         BufferedImage expected = null;
@@ -236,7 +227,6 @@ public class OrientationTest {
         }
         catch (Exception e){
             // This will happen for various reasons. But, will not happen by the way it is set up.
-            System.out.println("Error in reading in an image 2.");
         }
 
         // Now, we try to apply the flip.

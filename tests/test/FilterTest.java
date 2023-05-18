@@ -66,7 +66,6 @@ public class FilterTest {
         }
         catch (Exception e){
             // This will happen for various reasons. But, will not happen by the way it is set up.
-            System.out.println("Error in reading in an image 1.");
         }
         // Now, we read in the image we are comparing to.
         BufferedImage expected = null;
@@ -76,7 +75,6 @@ public class FilterTest {
         }
         catch (Exception e){
             // This will happen for various reasons. But, will not happen by the way it is set up.
-            System.out.println("Error in reading in an image 2.");
         }
 
         // Now, we try to apply the action.
@@ -106,7 +104,6 @@ public class FilterTest {
         }
         catch (Exception e){
             // This will happen for various reasons. But, will not happen by the way it is set up.
-            System.out.println("Error in reading in an image 1.");
         }
         // Now, we read in the image we are comparing to.
         BufferedImage expected = null;
@@ -116,7 +113,6 @@ public class FilterTest {
         }
         catch (Exception e){
             // This will happen for various reasons. But, will not happen by the way it is set up.
-            System.out.println("Error in reading in an image 2.");
         }
 
         // Now, we try to apply the filter.
@@ -146,7 +142,6 @@ public class FilterTest {
         }
         catch (Exception e){
             // This will happen for various reasons. But, will not happen by the way it is set up.
-            System.out.println("Error in reading in an image 1.");
         }
         // Now, we read in the image we are comparing to.
         BufferedImage expected = null;
@@ -156,7 +151,6 @@ public class FilterTest {
         }
         catch (Exception e){
             // This will happen for various reasons. But, will not happen by the way it is set up.
-            System.out.println("Error in reading in an image 2.");
         }
 
         // Now, we try to apply the filter.
@@ -186,7 +180,6 @@ public class FilterTest {
         }
         catch (Exception e){
             // This will happen for various reasons. But, will not happen by the way it is set up.
-            System.out.println("Error in reading in an image 1.");
         }
         // Now, we read in the image we are comparing to.
         BufferedImage expected = null;
@@ -196,7 +189,6 @@ public class FilterTest {
         }
         catch (Exception e){
             // This will happen for various reasons. But, will not happen by the way it is set up.
-            System.out.println("Error in reading in an image 2.");
         }
 
         // Now, we try to apply the filter.
@@ -226,7 +218,6 @@ public class FilterTest {
         }
         catch (Exception e){
             // This will happen for various reasons. But, will not happen by the way it is set up.
-            System.out.println("Error in reading in an image 1.");
         }
         // Now, we read in the image we are comparing to.
         BufferedImage expected = null;
@@ -236,7 +227,6 @@ public class FilterTest {
         }
         catch (Exception e){
             // This will happen for various reasons. But, will not happen by the way it is set up.
-            System.out.println("Error in reading in an image 2.");
         }
 
         // Now, we try to apply the filter.
@@ -266,7 +256,6 @@ public class FilterTest {
         }
         catch (Exception e){
             // This will happen for various reasons. But, will not happen by the way it is set up.
-            System.out.println("Error in reading in an image 1.");
         }
         // Now, we read in the image we are comparing to.
         BufferedImage expected = null;
@@ -276,7 +265,6 @@ public class FilterTest {
         }
         catch (Exception e){
             // This will happen for various reasons. But, will not happen by the way it is set up.
-            System.out.println("Error in reading in an image 2.");
         }
 
         // Now, we try to apply the filter.
@@ -306,7 +294,6 @@ public class FilterTest {
         }
         catch (Exception e){
             // This will happen for various reasons. But, will not happen by the way it is set up.
-            System.out.println("Error in reading in an image 1.");
         }
         // Now, we read in the image we are comparing to.
         BufferedImage expected = null;
@@ -316,7 +303,6 @@ public class FilterTest {
         }
         catch (Exception e){
             // This will happen for various reasons. But, will not happen by the way it is set up.
-            System.out.println("Error in reading in an image 2.");
         }
 
         // Now, we try to apply the filter.
@@ -346,7 +332,6 @@ public class FilterTest {
         }
         catch (Exception e){
             // This will happen for various reasons. But, will not happen by the way it is set up.
-            System.out.println("Error in reading in an image 1.");
         }
         // Now, we read in the image we are comparing to.
         BufferedImage expected = null;
@@ -356,7 +341,6 @@ public class FilterTest {
         }
         catch (Exception e){
             // This will happen for various reasons. But, will not happen by the way it is set up.
-            System.out.println("Error in reading in an image 2.");
         }
 
         // Now, we try to apply the filter.
@@ -386,7 +370,6 @@ public class FilterTest {
         }
         catch (Exception e){
             // This will happen for various reasons. But, will not happen by the way it is set up.
-            System.out.println("Error in reading in an image 1.");
         }
         // Now, we read in the image we are comparing to.
         BufferedImage expected = null;
@@ -396,7 +379,6 @@ public class FilterTest {
         }
         catch (Exception e){
             // This will happen for various reasons. But, will not happen by the way it is set up.
-            System.out.println("Error in reading in an image 2.");
         }
 
         // Now, we try to apply the filter.
@@ -426,7 +408,6 @@ public class FilterTest {
         }
         catch (Exception e){
             // This will happen for various reasons. But, will not happen by the way it is set up.
-            System.out.println("Error in reading in an image 1.");
         }
         // Now, we read in the image we are comparing to.
         BufferedImage expected = null;
@@ -436,7 +417,6 @@ public class FilterTest {
         }
         catch (Exception e){
             // This will happen for various reasons. But, will not happen by the way it is set up.
-            System.out.println("Error in reading in an image 2.");
         }
 
         // Now, we try to apply the filter.
@@ -466,7 +446,6 @@ public class FilterTest {
         }
         catch (Exception e){
             // This will happen for various reasons. But, will not happen by the way it is set up.
-            System.out.println("Error in reading in an image 1.");
         }
         // Now, we read in the image we are comparing to.
         BufferedImage expected = null;
@@ -476,7 +455,6 @@ public class FilterTest {
         }
         catch (Exception e){
             // This will happen for various reasons. But, will not happen by the way it is set up.
-            System.out.println("Error in reading in an image 2.");
         }
 
         // Now, we try to apply the filter.
@@ -506,7 +484,6 @@ public class FilterTest {
         }
         catch (Exception e){
             // This will happen for various reasons. But, will not happen by the way it is set up.
-            System.out.println("Error in reading in an image 1.");
         }
         // Now, we read in the image we are comparing to.
         BufferedImage expected = null;
@@ -516,7 +493,6 @@ public class FilterTest {
         }
         catch (Exception e){
             // This will happen for various reasons. But, will not happen by the way it is set up.
-            System.out.println("Error in reading in an image 2.");
         }
 
         // Now, we try to apply the filter.
@@ -546,7 +522,6 @@ public class FilterTest {
         }
         catch (Exception e){
             // This will happen for various reasons. But, will not happen by the way it is set up.
-            System.out.println("Error in reading in an image 1.");
         }
         // Now, we read in the image we are comparing to.
         BufferedImage expected = null;
@@ -556,7 +531,6 @@ public class FilterTest {
         }
         catch (Exception e){
             // This will happen for various reasons. But, will not happen by the way it is set up.
-            System.out.println("Error in reading in an image 2.");
         }
 
         // Now, we try to apply the filter.
@@ -586,7 +560,6 @@ public class FilterTest {
         }
         catch (Exception e){
             // This will happen for various reasons. But, will not happen by the way it is set up.
-            System.out.println("Error in reading in an image 1.");
         }
         // Now, we read in the image we are comparing to.
         BufferedImage expected = null;
@@ -596,7 +569,6 @@ public class FilterTest {
         }
         catch (Exception e){
             // This will happen for various reasons. But, will not happen by the way it is set up.
-            System.out.println("Error in reading in an image 2.");
         }
 
         // Now, we try to apply the filter.
@@ -626,7 +598,6 @@ public class FilterTest {
         }
         catch (Exception e){
             // This will happen for various reasons. But, will not happen by the way it is set up.
-            System.out.println("Error in reading in an image 1.");
         }
         // Now, we read in the image we are comparing to.
         BufferedImage expected = null;
@@ -636,7 +607,6 @@ public class FilterTest {
         }
         catch (Exception e){
             // This will happen for various reasons. But, will not happen by the way it is set up.
-            System.out.println("Error in reading in an image 2.");
         }
 
         // Now, we try to apply the filter.
@@ -666,7 +636,6 @@ public class FilterTest {
         }
         catch (Exception e){
             // This will happen for various reasons. But, will not happen by the way it is set up.
-            System.out.println("Error in reading in an image 1.");
         }
         // Now, we read in the image we are comparing to.
         BufferedImage expected = null;
@@ -676,7 +645,6 @@ public class FilterTest {
         }
         catch (Exception e){
             // This will happen for various reasons. But, will not happen by the way it is set up.
-            System.out.println("Error in reading in an image 2.");
         }
 
         // Now, we try to apply the filter.
