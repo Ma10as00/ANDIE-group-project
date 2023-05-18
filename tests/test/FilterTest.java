@@ -81,7 +81,10 @@ public class FilterTest {
 
         // Now, we try to apply the action.
         SharpenFilter sharp = new SharpenFilter(1);
-        BufferedImage actual = sharp.apply(original);
+        BufferedImage actual = null;
+        if (original != null) {
+            actual = sharp.apply(original);
+        }
         // Check that the two images are 'equal'.
         assert (bufferedImagesEqual(expected, actual));
     }
@@ -118,7 +121,10 @@ public class FilterTest {
 
         // Now, we try to apply the filter.
         MeanFilter blur = new MeanFilter(1);
-        BufferedImage actual = blur.apply(original);
+        BufferedImage actual = null;
+        if (original != null) {
+            actual = blur.apply(original);
+        }
         // Check that the two images are 'equal'.
         assert (bufferedImagesEqual(expected, actual));
     }
@@ -155,7 +161,10 @@ public class FilterTest {
 
         // Now, we try to apply the filter.
         MedianFilter blur = new MedianFilter(1);
-        BufferedImage actual = blur.apply(original);
+        BufferedImage actual = null;
+        if (original != null) {
+            actual = blur.apply(original);
+        }
         // Check that the two images are 'equal'.
         assert (bufferedImagesEqual(expected, actual));
     }
@@ -192,7 +201,10 @@ public class FilterTest {
 
         // Now, we try to apply the filter.
         GaussianBlurFilter gauss = new GaussianBlurFilter(5);
-        BufferedImage actual = gauss.apply(original);
+        BufferedImage actual = null;
+        if (original != null) {
+            actual = gauss.apply(original);
+        }
         // Check that the two images are 'equal'.
         assert (bufferedImagesEqual(expected, actual));
     }
@@ -229,7 +241,10 @@ public class FilterTest {
 
         // Now, we try to apply the filter.
         SobelHorizontalFilter sobel = new SobelHorizontalFilter(false);
-        BufferedImage actual = sobel.apply(original);
+        BufferedImage actual = null;
+        if (original != null) {
+            actual = sobel.apply(original);
+        }
         // Check that the two images are 'equal'.
         assert (bufferedImagesEqual(expected, actual));
     }
@@ -266,7 +281,10 @@ public class FilterTest {
 
         // Now, we try to apply the filter.
         SobelVerticalFilter sobel = new SobelVerticalFilter(false);
-        BufferedImage actual = sobel.apply(original);
+        BufferedImage actual = null;
+        if (original != null) {
+            actual = sobel.apply(original);
+        }
         // Check that the two images are 'equal'.
         assert (bufferedImagesEqual(expected, actual));
     }
@@ -303,7 +321,10 @@ public class FilterTest {
 
         // Now, we try to apply the filter.
         SobelOrientationFilter sobel = new SobelOrientationFilter(false, false);
-        BufferedImage actual = sobel.apply(original);
+        BufferedImage actual = null;
+        if (original != null) {
+            actual = sobel.apply(original);
+        }
         // Check that the two images are 'equal'.
         assert (bufferedImagesEqual(expected, actual));
     }
@@ -340,7 +361,10 @@ public class FilterTest {
 
         // Now, we try to apply the filter.
         SobelOrientationFilter sobel = new SobelOrientationFilter(false, true);
-        BufferedImage actual = sobel.apply(original);
+        BufferedImage actual = null;
+        if (original != null) {
+            actual = sobel.apply(original);
+        }
         // Check that the two images are 'equal'.
         assert (bufferedImagesEqual(expected, actual));
     }
@@ -377,7 +401,10 @@ public class FilterTest {
 
         // Now, we try to apply the filter.
         EmbossFilter emboss = new EmbossFilter(false, 1);
-        BufferedImage actual = emboss.apply(original);
+        BufferedImage actual = null;
+        if (original != null) {
+            actual = emboss.apply(original);
+        }
         // Check that the two images are 'equal'.
         assert (bufferedImagesEqual(expected, actual));
     }
@@ -414,7 +441,10 @@ public class FilterTest {
 
         // Now, we try to apply the filter.
         EmbossFilter emboss = new EmbossFilter(false, 2);
-        BufferedImage actual = emboss.apply(original);
+        BufferedImage actual = null;
+        if (original != null) {
+            actual = emboss.apply(original);
+        }
         // Check that the two images are 'equal'.
         assert (bufferedImagesEqual(expected, actual));
     }
@@ -451,7 +481,10 @@ public class FilterTest {
 
         // Now, we try to apply the filter.
         EmbossFilter emboss = new EmbossFilter(false, 3);
-        BufferedImage actual = emboss.apply(original);
+        BufferedImage actual = null;
+        if (original != null) {
+            actual = emboss.apply(original);
+        }
         // Check that the two images are 'equal'.
         assert (bufferedImagesEqual(expected, actual));
     }
@@ -488,7 +521,10 @@ public class FilterTest {
 
         // Now, we try to apply the filter.
         EmbossFilter emboss = new EmbossFilter(false, 4);
-        BufferedImage actual = emboss.apply(original);
+        BufferedImage actual = null;
+        if (original != null) {
+            actual = emboss.apply(original);
+        }
         // Check that the two images are 'equal'.
         assert (bufferedImagesEqual(expected, actual));
     }
@@ -525,7 +561,10 @@ public class FilterTest {
 
         // Now, we try to apply the filter.
         EmbossFilter emboss = new EmbossFilter(false, 5);
-        BufferedImage actual = emboss.apply(original);
+        BufferedImage actual = null;
+        if (original != null) {
+            actual = emboss.apply(original);
+        }
         // Check that the two images are 'equal'.
         assert (bufferedImagesEqual(expected, actual));
     }
@@ -562,7 +601,10 @@ public class FilterTest {
 
         // Now, we try to apply the filter.
         EmbossFilter emboss = new EmbossFilter(false, 6);
-        BufferedImage actual = emboss.apply(original);
+        BufferedImage actual = null;
+        if (original != null) {
+            actual = emboss.apply(original);
+        }
         // Check that the two images are 'equal'.
         assert (bufferedImagesEqual(expected, actual));
     }
@@ -599,7 +641,10 @@ public class FilterTest {
 
         // Now, we try to apply the filter.
         EmbossFilter emboss = new EmbossFilter(false, 7);
-        BufferedImage actual = emboss.apply(original);
+        BufferedImage actual = null;
+        if (original != null) {
+            actual = emboss.apply(original);
+        }
         // Check that the two images are 'equal'.
         assert (bufferedImagesEqual(expected, actual));
     }
@@ -636,7 +681,10 @@ public class FilterTest {
 
         // Now, we try to apply the filter.
         EmbossFilter emboss = new EmbossFilter(false, 8);
-        BufferedImage actual = emboss.apply(original);
+        BufferedImage actual = null;
+        if (original != null) {
+            actual = emboss.apply(original);
+        }
         // Check that the two images are 'equal'.
         assert (bufferedImagesEqual(expected, actual));
     }

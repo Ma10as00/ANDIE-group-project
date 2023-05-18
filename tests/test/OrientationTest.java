@@ -81,7 +81,10 @@ public class OrientationTest {
 
         // Now, we try to apply the rotation.
         RotateRight rotate = new RotateRight();
-        BufferedImage actual = rotate.apply(original);
+        BufferedImage actual = null;
+        if (original != null) {
+            actual = rotate.apply(original);
+        }
         // Check that the two images are 'equal'.
         assert (bufferedImagesEqual(expected, actual));
     }
@@ -118,7 +121,10 @@ public class OrientationTest {
 
         // Now, we try to apply the rotation.
         RotateLeft rotate = new RotateLeft();
-        BufferedImage actual = rotate.apply(original);
+        BufferedImage actual = null;
+        if (original != null) {
+            actual = rotate.apply(original);
+        }
         // Check that the two images are 'equal'.
         assert (bufferedImagesEqual(expected, actual));
     }
@@ -155,7 +161,10 @@ public class OrientationTest {
 
         // Now, we try to apply the rotation.
         Rotate180 rotate = new Rotate180();
-        BufferedImage actual = rotate.apply(original);
+        BufferedImage actual = null;
+        if (original != null) {
+            actual = rotate.apply(original);
+        }
         // Check that the two images are 'equal'.
         assert (bufferedImagesEqual(expected, actual));
     }
@@ -192,7 +201,10 @@ public class OrientationTest {
 
         // Now, we try to apply the flip.
         FlipVertical flip = new FlipVertical();
-        BufferedImage actual = flip.apply(original);
+        BufferedImage actual = null;
+        if (original != null) {
+            actual = flip.apply(original);
+        }
         // Check that the two images are 'equal'.
         assert (bufferedImagesEqual(expected, actual));
     }
@@ -229,7 +241,10 @@ public class OrientationTest {
 
         // Now, we try to apply the flip.
         FlipHorizontal flip = new FlipHorizontal();
-        BufferedImage actual = flip.apply(original);
+        BufferedImage actual = null;
+        if (original != null) {
+            actual = flip.apply(original);
+        }
         // Check that the two images are 'equal'.
         assert (bufferedImagesEqual(expected, actual));
     }
