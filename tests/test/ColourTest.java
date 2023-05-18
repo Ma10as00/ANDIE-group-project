@@ -8,13 +8,13 @@ import java.net.*;
 
 /**
  * <p>
- * Tests to test that the orientation actions in
- * {@link OrientationActions} behave as we would expect.
+ * Tests to test that the colour actions in
+ * {@link ColourActions} behave as we would expect.
  * </p>
  * 
  * @author Stella Srzich
  */
-public class OrientationTest {
+public class ColourTest {
     
     /**
      * This is a method to check if two buffered images are equal. That is, if they have the
@@ -48,13 +48,13 @@ public class OrientationTest {
 
     /**
      * <p>
-     * Test to make sure that when an image is rotated right by
-     * {@link RotateRight}, it is correctly rotated right.
+     * Test to make sure that when an image is converted to grey by
+     * {@link ConvertToGrey}, it is correctly converted to grey.
      * This is done on an actual test image.
      * <\p>
      */
     @Test
-    public void RotateRightTest() {
+    public void ConvertToGreyTest() {
         // First, we try to read in the test image.
         BufferedImage original = null;
         try {
@@ -68,7 +68,7 @@ public class OrientationTest {
         // Now, we read in the image we are comparing to.
         BufferedImage expected = null;
         try {
-            URL path = OrientationTest.class.getResource("test_right.png");
+            URL path = OrientationTest.class.getResource("test_grey.png");
             expected = ImageIO.read(path);
         }
         catch (Exception e){
@@ -76,22 +76,22 @@ public class OrientationTest {
             System.out.println("Error in reading in an image 2.");
         }
 
-        // Now, we try to apply the rotation.
-        RotateRight rotate = new RotateRight();
-        BufferedImage actual = rotate.apply(original);
+        // Now, we try to apply the action.
+        ConvertToGrey grey = new ConvertToGrey();
+        BufferedImage actual = grey.apply(original);
         // Check that the two images are 'equal'.
         assert (bufferedImagesEqual(expected, actual));
     }
 
     /**
      * <p>
-     * Test to make sure that when an image is rotated left by
-     * {@link RotateLeft}, it is correctly rotated left.
+     * Test to make sure that when an image has its brightness changed by
+     * {@link BrightnessFilter}, it is correctly altered.
      * This is done on an actual test image.
      * <\p>
      */
     @Test
-    public void RotateLeftTest() {
+    public void BrightnessTest() {
         // First, we try to read in the test image.
         BufferedImage original = null;
         try {
@@ -105,7 +105,7 @@ public class OrientationTest {
         // Now, we read in the image we are comparing to.
         BufferedImage expected = null;
         try {
-            URL path = OrientationTest.class.getResource("test_left.png");
+            URL path = OrientationTest.class.getResource("test_bright.png");
             expected = ImageIO.read(path);
         }
         catch (Exception e){
@@ -113,22 +113,22 @@ public class OrientationTest {
             System.out.println("Error in reading in an image 2.");
         }
 
-        // Now, we try to apply the rotation.
-        RotateLeft rotate = new RotateLeft();
-        BufferedImage actual = rotate.apply(original);
+        // Now, we try to apply the filter.
+        BrightnessFilter bright = new BrightnessFilter(50);
+        BufferedImage actual = bright.apply(original);
         // Check that the two images are 'equal'.
         assert (bufferedImagesEqual(expected, actual));
     }
 
     /**
      * <p>
-     * Test to make sure that when an image is rotated 180 degrees by
-     * {@link Rotate180}, it is correctly rotated 180 degrees.
+     * Test to make sure that when an image has its contrast changed by
+     * {@link ContrastFilter}, it is correctly altered.
      * This is done on an actual test image.
      * <\p>
      */
     @Test
-    public void Rotate180Test() {
+    public void ContrastTest() {
         // First, we try to read in the test image.
         BufferedImage original = null;
         try {
@@ -142,7 +142,7 @@ public class OrientationTest {
         // Now, we read in the image we are comparing to.
         BufferedImage expected = null;
         try {
-            URL path = OrientationTest.class.getResource("test_180.png");
+            URL path = OrientationTest.class.getResource("test_contrast.png");
             expected = ImageIO.read(path);
         }
         catch (Exception e){
@@ -150,86 +150,11 @@ public class OrientationTest {
             System.out.println("Error in reading in an image 2.");
         }
 
-        // Now, we try to apply the rotation.
-        Rotate180 rotate = new Rotate180();
-        BufferedImage actual = rotate.apply(original);
-        // Check that the two images are 'equal'.
-        assert (bufferedImagesEqual(expected, actual));
-    }
-
-    /**
-     * <p>
-     * Test to make sure that when an image is flipped vertically
-     * {@link FlipVertical}, it is correctly flipped vertically
-     * This is done on an actual test image.
-     * <\p>
-     */
-    @Test
-    public void FlipVerTest() {
-        // First, we try to read in the test image.
-        BufferedImage original = null;
-        try {
-            URL path = OrientationTest.class.getResource("test.png");
-            original = ImageIO.read(path);
-        }
-        catch (Exception e){
-            // This will happen for various reasons. But, will not happen by the way it is set up.
-            System.out.println("Error in reading in an image 1.");
-        }
-        // Now, we read in the image we are comparing to.
-        BufferedImage expected = null;
-        try {
-            URL path = OrientationTest.class.getResource("test_vertical.png");
-            expected = ImageIO.read(path);
-        }
-        catch (Exception e){
-            // This will happen for various reasons. But, will not happen by the way it is set up.
-            System.out.println("Error in reading in an image 2.");
-        }
-
-        // Now, we try to apply the flip.
-        FlipVertical flip = new FlipVertical();
-        BufferedImage actual = flip.apply(original);
-        // Check that the two images are 'equal'.
-        assert (bufferedImagesEqual(expected, actual));
-    }
-
-     /**
-     * <p>
-     * Test to make sure that when an image is flipped horizontally
-     * {@link FlipHortizontal}, it is correctly flipped horizontally
-     * This is done on an actual test image.
-     * <\p>
-     */
-    @Test
-    public void FlipHorTest() {
-        // First, we try to read in the test image.
-        BufferedImage original = null;
-        try {
-            URL path = OrientationTest.class.getResource("test.png");
-            original = ImageIO.read(path);
-        }
-        catch (Exception e){
-            // This will happen for various reasons. But, will not happen by the way it is set up.
-            System.out.println("Error in reading in an image 1.");
-        }
-        // Now, we read in the image we are comparing to.
-        BufferedImage expected = null;
-        try {
-            URL path = OrientationTest.class.getResource("test_horizontal.png");
-            expected = ImageIO.read(path);
-        }
-        catch (Exception e){
-            // This will happen for various reasons. But, will not happen by the way it is set up.
-            System.out.println("Error in reading in an image 2.");
-        }
-
-        // Now, we try to apply the flip.
-        FlipHorizontal flip = new FlipHorizontal();
-        BufferedImage actual = flip.apply(original);
+        // Now, we try to apply the filter.
+        ContrastFilter contrast = new ContrastFilter(50);
+        BufferedImage actual = contrast.apply(original);
         // Check that the two images are 'equal'.
         assert (bufferedImagesEqual(expected, actual));
     }
 
 }
-
