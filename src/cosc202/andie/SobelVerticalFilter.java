@@ -46,7 +46,7 @@ public class SobelVerticalFilter implements ImageOperation, java.io.Serializable
      * @see GaussianBlurFilter
      * @param removeNoise True to apply a light Gaussian blur filter before the sobel filter, false otherwise.
      */
-    SobelVerticalFilter(boolean removeNoise) {
+    public SobelVerticalFilter(boolean removeNoise) {
         this.removeNoise = removeNoise;
     }
 
@@ -62,7 +62,7 @@ public class SobelVerticalFilter implements ImageOperation, java.io.Serializable
      * @see GaussianBlurFilter
      * @see SobelVerticalFilter(boolean removeNoise)
      */
-    SobelVerticalFilter() {
+    public SobelVerticalFilter() {
         this(true);
     }
 

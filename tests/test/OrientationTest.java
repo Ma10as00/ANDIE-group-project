@@ -24,6 +24,9 @@ public class OrientationTest {
      * @return true if the images are 'equal', false otherwise.
      */
     private static boolean bufferedImagesEqual(BufferedImage image1, BufferedImage image2) {
+        if (image1 == null && image2 == null) {
+            return true;
+        }
         int h1 = image1.getHeight();
         int h2 = image2.getHeight();
         int w1 = image1.getWidth();

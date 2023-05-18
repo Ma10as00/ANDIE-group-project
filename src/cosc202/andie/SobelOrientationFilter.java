@@ -64,7 +64,7 @@ public class SobelOrientationFilter implements ImageOperation, java.io.Serializa
      * @param removeNoise True to apply a light Gaussian blur filter before the sobel filter, false otherwise.
      * @param hue True to colour the edges based on orientation, false otherwise.
      */
-    SobelOrientationFilter(boolean removeNoise, boolean hue) {
+    public SobelOrientationFilter(boolean removeNoise, boolean hue) {
         this.removeNoise = removeNoise;
         this.hue = hue;
     }
@@ -82,7 +82,7 @@ public class SobelOrientationFilter implements ImageOperation, java.io.Serializa
      * @see GaussianBlurFilter
      * @see SobelOrientationFilter(boolean removeNoise, boolean hue)
      */
-    SobelOrientationFilter() {
+    public SobelOrientationFilter() {
         this(true, true);
     }
 

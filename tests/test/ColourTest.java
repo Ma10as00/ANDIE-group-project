@@ -24,6 +24,9 @@ public class ColourTest {
      * @return true if the images are 'equal', false otherwise.
      */
     private static boolean bufferedImagesEqual(BufferedImage image1, BufferedImage image2) {
+        if (image1 == null && image2 == null) {
+            return true;
+        }
         int h1 = image1.getHeight();
         int h2 = image2.getHeight();
         int w1 = image1.getWidth();
@@ -58,7 +61,7 @@ public class ColourTest {
         // First, we try to read in the test image.
         BufferedImage original = null;
         try {
-            URL path = OrientationTest.class.getResource("test.png");
+            URL path = ColourTest.class.getResource("test.png");
             original = ImageIO.read(path);
         }
         catch (Exception e){
@@ -68,7 +71,7 @@ public class ColourTest {
         // Now, we read in the image we are comparing to.
         BufferedImage expected = null;
         try {
-            URL path = OrientationTest.class.getResource("test_grey.png");
+            URL path = ColourTest.class.getResource("test_grey.png");
             expected = ImageIO.read(path);
         }
         catch (Exception e){
@@ -95,7 +98,7 @@ public class ColourTest {
         // First, we try to read in the test image.
         BufferedImage original = null;
         try {
-            URL path = OrientationTest.class.getResource("test.png");
+            URL path = ColourTest.class.getResource("test.png");
             original = ImageIO.read(path);
         }
         catch (Exception e){
@@ -105,7 +108,7 @@ public class ColourTest {
         // Now, we read in the image we are comparing to.
         BufferedImage expected = null;
         try {
-            URL path = OrientationTest.class.getResource("test_bright.png");
+            URL path = ColourTest.class.getResource("test_bright.png");
             expected = ImageIO.read(path);
         }
         catch (Exception e){
@@ -132,7 +135,7 @@ public class ColourTest {
         // First, we try to read in the test image.
         BufferedImage original = null;
         try {
-            URL path = OrientationTest.class.getResource("test.png");
+            URL path = ColourTest.class.getResource("test.png");
             original = ImageIO.read(path);
         }
         catch (Exception e){
@@ -142,7 +145,7 @@ public class ColourTest {
         // Now, we read in the image we are comparing to.
         BufferedImage expected = null;
         try {
-            URL path = OrientationTest.class.getResource("test_contrast.png");
+            URL path = ColourTest.class.getResource("test_contrast.png");
             expected = ImageIO.read(path);
         }
         catch (Exception e){

@@ -105,7 +105,7 @@ public class EmbossFilter implements ImageOperation, java.io.Serializable {
      * @param removeNoise True to apply a light Gaussian blur filter before the sobel filter, false otherwise.
      * @param embosstype Determines the direction of the emboss. The options are ints 1 to 8 (inclusive). See the public static ints of {@link EmbossFilter}.
      */
-    EmbossFilter(boolean removeNoise, int embossType) {
+    public EmbossFilter(boolean removeNoise, int embossType) {
         this.removeNoise = removeNoise;
         if (embossType == EMBOSS_1) {
             this.kernel = new int[] {0, 0, 0, 1, 0, -1, 0, 0, 0};
@@ -144,7 +144,7 @@ public class EmbossFilter implements ImageOperation, java.io.Serializable {
      * </p>
      * @see GaussianBlurFilter
      */
-    EmbossFilter() {
+    public EmbossFilter() {
         this(true, 1);
     }
 
