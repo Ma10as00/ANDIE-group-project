@@ -22,7 +22,7 @@ public class MacroActions{
     /**
      * A list of actions for the Macro menu.
      */
-    protected ArrayList<Action> actions;    
+    public ArrayList<Action> actions;    
     
     /** 
     * The main GUI frame. Only here so that we can pack the 
@@ -73,7 +73,7 @@ public class MacroActions{
     public class StartRecordingAction extends ImageAction{
 
         /**
-         * Constructs an {@link StartRecordingAction}.
+         * Constructs a {@link StartRecordingAction}.
          */
         public StartRecordingAction(String name, ImageIcon icon, String desc, Integer mnemonic){
             super(name, icon, desc, mnemonic);
