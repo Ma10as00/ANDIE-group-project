@@ -36,8 +36,8 @@ public class FileActions {
     /** An instance of FileSaveAction to be used in renderToolbar. */
     protected FileSaveAction fileSaveAction;
 
-    /** 
-     * The main GUI frame. Only here so that we can pack the 
+    /**
+     * The main GUI frame. Only here so that we can pack the
      * frame when we open a new image.
      */
     private JFrame frame;
@@ -52,12 +52,19 @@ public class FileActions {
     public FileActions(JFrame frame) {
         actions = new ArrayList<Action>();
         this.frame = frame;
-        actions.add(new FileOpenAction(LanguageActions.getLocaleString("open"), null, LanguageActions.getLocaleString("openDes"), Integer.valueOf(KeyEvent.VK_O)));
-        this.fileSaveAction = new FileSaveAction(LanguageActions.getLocaleString("save"), null, LanguageActions.getLocaleString("saveDes"), Integer.valueOf(KeyEvent.VK_S));
+        actions.add(new FileOpenAction(LanguageActions.getLocaleString("open"), null,
+                LanguageActions.getLocaleString("openDes"), Integer.valueOf(KeyEvent.VK_O)));
+        this.fileSaveAction = new FileSaveAction(LanguageActions.getLocaleString("save"), null,
+                LanguageActions.getLocaleString("saveDes"), Integer.valueOf(KeyEvent.VK_S));
         actions.add(this.fileSaveAction);
-        actions.add(new FileSaveAsAction(LanguageActions.getLocaleString("saveAs"), null, LanguageActions.getLocaleString("saveAsDes"), Integer.valueOf(KeyEvent.VK_SHIFT)));
-        actions.add(new FileExportAction(LanguageActions.getLocaleString("export"), null, LanguageActions.getLocaleString("exportDes"), Integer.valueOf(KeyEvent.VK_E)));
-        actions.add(new FileExitAction(LanguageActions.getLocaleString("exit"), null, LanguageActions.getLocaleString("exitDes"), Integer.valueOf(KeyEvent.VK_ESCAPE)));
+        actions.add(new FileSaveAsAction(LanguageActions.getLocaleString("saveAs"), null,
+                LanguageActions.getLocaleString("saveAsDes"), Integer.valueOf(KeyEvent.VK_SHIFT)));
+        actions.add(new FileExportAction(LanguageActions.getLocaleString("export"), null,
+                LanguageActions.getLocaleString("exportDes"), Integer.valueOf(KeyEvent.VK_E)));
+        actions.add(new DarkMode(LanguageActions.getLocaleString("darkMode"), null,
+                LanguageActions.getLocaleString("darkmodedesc"), Integer.valueOf(KeyEvent.VK_D)));
+        actions.add(new FileExitAction(LanguageActions.getLocaleString("exit"), null,
+                LanguageActions.getLocaleString("exitDes"), Integer.valueOf(KeyEvent.VK_ESCAPE)));
     }
 
     /**
@@ -80,12 +87,15 @@ public class FileActions {
     /**
      * <p>
      * Method to check whether a given file name is a valid PNG file name. That is,
-     * if it ends in .png, only contains a single '.', and has characters before '.png'.
-     * This is used by {@link FileOpenAction}, {@link FileSaveAsAction}, {@link FileExportAction}.
+     * if it ends in .png, only contains a single '.', and has characters before
+     * '.png'.
+     * This is used by {@link FileOpenAction}, {@link FileSaveAsAction},
+     * {@link FileExportAction}.
      * </p>
      * 
      * @param imageFilename The image file name to check if valid.
-     * @return true if {@link imageFileName} is a valid PNG file name, false otherwise.
+     * @return true if {@link imageFileName} is a valid PNG file name, false
+     *         otherwise.
      */
     private boolean isValidPNGName(String imageFilename) {
         boolean isPNGFile = true;
@@ -96,7 +106,7 @@ public class FileActions {
             Path dummyPath = Paths.get(imageFilename);
             justFilename = dummyPath.getFileName().toString();
         } catch (InvalidPathException e) {
-            // Occurs in imageFilename cannot be converted to a path. This won't happen, 
+            // Occurs in imageFilename cannot be converted to a path. This won't happen,
             // but just incase return false, as it will not be a valid PNG name
             return false;
         }
@@ -104,19 +114,20 @@ public class FileActions {
         if (justFilename.contains(".") == false) {
             // The image file name has no '.', cannot be a valid image file name.
             isPNGFile = false;
-        }
-        else {
+        } else {
             String extension = justFilename.substring(justFilename.lastIndexOf(".")).toLowerCase();
             if (!extension.equals(".png")) {
                 // The image file name extension is not valid as it doesn't end in .png.
                 isPNGFile = false;
             }
             if (justFilename.lastIndexOf(".") != justFilename.indexOf(".")) {
-                // There are is more than one '.' in file name, so the image file name is nvalid.
+                // There are is more than one '.' in file name, so the image file name is
+                // nvalid.
                 isPNGFile = false;
             }
             if (justFilename.equals(".png")) {
-                // The name of the image is null, i.e. the file name is ".png". This is not valid.
+                // The name of the image is null, i.e. the file name is ".png". This is not
+                // valid.
                 isPNGFile = false;
             }
         }
@@ -128,10 +139,13 @@ public class FileActions {
      * <p>
      * Method to check whether a given file name is already an image file name.
      * This is used by {@link FileSaveAsAction} and {@link FileExportAction}
-     * to check if there is a possibility of writting over another file in the same directory.
+     * to check if there is a possibility of writting over another file in the same
+     * directory.
      * </p>
+     * 
      * @param imageFilename The image file name to check if valid.
-     * @return true if {@link imageFileName} is a valid PNG file name, false otherwise.
+     * @return true if {@link imageFileName} is a valid PNG file name, false
+     *         otherwise.
      */
     private boolean isExistingFilename(String imageFilename) {
         try {
@@ -166,7 +180,8 @@ public class FileActions {
          */
         FileOpenAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
-            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_O, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+            this.putValue(Action.ACCELERATOR_KEY,
+                    KeyStroke.getKeyStroke(KeyEvent.VK_O, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         }
 
         /**
@@ -186,19 +201,24 @@ public class FileActions {
             if (target.getImage().hasImage()) {
                 // There is an image open, warn user that any unsaved changes will be deleted.
                 try {
-                    int option = JOptionPane.showConfirmDialog(null, LanguageActions.getLocaleString("warningAddImage"), LanguageActions.getLocaleString("warning"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+                    int option = JOptionPane.showConfirmDialog(null,
+                            "If you open another image without saving or exporting this image, any changes will be lost.",
+                            "Warning", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+
                     if (option == JOptionPane.CANCEL_OPTION || option == JOptionPane.CLOSED_OPTION) {
                         // User cancelled or closed box, don't open an image.
                         return;
                     }
                 } catch (HeadlessException ex) {
-                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse.
+
                     // Won't happen for our users, so just exit.
                     System.exit(1);
                 }
             }
 
-            // User either had no image open, or had an image open but decided to still open another one.
+            // User either had no image open, or had an image open but decided to still open
+            // another one.
             // So, we attempt to open an image file.
             JFileChooser fileChooser = new JFileChooser();
             int result = fileChooser.showOpenDialog(target);
@@ -209,7 +229,9 @@ public class FileActions {
                     // First, check that the file trying to be opened is a png image
                     if (isValidPNGName(imageFilepath) == false) {
                         // The image file name is not valid. Show error message and do not open.
-                        JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("errorNotPng"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "You have not selected a PNG image file.", "Error",
+                                JOptionPane.ERROR_MESSAGE);
+
                         return;
                     }
                     // Reset the zoom to default of 100%.
@@ -221,23 +243,24 @@ public class FileActions {
                     String justFilename = imagePath.getFileName().toString();
                     frame.setTitle("ANDIE (" + justFilename + ")");
                 } catch (HeadlessException eh) {
-                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse.
                     // Won't happen for our users, so just exit.
                     System.exit(1);
                 } catch (Exception ex) {
                     // There would have been an error in getting canonical pathname.
                     // Just let the user know. Probably won't happen.
                     try {
-                        JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("errorOpenFile"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
-                    }   
-                    catch (HeadlessException eh) {
-                        // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                        JOptionPane.showMessageDialog(null, "Sorry, there has been an error in opening the file.",
+                                "Error", JOptionPane.ERROR_MESSAGE);
+                    } catch (HeadlessException eh) {
+                        // Headless exception, thrown when the code is dependent on a keyboard or mouse.
+
                         // Won't happen for our users, so just exit.
                         System.exit(1);
                     }
                 }
             }
-
+            ImagePanel.rect = null;
             target.repaint();
             target.getParent().revalidate();
             // Pack the main GUI frame to the size of the newly opened image.
@@ -279,7 +302,8 @@ public class FileActions {
          */
         FileSaveAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
-            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_S, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+            this.putValue(Action.ACCELERATOR_KEY,
+                    KeyStroke.getKeyStroke(KeyEvent.VK_S, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         }
 
         /**
@@ -298,15 +322,10 @@ public class FileActions {
             // Check if there is an image open.
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
-                try {
-                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("errorNoImage"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
-                } catch (HeadlessException ex) {
-                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
-                    // Won't happen for our users, so just exit.
-                    System.exit(1);
-                }
-            }
-            else {
+                JOptionPane.showMessageDialog(null, "There is no image open to save.", "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            } else {
+
                 // There is an image open, carry on.
                 target.getImage().save();
             }
@@ -334,7 +353,8 @@ public class FileActions {
          */
         FileSaveAsAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
-            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_SHIFT, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+            this.putValue(Action.ACCELERATOR_KEY,
+                    KeyStroke.getKeyStroke(KeyEvent.VK_SHIFT, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         }
 
         /**
@@ -353,60 +373,70 @@ public class FileActions {
             // Check if there is an image open.
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message, and do not save as.
-                try {
-                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("errorNoImageAs"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
-                } catch (HeadlessException ex) {
-                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
-                    // Won't happen for our users, so just exit.
-                    System.exit(1);
-                }
+                JOptionPane.showMessageDialog(null, "There is no image open to save as.", "Error",
+                        JOptionPane.ERROR_MESSAGE);
+
                 return;
             }
             // There is an image open, carry on.
             JFileChooser fileChooser = new JFileChooser();
             int result = fileChooser.showSaveDialog(target);
             if (result == JFileChooser.APPROVE_OPTION) {
-                try {                        
+                try {
                     String imageFilepath = fileChooser.getSelectedFile().getCanonicalPath();
                     // Check that the image file name is valid.
                     if (isValidPNGName(imageFilepath) == false) {
                         // The image file name is not valid. Show error message and do not save as.
-                        JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("syntaxError"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null,
+                                "You have not entered a valid PNG image file name.\n(The name must end with .png, cannot contain any other '.', and must contain characters preceeding '.png')",
+                                "Error", JOptionPane.ERROR_MESSAGE);
+
                         return;
                     }
 
-                    // Check that the image file name does not describe an image that already exists.
+                    // Check that the image file name does not describe an image that already
+                    // exists.
                     if (isExistingFilename(imageFilepath)) {
-                        // The image file name already describes another file name. 
+                        // The image file name already describes another file name.
                         // Ask user if they want to override or cancel.
-                        int option = JOptionPane.showConfirmDialog(null, LanguageActions.getLocaleString("warningAnotherFile"), LanguageActions.getLocaleString("warning"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
-                        if (option == JOptionPane.CANCEL_OPTION || option == JOptionPane.CLOSED_OPTION) {
-                            // User cancelled or closed the pop up, don't export.
-                            return;
+                        try {
+                            int option = JOptionPane.showConfirmDialog(null,
+                                    "Another file already exists with the same name in this directory.\nClick OK to replace it, or cancel.",
+                                    "Warning", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+                            if (option == JOptionPane.CANCEL_OPTION || option == JOptionPane.CLOSED_OPTION) {
+                                // User cancelled or closed the pop up, don't export.
+                                return;
+                            }
+                        } catch (HeadlessException ex) {
+                            // Headless exception, thrown when the code is dependent on a keyboard or mouse.
+                            // Won't happen for our users, so just exit.
+                            System.exit(1);
+
                         }
                     }
-                    
+
                     target.getImage().saveAs(imageFilepath);
                     // Make the image file name appear in the header of the main GUI.
                     Path imagePath = Paths.get(imageFilepath);
                     String justFilename = imagePath.getFileName().toString();
                     frame.setTitle("ANDIE (" + justFilename + ")");
                 } catch (HeadlessException eh) {
-                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse.
                     // Won't happen for our users, so just exit.
                     System.exit(1);
                 } catch (Exception ex) {
                     // There would have been an error in getting canonical pathname.
                     // Just let the user know. Probably won't happen.
                     try {
-                        JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("errorSavingFileAs"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
-                    }   
-                    catch (HeadlessException eh) {
-                        // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                        JOptionPane.showMessageDialog(null, "Sorry, there has been an error in saving the file as.",
+                                "Error", JOptionPane.ERROR_MESSAGE);
+                    } catch (HeadlessException eh) {
+                        // Headless exception, thrown when the code is dependent on a keyboard or mouse.
+
                         // Won't happen for our users, so just exit.
                         System.exit(1);
                     }
-                } 
+                }
             }
         }
     }
@@ -432,7 +462,8 @@ public class FileActions {
             // Note, this now extends ImageAction instead of AbstractAction so it can
             // access the target ImagePanel
             super(name, icon, desc, mnemonic);
-            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+            this.putValue(Action.ACCELERATOR_KEY,
+                    KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         }
 
         /**
@@ -452,7 +483,10 @@ public class FileActions {
             if (target.getImage().hasImage()) {
                 // There is an image open, warn user that any unsaved changes will be deleted.
                 try {
-                    int option = JOptionPane.showConfirmDialog(null, LanguageActions.getLocaleString("warningExitWithoutSave"), LanguageActions.getLocaleString("warning"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+                    int option = JOptionPane.showConfirmDialog(null,
+                            "If you exit without saving or exporting, any changes will be lost.", "Warning",
+                            JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+
                     if (option == JOptionPane.CANCEL_OPTION) {
                         // User cancelled, don't exit.
                         return;
@@ -461,14 +495,12 @@ public class FileActions {
                         // User clicked ok, exit.
                         System.exit(0);
                     }
-                }
-                catch (HeadlessException ex) {
-                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                } catch (HeadlessException ex) {
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse.
                     // Won't happen for our users, so just exit.
                     System.exit(1);
                 }
-            }
-            else { 
+            } else {
                 // If there is no image open, exit.
                 System.exit(0);
             }
@@ -496,8 +528,10 @@ public class FileActions {
          */
         FileExportAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
-            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_E, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+            this.putValue(Action.ACCELERATOR_KEY,
+                    KeyStroke.getKeyStroke(KeyEvent.VK_E, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         }
+
         /**
          * <p>
          * Callback for when the file-export action is triggered.
@@ -514,10 +548,12 @@ public class FileActions {
             // Check if there is an image to export
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
+
                 try {
-                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("errorNoExport"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("errorNoExport"),
+                            LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 } catch (HeadlessException ex) {
-                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse.
                     // Won't happen for our users, so just exit.
                     System.exit(1);
                 }
@@ -535,40 +571,101 @@ public class FileActions {
                     // Check that the image file name is valid.
                     if (isValidPNGName(imageFilepath) == false) {
                         // The image file name is not valid. Show error message and do not export.
-                        JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("errorFileName"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+
+                        JOptionPane.showMessageDialog(null,
+                                "You have not entered a valid PNG image file name.\n(The name must end with .png, cannot contain any other '.', and must contain characters preceeding '.png')",
+                                "Error", JOptionPane.ERROR_MESSAGE);
+
                         return;
                     }
 
-                    // Check that the image file name does not describe an image that already exists.
+                    // Check that the image file name does not describe an image that already
+                    // exists.
                     if (isExistingFilename(imageFilepath)) {
-                        // The image file name already describes another file name. 
+                        // The image file name already describes another file name.
                         // Ask user if they want to override or cancel.
-                        int option = JOptionPane.showConfirmDialog(null, LanguageActions.getLocaleString("warningSameName"), LanguageActions.getLocaleString("warning"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
-                        if (option == JOptionPane.CANCEL_OPTION || option == JOptionPane.CLOSED_OPTION) {
+                        try {
+                            int option = JOptionPane.showConfirmDialog(null,
+                                    "Another file already exists with the same name in this directory.\nClick OK to replace it, or cancel.",
+                                    "Warning", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+                            if (option == JOptionPane.CANCEL_OPTION || option == JOptionPane.CLOSED_OPTION) {
                                 // User cancelled or closed the pop up, don't export.
-                            return;
+                                return;
+                            }
+                        } catch (HeadlessException ex) {
+                            // Headless exception, thrown when the code is dependent on a keyboard or mouse.
+                            // Won't happen for our users, so just exit.
+                            System.exit(1);
+
                         }
                     }
 
                     // Export the image.
                     target.getImage().export(imageFilepath);
                 } catch (HeadlessException eh) {
-                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse.
                     // Won't happen for our users, so just exit.
                     System.exit(1);
                 } catch (Exception ex) {
                     // There would have been an error in getting canonical pathname.
                     // Just let the user know. Probably won't happen.
                     try {
-                        JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("errorExport"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
-                    }   
-                    catch (HeadlessException eh) {
-                        // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                        JOptionPane.showMessageDialog(null, "Sorry, there has been an error in exporting the file.",
+                                "Error", JOptionPane.ERROR_MESSAGE);
+                    } catch (HeadlessException eh) {
+                        // Headless exception, thrown when the code is dependent on a keyboard or mouse.
                         // Won't happen for our users, so just exit.
                         System.exit(1);
                     }
-                } 
+                }
             }
         }
-    }  
+    }
+
+    /**
+     * <p>
+     * Action to change view to dark mode.
+     * </p>
+     * 
+     */
+    public class DarkMode extends ImageAction {
+
+        /**
+         * <p>
+         * Turn to Dark Mode.
+         * </p>
+         * 
+         * @param name     The name of the action (ignored if null).
+         * @param icon     An icon to use to represent the action (ignored if null).
+         * @param desc     A brief description of the action (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
+         */
+        DarkMode(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+            this.putValue(Action.ACCELERATOR_KEY,
+                    KeyStroke.getKeyStroke(KeyEvent.VK_S, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+        }
+
+        /**
+         * <p>
+         * Callback for when the dark mode action is triggered.
+         * </p>
+         * 
+         * <p>
+         * This method is called whenever the darkMode is triggered.
+         * </p>
+         * 
+         * @param e The event triggering this callback.
+         */
+        public void actionPerformed(ActionEvent e) {
+            if (Andie.darkMode) {
+                Andie.darkMode = false;
+            } else {
+                Andie.darkMode = true;
+            } // Toggle dark mode
+            Andie.updateDarkMode(); // Call the method to update the dark mode
+
+        }
+    }
+
 }

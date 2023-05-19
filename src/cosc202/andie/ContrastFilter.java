@@ -15,8 +15,8 @@ import java.awt.HeadlessException;
  * which is used to determine the contrast of the image.
  * </p>
  *
- * @author James Liu
  */
+
 public class ContrastFilter implements ImageOperation, java.io.Serializable  {
     /** The size of the scale which is what is used to determine the contrast. */
     int value;
@@ -38,19 +38,25 @@ public class ContrastFilter implements ImageOperation, java.io.Serializable  {
      * Apply a contrast filter to an image.
      * </p>
      * 
-     * The apply method takes in a value field that compute a contrast value. 
-     * The contrast value is then used to create a RescaleOp object. 
-     * The RescaleOp object is then used to filter the previousImage using the filter method. 
-     * The filter method modifies the previousImage in place by applying the contrast filter to it. Finally, 
+     * The apply method takes in a value field that compute a contrast value.
+     * The contrast value is then used to create a RescaleOp object.
+     * The RescaleOp object is then used to filter the previousImage using the
+     * filter method.
+     * The filter method modifies the previousImage in place by applying the
+     * contrast filter to it. Finally,
      * the apply method returns the previousImage.
      * 
      * 
-     * The ContrastFilter class is used to apply a contrast filter to a BufferedImage. 
-     * The amount of contrast applied is determined by the value field, which is set by the constructor. 
-     * The apply method applies the contrast filter to the input image and returns the filtered image.
-     *  
-     * @param previousImage the input image to filter.
-     * @return a new image with the contrast filter applied.
+     * The ContrastFilter class is used to apply a contrast filter to a
+     * BufferedImage.
+     * The amount of contrast applied is determined by the value field, which is set
+     * by the constructor.
+     * The apply method applies the contrast filter to the input image and returns
+     * the filtered image.
+     * 
+     * @param previousImage the input image to filter
+     * @return a new image with the contrast filter applied
+
      */
     @Override
     public BufferedImage apply(BufferedImage previousImage) {
@@ -63,14 +69,16 @@ public class ContrastFilter implements ImageOperation, java.io.Serializable  {
             // But, occurs if there is an issue with the scaling factors or colour model.
             // Tell the user and do nothing.
             try {
-                JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("contrastErr2"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
-            }   
-            catch (HeadlessException eh) {
-                // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                JOptionPane.showMessageDialog(null, "Sorry, there has been an error in changing the contrast.", "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            } catch (HeadlessException eh) {
+                // Headless exception, thrown when the code is dependent on a keyboard or mouse.
+
                 // Won't happen for our users, so just exit.
                 System.exit(1);
             }
         }
         return previousImage;
     }
+
 }

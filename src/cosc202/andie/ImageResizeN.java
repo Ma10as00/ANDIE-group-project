@@ -11,12 +11,13 @@ import java.io.Serializable;
  * 
  * <p>
  * An image resize by n% resizes the image, changing the dimensions to n% of its
- * original size. This also changes the values of the pixels, possibly losing information.
+ * original size. This also changes the values of the pixels, possibly losing
+ * information.
  * </p>
  *
  * @author Stella Srzich (Modified from Michael Campbell)
  */
-public class ImageResizeN implements ImageOperation, Serializable{
+public class ImageResizeN implements ImageOperation, Serializable {
 
     /**
      * The percentage or resize to apply. A resize percent of 100% is no change,
@@ -30,14 +31,15 @@ public class ImageResizeN implements ImageOperation, Serializable{
      * </p>
      * 
      * <p>
-     * Note, resizePercent is restricted to the closed interval [50, 200]. If anything outside
-     * of this range is passed, 50% or 200% will be used as resizePercent.
+     * Note, resizePercent is restricted to the closed interval [50, 200]. If
+     * anything outside of this range is passed, 50% or 200% will be used as resizePercent.
      * </p>
      * 
      * @param resizePercent the n% we would like to resize the image by.
      */
     public ImageResizeN(int resizePercent) {
-        this.resizePercent = resizePercent;    
+        this.resizePercent = resizePercent;
+
     }
 
     /**
@@ -48,10 +50,9 @@ public class ImageResizeN implements ImageOperation, Serializable{
      * <p>
      * By default, a ImageResizeN has a resziePercent of 100 (no change to image).
      * </p>
-     * 
-     * @see {@link ImageResizeN(int resizePercent)}
+     *
      */
-    ImageResizeN() {
+    public ImageResizeN() {
         this(100);
     }
 
@@ -62,7 +63,8 @@ public class ImageResizeN implements ImageOperation, Serializable{
      * 
      * <p>
      * An image resize by n% resizes the image, changing the dimensions to n% of its
-     * original size. This also changes the values of the pixels, possibly losing information.
+     * original size. This also changes the values of the pixels, possibly losing
+     * information.
      * </p>
      * 
      * @param input a BufferedImage object to apply the image resize n to.
@@ -83,28 +85,28 @@ public class ImageResizeN implements ImageOperation, Serializable{
         BufferedImage resizedImage = input;
 
         if (resizePercent > 100) {
-            double scale = 100.0/(resizePercent - 100.0);
+            double scale = 100.0 / (resizePercent - 100.0);
 
-            int newWidth = input.getWidth() + ((int)(((double)input.getWidth())/scale));
-            int newHeight = input.getHeight() + ((int)(((double)input.getHeight())/scale));
+            int newWidth = input.getWidth() + ((int) (((double) input.getWidth()) / scale));
+            int newHeight = input.getHeight() + ((int) (((double) input.getHeight()) / scale));
 
             Image resize = input.getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
 
             resizedImage = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_ARGB);
-            resizedImage.getGraphics().drawImage(resize,0,0,null);
+            resizedImage.getGraphics().drawImage(resize, 0, 0, null);
         }
         if (resizePercent < 100) {
-            double scale = 100.0/resizePercent;
+            double scale = 100.0 / resizePercent;
 
-            int newWidth = ((int)(((double)input.getWidth())/scale));
-            int newHeight = ((int)(((double)input.getHeight())/scale));
+            int newWidth = ((int) (((double) input.getWidth()) / scale));
+            int newHeight = ((int) (((double) input.getHeight()) / scale));
 
             Image resize = input.getScaledInstance(newWidth, newHeight, Image.SCALE_AREA_AVERAGING);
 
             resizedImage = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_ARGB);
-            resizedImage.getGraphics().drawImage(resize,0,0,null);
+            resizedImage.getGraphics().drawImage(resize, 0, 0, null);
         }
-        
+
         return resizedImage;
     }
 

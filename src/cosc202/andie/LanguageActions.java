@@ -49,6 +49,7 @@ public class LanguageActions {
         actions.add(new EnglishAction("English", null, "Changes the language to English", null));
         actions.add(new MaoriAction("Māori", null, "Ka huri te reo ki te Maori", null));
         actions.add(new NorwegianAction("Norsk", null, "Endrer språket til norsk", null));
+        actions.add(new GermanAction("Deutsch", null, "Ändert die Sprache auf Deutsch", null));
         actions.add(new SpanishAction("Español", null, "cambia el idioma a español", null));
     }
 
@@ -108,6 +109,7 @@ public class LanguageActions {
             
             // Calls renderMenu() to repaint the menu in English.
             Andie.renderMenu();
+
         }
 
     }
@@ -151,6 +153,7 @@ public class LanguageActions {
 
             // Calls renderMenu() to repaint the menu in Maori.
             Andie.renderMenu();
+
         }
 
     }
@@ -194,6 +197,7 @@ public class LanguageActions {
             
             // Calls renderMenu() to repaint the menu in Norwegian.
             Andie.renderMenu();
+
         }
 
     }
@@ -238,6 +242,52 @@ public class LanguageActions {
             
             // Calls renderMenu() to repaint the menu in Spanish.
             Andie.renderMenu();
+
+        }
+
+    }
+
+    /**
+     * <p>
+     * Action to change the language to German.
+     * </p>
+     * 
+     * 
+     */
+    public class GermanAction extends ImageAction {
+
+        /**
+         * <p>
+         * Create a new German action.
+         * </p>
+         * 
+         * @param name The name of the action (ignored if null).
+         * @param icon An icon to use to represent the action (ignored if null).
+         * @param desc A brief description of the action  (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
+         */
+        GermanAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+        }
+
+        /**
+         * <p>
+         * Callback for when the GermanAction is triggered.
+         * </p>
+         * 
+         * <p>
+         * This method is called whenever the GermanAction is triggered.
+         * </p>
+         * 
+         * @param e The event triggering this callback.
+         */
+        public void actionPerformed(ActionEvent e) {
+
+            Language("german");
+            
+            // Calls renderMenu() to repaint the menu in German.
+            Andie.renderMenu();
+
         }
 
     }
@@ -275,6 +325,11 @@ public class LanguageActions {
                 prefs.put("language", "sp");
                 prefs.put("country", "ES");
                 Locale.setDefault(new Locale(prefs.get("language", "sp"), prefs.get("country", "ES")));
+                break;
+            case "german":
+                prefs.put("language", "de");
+                prefs.put("country", "DE");
+                Locale.setDefault(new Locale(prefs.get("language", "de"), prefs.get("country", "DE")));
                 break;
         }
     }
