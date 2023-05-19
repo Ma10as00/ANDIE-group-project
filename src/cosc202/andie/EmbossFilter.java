@@ -13,7 +13,7 @@ import java.awt.*;
  * The outputted image will typically be grey where there are no edges, and it will look like sections of the image
  * are poking out or in, defined by 'coloured shadows'. There are 8 different directions as can be selected
  * as specified in the constructor. Note, this implementation gives us the option to apply the filter after 
- * a light Gaussian blur filter (of radius 1), which typically embosses a noisy natrual image better.
+ * a light Gaussian blur filter (of radius 1), which typically embosses a noisy natural image better.
  * </p>
  * 
  * <p> 

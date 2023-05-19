@@ -138,7 +138,7 @@ public class ColourTest {
         BufferedImage original = null;
         try {
             URL path = ColourTest.class.getResource("test.png");
-            //original = ImageIO.read(path);
+            original = ImageIO.read(path);
         }
         catch (Exception e){
             // This will happen for various reasons. But, will not happen by the way it is set up.
@@ -147,7 +147,7 @@ public class ColourTest {
         BufferedImage expected = null;
         try {
             URL path = ColourTest.class.getResource("test_contrast.png");
-            //expected = ImageIO.read(path);
+            expected = ImageIO.read(path);
         }
         catch (Exception e){
             // This will happen for various reasons. But, will not happen by the way it is set up.

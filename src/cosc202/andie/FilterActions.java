@@ -6,6 +6,7 @@ import javax.swing.*;
 import javax.swing.event.*;
 import java.awt.HeadlessException;
 import java.awt.Toolkit;
+import java.awt.*;
 
 /**
  * <p>
@@ -841,30 +842,10 @@ public class FilterActions {
                 // There is an image open, carry on.
                 // Determine if the user wants to remove noise - ask the user.
                 boolean removeNoise = false;
-                // Ask user if they want to remove noise.
-                try {
-                    int option = JOptionPane.showOptionDialog(null, LanguageActions.getLocaleString("sobelQuestion"), LanguageActions.getLocaleString("embossOptionTitle"),
-                            JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
-                    if (option == JOptionPane.YES_OPTION) {
-                        // The user wants to remove noise.
-                        removeNoise = true;
-                    }
-                    if (option == JOptionPane.CLOSED_OPTION || option == JOptionPane.CANCEL_OPTION) {
-                        // Do nothing, the user has cancelled the window.
-                        return;
-                    }
-                } catch (HeadlessException ex) {
-                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
-                    // Won't happen for our users, so just exit.
-                    System.exit(1);
-                }
-
                 // Determine the embossType - ask the user.
                 int embossType = 1;
-                // Here for strange reasons.
-                boolean removeNoise2 = removeNoise;
 
-                // Set up slider for user to enter amount.
+                // Set up slider for user to enter direction of emboss.
                 JSlider jslider = new JSlider();
                 jslider.setValue(1);
                 jslider.setMaximum(8);
@@ -872,6 +853,14 @@ public class FilterActions {
                 jslider.setMajorTickSpacing(1);
                 jslider.setPaintLabels(true);
                 jslider.setPaintTicks(true);
+
+                // Set up the check box to decide if we remove noise or not.
+                JCheckBox noiseBox = new JCheckBox(LanguageActions.getLocaleString("removeNoise"));
+                
+                // Add these to a panel.
+                JPanel choosePanel = new JPanel(new GridLayout(0, 1));
+                choosePanel.add(jslider);
+                choosePanel.add(noiseBox);
 
                 // Copy this here so that we still have reference to the actual EditableImage.
                 EditableImage actualImage = target.getImage();
@@ -887,14 +876,15 @@ public class FilterActions {
                         if (jslider.getValue() == 0) { // No change to apply.
                             return;
                         }
-                        target.getImage().apply(new EmbossFilter(removeNoise2, (int)jslider.getValue()));
+                        //target.getImage().apply(new EmbossFilter(removeNoise2, (int)jslider.getValue()));
+                        target.getImage().apply(new EmbossFilter(noiseBox.isSelected(), (int)jslider.getValue()));
                         target.repaint();
                         target.getParent().revalidate();
                     }
                 });
                 // Ask user for emboss type with a slider.
                 try {
-                    int option = JOptionPane.showOptionDialog(null, jslider, LanguageActions.getLocaleString("embossSlid"),
+                    int option = JOptionPane.showOptionDialog(null, choosePanel, LanguageActions.getLocaleString("embossSlid"),
                             JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
                     if (option == JOptionPane.CANCEL_OPTION) {
                         // Set the image in target back to the actual image and repaint.
@@ -914,6 +904,7 @@ public class FilterActions {
                         // Set the image in the target back to the actual image.
                         target.setImage(actualImage);
                         embossType = (int)jslider.getValue();
+                        removeNoise = noiseBox.isSelected();
                     }
                 } catch (HeadlessException ex) {
                     // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
