@@ -73,13 +73,7 @@ public class MedianFilter implements ImageOperation, java.io.Serializable {
      * and then finding the median values, and assigning that argb value
      * to the pixel in the output image. The size of the local neighbourhood is
      * specified by the {@link radius}. Larger radii lead to stronger blurring.
-     * Note, this implementation does not change the value of pixels at the edge of
-     * an image. That is, argb values at position (x, y) with x < radius + 1,
-     * x <= image width - radius, y < radius + 1, or y >= image width - radius
-     * an image. That is, argb values at position (x, y) with x less than radius +
-     * 1,
-     * x >= image width - radius, y less than radius + 1, or y >= image width -
-     * radius will just be copied to the output image.
+     * Note, this implementation deals with the edges of the image.
      * </p>
      * 
      * @param input The image to apply the median filter to.
@@ -88,8 +82,7 @@ public class MedianFilter implements ImageOperation, java.io.Serializable {
     public BufferedImage apply(BufferedImage input) {
         // Create a new image with the same values as in the original image, but with
         // the edge pixel values copied to new edge pixel values (the image is bigger by
-        // the radius of the kernel)
-        // on each side and the top and bottom.
+        // the radius of the kernel) on each side and the top and bottom.
         BufferedImage edgesPlusInput = new BufferedImage(input.getWidth() + 2 * radius, input.getHeight() + 2 * radius,
                 BufferedImage.TYPE_INT_ARGB);
         // Fill the pixel values of this new buffered image.
@@ -148,8 +141,7 @@ public class MedianFilter implements ImageOperation, java.io.Serializable {
             }
         }
 
-        // Make this buffered image to apply the filter into. Note, it is still
-        // uncropped.
+        // Make this buffered image to apply the filter into. Note, it is still uncropped.
         BufferedImage uncroppedOutput = new BufferedImage(edgesPlusInput.getColorModel(), edgesPlusInput.copyData(null),
                 edgesPlusInput.isAlphaPremultiplied(), null);
 
@@ -189,8 +181,7 @@ public class MedianFilter implements ImageOperation, java.io.Serializable {
 
                 int val = (aVal << 24) | (rVal << 16) | (gVal << 8) | bVal;
 
-                // Finally, set the argb value in to the given pixel
-                // in the output image
+                // Finally, set the argb value in to the given pixel in the output image
                 uncroppedOutput.setRGB(x, y, val);
             }
         }

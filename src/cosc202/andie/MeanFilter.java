@@ -10,8 +10,7 @@ import java.util.*;
  * 
  * <p>
  * A Mean filter blurs an image by replacing each pixel by the average of the
- * pixels in a surrounding neighbourhood, and can be implemented by a
- * convoloution.
+ * pixels in a surrounding neighbourhood, and can be implemented by a convoloution.
  * </p>
  * 
  * <p>
@@ -38,8 +37,7 @@ public class MeanFilter implements ImageOperation, java.io.Serializable {
      * 
      * <p>
      * The size of the filter is the 'radius' of the convolution kernel used.
-     * A size of 1 is a 3x3 filter, 2 is 5x5, and so on.
-     * Larger filters give a stronger blurring effect.
+     * A size of 1 is a 3x3 filter, 2 is 5x5, and so on. Larger filters give a stronger blurring effect.
      * </p>
      * 
      * @param radius The radius of the newly constructed MeanFilter

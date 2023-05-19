@@ -46,7 +46,7 @@ public class SobelHorizontalFilter implements ImageOperation, java.io.Serializab
      * @see GaussianBlurFilter
      * @param removeNoise True to apply a light Gaussian blur filter before the sobel filter, false otherwise.
      */
-    SobelHorizontalFilter(boolean removeNoise) {
+    public SobelHorizontalFilter(boolean removeNoise) {
         this.removeNoise = removeNoise;
     }
 
@@ -62,7 +62,7 @@ public class SobelHorizontalFilter implements ImageOperation, java.io.Serializab
      * @see GaussianBlurFilter
      * @see SobelHorizontalFilter(boolean removeNoise)
      */
-    SobelHorizontalFilter() {
+    public SobelHorizontalFilter() {
         this(true);
     }
 
