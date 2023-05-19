@@ -19,7 +19,7 @@ import javax.swing.*;
  * Actions involve letting the user record the operations they apply to their image, and save them in a {@link Macro} for reuse.
  * </p>
  * 
- * @author Mathias Øgaard 
+ * @author Mathias Øgaard (Modified by Stella Srzich)
  */
 public class MacroActions{
 
@@ -107,7 +107,6 @@ public class MacroActions{
                 isOpsFile = false;
             }
         }
-
         return isOpsFile;
     }
 
@@ -166,8 +165,23 @@ public class MacroActions{
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            // Check if there is an image open.
+            if (!target.getImage().hasImage()) {
+                // There is not an image open, don't allow the user to initiate a recording.
+                try {
+                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("macroImageErr"), 
+                        LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                    return;
+                } catch (HeadlessException ex) {
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse.
+                    // Won't happen for our users, so just exit.
+                    System.exit(1);
+                }
+            }
+            // Check if a macro recording is ongoing.
             if (target.ongoingRecording){
-                JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("recorderror"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("recorderror"), 
+                        LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 return;
             }
             IOperationRecorder rec = new OperationRecorder();

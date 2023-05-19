@@ -215,7 +215,6 @@ public class FileActions {
                     }
                 } catch (HeadlessException ex) {
                     // Headless exception, thrown when the code is dependent on a keyboard or mouse.
-
                     // Won't happen for our users, so just exit.
                     System.exit(1);
                 }
