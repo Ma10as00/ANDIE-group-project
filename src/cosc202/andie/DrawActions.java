@@ -86,7 +86,7 @@ public class DrawActions extends JFrame {
         for (Action action : actionsSub) {
             subMenu.add(new JMenuItem(action));
         }
-        
+
         fileMenu.add(subMenu);
         return fileMenu;
     }

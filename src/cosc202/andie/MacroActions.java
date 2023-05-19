@@ -11,10 +11,13 @@ import java.nio.file.*;
 import javax.swing.*;
 
 /**
+ * <p>
  * Class keeping track of all the {@link ImageAction}s concerning macros, and providing a drop-down menu to the GUI.
+ * </p>
+ * 
  * <p>
  * Actions involve letting the user record the operations they apply to their image, and save them in a {@link Macro} for reuse.
- * 
+ * </p>
  * 
  * @author Mathias Øgaard 
  */
@@ -139,11 +142,14 @@ public class MacroActions{
     }
 
     /**
+     * <p>
      * Action for starting a recording of {@link ImageOperation}s.
+     * </p>
+     * 
      * <p>
      * The recording should take note of all operations that the user applies to the image, and put them into an ordered {@link java.awt.List}.
-     * <p>
      * When performed, this should add an {@link OperationRecorder} to the target {@link ImagePanel}, and show the user that a recording is initiated.
+     * </p>
      * 
      * @author Mathias Øgaard
      */
@@ -167,7 +173,8 @@ public class MacroActions{
             IOperationRecorder rec = new OperationRecorder();
             target.getImage().addPropertyChangeListener("ops",rec);
             target.ongoingRecording = true;
-            // TODO Add some graphics to show the user that recording has started.
+            
+            // TO DO Add some graphics to show the user that recording has started.
         }
         
     }
@@ -200,53 +207,43 @@ public class MacroActions{
 
         @Override
         public void actionPerformed(ActionEvent e) {
-
             EditableImage targetImage = target.getImage();
 
-            // Retrieve the recording from the ImagePanel -------------------------
+            // Retrieve the recording from the ImagePanel.
             if(!targetImage.hasListeners("ops")){
                 JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("stoprecorderror"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
             }
-            
             PropertyChangeListener[] plcs = targetImage.getPropertyChangeListeners("ops");
-
             if (plcs.length > 1){
                 throw new UnsupportedOperationException("Couldn't finnish recording because there are more than one PropertyChangeListeners.");
             }
             if (!(plcs[0] instanceof IOperationRecorder)){
                 throw new ClassCastException("Unknown PropertyChangeListener. Was not instance of IOperationRecorder.");
             }
-
             IOperationRecorder rec = (IOperationRecorder) plcs[0];
-            //---------------------------------------------------------------------
 
-            //If no operations were recorded, ask user if they really want to stop the recording
+            // If no operations were recorded, ask user if they really want to stop the recording.
             if(rec.getOps().size() < 1){
                 int choice = JOptionPane.showOptionDialog(null,LanguageActions.getLocaleString("norecord"), LanguageActions.getLocaleString("error"), 
                                                             JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
                 if (choice == JOptionPane.NO_OPTION)
                     return;
             }
-            //----------------------------------------------------------------------
 
-
-            // Build Macro based on the recording ----------------------------------
+            // Build Macro based on the recording.
             IMacro m = new Macro();
             for(int i=0; i<rec.getOps().size(); i++){
                 ImageOperation currentOp = rec.getOps().get(i);
                 m.addOp(currentOp);
             }
-            //----------------------------------------------------------------------
-            
 
-            // Close recording -----------------------------------------------------
+            // Close recording.
             targetImage.removePropertyChangeListener("ops",rec);
             target.ongoingRecording = false;
-            // TODO Remove any graphics indicating an ongoing recording
-            //----------------------------------------------------------------------
 
+            // TO DO Remove any graphics indicating an ongoing recording
 
-            // Give the user an option to save the macro ---------------------------
+            // Give the user an option to save the macro.
             try {
                 int saveOrNot = JOptionPane.showOptionDialog(null, LanguageActions.getLocaleString("wantsave"), LanguageActions.getLocaleString("save"), 
                                                                 JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
