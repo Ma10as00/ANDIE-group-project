@@ -71,6 +71,9 @@ public class ImagePanel extends JPanel {
     private static int drawCircle = 2;
     private static int drawLine = 3;
 
+    public Point enter;
+    public Point exit;
+    public boolean circle;
     /**
      * <p>
      * The zoom-level of the current view.
@@ -170,7 +173,7 @@ public class ImagePanel extends JPanel {
                 }
                 rect = new Rectangle(Math.min(enterX, exitX), Math.min(enterY, exitY), Math.abs(exitX - enterX),
                         Math.abs(exitY - enterY));
-
+                circle = true;
                 repaint();
             }
 
@@ -186,6 +189,15 @@ public class ImagePanel extends JPanel {
                 if (tool == drawRect) {
                     image.apply(new DrawRec(rect2, DrawActions.userColour));
                     rect = null;
+                }
+                if (tool == drawCircle) {
+                    enter = new Point(Math.min(enterX, releaseX), Math.min(enterY, releaseY));
+                    exit = new Point(Math.abs(releaseX - enterX), Math.abs(releaseY - enterY));
+                    image.apply(new DrawCircle(enter, exit));
+                    circle = false;
+                }
+                if (tool == drawLine) {
+
                 }
             }
         });
@@ -340,6 +352,12 @@ public class ImagePanel extends JPanel {
             if (rect != null && getTool() == 1) {
                 g2d.setColor(DrawActions.userColour);
                 g2d.fillRect(rect.x, rect.y, rect.width, rect.height);
+            }
+            if (circle && getTool() == 2) {
+                g2d.setColor(DrawActions.userColour);
+                g2d.fillOval(Math.min(enterX, enterY), Math.min(enterY, exitY),
+                        Math.abs((exitX - 20) - (enterX - 20)),
+                        Math.abs((exitY - 20) - (enterY - 20)));
             }
         }
     }

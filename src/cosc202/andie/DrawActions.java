@@ -26,14 +26,13 @@ public class DrawActions extends JFrame {
      */
     public DrawActions() {
         actions = new ArrayList<Action>();
-        // actions.add(new
-        // DrawCircleAction(LanguageActions.getLocaleString("drawCircle"), null,
-        // LanguageActions.getLocaleString("drawCircleDesc"), Integer.valueOf(0)));
+        actions.add(new DrawCircleAction(LanguageActions.getLocaleString("drawCircle"), null,
+                LanguageActions.getLocaleString("drawCircleDesc"), Integer.valueOf(0)));
         actions.add(new DrawRecAction(LanguageActions.getLocaleString("drawRec"), null,
                 LanguageActions.getLocaleString("drawRecDesc"), Integer.valueOf(0)));
-        // actions.add(new DrawLineAction(LanguageActions.getLocaleString("drawLine"),
-        // null,
-        // LanguageActions.getLocaleString("drawLineDesc"), Integer.valueOf(0)));
+        actions.add(new DrawLineAction(LanguageActions.getLocaleString("drawLine"),
+                null,
+                LanguageActions.getLocaleString("drawLineDesc"), Integer.valueOf(0)));
         actions.add(new pickColour(LanguageActions.getLocaleString("pickCol"), null,
                 LanguageActions.getLocaleString("pickColDesc"), Integer.valueOf(0)));
 
@@ -151,65 +150,69 @@ public class DrawActions extends JFrame {
             setVisible(true);
         }
     }
+
+    /**
+     * <p>
+     * Action to draw circle
+     * </p>
+     * 
+     * @see DrawRec
+     */
+    public class DrawCircleAction extends ImageAction {
+
+        /**
+         * <p>
+         * Create a new draw circle action.
+         * </p>
+         *
+         * @param name     The name of the action (ignored if null).
+         * @param icon     An icon to use to represent the action (ignored if null).
+         * @param desc     A brief description of the action (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
+         */
+        DrawCircleAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+        }
+
+        public void actionPerformed(ActionEvent e) {
+            try {
+                target.deselect();
+                target.setTool(2);
+                target.repaint();
+            } catch (Exception ert) {
+            }
+        }
+    }
+
+    /**
+     * <p>
+     * Action to draw line
+     * </p>
+     *
+     * @see DrawLine
+     */
+    public class DrawLineAction extends ImageAction {
+        /**
+         * <p>
+         * Create a new draw line action.
+         * </p>
+         *
+         * @param name     The name of the action (ignored if null).
+         * @param icon     An icon to use to represent the action (ignored if null).
+         * @param desc     A brief description of the action (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
+         */
+        DrawLineAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+        }
+
+        public void actionPerformed(ActionEvent e) {
+            try {
+                target.deselect();
+                target.setTool(3);
+                target.repaint();
+            } catch (Exception ert) {
+            }
+        }
+    }
 }
-
-/**
- * <p>
- * Action to draw circle
- * </p>
- * 
- * @see DrawRec
- */
-// public class DrawCircleAction extends ImageAction {
-
-// /**
-// * <p>
-// * Create a new draw circle action.
-// * </p>
-// *
-// * @param name The name of the action (ignored if null).
-// * @param icon An icon to use to represent the action (ignored if null).
-// * @param desc A brief description of the action (ignored if null).
-// * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
-// */
-// DrawCircleAction(String name, ImageIcon icon, String desc, Integer mnemonic)
-// {
-// super(name, icon, desc, mnemonic);
-// }
-
-// public void actionPerformed(ActionEvent e) {
-// // TODO Auto-generated method stub
-// throw new UnsupportedOperationException("Unimplemented method
-// 'actionPerformed'");
-// }
-// }
-
-// /**
-// * <p>
-// * Action to draw line
-// * </p>
-// *
-// * @see DrawLine
-// */
-// public class DrawLineAction extends ImageAction {
-
-// /**
-// * <p>
-// * Create a new draw line action.
-// * </p>
-// *
-// * @param name The name of the action (ignored if null).
-// * @param icon An icon to use to represent the action (ignored if null).
-// * @param desc A brief description of the action (ignored if null).
-// * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
-// */
-// DrawLineAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
-// super(name, icon, desc, mnemonic);
-// }
-
-// public void actionPerformed(ActionEvent e) {
-// // TODO Auto-generated method stub
-// throw new UnsupportedOperationException("Unimplemented method
-// 'actionPerformed'");
-// }
-// }
