@@ -11,7 +11,7 @@ import java.awt.Point;
  * An image operation that draws pixels to the screen in an array with a
  * selected
  */
-public class DrawLine implements ImageOperation {
+public class DrawLine implements ImageOperation, java.io.Serializable {
 
     private Point[] positions = null;
     private Color col;

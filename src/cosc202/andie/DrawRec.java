@@ -6,7 +6,7 @@ import java.awt.Color;
 import java.awt.RenderingHints;
 import java.awt.Rectangle;
 
-public class DrawRec implements ImageOperation {
+public class DrawRec implements ImageOperation, java.io.Serializable  {
 
     private Rectangle r;
     private Color col;

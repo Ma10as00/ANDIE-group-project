@@ -20,7 +20,7 @@ import java.awt.image.*;
  * 
  * @author Katie Wink
  */
-public class RegionCrop implements ImageOperation {
+public class RegionCrop implements ImageOperation, java.io.Serializable {
 
     /*
      * This stores the x and y coordinates of the upper-left corner of the region selected, 
