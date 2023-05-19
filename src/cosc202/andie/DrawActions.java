@@ -105,7 +105,7 @@ public class DrawActions extends JFrame {
 
     /**
      * <p>
-     * Action to select region
+     * Action to select region.
      * </p>
      * 
      * @see DrawRec
@@ -186,7 +186,7 @@ public class DrawActions extends JFrame {
 
     /**
      * <p>
-     * Action to draw circle
+     * Action to draw circle.
      * </p>
      * 
      * @see DrawRec
@@ -219,7 +219,7 @@ public class DrawActions extends JFrame {
 
     /**
      * <p>
-     * Action to draw line
+     * Action to draw line.
      * </p>
      *
      * @see DrawLine
@@ -262,7 +262,7 @@ public class DrawActions extends JFrame {
 
     /**
      * <p>
-     * Action to crop a selected region
+     * Action to crop a selected region.
      * </p>
      * 
      * @see RegionCrop
@@ -292,41 +292,41 @@ public class DrawActions extends JFrame {
          * 
          * <p>
          * This method is called whenever the RegionCrop is triggered.
-         * It will crop the selected region and then reset the selected region
+         * It will crop the selected region and then reset the selected region.
          * </p>
          * 
          * @param e The event triggering this callback.
          */
         public void actionPerformed(ActionEvent e) {
-            try {
-                try {
-                    target.getImage().apply(new RegionCrop(ImagePanel.rect));
-                    ImagePanel.rect = null;
-                    target.repaint();
-                    target.getParent().revalidate();
-                    target.repaint();
-                    ImagePanel.enterX = 0;
-                    ImagePanel.enterY = 0;
-                    ImagePanel.exitX = 0;
-                    ImagePanel.exitY = 0;
-                    target.getParent().revalidate();
-                    // Reset the zoom of the image.
-                    target.setZoom(100);
-                    // Pack the main GUI frame to the size of the image.
-                    frame.pack();
-                    // Make main GUI frame centered on screen.
-                    frame.setLocationRelativeTo(null);
-                } catch (RasterFormatException ex) {
-                    // Trying to crop when there is no region selected
-                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("cropErrorNoSelectedRegion"),
-                            LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
-                }
-            } catch (NullPointerException exception) {
-                // Trying to crop when there is no image
+            if (target.getImage().hasImage() == false) {
+                // There is not an image crop, so display error message.
                 JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("cropError"),
                         LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
             }
+            // Check if there is a selected region.
+            if (ImagePanel.rect == null) {
+                // Trying to crop when there is no region selected. Give the user an error.
+                JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("cropErrorNoSelectedRegion"),
+                        LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+            }
+            // There is an image open, and a selected region, so we try to crop it.
+            target.getImage().apply(new RegionCrop(ImagePanel.rect));
+            ImagePanel.rect = null;
+            target.repaint();
+            target.getParent().revalidate();
+            target.repaint();
+            ImagePanel.enterX = 0;
+            ImagePanel.enterY = 0;
+            ImagePanel.exitX = 0;
+            ImagePanel.exitY = 0;                
+            target.getParent().revalidate();
+            // Reset the zoom of the image.
+            target.setZoom(100);
+            // Pack the main GUI frame to the size of the image.
+            frame.pack();
+            // Make main GUI frame centered on screen.
+            frame.setLocationRelativeTo(null);
         }
-
     }
+
 }

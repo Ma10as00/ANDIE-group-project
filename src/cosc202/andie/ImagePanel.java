@@ -37,6 +37,7 @@ public class ImagePanel extends JPanel {
      * </p>
      */
     private EditableImage image;
+    
     /**
      * <p>
      * Imports Mouse Handler
@@ -50,6 +51,7 @@ public class ImagePanel extends JPanel {
      * </p>
      */
     public static int enterX, enterY, exitX, exitY, width, height, clickX, clickY;
+    
     /**
      * <p>
      * Storing the rectangle the is selected
@@ -66,7 +68,6 @@ public class ImagePanel extends JPanel {
 
     public int tool;
 
-    private static int regionSelect = 0;
     private static int drawRect = 1;
     private static int drawCircle = 2;
     private static int drawLine = 3;
@@ -74,6 +75,7 @@ public class ImagePanel extends JPanel {
     public Point enter;
     public Point exit;
     public boolean circle;
+
     /**
      * <p>
      * The zoom-level of the current view.
