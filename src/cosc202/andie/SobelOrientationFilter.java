@@ -4,7 +4,7 @@ import java.awt.image.*;
 
 /**
  * <p>
- * ImageOperation to apply a sobel horizontal filter.
+ * ImageOperation to apply a sobel orientation filter (with or without colour to indicate orientation).
  * </p>
  * 
  * <p>

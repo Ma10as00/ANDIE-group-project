@@ -253,6 +253,7 @@ public class Andie {
      */
     public static void renderToolbar() {
         JToolBar toolbar = new JToolBar();
+        toolbar.setFloatable(false);
         frame.add(toolbar, BorderLayout.PAGE_START);
         JButton button = null;
         if (Andie.darkMode) {
@@ -265,7 +266,7 @@ public class Andie {
 
         // Adds the save button to the toolbar.
         FileActions fileActions = new FileActions(frame);
-        button = createButton(fileActions.getFileSaveAction());
+        button = createButton(fileActions.getFileSaveAction(), "saveImageIcon.png");
         toolbar.add(button);
 
         // Adds a separator to the toolbar.
@@ -273,11 +274,11 @@ public class Andie {
 
         // Adds the undo button to the toolbar.
         EditActions editActions = new EditActions(frame);
-        button = createButton(editActions.getUndoAction());
+        button = createButton(editActions.getUndoAction(), "");
         toolbar.add(button);
 
         // Adds the redo button to the toolbar.
-        button = createButton(editActions.getRedoAction());
+        button = createButton(editActions.getRedoAction(), "");
         toolbar.add(button);
 
         // Adds a separator to the toolbar.
@@ -285,16 +286,16 @@ public class Andie {
 
         // Adds the Zoom In button to the toolbar.
         ViewActions viewActions = new ViewActions();
-        button = createButton(viewActions.getZoomInAction());
+        button = createButton(viewActions.getZoomInAction(), "");
 
         toolbar.add(button);
 
         // Adds the Zoom out button to the toolbar.
-        button = createButton(viewActions.getZoomOutAction());
+        button = createButton(viewActions.getZoomOutAction(), "");
         toolbar.add(button);
 
         // Adds the Zoom Full button to the toolbar.
-        button = createButton(viewActions.getZoomFullAction());
+        button = createButton(viewActions.getZoomFullAction(), "");
         toolbar.add(button);
 
         // Adds a separator to the toolbar.
@@ -302,24 +303,24 @@ public class Andie {
 
         // Adds the rotate left button to the toolbar.
         OrientationActions orientationActions = new OrientationActions(frame);
-        button = createButton(orientationActions.getRotateLeftAction());
+        button = createButton(orientationActions.getRotateLeftAction(), "");
         toolbar.add(button);
 
         // Adds the rotate right button to the toolbar.
-        button = createButton(orientationActions.getRotateRightAction());
+        button = createButton(orientationActions.getRotateRightAction(), "");
         toolbar.add(button);
 
         // Adds a separator to the toolbar.
         toolbar.addSeparator();
 
         // Adds the Crop button to the toolbar.
-        button = createButton(editActions.getCropAction());
+        button = createButton(editActions.getCropAction(), "");
         toolbar.add(button);
 
         frame.pack();
     }
 
-    private static JButton createButton(Action action) {
+    private static JButton createButton(Action action, String imagePath){
         JButton button = new JButton(action);
         if (Andie.darkMode) {
             button.setForeground(Color.WHITE);
@@ -328,8 +329,15 @@ public class Andie {
             button.setForeground(Color.darkGray);
             button.setBackground(Color.white);
         }
-        if (button.getIcon() != null) {
-            button.setText("");
+        try{
+        if (button.getIcon() == null) {
+            Image buttonImage = ImageIO.read(Andie.class.getClassLoader().getResource(imagePath));
+            buttonImage = buttonImage.getScaledInstance(15, 15, Image.SCALE_SMOOTH);
+
+            button.setIcon(new ImageIcon(buttonImage));
+        }
+        }catch(Exception fileNotFoundException){
+
         }
 
         return button;
