@@ -359,10 +359,14 @@ public class MacroActions{
     }
 
     /**
+     * <p>
      * Action for loading a {@link IMacro} from a file, and apply it to the target image.
+     * </p>
+     * 
      * <p>
      * If there is an active {@link IOperationRecorder}, all the operations from this {@link IMacro} should be added to the recording in the correct order.
-     * <p>
+     * </p>
+     * 
      * @author Mathias Øgaard
      */
     public class ApplyMacroAction extends ImageAction{

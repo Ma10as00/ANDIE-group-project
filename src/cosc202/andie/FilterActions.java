@@ -835,7 +835,7 @@ public class FilterActions {
          * 
          * <p>
          * This method is called whenever the SobelGeneralFilterAction is triggered.
-         * It allows the user to apply a {@link SobelHorizontalFilter}, {@link SobelverticalFilter},
+         * It allows the user to apply a {@link SobelHorizontalFilter}, {@link SobelVerticalFilter},
          * or a {@link SobelOrientationFilter}, both with and without hue, all with the option
          * of removing noise or not. These filters were combined into one action to improve the user 
          * experience.
