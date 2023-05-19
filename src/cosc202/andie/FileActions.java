@@ -197,6 +197,13 @@ public class FileActions {
          * @param e The event triggering this callback.
          */
         public void actionPerformed(ActionEvent e) {
+            // Check if there is an ongoing recording of macros.
+            if (target.ongoingRecording) {
+                // There is an ongoing recording of a macro. Do not let them open another image.
+                JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("recordmacroopen"),
+                        LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                return;
+            }
             // Check if there is an image open.
             if (target.getImage().hasImage()) {
                 // There is an image open, warn user that any unsaved changes will be deleted.
@@ -218,7 +225,7 @@ public class FileActions {
             }
 
             // User either had no image open, or had an image open but decided to still open
-            // another one.
+            // another one. And, no macros are being recorded.
             // So, we attempt to open an image file.
             JFileChooser fileChooser = new JFileChooser();
             int result = fileChooser.showOpenDialog(target);
@@ -319,6 +326,13 @@ public class FileActions {
          * @param e The event triggering this callback.
          */
         public void actionPerformed(ActionEvent e) {
+            // Check if there is an ongoing recording of macros.
+            if (target.ongoingRecording) {
+                // There is an ongoing recording of a macro. Do not let them save.
+                JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("recordmacrosave"),
+                        LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                return;
+            }
             // Check if there is an image open.
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
@@ -370,6 +384,13 @@ public class FileActions {
          * @param e The event triggering this callback.
          */
         public void actionPerformed(ActionEvent e) {
+            // Check if there is an ongoing recording of macros.
+            if (target.ongoingRecording) {
+                // There is an ongoing recording of a macro. Do not let them save as.
+                JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("recordmacrosaveas"),
+                        LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                return;
+            }
             // Check if there is an image open.
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message, and do not save as.
@@ -545,7 +566,14 @@ public class FileActions {
          * @param e The event triggering this callback.
          */
         public void actionPerformed(ActionEvent e) {
-            // Check if there is an image to export
+            // Check if there is an ongoing recording of macros.
+            if (target.ongoingRecording) {
+                // There is an ongoing recording of a macro. Do not let them export.
+                JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("recordmacroexport"),
+                        LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            // Check if there is an image to export.
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
 
