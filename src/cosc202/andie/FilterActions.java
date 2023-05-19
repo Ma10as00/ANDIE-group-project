@@ -794,7 +794,7 @@ public class FilterActions {
      * </p>
      * 
      * <p>
-     * Note, this includes {@link SobelHorizontalFilter}, {@link SobelverticalFilter},
+     * Note, this includes {@link SobelHorizontalFilter}, {@link SobelVerticalFilter},
      * and {@link SobelOrientationFilter}, both with and without hue, all with the option
      * of removing noise or not.
      * </p>
@@ -807,7 +807,7 @@ public class FilterActions {
          * This is used to keep track of the last button pressed in the option dialogue. When a 
          * {@link SobelOrientationFilter} is constructed, sobelType = 0. Then, when a button is pressed
          * it is updated to refer to that type of filter. That is, 1 = {@link SobelHorizontalFilter}, 
-         * 2 = {@link SobelverticalFilter}, 3 = {@link SobelOrientationFilter} (without hue), and 
+         * 2 = {@link SobelVerticalFilter}, 3 = {@link SobelOrientationFilter} (without hue), and 
          * 4 = {@link SobelOrientationFilter}.
          */
         private int sobelType;
