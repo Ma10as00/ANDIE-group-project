@@ -123,6 +123,12 @@ public class ImagePanel extends JPanel {
                     if (enterY > image.getCurrentImage().getHeight()) {
                         enterY = image.getCurrentImage().getHeight();
                     }
+                    if (enterX < 0) {
+                        enterX = 0;
+                    }
+                    if (enterY < 0) {
+                        enterY = 0;
+                    }
                 }
 
             }
@@ -154,12 +160,6 @@ public class ImagePanel extends JPanel {
                     }
                     if (exitY > image.getCurrentImage().getHeight()) {
                         exitY = image.getCurrentImage().getHeight();
-                    }
-                    if (enterX < 0) {
-                        enterX = 0;
-                    }
-                    if (enterY < 0) {
-                        enterY = 0;
                     }
                     if (exitX < 0) {
                         exitX = 0;
