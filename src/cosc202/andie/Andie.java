@@ -6,7 +6,6 @@ import java.util.Locale;
 import java.util.prefs.Preferences;
 
 import javax.swing.*;
-
 import javax.imageio.*;
 
 /**
@@ -31,10 +30,12 @@ import javax.imageio.*;
 public class Andie {
 
     /** An ImagePanel to disply the image currenlty being edited. */
-    private static ImagePanel imagePanel;
+    public static ImagePanel imagePanel;
 
     /** A JFrame of the main GUI frame. */
-    private static JFrame frame;
+    public static JFrame frame;
+
+    public static boolean darkMode;
 
     /**
      * <p>
@@ -74,7 +75,7 @@ public class Andie {
             Locale.setDefault(new Locale("sp", "ES"));
         }
         // If language code is de sets default to German
-        else if(languageCode.equals("de_DE")){
+        else if (languageCode.equals("de_DE")) {
             Locale.setDefault(new Locale("de", "DE"));
         }
 
@@ -102,6 +103,13 @@ public class Andie {
         JScrollPane scrollPane = new JScrollPane(imagePanel);
         frame.add(scrollPane, BorderLayout.CENTER);
 
+        try {
+            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+                | UnsupportedLookAndFeelException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         // Calls renderMenu method to render the menu in the selected language.
         renderMenu();
 
@@ -145,8 +153,10 @@ public class Andie {
      * 
      */
     public static void renderMenu() {
+
         // Add in menus for various types of action the user may perform.
         JMenuBar menuBar = new JMenuBar();
+        setMenuBackground(menuBar);
 
         // File menus are pretty standard, so things that usually go in File menus go
         // here. We pass a frame so that when we open an image, the frame is packed to
@@ -200,8 +210,29 @@ public class Andie {
         DrawActions drawAction = new DrawActions();
         menuBar.add(drawAction.createMenu());
 
+        if (Andie.darkMode) {
+            menuBar.setBackground(Color.darkGray);
+            menuBar.setForeground(Color.WHITE);
+
+        }
+        menuBar.setOpaque(true);
         frame.setJMenuBar(menuBar);
         frame.pack();
+    }
+
+    private static void setMenuBackground(JMenuBar menuBar) {
+        if (Andie.darkMode) {
+            UIManager.put("Menu.background", Color.DARK_GRAY);
+            UIManager.put("Menu.foreground", Color.WHITE);
+            UIManager.put("MenuItem.background", Color.DARK_GRAY);
+            UIManager.put("MenuItem.foreground", Color.WHITE);
+            UIManager.put("MenuItem.opaque", true);
+        } else {
+            UIManager.put("Menu.background", Color.white);
+            UIManager.put("Menu.foreground", Color.darkGray);
+            UIManager.put("MenuItem.background", Color.white);
+            UIManager.put("MenuItem.foreground", Color.darkGray);
+        }
     }
 
     /**
@@ -224,13 +255,17 @@ public class Andie {
         JToolBar toolbar = new JToolBar();
         frame.add(toolbar, BorderLayout.PAGE_START);
         JButton button = null;
+        if (Andie.darkMode) {
+            toolbar.setBackground(Color.DARK_GRAY);
+            toolbar.setForeground(Color.WHITE);
+        } else {
+            toolbar.setBackground(Color.white);
+            toolbar.setForeground(Color.darkGray);
+        }
 
         // Adds the save button to the toolbar.
         FileActions fileActions = new FileActions(frame);
-        button = new JButton(fileActions.getFileSaveAction());
-        if (button.getIcon() != null) {
-            button.setText("");
-        }
+        button = createButton(fileActions.getFileSaveAction());
         toolbar.add(button);
 
         // Adds a separator to the toolbar.
@@ -238,17 +273,11 @@ public class Andie {
 
         // Adds the undo button to the toolbar.
         EditActions editActions = new EditActions(frame);
-        button = new JButton(editActions.getUndoAction());
-        if (button.getIcon() != null) {
-            button.setText("");
-        }
+        button = createButton(editActions.getUndoAction());
         toolbar.add(button);
 
         // Adds the redo button to the toolbar.
-        button = new JButton(editActions.getRedoAction());
-        if (button.getIcon() != null) {
-            button.setText("");
-        }
+        button = createButton(editActions.getRedoAction());
         toolbar.add(button);
 
         // Adds a separator to the toolbar.
@@ -256,24 +285,16 @@ public class Andie {
 
         // Adds the Zoom In button to the toolbar.
         ViewActions viewActions = new ViewActions();
-        button = new JButton(viewActions.getZoomInAction());
-        if (button.getIcon() != null) {
-            button.setText("");
-        }
+        button = createButton(viewActions.getZoomInAction());
+
         toolbar.add(button);
 
         // Adds the Zoom out button to the toolbar.
-        button = new JButton(viewActions.getZoomOutAction());
-        if (button.getIcon() != null) {
-            button.setText("");
-        }
+        button = createButton(viewActions.getZoomOutAction());
         toolbar.add(button);
 
         // Adds the Zoom Full button to the toolbar.
-        button = new JButton(viewActions.getZoomFullAction());
-        if (button.getIcon() != null) {
-            button.setText("");
-        }
+        button = createButton(viewActions.getZoomFullAction());
         toolbar.add(button);
 
         // Adds a separator to the toolbar.
@@ -281,30 +302,37 @@ public class Andie {
 
         // Adds the rotate left button to the toolbar.
         OrientationActions orientationActions = new OrientationActions(frame);
-        button = new JButton(orientationActions.getRotateLeftAction());
-        if (button.getIcon() != null) {
-            button.setText("");
-        }
+        button = createButton(orientationActions.getRotateLeftAction());
         toolbar.add(button);
 
         // Adds the rotate right button to the toolbar.
-        button = new JButton(orientationActions.getRotateRightAction());
-        if (button.getIcon() != null) {
-            button.setText("");
-        }
+        button = createButton(orientationActions.getRotateRightAction());
         toolbar.add(button);
 
         // Adds a separator to the toolbar.
         toolbar.addSeparator();
 
         // Adds the Crop button to the toolbar.
-        button = new JButton(editActions.getCropAction());
-        if (button.getIcon() != null) {
-            button.setText("");
-        }
+        button = createButton(editActions.getCropAction());
         toolbar.add(button);
 
         frame.pack();
+    }
+
+    private static JButton createButton(Action action) {
+        JButton button = new JButton(action);
+        if (Andie.darkMode) {
+            button.setForeground(Color.WHITE);
+            button.setBackground(Color.darkGray);
+        } else {
+            button.setForeground(Color.darkGray);
+            button.setBackground(Color.white);
+        }
+        if (button.getIcon() != null) {
+            button.setText("");
+        }
+
+        return button;
     }
 
     /**
@@ -342,6 +370,81 @@ public class Andie {
         }
     }
 
+    public static void updateDarkMode() {
+        if (darkMode) {
+            UIManager.put("MenuItem.background", Color.darkGray);
+            UIManager.put("MenuItem.opaque", true);
+
+            // Set the background and foreground colors for the frame
+            frame.setBackground(Color.DARK_GRAY);
+            frame.setForeground(Color.WHITE);
+
+            // Set the background and foreground colors for the image panel
+            imagePanel.setBackground(Color.DARK_GRAY);
+            imagePanel.setForeground(Color.WHITE);
+
+            // Set the background and foreground colors for the menu bar
+            JMenuBar menuBar = frame.getJMenuBar();
+            menuBar.setBackground(Color.DARK_GRAY);
+            menuBar.setForeground(Color.WHITE);
+
+            // Set the background and foreground colors for the tool bar
+            JToolBar toolbar = (JToolBar) frame.getContentPane().getComponent(1);
+            toolbar.setBackground(Color.DARK_GRAY);
+            toolbar.setForeground(Color.WHITE);
+
+            // Set the background and foreground colors for individual buttons in the
+            // toolbar
+            Component[] components = toolbar.getComponents();
+            for (Component component : components) {
+                if (component instanceof JButton) {
+                    JButton button = (JButton) component;
+                    button.setBackground(Color.DARK_GRAY);
+                    button.setForeground(Color.WHITE);
+                }
+            }
+        }
+        if (!darkMode) {
+            UIManager.put("MenuItem.background", Color.white);
+            UIManager.put("MenuItem.opaque", true);
+
+            // Set the background and foreground colors for the frame
+            frame.setBackground(Color.white);
+            frame.setForeground(Color.DARK_GRAY);
+
+            // Set the background and foreground colors for the image panel
+            imagePanel.setBackground(Color.white);
+            imagePanel.setForeground(Color.DARK_GRAY);
+
+            // Set the background and foreground colors for the menu bar
+            JMenuBar menuBar = frame.getJMenuBar();
+            menuBar.setBackground(Color.white);
+            menuBar.setForeground(Color.DARK_GRAY);
+
+            // Set the background and foreground colors for the tool bar
+            JToolBar toolbar = (JToolBar) frame.getContentPane().getComponent(1);
+            toolbar.setBackground(Color.white);
+            toolbar.setForeground(Color.DARK_GRAY);
+
+            // Set the background and foreground colors for individual buttons in the
+            // toolbar
+            Component[] components = toolbar.getComponents();
+            for (Component component : components) {
+                if (component instanceof JButton) {
+                    JButton button = (JButton) component;
+                    button.setBackground(Color.white);
+                    button.setForeground(Color.DARK_GRAY);
+                }
+            }
+        }
+        // Repaint the frame and image panel to reflect the changes
+        renderMenu();
+        renderToolbar();
+        frame.repaint();
+        imagePanel.repaint();
+
+    }
+
     /**
      * <p>
      * Main entry point to the ANDIE program.
@@ -369,5 +472,4 @@ public class Andie {
         });
     }
 
-   
 }

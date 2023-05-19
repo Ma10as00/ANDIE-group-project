@@ -61,6 +61,8 @@ public class FileActions {
                 LanguageActions.getLocaleString("saveAsDes"), Integer.valueOf(KeyEvent.VK_SHIFT)));
         actions.add(new FileExportAction(LanguageActions.getLocaleString("export"), null,
                 LanguageActions.getLocaleString("exportDes"), Integer.valueOf(KeyEvent.VK_E)));
+        actions.add(new DarkMode(LanguageActions.getLocaleString("darkMode"), null,
+                LanguageActions.getLocaleString("darkmodedesc"), Integer.valueOf(KeyEvent.VK_D)));
         actions.add(new FileExitAction(LanguageActions.getLocaleString("exit"), null,
                 LanguageActions.getLocaleString("exitDes"), Integer.valueOf(KeyEvent.VK_ESCAPE)));
     }
@@ -619,4 +621,51 @@ public class FileActions {
             }
         }
     }
+
+    /**
+     * <p>
+     * Action to change view to dark mode.
+     * </p>
+     * 
+     */
+    public class DarkMode extends ImageAction {
+
+        /**
+         * <p>
+         * Turn to Dark Mode.
+         * </p>
+         * 
+         * @param name     The name of the action (ignored if null).
+         * @param icon     An icon to use to represent the action (ignored if null).
+         * @param desc     A brief description of the action (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
+         */
+        DarkMode(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+            this.putValue(Action.ACCELERATOR_KEY,
+                    KeyStroke.getKeyStroke(KeyEvent.VK_S, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+        }
+
+        /**
+         * <p>
+         * Callback for when the dark mode action is triggered.
+         * </p>
+         * 
+         * <p>
+         * This method is called whenever the darkMode is triggered.
+         * </p>
+         * 
+         * @param e The event triggering this callback.
+         */
+        public void actionPerformed(ActionEvent e) {
+            if (Andie.darkMode) {
+                Andie.darkMode = false;
+            } else {
+                Andie.darkMode = true;
+            } // Toggle dark mode
+            Andie.updateDarkMode(); // Call the method to update the dark mode
+
+        }
+    }
+
 }
