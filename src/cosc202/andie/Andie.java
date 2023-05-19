@@ -199,15 +199,19 @@ public class Andie {
 
         // Macro actions can record what operations are applied to the image, and put
         // them together into macros.
-        MacroActions ma = new MacroActions(frame);
-        menuBar.add(ma.createMenu());
+        // We pass a frame so that when we resize an image, the frame is packed to the
+        // new image size.
+        MacroActions macroActions = new MacroActions(frame);
+        menuBar.add(macroActions.createMenu());
 
         // Ability to change the language from a set of included language bundles.
         LanguageActions languageActions = new LanguageActions();
         menuBar.add(languageActions.createMenu());
 
-        // Drawing action to edit the image
-        DrawActions drawAction = new DrawActions();
+        // Drawing action to edit the image with crop or draw a line, rectangle or cirlce.
+        // We pass a frame so that when we resize an image, the frame is packed to the
+        // new image size.
+        DrawActions drawAction = new DrawActions(frame);
         menuBar.add(drawAction.createMenu());
 
         if (Andie.darkMode) {
@@ -314,7 +318,8 @@ public class Andie {
         toolbar.addSeparator();
 
         // Adds the Crop button to the toolbar.
-        button = createButton(editActions.getCropAction(), "");
+        DrawActions drawActions = new DrawActions(frame);
+        button = createButton(drawActions.getCropAction(), "");
         toolbar.add(button);
 
         frame.pack();
