@@ -261,7 +261,6 @@ public class MacroActions{
             } catch (HeadlessException he) {
                 System.exit(1);
             } 
-            //-----------------------------------------------------------------------
         }
 
         /**
@@ -290,6 +289,8 @@ public class MacroActions{
             // There is an image open, carry on.
             JFileChooser fileChooser = new JFileChooser();
             int result = fileChooser.showSaveDialog(target);
+            // This is used to keep track of if the user wants to override a file.
+            boolean override = true;
             if (result == JFileChooser.APPROVE_OPTION) {
                 try {                        
                     String opsFilepath = fileChooser.getSelectedFile().getCanonicalPath();
@@ -300,9 +301,8 @@ public class MacroActions{
                         // We return false as the user probably doesn't want to lose the recorded macros.
                         return false;
                     }
-
                     // Check that the ops file name does not describe an image that already exists.
-                    if (isExistingFilename(opsFilepath)) {
+                    else if (isExistingFilename(opsFilepath)) {
                         // The ops file name already describes another file name. 
                         // Ask user if they want to override or cancel.
                         int option = JOptionPane.showConfirmDialog(null, LanguageActions.getLocaleString("warningAnotherFile"), LanguageActions.getLocaleString("warning"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
@@ -311,14 +311,16 @@ public class MacroActions{
                             return false;
                         }
                     }
-                    // Save the ops file.
-                    FileOutputStream fileOut = new FileOutputStream(opsFilepath);
-                    ObjectOutputStream objOut = new ObjectOutputStream(fileOut);
-                    objOut.writeObject(m);
-                    objOut.close();
-                    fileOut.close();
-                    // At this point, the macro is succsefully saved. Return true.
-                    return true;
+                    if (override) {
+                        // Save the ops file.
+                        FileOutputStream fileOut = new FileOutputStream(opsFilepath);
+                        ObjectOutputStream objOut = new ObjectOutputStream(fileOut);
+                        objOut.writeObject(m);
+                        objOut.close();
+                        fileOut.close();
+                        // At this point, the macro is succsefully saved. Return true.
+                        return true;
+                    }
                 } catch (HeadlessException eh) {
                     // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
                     // Won't happen for our users, so just exit.
@@ -361,6 +363,18 @@ public class MacroActions{
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            // We loop until the file is successfully opened or the user actively cancelled,
+            // just in case they clicked the wrong file name but don't want to have to click apply macro again.
+            boolean done = false;
+            while(!done) {
+                done = openMacro();
+            }
+        }
+
+        /**
+         * This is a support method to open an {@link Macro}.
+         */
+        private boolean openMacro() {
             // Check if there is an image to export
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
@@ -371,7 +385,8 @@ public class MacroActions{
                     // Won't happen for our users, so just exit.
                     System.exit(1);
                 }
-                return;
+                // No image was open, so don't ask them to open another macro.
+                return true;
             }
 
             // User has an image open, so we can apply macros.
@@ -386,7 +401,8 @@ public class MacroActions{
                     if (isValidOpsName(opsFilepath) == false) {
                         // The ops file name is not valid. Show error message and do not open.
                         JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("errorNotOps"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
-                        return;
+                        // The file opened was not a macro file. Allow the user to try again.
+                        return false;
                     }
                     File macroFile = fileChooser.getSelectedFile();
                     // Apply the ops file.
@@ -395,7 +411,7 @@ public class MacroActions{
                         ObjectInputStream objIn = new ObjectInputStream(fileIn);
     
                         Object obj = objIn.readObject(); 
-                        if(obj instanceof IMacro){
+                        if (obj instanceof IMacro) {
                             IMacro macro = (IMacro) obj;
                             target.getImage().apply(macro);
                             
@@ -409,7 +425,7 @@ public class MacroActions{
                             // Make main GUI frame centered on screen
                             frame.setLocationRelativeTo(null);
     
-                        }else{
+                        } else {
                             JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("filenomacro"), LanguageActions.getLocaleString("invalidfile"), JOptionPane.ERROR_MESSAGE);
                         }
                         objIn.close();
@@ -434,6 +450,9 @@ public class MacroActions{
                     }
                 }
             }
+            // There was either an error opening the .ops file, or the user sucessfully opened an .ops file,
+            // or the user clicked cancel. So, don't make the user try again.
+            return true;
         }
     }
 }
