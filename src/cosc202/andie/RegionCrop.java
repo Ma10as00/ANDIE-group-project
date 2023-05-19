@@ -37,7 +37,7 @@ public class RegionCrop implements ImageOperation {
      * RegionCrop crops an image to the region that has been selected as a rectangle.
      * </p>
      * 
-     * @param r The {@link Rectangle} of the region selected that we would like the image to be cropped to.
+     * @param rect The {@link Rectangle} of the region selected that we would like the image to be cropped to.
      */
     public RegionCrop(Rectangle rect) {
         r = rect;
