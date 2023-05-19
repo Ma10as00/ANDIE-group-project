@@ -107,7 +107,7 @@ public class Andie {
             UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException
                 | UnsupportedLookAndFeelException e) {
-            // TODO Auto-generated catch block
+            // TO DO Auto-generated catch block
             e.printStackTrace();
         }
         // Calls renderMenu method to render the menu in the selected language.

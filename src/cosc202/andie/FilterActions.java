@@ -883,8 +883,8 @@ public class FilterActions {
                 EditableImage actualImage = target.getImage();
 
                 // This part updates how the image looks when each of the buttons are pressed.
-                horButton.addChangeListener(new ChangeListener() {
-                    public void stateChanged(ChangeEvent ce) {
+                horButton.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent ce) {
                         // Create a deep copy of the editable image (so that we don't change the actual editable image)
                         EditableImage copyImage = actualImage.deepCopyEditableImage();
                         // Set the target to have this new copy of the actual image.
@@ -897,8 +897,8 @@ public class FilterActions {
                         sobelType = 1;
                     }
                 });
-                verButton.addChangeListener(new ChangeListener() {
-                    public void stateChanged(ChangeEvent ce) {
+                verButton.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent ce) {
                         // Create a deep copy of the editable image (so that we don't change the actual editable image)
                         EditableImage copyImage = actualImage.deepCopyEditableImage();
                         // Set the target to have this new copy of the actual image.
@@ -911,8 +911,8 @@ public class FilterActions {
                         sobelType = 2;
                     }
                 });
-                fullButton.addChangeListener(new ChangeListener() {
-                    public void stateChanged(ChangeEvent ce) {
+                fullButton.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent ce) {
                         // Create a deep copy of the editable image (so that we don't change the actual editable image)
                         EditableImage copyImage = actualImage.deepCopyEditableImage();
                         // Set the target to have this new copy of the actual image.
@@ -925,8 +925,8 @@ public class FilterActions {
                         sobelType = 3;
                     }
                 });
-                orienButton.addChangeListener(new ChangeListener() {
-                    public void stateChanged(ChangeEvent ce) {
+                orienButton.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent ce) {
                         // Create a deep copy of the editable image (so that we don't change the actual editable image)
                         EditableImage copyImage = actualImage.deepCopyEditableImage();
                         // Set the target to have this new copy of the actual image.

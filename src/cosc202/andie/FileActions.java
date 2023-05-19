@@ -206,9 +206,8 @@ public class FileActions {
             if (target.getImage().hasImage()) {
                 // There is an image open, warn user that any unsaved changes will be deleted.
                 try {
-                    int option = JOptionPane.showConfirmDialog(null,
-                            "If you open another image without saving or exporting this image, any changes will be lost.",
-                            "Warning", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+                    int option = JOptionPane.showConfirmDialog(null, LanguageActions.getLocaleString("errorExit"),
+                            LanguageActions.getLocaleString("warning"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
 
                     if (option == JOptionPane.CANCEL_OPTION || option == JOptionPane.CLOSED_OPTION) {
                         // User cancelled or closed box, don't open an image.
@@ -221,23 +220,38 @@ public class FileActions {
                     System.exit(1);
                 }
             }
-
             // User either had no image open, or had an image open but decided to still open
-            // another one. And, no macros are being recorded.
-            // So, we attempt to open an image file.
+            // another one. And, no macros are being recorded. So, we attempt to open an image file.
+            boolean done = false;
+            // We attempt to allow the user to open an image until either they successfully open
+            // a .png image, they click exit/cancel.
+            while (!done) {
+                done = open();
+            }
+        }
+
+        /**
+         * <p>
+         * Support method to attempt to open an image. It prompts the user to select an image file.
+         * Note, if it successfuly opens an image, or the user clicks exit or cancel, this method will return true.
+         * However, if the user has clicked a non .png file, it will return false.
+         * </p>
+         * @return True if an image is successfully opened, the user exits/cancels, false otherwise.
+         */
+        private boolean open() {
+            // Attempt to open an image file.
             JFileChooser fileChooser = new JFileChooser();
             int result = fileChooser.showOpenDialog(target);
-
             if (result == JFileChooser.APPROVE_OPTION) {
                 try {
                     String imageFilepath = fileChooser.getSelectedFile().getCanonicalPath();
                     // First, check that the file trying to be opened is a png image
                     if (isValidPNGName(imageFilepath) == false) {
                         // The image file name is not valid. Show error message and do not open.
-                        JOptionPane.showMessageDialog(null, "You have not selected a PNG image file.", "Error",
-                                JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("errorNotPng"), 
+                                LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
 
-                        return;
+                        return false;
                     }
                     // Reset the zoom to default of 100%.
                     target.setZoom(100);
@@ -255,23 +269,24 @@ public class FileActions {
                     // There would have been an error in getting canonical pathname.
                     // Just let the user know. Probably won't happen.
                     try {
-                        JOptionPane.showMessageDialog(null, "Sorry, there has been an error in opening the file.",
-                                "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("errorOpenFile"),
+                            LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                     } catch (HeadlessException eh) {
                         // Headless exception, thrown when the code is dependent on a keyboard or mouse.
-
                         // Won't happen for our users, so just exit.
                         System.exit(1);
                     }
                 }
+                ImagePanel.rect = null;
+                target.repaint();
+                target.getParent().revalidate();
+                // Pack the main GUI frame to the size of the newly opened image.
+                frame.pack();
+                // Make main GUI frame centered on screen
+                frame.setLocationRelativeTo(null);
             }
-            ImagePanel.rect = null;
-            target.repaint();
-            target.getParent().revalidate();
-            // Pack the main GUI frame to the size of the newly opened image.
-            frame.pack();
-            // Make main GUI frame centered on screen
-            frame.setLocationRelativeTo(null);
+            // Return true, the user either successfully opened a file or exited the file chooser.
+            return true;
         }
     }
 
@@ -337,7 +352,6 @@ public class FileActions {
                 JOptionPane.showMessageDialog(null, "There is no image open to save.", "Error",
                         JOptionPane.ERROR_MESSAGE);
             } else {
-
                 // There is an image open, carry on.
                 target.getImage().save();
             }
@@ -392,12 +406,31 @@ public class FileActions {
             // Check if there is an image open.
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message, and do not save as.
-                JOptionPane.showMessageDialog(null, "There is no image open to save as.", "Error",
-                        JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("errorNoImageAs"), 
+                        LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
 
                 return;
             }
-            // There is an image open, carry on.
+            // There is an image open, and no macros recording, carry on.
+            // So, we attempt to save as.
+            boolean done = false;
+            // We attempt to allow the user to save as an image until either they successfully save as
+            // a .png image, or they click exit/cancel.
+            while (!done) {
+                done = saveAs();
+            }
+        }
+
+        /**
+         * <p>
+         * Support method to attempt to save as an image. It prompts the user to selet a location and name an image file.
+         * Note, if it successfuly saves an image as, or the user clicks exit or cancel, this method will return true.
+         * However, if the user has attempted to save as a non .png file, or doesn't want to override another file, it will return false.
+         * </p>
+         * @return True if an image is successfully saved as, or the user exits/cancels, false otherwise.
+         */
+        private boolean saveAs() {
+            // We attempt to save an image as.
             JFileChooser fileChooser = new JFileChooser();
             int result = fileChooser.showSaveDialog(target);
             if (result == JFileChooser.APPROVE_OPTION) {
@@ -406,34 +439,28 @@ public class FileActions {
                     // Check that the image file name is valid.
                     if (isValidPNGName(imageFilepath) == false) {
                         // The image file name is not valid. Show error message and do not save as.
-                        JOptionPane.showMessageDialog(null,
-                                "You have not entered a valid PNG image file name.\n(The name must end with .png, cannot contain any other '.', and must contain characters preceeding '.png')",
-                                "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("syntaxError"),
+                                LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
 
-                        return;
+                        return false;
                     }
-
-                    // Check that the image file name does not describe an image that already
-                    // exists.
+                    // Check that the image file name does not describe an image that already exists.
                     if (isExistingFilename(imageFilepath)) {
                         // The image file name already describes another file name.
                         // Ask user if they want to override or cancel.
                         try {
-                            int option = JOptionPane.showConfirmDialog(null,
-                                    "Another file already exists with the same name in this directory.\nClick OK to replace it, or cancel.",
-                                    "Warning", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+                            int option = JOptionPane.showConfirmDialog(null, LanguageActions.getLocaleString("warningAnotherFile"),
+                                    LanguageActions.getLocaleString("warning"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
                             if (option == JOptionPane.CANCEL_OPTION || option == JOptionPane.CLOSED_OPTION) {
-                                // User cancelled or closed the pop up, don't export.
-                                return;
+                                // User cancelled or closed the pop up, don't save as. But, allow the user to try again.
+                                return false;
                             }
                         } catch (HeadlessException ex) {
                             // Headless exception, thrown when the code is dependent on a keyboard or mouse.
                             // Won't happen for our users, so just exit.
                             System.exit(1);
-
                         }
                     }
-
                     target.getImage().saveAs(imageFilepath);
                     // Make the image file name appear in the header of the main GUI.
                     Path imagePath = Paths.get(imageFilepath);
@@ -447,16 +474,18 @@ public class FileActions {
                     // There would have been an error in getting canonical pathname.
                     // Just let the user know. Probably won't happen.
                     try {
-                        JOptionPane.showMessageDialog(null, "Sorry, there has been an error in saving the file as.",
-                                "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("errorSavingFileAs"),
+                                LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                     } catch (HeadlessException eh) {
                         // Headless exception, thrown when the code is dependent on a keyboard or mouse.
-
                         // Won't happen for our users, so just exit.
                         System.exit(1);
                     }
                 }
             }
+            // The user will have successfully saved as at this point. 
+            // Or, they will have exitted the file chooser. So, return true.
+            return true;
         }
     }
 
@@ -502,9 +531,8 @@ public class FileActions {
             if (target.getImage().hasImage()) {
                 // There is an image open, warn user that any unsaved changes will be deleted.
                 try {
-                    int option = JOptionPane.showConfirmDialog(null,
-                            "If you exit without saving or exporting, any changes will be lost.", "Warning",
-                            JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+                    int option = JOptionPane.showConfirmDialog(null, LanguageActions.getLocaleString("warning"), 
+                            LanguageActions.getLocaleString("warningAddImage"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
 
                     if (option == JOptionPane.CANCEL_OPTION) {
                         // User cancelled, don't exit.
@@ -574,7 +602,6 @@ public class FileActions {
             // Check if there is an image to export.
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
-
                 try {
                     JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("errorNoExport"),
                             LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
@@ -585,8 +612,25 @@ public class FileActions {
                 }
                 return;
             }
+            // There is an image open, and no macros recording, carry on.
+            // So, we attempt to export.
+            boolean done = false;
+            // We attempt to allow the user to export an image until either they successfully exported
+            // a .png image, or they click exit/cancel.
+            while (!done) {
+                done = export();
+            }
+        }
 
-            // There is an image open, carry on.
+        /**
+         * <p>
+         * Support method to attempt to export an image. It prompts the user to selet a location and name an image file.
+         * Note, if it successfuly exports an image, or the user clicks exit or cancel, this method will return true.
+         * However, if the user has attempted to export as a non .png file, or doesn't want to override another file, it will return false.
+         * </p>
+         * @return True if an image is successfully exported, or the user exits/cancels, false otherwise.
+         */
+        private boolean export() {
             // Allow user to name image file and select location to export to.
             JFileChooser fileChooser = new JFileChooser();
             int result = fileChooser.showSaveDialog(null);
@@ -597,35 +641,28 @@ public class FileActions {
                     // Check that the image file name is valid.
                     if (isValidPNGName(imageFilepath) == false) {
                         // The image file name is not valid. Show error message and do not export.
-
-                        JOptionPane.showMessageDialog(null,
-                                "You have not entered a valid PNG image file name.\n(The name must end with .png, cannot contain any other '.', and must contain characters preceeding '.png')",
-                                "Error", JOptionPane.ERROR_MESSAGE);
-
-                        return;
+                        JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("syntaxError"),
+                                LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                        // This was not successful. Return  false.
+                        return false;
                     }
-
-                    // Check that the image file name does not describe an image that already
-                    // exists.
+                    // Check that the image file name does not describe an image that already exists.
                     if (isExistingFilename(imageFilepath)) {
                         // The image file name already describes another file name.
                         // Ask user if they want to override or cancel.
                         try {
-                            int option = JOptionPane.showConfirmDialog(null,
-                                    "Another file already exists with the same name in this directory.\nClick OK to replace it, or cancel.",
-                                    "Warning", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+                            int option = JOptionPane.showConfirmDialog(null, LanguageActions.getLocaleString("warningAnotherFile"),
+                                    LanguageActions.getLocaleString("warning"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
                             if (option == JOptionPane.CANCEL_OPTION || option == JOptionPane.CLOSED_OPTION) {
-                                // User cancelled or closed the pop up, don't export.
-                                return;
+                                // User cancelled or closed the pop up, don't export. But, allow the user to try again.
+                                return false;
                             }
                         } catch (HeadlessException ex) {
                             // Headless exception, thrown when the code is dependent on a keyboard or mouse.
                             // Won't happen for our users, so just exit.
                             System.exit(1);
-
                         }
                     }
-
                     // Export the image.
                     target.getImage().export(imageFilepath);
                 } catch (HeadlessException eh) {
@@ -636,8 +673,8 @@ public class FileActions {
                     // There would have been an error in getting canonical pathname.
                     // Just let the user know. Probably won't happen.
                     try {
-                        JOptionPane.showMessageDialog(null, "Sorry, there has been an error in exporting the file.",
-                                "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("errorExport"),
+                                LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                     } catch (HeadlessException eh) {
                         // Headless exception, thrown when the code is dependent on a keyboard or mouse.
                         // Won't happen for our users, so just exit.
@@ -645,6 +682,9 @@ public class FileActions {
                     }
                 }
             }
+            // The user will have successfully exported as at this point. 
+            // Or, they will have exitted the file chooser. So, return true.
+            return true;
         }
     }
 
