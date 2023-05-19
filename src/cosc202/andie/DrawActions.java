@@ -11,6 +11,7 @@ import javax.swing.*;
 
 public class DrawActions extends JFrame {
     protected ArrayList<Action> actions;
+    protected ArrayList<Action> actionsSub;
     public int startX, startY, endX, endY;
     public Rectangle rectangle;
     int chooseOption;
@@ -26,11 +27,12 @@ public class DrawActions extends JFrame {
      */
     public DrawActions() {
         actions = new ArrayList<Action>();
-        actions.add(new DrawCircleAction(LanguageActions.getLocaleString("drawCircle"), null,
+        actionsSub = new ArrayList<Action>();
+        actionsSub.add(new DrawCircleAction(LanguageActions.getLocaleString("drawCircle"), null,
                 LanguageActions.getLocaleString("drawCircleDesc"), Integer.valueOf(0)));
-        actions.add(new DrawRecAction(LanguageActions.getLocaleString("drawRec"), null,
+        actionsSub.add(new DrawRecAction(LanguageActions.getLocaleString("drawRec"), null,
                 LanguageActions.getLocaleString("drawRecDesc"), Integer.valueOf(0)));
-        actions.add(new DrawLineAction(LanguageActions.getLocaleString("drawLine"),
+        actionsSub.add(new DrawLineAction(LanguageActions.getLocaleString("drawLine"),
                 null,
                 LanguageActions.getLocaleString("drawLineDesc"), Integer.valueOf(0)));
         actions.add(new pickColour(LanguageActions.getLocaleString("pickCol"), null,
@@ -49,12 +51,16 @@ public class DrawActions extends JFrame {
      * @return The colour menu UI element.
      */
     public JMenu createMenu() {
-        JMenu fileMenu = new JMenu(LanguageActions.getLocaleString("drawing"));
+        JMenu fileMenu = new JMenu(LanguageActions.getLocaleString("tools"));
+        JMenu subMenu = new JMenu(LanguageActions.getLocaleString("drawing"));
 
         for (Action action : actions) {
             fileMenu.add(new JMenuItem(action));
         }
-
+        for (Action action : actionsSub) {
+            subMenu.add(new JMenuItem(action));
+        }
+        fileMenu.add(subMenu);
         return fileMenu;
     }
 
