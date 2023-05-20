@@ -23,24 +23,25 @@ public class OrientationActions {
      * A list of actions for the Orientation menu.
      */
     protected ArrayList<Action> actions;
-    /** 
-     * The main GUI frame. Only here so that we can pack the 
-     * frame when we rotate an image.
-     */
-    private JFrame frame;
+
+    /** An instance of RotateRightAction to be used in renderToolbar. */
+    protected RotateRightAction rotateRightAction;
+
+    /** An instance of RotateLeftAction to be used in renderToolbar. */
+    protected RotateLeftAction rotateLeftAction;
 
     /**
      * <p>
      * Constructs the list of orientation actions.
      * </p>
      * 
-     *  @param frame the main GUI frame from which we will apply OrientationActions.
      */
-    public OrientationActions(JFrame frame){
+    public OrientationActions(){
         actions = new ArrayList<Action>();
-        this.frame = frame;
-        actions.add(new RotateRightAction(LanguageActions.getLocaleString("rotateRight"), null, LanguageActions.getLocaleString("rotateRightDes"), Integer.valueOf(KeyEvent.VK_3)));
-        actions.add(new RotateLeftAction(LanguageActions.getLocaleString("rotateLeft"), null, LanguageActions.getLocaleString("rotateLeftDes"), Integer.valueOf(KeyEvent.VK_4)));
+        this.rotateRightAction = new RotateRightAction(LanguageActions.getLocaleString("rotateRight"), null, LanguageActions.getLocaleString("rotateRightDes"), Integer.valueOf(KeyEvent.VK_3));
+        actions.add(this.rotateRightAction);
+        this.rotateLeftAction = new RotateLeftAction(LanguageActions.getLocaleString("rotateLeft"), null, LanguageActions.getLocaleString("rotateLeftDes"), Integer.valueOf(KeyEvent.VK_4));
+        actions.add(this.rotateLeftAction);
         actions.add(new Rotate180Action(LanguageActions.getLocaleString("rotate180"), null, LanguageActions.getLocaleString("rotate180Des"), Integer.valueOf(KeyEvent.VK_5)));
         actions.add(new FlipVertAction(LanguageActions.getLocaleString("flipVertically"), null, LanguageActions.getLocaleString("flipVerticallyDes"), Integer.valueOf(KeyEvent.VK_6)));
         actions.add(new FlipHorAction(LanguageActions.getLocaleString("flipHorizontally"), null, LanguageActions.getLocaleString("flipHorizontallyDes"), Integer.valueOf(KeyEvent.VK_7)));
@@ -63,6 +64,16 @@ public class OrientationActions {
         return menu;
     }
 
+    /**
+     * <p>
+     * Accessor method to return RotateRightAction as a single action.
+     * </p>
+     * 
+     * @return an instance of RotateRightAction.
+     */
+    public RotateRightAction getRotateRightAction() {
+        return this.rotateRightAction;
+    }
 
     /**
      * <p>
@@ -116,14 +127,19 @@ public class OrientationActions {
                 target.getImage().apply(new RotateRight());
                 target.repaint();
                 target.getParent().revalidate();
-                // Reset the zoom of the image.
-                target.setZoom(100);
-                // Pack the main GUI frame to the size of the image.
-                frame.pack();
-                // Make main GUI frame centered on screen.
-                frame.setLocationRelativeTo(null);
             }
         }
+    }
+
+    /**
+     * <p>
+     * Accessor method to return RotateLeftAction as a single action.
+     * </p>
+     * 
+     * @return an instance of RotateLeftAction.
+     */
+    public RotateLeftAction getRotateLeftAction() {
+        return this.rotateLeftAction;
     }
 
     /**
@@ -179,12 +195,6 @@ public class OrientationActions {
                 target.getImage().apply(new RotateLeft());
                 target.repaint();
                 target.getParent().revalidate();
-                // Reset the zoom of the image.
-                target.setZoom(100);
-                // Pack the main GUI frame to the size of the image.
-                frame.pack();
-                // Make main GUI frame centered on screen.
-                frame.setLocationRelativeTo(null);
             }
         }
     }

@@ -7,7 +7,7 @@ import java.awt.Color;
 import java.awt.RenderingHints;
 import java.awt.Point;
 
-public class DrawCircle implements ImageOperation {
+public class DrawCircle implements ImageOperation, java.io.Serializable  {
 
     private Point start;
     private Point end;
@@ -15,12 +15,10 @@ public class DrawCircle implements ImageOperation {
     private int width;
     private boolean fill;
 
-    DrawCircle(Point start, Point end, Color c, int width, boolean fill) {
+    DrawCircle(Point start, Point end) {
         this.start = start;
         this.end = end;
-        this.col = col;
-        this.width = width;
-        this.fill = fill;
+        col = DrawActions.userColour;
     }
 
     private RenderingHints getHints() {
@@ -32,20 +30,15 @@ public class DrawCircle implements ImageOperation {
     @Override
     public BufferedImage apply(BufferedImage input) {
         Graphics2D g = input.createGraphics();
-        g.setRenderingHints(getHints());
-        g.setStroke(new BasicStroke(width));
         g.setColor(col);
-        if (fill) {
-            g.fillOval((int) Math.min(start.x, start.y),
-                    (int) Math.min(start.y, end.y),
-                    (int) Math.abs((end.x - 20) - (start.x - 20)),
-                    (int) Math.abs((end.y - 20) - (start.y - 20)));
-        } else {
-            g.drawOval((int) Math.min(start.x, end.x),
-                    (int) Math.min(start.y, end.y),
-                    (int) Math.abs((end.x - 20) - (start.x - 20)),
-                    (int) Math.abs((end.y - 20) - (start.y - 20)));
-        }
+        g.fillOval(Math.min(ImagePanel.enterX,
+                ImagePanel.enterY),
+                Math.min(
+                        ImagePanel.enterY,
+                        ImagePanel.exitY),
+                Math.abs((ImagePanel.exitX - 20) - (ImagePanel.enterX - 20)),
+                Math.abs((ImagePanel.exitY - 20) - (ImagePanel.enterY - 20)));
+
         g.dispose();
         return input;
     }

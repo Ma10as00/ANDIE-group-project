@@ -46,7 +46,7 @@ public class SharpenFilter implements ImageOperation, java.io.Serializable {
      * 
      * @param amount The amount of the newly constructed SharpenFilter
      */
-    SharpenFilter(int amount) {
+    public SharpenFilter(int amount) {
         this.amount = amount;
     }
 
@@ -62,7 +62,7 @@ public class SharpenFilter implements ImageOperation, java.io.Serializable {
      * 
      * @see SharpenFilter(int)
      */
-    SharpenFilter() {
+    public SharpenFilter() {
         this(1);
     }
 

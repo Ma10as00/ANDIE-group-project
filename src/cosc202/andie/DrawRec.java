@@ -2,24 +2,18 @@ package cosc202.andie;
 
 import java.awt.image.BufferedImage;
 import java.awt.Graphics2D;
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.RenderingHints;
-import java.awt.Point;
 import java.awt.Rectangle;
 
-public class DrawRec implements ImageOperation {
+public class DrawRec implements ImageOperation, java.io.Serializable  {
 
     private Rectangle r;
     private Color col;
-    private int width;
-    private boolean fill;
 
-    DrawRec(Rectangle r, Color c, int width, boolean fill) {
-        this.r = r;
-        this.col = col;
-        this.width = width;
-        this.fill = fill;
+    DrawRec(Rectangle rect, Color userColor) {
+        r = rect;
+        col = userColor;
     }
 
     // RenderingHints use a collections of keys and associate values to allow the
@@ -32,15 +26,11 @@ public class DrawRec implements ImageOperation {
 
     @Override
     public BufferedImage apply(BufferedImage input) {
-        Graphics2D g = input.createGraphics();
-        g.setStroke(new BasicStroke(width));
-        g.setColor(col);
-        if (fill) {
-            g.fillRect(r.x, r.y, r.width, r.height);
-        } else {
-            g.drawRect(r.x, r.y, r.width, r.height);
-        }
-        g.dispose();
+        Graphics2D g2d = (Graphics2D) input.getGraphics();
+        g2d.setColor(col);
+        g2d.fill(r);
+        g2d.dispose();
         return input;
     }
+
 }

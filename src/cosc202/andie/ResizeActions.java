@@ -29,25 +29,18 @@ public class ResizeActions {
     
     /** A list of actions for the Resize menu. */
     protected ArrayList<Action> actions;
-    /** 
-     * The main GUI frame. Only here so that we can pack the 
-     * frame when we resize an image.
-     */
-    private JFrame frame;
 
     /**
      * <p>
      * Create a set of Resize menu actions.
      * </p>
      * 
-     * @param frame the main GUI frame from which we will apply ResizeActions.
      */
-    public ResizeActions(JFrame frame) {
+    public ResizeActions() {
         actions = new ArrayList<Action>();
-        this.frame = frame;
-        actions.add(new ImageResize50Action(LanguageActions.getLocaleString("resize50"), null, LanguageActions.getLocaleString("resize50Des"), null));
-        actions.add(new ImageResize150Action(LanguageActions.getLocaleString("resize150"), null, LanguageActions.getLocaleString("resize150Des"), null));
-        actions.add(new ImageResizeNAction(LanguageActions.getLocaleString("customResize"), null, LanguageActions.getLocaleString("customResizeDes"), null));
+        actions.add(new ImageResize50Action(LanguageActions.getLocaleString("resize50"), null, LanguageActions.getLocaleString("resize50Des"), Integer.valueOf(KeyEvent.VK_COMMA)));
+        actions.add(new ImageResize150Action(LanguageActions.getLocaleString("resize150"), null, LanguageActions.getLocaleString("resize150Des"), Integer.valueOf(KeyEvent.VK_PERIOD)));
+        actions.add(new ImageResizeNAction(LanguageActions.getLocaleString("customResize"), null, LanguageActions.getLocaleString("customResizeDes"), Integer.valueOf(KeyEvent.VK_SLASH)));
     }
 
     /**
@@ -88,7 +81,7 @@ public class ResizeActions {
          */
         ImageResize50Action(String name, ImageIcon icon, String desc, Integer mnemonic){
             super(name,icon,desc,mnemonic);
-            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_LESS, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_COMMA, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         }
 
         /**
@@ -121,12 +114,6 @@ public class ResizeActions {
                 target.getImage().apply(new ImageResize50());
                 target.repaint();
                 target.getParent().revalidate();
-                // Reset the zoom of the image.
-                target.setZoom(100);
-                // Pack the main GUI frame to the size of the image.
-                frame.pack();
-                // Make main GUI frame centered on screen.
-                frame.setLocationRelativeTo(null);
             }
         }
     }
@@ -152,7 +139,7 @@ public class ResizeActions {
          */
         ImageResize150Action(String name, ImageIcon icon, String desc, Integer mnemonic){
             super(name,icon,desc,mnemonic);
-            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_GREATER, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_PERIOD, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         }
 
         /**
@@ -185,12 +172,6 @@ public class ResizeActions {
                 target.getImage().apply(new ImageResize150());
                 target.repaint();
                 target.getParent().revalidate();
-                // Reset the zoom of the image.
-                target.setZoom(100);
-                // Pack the main GUI frame to the size of the image.
-                frame.pack();
-                // Make main GUI frame centered on screen.
-                frame.setLocationRelativeTo(null);
             }
         }
     }
@@ -278,12 +259,6 @@ public class ResizeActions {
                         target.getImage().apply(new ImageResizeN(jslider.getValue()));
                         target.repaint();
                         target.getParent().revalidate();
-                        // Reset the zoom of the image.
-                        target.setZoom(100);
-                        // Pack the main GUI frame to the size of the image.
-                        frame.pack();
-                        // Make main GUI frame centered on screen.
-                        frame.setLocationRelativeTo(null);
                     }
                 });
 
@@ -296,12 +271,6 @@ public class ResizeActions {
                         target.setImage(actualImage);
                         target.repaint();
                         target.getParent().revalidate();
-                        // Reset the zoom of the image.
-                        target.setZoom(100);
-                        // Pack the main GUI frame to the size of the image.
-                        frame.pack();
-                        // Make main GUI frame centered on screen.
-                        frame.setLocationRelativeTo(null);
                         // Reset the zoom value.
                         target.setZoom(zoom);
                         target.repaint();
@@ -325,12 +294,6 @@ public class ResizeActions {
                 target.getImage().apply(new ImageResizeN(resizePercent));
                 target.repaint();
                 target.getParent().revalidate();
-                // Reset the zoom of the image.
-                target.setZoom(100);
-                // Pack the main GUI frame to the size of the image.
-                frame.pack();
-                // Make main GUI frame centered on screen.
-                frame.setLocationRelativeTo(null);
             }
         }
     }

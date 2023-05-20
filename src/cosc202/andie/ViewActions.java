@@ -31,6 +31,15 @@ public class ViewActions {
      */
     protected ArrayList<Action> actions;
 
+    /** An instance of ZoomInAction to be used in renderToolbar. */
+    protected ZoomInAction zoomInAction;
+
+    /** An instance of ZoomOutAction to be used in renderToolbar. */
+    protected ZoomOutAction zoomOutAction;
+
+    /** An instance of ZoomFullAction to be used in renderToolbar. */
+    protected ZoomFullAction zoomFullAction;
+
     /**
      * <p>
      * Create a set of View menu actions.
@@ -38,10 +47,15 @@ public class ViewActions {
      */
     public ViewActions() {
         actions = new ArrayList<Action>();
-        actions.add(new ZoomInAction(LanguageActions.getLocaleString("zoomIn"), null, LanguageActions.getLocaleString("zoomInDes"), Integer.valueOf(KeyEvent.VK_PLUS)));
-        actions.add(new ZoomOutAction(LanguageActions.getLocaleString("zoomOut"), null, LanguageActions.getLocaleString("zoomOutDes"), Integer.valueOf(KeyEvent.VK_MINUS)));
-        actions.add(new ZoomFullAction(LanguageActions.getLocaleString("zoomFull"), null, LanguageActions.getLocaleString("zoomFullDes"), Integer.valueOf(KeyEvent.VK_1)));
+        this.zoomInAction = new ZoomInAction(LanguageActions.getLocaleString("zoomIn"), null, LanguageActions.getLocaleString("zoomInDes"), Integer.valueOf(KeyEvent.VK_PLUS));
+        actions.add(this.zoomInAction);
+        this.zoomOutAction = new ZoomOutAction(LanguageActions.getLocaleString("zoomOut"), null, LanguageActions.getLocaleString("zoomOutDes"), Integer.valueOf(KeyEvent.VK_MINUS));
+        actions.add(this.zoomOutAction);
+        this.zoomFullAction = new ZoomFullAction(LanguageActions.getLocaleString("zoomFull"), null, LanguageActions.getLocaleString("zoomFullDes"), Integer.valueOf(KeyEvent.VK_1));
+        actions.add(this.zoomFullAction);
         actions.add(new ZoomChangeAction(LanguageActions.getLocaleString("customZoom"), null, LanguageActions.getLocaleString("customZoomDes"), Integer.valueOf(KeyEvent.VK_2)));
+        actions.add(new DarkMode(LanguageActions.getLocaleString("darkMode"), null,
+                LanguageActions.getLocaleString("darkmodedesc"), Integer.valueOf(KeyEvent.VK_U)));
     }
 
     /**
@@ -59,6 +73,17 @@ public class ViewActions {
         }
 
         return viewMenu;
+    }
+
+    /**
+     * <p>
+     * Accessor method to return ZoomInAction as a single action.
+     * </p>
+     * 
+     * @return an instance of ZoomInAction.
+     */
+    public ZoomInAction getZoomInAction() {
+        return this.zoomInAction;
     }
 
     /**
@@ -118,6 +143,17 @@ public class ViewActions {
                 target.getParent().revalidate();
             }
         }
+    }
+
+    /**
+     * <p>
+     * Accessor method to return ZoomOutAction as a single action.
+     * </p>
+     * 
+     * @return an instance of ZoomOutAction.
+     */
+    public ZoomOutAction getZoomOutAction() {
+        return this.zoomOutAction;
     }
 
     /**
@@ -301,6 +337,17 @@ public class ViewActions {
 
     /**
      * <p>
+     * Accessor method to return ZoomFullAction as a single action.
+     * </p>
+     * 
+     * @return an instance of ZoomFullAction.
+     */
+    public ZoomFullAction getZoomFullAction() {
+        return this.zoomFullAction;
+    }
+
+    /**
+     * <p>
      * Action to reset the zoom level to actual size.
      * </p>
      * 
@@ -357,6 +404,60 @@ public class ViewActions {
                 target.repaint();
                 target.getParent().revalidate();
             }
+        }
+    }
+
+    /**
+     * <p>
+     * Action to change view to dark mode (or back to light mode).
+     * </p>
+     * 
+     * <p>
+     * This allows the user to toggle between dark and light mode in ANDIE.
+     * </p>
+     * 
+     */
+    public class DarkMode extends ImageAction {
+
+        /**
+         * <p>
+         * Create a new DarkMode.
+         * </p>
+         * 
+         * <p>
+         * This allows the user to toggle between dark and light mode in ANDIE.
+         * </p>
+         * 
+         * @param name     The name of the action (ignored if null).
+         * @param icon     An icon to use to represent the action (ignored if null).
+         * @param desc     A brief description of the action (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
+         */
+        DarkMode(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+            this.putValue(Action.ACCELERATOR_KEY,
+                    KeyStroke.getKeyStroke(KeyEvent.VK_U, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+        }
+
+        /**
+         * <p>
+         * Callback for when the dark mode action is triggered.
+         * </p>
+         * 
+         * <p>
+         * This method is called whenever the darkMode is triggered.
+         * </p>
+         * 
+         * @param e The event triggering this callback.
+         */
+        public void actionPerformed(ActionEvent e) {
+            if (Andie.darkMode) {
+                Andie.darkMode = false;
+            } else {
+                Andie.darkMode = true;
+            } // Toggle dark mode
+            Andie.updateDarkMode(); // Call the method to update the dark mode
+
         }
     }
 }

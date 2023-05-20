@@ -9,12 +9,9 @@ import java.awt.image.*;
  * 
  * <p>
  * A Gaussian blur filter blurs an image by applying a convolution where each
- * entry
- * is taken from the 2-dimensional Gaussian function, with x and y (positions)
- * and
- * sigma (standard deviation) as parameters. Sigma is about one third of the
- * kernel radius.
- * So, bigger values of the radius make sigma bigger, and thus a stronger blur.
+ * entry is taken from the 2-dimensional Gaussian function, with x and y (positions)
+ * and sigma (standard deviation) as parameters. Sigma is about one third of the
+ * kernel radius. So, bigger values of the radius make sigma bigger, and thus a stronger blur.
  * </p>
  * 
  * <p>
@@ -48,7 +45,7 @@ public class GaussianBlurFilter implements ImageOperation, java.io.Serializable 
      * 
      * @param radius The radius of the newly constructed GaussianBlurFilter
      */
-    GaussianBlurFilter(int radius) {
+    public GaussianBlurFilter(int radius) {
         this.radius = radius;
     }
 
@@ -63,7 +60,7 @@ public class GaussianBlurFilter implements ImageOperation, java.io.Serializable 
      * 
      * @see GaussianBlurFilter(int)
      */
-    GaussianBlurFilter() {
+    public GaussianBlurFilter() {
         this(1);
     }
 
@@ -74,8 +71,7 @@ public class GaussianBlurFilter implements ImageOperation, java.io.Serializable 
      * 
      * <p>
      * As with many filters, the Gaussian blur filter is implemented via
-     * convolution.
-     * The size of the convolution kernel is specified by the {@link radius}.
+     * convolution. The size of the convolution kernel is specified by the {@link radius}.
      * Larger radii lead to stronger blurring, and affects sigma.
      * </p>
      * 
@@ -120,8 +116,7 @@ public class GaussianBlurFilter implements ImageOperation, java.io.Serializable 
                 // Copy over pixel values from the original image to pixels to the right and
                 // lower by 'radius' amount.
                 edgesPlusInput.setRGB(x + radius, y + radius, input.getRGB(x, y));
-                // If we are at an edge, then we copy that value to the values
-                // above/below/right/left.
+                // If we are at an edge, then we copy that value to the values above/below/right/left.
                 if (y == 0) { // We are at the top of the image.
                     for (int i = 0; i < radius; i++) {
                         edgesPlusInput.setRGB(x + radius, i, input.getRGB(x, y));
