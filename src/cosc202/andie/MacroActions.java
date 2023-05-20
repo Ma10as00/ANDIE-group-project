@@ -248,7 +248,7 @@ public class MacroActions{
 
             // Give the user an option to save the macro ---------------------------
             try {
-                int saveOrNot = JOptionPane.showOptionDialog(null, LanguageActions.getLocaleString("wantsave"), LanguageActions.getLocaleString("save"), 
+                int saveOrNot = JOptionPane.showOptionDialog(null, LanguageActions.getLocaleString("wantsave") + System.lineSeparator() + m, LanguageActions.getLocaleString("save"), 
                                                                 JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
                 if (saveOrNot == JOptionPane.YES_OPTION) {
                     // We loop until the file is successfully saved or the user actively cancelled,

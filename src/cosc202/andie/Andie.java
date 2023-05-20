@@ -49,7 +49,7 @@ public class Andie {
      * 
      * @throws Exception if something goes wrong.
      */
-    private static void createAndShowGUI() throws Exception {
+    public static void createAndShowGUI() throws Exception {
 
         // Sets the starting language to NZ English
         Preferences prefs = Preferences.userNodeForPackage(Andie.class);
