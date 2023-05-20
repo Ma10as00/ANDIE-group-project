@@ -4,9 +4,9 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.Locale;
 import java.util.prefs.Preferences;
-
 import javax.swing.*;
 import javax.imageio.*;
+import javax.swing.border.*;
 
 /**
  * <p>
@@ -45,7 +45,7 @@ public class Andie {
     private static Color grey = new Color(30, 30, 30);
 
     /** The second colour used as the background in dark mode. */
-    private static Color lightGrey = new Color(45, 45, 45);
+    private static Color lightGrey = new Color(50, 50, 50);
 
     /** The forth colour used as the background in dark mode. */
     private static Color darkGrey = new Color(20, 20, 20);
@@ -58,7 +58,7 @@ public class Andie {
 
     /** The seventh colour used as the background in light mode. */
     private static Color darkWhite = new Color(240, 240, 240);
-
+    
     /**
      * <p>
      * Launches the main GUI for the ANDIE program.
@@ -126,6 +126,7 @@ public class Andie {
         outerPanel.setLayout(new GridBagLayout());
         outerPanel.add(imagePanel, new GridBagConstraints());
         JScrollPane scrollPane = new JScrollPane(outerPanel);
+        scrollPane.setBorder(BorderFactory.createEmptyBorder());
         frame.add(scrollPane, BorderLayout.CENTER);
 
         try {
@@ -211,8 +212,16 @@ public class Andie {
      * 
      */
     public static void renderMenu() {
+        // Make the pop up borders for each menu match the mode.
+        if (Andie.darkMode) {
+            UIManager.put("PopupMenu.border", new LineBorder(lightGrey));
+        }
+        else {
+            UIManager.put("PopupMenu.border", new LineBorder(Color.white));
+        }
         // Add in menus for various types of action the user may perform.
         JMenuBar menuBar = new JMenuBar();
+        menuBar.setBorder(BorderFactory.createEmptyBorder());
         setMenuBackground(menuBar);
 
         // Add the left-aligned menus.
@@ -221,20 +230,28 @@ public class Andie {
         // here. We pass a frame so that when we open an image, the frame is packed to
         // the new image size.
         FileActions fileActions = new FileActions(frame);
-        menuBar.add(fileActions.createMenu());
+        JMenu fileMenu = fileActions.createMenu();
+        fileMenu.setBorderPainted(false);
+        menuBar.add(fileMenu);
 
         // Ability to change the language from a set of included language bundles.
         LanguageActions languageActions = new LanguageActions();
-        menuBar.add(languageActions.createMenu());
+        JMenu languageMenu = languageActions.createMenu();
+        languageMenu.setBorderPainted(false);
+        menuBar.add(languageMenu);
 
         // View actions control how the image is displayed, its zoom, but do not alter
         // its actual content
         ViewActions viewActions = new ViewActions();
-        menuBar.add(viewActions.createMenu());
+        JMenu viewMenu = viewActions.createMenu();
+        viewMenu.setBorderPainted(false);
+        menuBar.add(viewMenu);
 
         // Likewise Edit menus are very common, so should be clear what might go here.
         EditActions editActions = new EditActions();
-        menuBar.add(editActions.createMenu());
+        JMenu editMenu = editActions.createMenu();
+        editMenu.setBorderPainted(false);
+        menuBar.add(editMenu);
 
         // Add the right aligned menus.
         menuBar.add(Box.createHorizontalGlue());
@@ -242,28 +259,40 @@ public class Andie {
         // Orientation actions change the orientation of the image, altering its
         // content. 
         OrientationActions orientationActions = new OrientationActions();
-        menuBar.add(orientationActions.createMenu());
+        JMenu orientationMenu = orientationActions.createMenu();
+        orientationMenu.setBorderPainted(false);
+        menuBar.add(orientationMenu);
 
         // Resize actions change the size of the image, altering its content.
         ResizeActions resizeActions = new ResizeActions();
-        menuBar.add(resizeActions.createMenu());
+        JMenu resizeMenu = resizeActions.createMenu();
+        resizeMenu.setBorderPainted(false);
+        menuBar.add(resizeMenu);
 
         // Actions that affect the representation of colour in the image.
         ColourActions colourActions = new ColourActions();
-        menuBar.add(colourActions.createMenu());
+        JMenu colourMenu = colourActions.createMenu();
+        colourMenu.setBorderPainted(false);
+        menuBar.add(colourMenu);
 
         // Filter actions apply a per-pixel operation to the image, generally based on a local window.
         FilterActions filterActions = new FilterActions();
-        menuBar.add(filterActions.createMenu());
+        JMenu filterMenu = filterActions.createMenu();
+        filterMenu.setBorderPainted(false);
+        menuBar.add(filterMenu);
 
         // Draw actions to edit the image with crop or draw a line, rectangle or cirlce.
-        DrawActions drawAction = new DrawActions();
-        menuBar.add(drawAction.createMenu());
+        DrawActions drawActions = new DrawActions();
+        JMenu drawMenu = drawActions.createMenu();
+        drawMenu.setBorderPainted(false);
+        menuBar.add(drawMenu);
 
         // Macro actions can record what operations are applied to the image, and put
         // them together into macros.
         MacroActions macroActions = new MacroActions();
-        menuBar.add(macroActions.createMenu());
+        JMenu macroMenu = macroActions.createMenu();
+        macroMenu.setBorderPainted(false);
+        menuBar.add(macroMenu);
 
         // Change the colour depending on the mode.
         if (Andie.darkMode) {
@@ -319,6 +348,7 @@ public class Andie {
         JToolBar toolbar = new JToolBar();
         toolbar.setOrientation(SwingConstants.VERTICAL);
         toolbar.setFloatable(false);
+        toolbar.setBorderPainted(false);
         frame.add(toolbar,BorderLayout.WEST);
         JButton button = null;
         if (Andie.darkMode) {
@@ -332,6 +362,7 @@ public class Andie {
         // Adds the save button to the toolbar.
         FileActions fileActions = new FileActions(frame);
         button = createButton(fileActions.getFileSaveAction(), "saveImageIcon.png");
+        button.setBorderPainted(false);
         toolbar.add(button);
 
         // Adds a separator to the toolbar.
@@ -340,10 +371,12 @@ public class Andie {
         // Adds the undo button to the toolbar.
         EditActions editActions = new EditActions();
         button = createButton(editActions.getUndoAction(), "");
+        button.setBorderPainted(false);
         toolbar.add(button);
 
         // Adds the redo button to the toolbar.
         button = createButton(editActions.getRedoAction(), "");
+        button.setBorderPainted(false);
         toolbar.add(button);
 
         // Adds a separator to the toolbar.
@@ -352,15 +385,17 @@ public class Andie {
         // Adds the Zoom In button to the toolbar.
         ViewActions viewActions = new ViewActions();
         button = createButton(viewActions.getZoomInAction(), "");
-
+        button.setBorderPainted(false);
         toolbar.add(button);
 
         // Adds the Zoom out button to the toolbar.
         button = createButton(viewActions.getZoomOutAction(), "");
+        button.setBorderPainted(false);
         toolbar.add(button);
 
         // Adds the Zoom Full button to the toolbar.
         button = createButton(viewActions.getZoomFullAction(), "");
+        button.setBorderPainted(false);
         toolbar.add(button);
 
         // Adds a separator to the toolbar.
@@ -369,10 +404,12 @@ public class Andie {
         // Adds the rotate left button to the toolbar.
         OrientationActions orientationActions = new OrientationActions();
         button = createButton(orientationActions.getRotateLeftAction(), "");
+        button.setBorderPainted(false);
         toolbar.add(button);
 
         // Adds the rotate right button to the toolbar.
         button = createButton(orientationActions.getRotateRightAction(), "");
+        button.setBorderPainted(false);
         toolbar.add(button);
 
         // Adds a separator to the toolbar.
@@ -381,15 +418,21 @@ public class Andie {
         // Adds the crop button to the toolbar.
         DrawActions drawActions = new DrawActions();
         button = createButton(drawActions.getCropAction(), "");
+        button.setBorderPainted(false);
         toolbar.add(button);
 
         // Adds select tool to the toolbar.
         button = createButton(drawActions.getSelectAction(), "");
+        button.setBorderPainted(false);
         toolbar.add(button);
 
         // Adds pick colour to the toolbar.
         button = createButton(drawActions.getPickColourAction(), "");
+        button.setBorderPainted(false);
         toolbar.add(button);
+
+        // Update UI so that the whole bar changes colour.
+        toolbar.updateUI();
     }
 
     private static JButton createButton(Action action, String imagePath){

@@ -69,7 +69,9 @@ public class ViewActions {
         JMenu viewMenu = new JMenu(LanguageActions.getLocaleString("view"));
 
         for (Action action: actions) {
-            viewMenu.add(new JMenuItem(action));
+            JMenuItem item = new JMenuItem(action);
+            item.setBorderPainted(false);
+            viewMenu.add(item);
         }
 
         return viewMenu;

@@ -66,7 +66,9 @@ public class EditActions {
         JMenu editMenu = new JMenu(LanguageActions.getLocaleString("edit"));
 
         for (Action action : actions) {
-            editMenu.add(new JMenuItem(action));
+            JMenuItem item = new JMenuItem(action);
+            item.setBorderPainted(false);
+            editMenu.add(item);
         }
 
         return editMenu;

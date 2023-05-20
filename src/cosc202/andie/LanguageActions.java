@@ -64,7 +64,9 @@ public class LanguageActions {
         JMenu languageMenu = new JMenu(getLocaleString("language"));
 
         for(Action action: actions) {
-            languageMenu.add(new JMenuItem(action));
+            JMenuItem item = new JMenuItem(action);
+            item.setBorderPainted(false);
+            languageMenu.add(item);
         }
 
         return languageMenu;

@@ -51,7 +51,9 @@ public class MacroActions{
         JMenu menu = new JMenu(LanguageActions.getLocaleString("macro"));
 
         for (Action action: actions) {
-            menu.add(new JMenuItem(action));
+            JMenuItem item = new JMenuItem(action);
+            item.setBorderPainted(false);
+            menu.add(item);
         }
 
         return menu;

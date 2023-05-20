@@ -56,7 +56,9 @@ public class ColourActions {
         JMenu fileMenu = new JMenu(LanguageActions.getLocaleString("colour"));
 
         for (Action action : actions) {
-            fileMenu.add(new JMenuItem(action));
+            JMenuItem item = new JMenuItem(action);
+            item.setBorderPainted(false);
+            fileMenu.add(item);
         }
 
         return fileMenu;

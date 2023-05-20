@@ -85,10 +85,14 @@ public class DrawActions extends JFrame {
         JMenu subMenu = new JMenu(LanguageActions.getLocaleString("drawing"));
 
         for (Action action : actions) {
-            fileMenu.add(new JMenuItem(action));
+            JMenuItem item = new JMenuItem(action);
+            item.setBorderPainted(false);
+            fileMenu.add(item);
         }
         for (Action action : actionsSub) {
-            subMenu.add(new JMenuItem(action));
+            JMenuItem item = new JMenuItem(action);
+            item.setBorderPainted(false);
+            subMenu.add(item);
         }
 
         fileMenu.add(subMenu);
