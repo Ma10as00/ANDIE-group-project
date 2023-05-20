@@ -72,7 +72,6 @@ public class Andie {
      * @throws Exception if something goes wrong.
      */
     private static void createAndShowGUI() throws Exception {
-
         // Sets the starting language to NZ English
         Preferences prefs = Preferences.userNodeForPackage(Andie.class);
         String lang = prefs.get("language", "en");
@@ -81,7 +80,6 @@ public class Andie {
 
         // If language code is en sets default to English.
         if (languageCode.equals("en_NZ")) {
-            // Set Default Locale to English
             Locale.setDefault(new Locale("en", "NZ"));
         }
         // If language code is mi set default language to Maori.
@@ -143,6 +141,40 @@ public class Andie {
         // Calls renderToolbar method to render the toolbar.
         renderToolbar();
 
+        // Update the mode.
+        if (Andie.darkMode) {
+            UIManager.put("MenuItem.background", lightGrey);
+            UIManager.put("MenuItem.opaque", true);
+
+            // Set the background and foreground colors for the frame
+            frame.setBackground(darkGrey);
+            frame.setForeground(darkGrey);
+
+            // Set the background and foreground colors for the outer panel
+            outerPanel.setBackground(darkGrey);
+            outerPanel.setForeground(darkGrey);
+
+            // Set the background and foreground colors for the image panel
+            imagePanel.setBackground(darkGrey);
+            imagePanel.setForeground(darkGrey);
+        }
+        else {
+            UIManager.put("MenuItem.background", Color.white);
+            UIManager.put("MenuItem.opaque", true);
+
+            // Set the background and foreground colors for the frame
+            frame.setBackground(darkerWhite);
+            frame.setForeground(darkerWhite);
+
+            // Set the background and foreground colors for the outer panel
+            outerPanel.setBackground(darkerWhite);
+            outerPanel.setForeground(darkerWhite);
+
+            // Set the background and foreground colors for the image panel
+            imagePanel.setBackground(darkerWhite);
+            imagePanel.setForeground(darkerWhite);
+        }
+
         frame.pack();
         // Make window centered on screen.
         frame.setLocationRelativeTo(null);
@@ -179,7 +211,6 @@ public class Andie {
      * 
      */
     public static void renderMenu() {
-
         // Add in menus for various types of action the user may perform.
         JMenuBar menuBar = new JMenuBar();
         setMenuBackground(menuBar);
@@ -427,16 +458,16 @@ public class Andie {
 
     public static void updateDarkMode() {
         if (darkMode) {
-            JFrame.setDefaultLookAndFeelDecorated(true);
-            frame.getRootPane().putClientProperty("JRootPane.titleBarBackground", new Color(23,180,252));
-            frame.getRootPane().putClientProperty("JRootPane.titleBarForeground", Color.white);
-            JFrame.setDefaultLookAndFeelDecorated(true);
             UIManager.put("MenuItem.background", lightGrey);
             UIManager.put("MenuItem.opaque", true);
 
             // Set the background and foreground colors for the frame
             frame.setBackground(darkGrey);
             frame.setForeground(darkGrey);
+
+            // Set the background and foreground colors for the outer panel
+            outerPanel.setBackground(darkGrey);
+            outerPanel.setForeground(darkGrey);
 
             // Set the background and foreground colors for the image panel
             imagePanel.setBackground(darkGrey);
@@ -470,6 +501,10 @@ public class Andie {
             // Set the background and foreground colors for the frame
             frame.setBackground(darkerWhite);
             frame.setForeground(darkerWhite);
+
+            // Set the background and foreground colors for the outer panel
+            outerPanel.setBackground(darkerWhite);
+            outerPanel.setForeground(darkerWhite);
 
             // Set the background and foreground colors for the image panel
             imagePanel.setBackground(darkerWhite);

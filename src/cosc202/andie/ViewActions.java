@@ -55,7 +55,7 @@ public class ViewActions {
         actions.add(this.zoomFullAction);
         actions.add(new ZoomChangeAction(LanguageActions.getLocaleString("customZoom"), null, LanguageActions.getLocaleString("customZoomDes"), Integer.valueOf(KeyEvent.VK_2)));
         actions.add(new DarkMode(LanguageActions.getLocaleString("darkMode"), null,
-                LanguageActions.getLocaleString("darkmodedesc"), Integer.valueOf(KeyEvent.VK_D)));
+                LanguageActions.getLocaleString("darkmodedesc"), Integer.valueOf(KeyEvent.VK_U)));
     }
 
     /**
@@ -436,7 +436,7 @@ public class ViewActions {
         DarkMode(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
             this.putValue(Action.ACCELERATOR_KEY,
-                    KeyStroke.getKeyStroke(KeyEvent.VK_S, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+                    KeyStroke.getKeyStroke(KeyEvent.VK_U, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         }
 
         /**
