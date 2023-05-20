@@ -32,6 +32,16 @@ public class DrawActions extends JFrame {
      */
     protected RegionCropAction cropAction;
 
+    /** 
+     * An instance of PickColourAction to be used in renderToolbar. 
+     */
+    protected PickColourAction pickColourAction;
+
+    /** 
+     * An instance of SelectAction to be used in renderToolbar. 
+     */
+    protected SelectAction selectAction;
+
     /**
      * The main GUI frame. Only here so that we can pack the
      * frame when we undo or redo operations to an image.
@@ -47,12 +57,19 @@ public class DrawActions extends JFrame {
         actions = new ArrayList<Action>();
         this.frame = frame;
 
-        // Add the RegionCropAction to the list of actions.
+        // Creates an instance of select and pickColour to be used in the toolbar (not in this menu).
+        this.pickColourAction = new PickColourAction(LanguageActions.getLocaleString("pickCol"), null,
+                LanguageActions.getLocaleString("pickColDesc"), Integer.valueOf(0));
+
+        this.selectAction = new SelectAction(LanguageActions.getLocaleString("selectTool"), null,
+                LanguageActions.getLocaleString("returnToSelect"), null);
+
+        // Create an instance of RegionCropAction to be used in the toolbar and add to the list of actions (for this menu).
         this.cropAction = new RegionCropAction(LanguageActions.getLocaleString("crop"), null,
-                LanguageActions.getLocaleString("regionCropDesc"), Integer.valueOf(KeyEvent.VK_I));
+                LanguageActions.getLocaleString("regionCropDesc"), Integer.valueOf(KeyEvent.VK_X));
         actions.add(this.cropAction);
 
-        // Add the draw line/circle/rectangle actions to the list of sub actions.
+        // Add the draw line/circle/rectangle actions to the list of sub actions (for this menu).
         actionsSub = new ArrayList<Action>();
         actionsSub.add(new DrawCircleAction(LanguageActions.getLocaleString("drawCircle"), null,
                 LanguageActions.getLocaleString("drawCircleDesc"), Integer.valueOf(0)));
@@ -61,12 +78,6 @@ public class DrawActions extends JFrame {
         actionsSub.add(new DrawLineAction(LanguageActions.getLocaleString("drawLine"),
                 null,
                 LanguageActions.getLocaleString("drawLineDesc"), Integer.valueOf(0)));
-        
-        actions.add(new pickColour(LanguageActions.getLocaleString("pickCol"), null,
-                LanguageActions.getLocaleString("pickColDesc"), Integer.valueOf(0)));
-
-        actions.add(new select(LanguageActions.getLocaleString("selectTool"), null,
-                LanguageActions.getLocaleString("returnToSelect"), null));
     }
 
     /**
@@ -91,9 +102,20 @@ public class DrawActions extends JFrame {
         return fileMenu;
     }
 
-    public class select extends ImageAction {
+    /**
+     * <p>
+     * Accessor method to return SelectAction as a single action.
+     * </p>
+     * 
+     * @return an instance of SelectAction.
+     */
+    public SelectAction getSelectAction() {
+        return this.selectAction;
+    }
 
-        protected select(String name, ImageIcon icon, String desc, Integer mnemonic) {
+    public class SelectAction extends ImageAction {
+
+        protected SelectAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
         }
 
@@ -105,7 +127,7 @@ public class DrawActions extends JFrame {
 
     /**
      * <p>
-     * Action to select region.
+     * Action to draw a rectangle.
      * </p>
      * 
      * @see DrawRec
@@ -137,9 +159,20 @@ public class DrawActions extends JFrame {
 
     }
 
-    public class pickColour extends ImageAction {
+    /**
+     * <p>
+     * Accessor method to return PickColourAction as a single action.
+     * </p>
+     * 
+     * @return an instance of PickColourAction.
+     */
+    public PickColourAction getPickColourAction() {
+        return this.pickColourAction;
+    }
 
-        pickColour(String name, ImageIcon icon, String desc, Integer mnemonic) {
+    public class PickColourAction extends ImageAction {
+
+        PickColourAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
         }
 
@@ -282,7 +315,7 @@ public class DrawActions extends JFrame {
         RegionCropAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
             this.putValue(Action.ACCELERATOR_KEY,
-                    KeyStroke.getKeyStroke(KeyEvent.VK_I, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+                    KeyStroke.getKeyStroke(KeyEvent.VK_X, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         }
 
         /**

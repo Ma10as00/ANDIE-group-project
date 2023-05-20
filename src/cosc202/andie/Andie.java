@@ -317,8 +317,16 @@ public class Andie {
         // Adds a separator to the toolbar.
         toolbar.addSeparator();
 
-        // Adds the Crop button to the toolbar.
+        // Adds select tool to the toolbar.
         DrawActions drawActions = new DrawActions(frame);
+        button = createButton(drawActions.getSelectAction(), "");
+        toolbar.add(button);
+
+        // Adds pick colour to the toolbar.
+        button = createButton(drawActions.getPickColourAction(), "");
+        toolbar.add(button);
+
+        // Adds the crop button to the toolbar.
         button = createButton(drawActions.getCropAction(), "");
         toolbar.add(button);
 
