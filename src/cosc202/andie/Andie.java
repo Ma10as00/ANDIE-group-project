@@ -265,8 +265,9 @@ public class Andie {
      */
     public static void renderToolbar() {
         JToolBar toolbar = new JToolBar();
+        toolbar.setOrientation(SwingConstants.VERTICAL);
         toolbar.setFloatable(false);
-        frame.add(toolbar, BorderLayout.PAGE_START);
+        frame.add(toolbar,BorderLayout.WEST);
         JButton button = null;
         if (Andie.darkMode) {
             toolbar.setBackground(Color.DARK_GRAY);
