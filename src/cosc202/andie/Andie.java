@@ -35,7 +35,26 @@ public class Andie {
     /** A JFrame of the main GUI frame. */
     public static JFrame frame;
 
+    /** A boolean to represent whether or not we are in dark mode. */
     public static boolean darkMode;
+
+    /** The colour used as the background in dark mode and light mode. */
+    private static Color grey = new Color(30, 30, 30);
+
+    /** The second colour used as the background in dark mode. */
+    private static Color lightGrey = new Color(45, 45, 45);
+
+    /** The forth colour used as the background in dark mode. */
+    private static Color darkGrey = new Color(20, 20, 20);
+
+    /** The fifth colour used as the background in dark mode. */
+    private static Color lightWhite = new Color(225, 225, 225);
+
+    /** The sixth colour used as the background in light mode. */
+    private static Color darkerWhite = new Color(220, 220, 220);
+
+    /** The seventh colour used as the background in light mode. */
+    private static Color darkWhite = new Color(240, 240, 240);
 
     /**
      * <p>
@@ -120,7 +139,6 @@ public class Andie {
         // Make window centered on screen.
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-
     }
 
     /**
@@ -218,9 +236,12 @@ public class Andie {
 
         // Change the colour depending on the mode.
         if (Andie.darkMode) {
-            menuBar.setBackground(Color.darkGray);
-            menuBar.setForeground(Color.WHITE);
-
+            menuBar.setBackground(lightGrey);
+            menuBar.setForeground(lightWhite);
+        }
+        else {
+            menuBar.setBackground(Color.white);
+            menuBar.setForeground(grey);
         }
         menuBar.setOpaque(true);
         frame.setJMenuBar(menuBar);
@@ -234,16 +255,17 @@ public class Andie {
 
     private static void setMenuBackground(JMenuBar menuBar) {
         if (Andie.darkMode) {
-            UIManager.put("Menu.background", Color.DARK_GRAY);
-            UIManager.put("Menu.foreground", Color.WHITE);
-            UIManager.put("MenuItem.background", Color.DARK_GRAY);
-            UIManager.put("MenuItem.foreground", Color.WHITE);
+            UIManager.put("Menu.background", lightGrey);
+            UIManager.put("Menu.foreground", lightWhite);
+            UIManager.put("MenuItem.background", lightGrey);
+            UIManager.put("MenuItem.foreground", lightWhite);
             UIManager.put("MenuItem.opaque", true);
         } else {
             UIManager.put("Menu.background", Color.white);
-            UIManager.put("Menu.foreground", Color.darkGray);
+            UIManager.put("Menu.foreground", grey);
             UIManager.put("MenuItem.background", Color.white);
-            UIManager.put("MenuItem.foreground", Color.darkGray);
+            UIManager.put("MenuItem.foreground", grey);
+            UIManager.put("MenuItem.opaque", true);
         }
     }
 
@@ -270,11 +292,11 @@ public class Andie {
         frame.add(toolbar,BorderLayout.WEST);
         JButton button = null;
         if (Andie.darkMode) {
-            toolbar.setBackground(Color.DARK_GRAY);
-            toolbar.setForeground(Color.WHITE);
+            toolbar.setBackground(grey);
+            toolbar.setForeground(lightWhite);
         } else {
-            toolbar.setBackground(Color.white);
-            toolbar.setForeground(Color.darkGray);
+            toolbar.setBackground(darkWhite);
+            toolbar.setForeground(grey);
         }
 
         // Adds the save button to the toolbar.
@@ -339,27 +361,26 @@ public class Andie {
         button = createButton(drawActions.getPickColourAction(), "");
         toolbar.add(button);
 
-
         frame.pack();
     }
 
     private static JButton createButton(Action action, String imagePath){
         JButton button = new JButton(action);
         if (Andie.darkMode) {
-            button.setForeground(Color.WHITE);
-            button.setBackground(Color.darkGray);
+            button.setForeground(grey);
+            button.setBackground(lightWhite);
         } else {
-            button.setForeground(Color.darkGray);
-            button.setBackground(Color.white);
+            button.setForeground(grey);
+            button.setBackground(darkWhite);
         }
-        try{
+        try {
         if (button.getIcon() == null) {
             Image buttonImage = ImageIO.read(Andie.class.getClassLoader().getResource(imagePath));
             buttonImage = buttonImage.getScaledInstance(15, 15, Image.SCALE_SMOOTH);
 
             button.setIcon(new ImageIcon(buttonImage));
         }
-        }catch(Exception fileNotFoundException){
+        } catch(Exception fileNotFoundException) {
 
         }
 
@@ -409,26 +430,26 @@ public class Andie {
 
     public static void updateDarkMode() {
         if (darkMode) {
-            UIManager.put("MenuItem.background", Color.darkGray);
+            UIManager.put("MenuItem.background", lightGrey);
             UIManager.put("MenuItem.opaque", true);
 
             // Set the background and foreground colors for the frame
-            frame.setBackground(Color.DARK_GRAY);
-            frame.setForeground(Color.WHITE);
+            frame.setBackground(darkGrey);
+            frame.setForeground(darkGrey);
 
             // Set the background and foreground colors for the image panel
-            imagePanel.setBackground(Color.DARK_GRAY);
-            imagePanel.setForeground(Color.WHITE);
+            imagePanel.setBackground(darkGrey);
+            imagePanel.setForeground(darkGrey);
 
             // Set the background and foreground colors for the menu bar
             JMenuBar menuBar = frame.getJMenuBar();
-            menuBar.setBackground(Color.DARK_GRAY);
-            menuBar.setForeground(Color.WHITE);
+            menuBar.setBackground(lightGrey);
+            menuBar.setForeground(lightWhite);
 
             // Set the background and foreground colors for the tool bar
             JToolBar toolbar = (JToolBar) frame.getContentPane().getComponent(1);
-            toolbar.setBackground(Color.DARK_GRAY);
-            toolbar.setForeground(Color.WHITE);
+            toolbar.setBackground(grey);
+            toolbar.setForeground(lightWhite);
 
             // Set the background and foreground colors for individual buttons in the
             // toolbar
@@ -436,8 +457,8 @@ public class Andie {
             for (Component component : components) {
                 if (component instanceof JButton) {
                     JButton button = (JButton) component;
-                    button.setBackground(Color.DARK_GRAY);
-                    button.setForeground(Color.WHITE);
+                    button.setBackground(grey);
+                    button.setForeground(lightWhite);
                 }
             }
         }
@@ -446,22 +467,22 @@ public class Andie {
             UIManager.put("MenuItem.opaque", true);
 
             // Set the background and foreground colors for the frame
-            frame.setBackground(Color.white);
-            frame.setForeground(Color.DARK_GRAY);
+            frame.setBackground(darkerWhite);
+            frame.setForeground(darkerWhite);
 
             // Set the background and foreground colors for the image panel
-            imagePanel.setBackground(Color.white);
-            imagePanel.setForeground(Color.DARK_GRAY);
+            imagePanel.setBackground(darkerWhite);
+            imagePanel.setForeground(darkerWhite);
 
             // Set the background and foreground colors for the menu bar
             JMenuBar menuBar = frame.getJMenuBar();
             menuBar.setBackground(Color.white);
-            menuBar.setForeground(Color.DARK_GRAY);
+            menuBar.setForeground(grey);
 
             // Set the background and foreground colors for the tool bar
             JToolBar toolbar = (JToolBar) frame.getContentPane().getComponent(1);
-            toolbar.setBackground(Color.white);
-            toolbar.setForeground(Color.DARK_GRAY);
+            toolbar.setBackground(darkWhite);
+            toolbar.setForeground(grey);
 
             // Set the background and foreground colors for individual buttons in the
             // toolbar
@@ -469,8 +490,8 @@ public class Andie {
             for (Component component : components) {
                 if (component instanceof JButton) {
                     JButton button = (JButton) component;
-                    button.setBackground(Color.white);
-                    button.setForeground(Color.DARK_GRAY);
+                    button.setBackground(darkWhite);
+                    button.setForeground(grey);
                 }
             }
         }
