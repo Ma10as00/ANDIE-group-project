@@ -98,7 +98,7 @@ public class Andie {
         // the windowClosing method can access the ImagePanel as well.
 
         // The main content area is an ImagePanel.
-        imagePanel = new ImagePanel();
+        imagePanel = new ImagePanel(frame);
         ImageAction.setTarget(imagePanel);
         JScrollPane scrollPane = new JScrollPane(imagePanel);
         frame.add(scrollPane, BorderLayout.CENTER);

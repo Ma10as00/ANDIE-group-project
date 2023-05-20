@@ -30,39 +30,27 @@ import javax.swing.*;
 public class ImagePanel extends JPanel {
 
     /**
-     * <p>
      * The image to display in the ImagePanel.
-     * Imports Mouse Handler
-     * Storing variables of mouse clicks and drags
-     * </p>
      */
     private EditableImage image;
     
     /**
-     * <p>
-     * Imports Mouse Handler
-     * </p>
+     * Imports a Mouse Handler.
      */
-    MouseHandler mHandler = new MouseHandler();
+    public MouseHandler mHandler = new MouseHandler();
 
     /**
-     * <p>
-     * Storing variables of mouse clicks and drags
-     * </p>
+     * Storing variables of mouse clicks and drags.
      */
     public static int enterX, enterY, exitX, exitY, width, height, clickX, clickY;
     
     /**
-     * <p>
-     * Storing the rectangle the is selected
-     * </p>
+     * Storing the rectangle the is selected.
      */
     public static Rectangle rect;
 
     /**
-     * <p>
-     * If marcos is recording
-     * </p>
+     * To keep track of if marcos is recording.
      */
     public boolean ongoingRecording = false;
 
@@ -96,11 +84,13 @@ public class ImagePanel extends JPanel {
      * </p>
      * 
      * <p>
-     * Newly created ImagePanels have a default zoom level of 100%
+     * Newly created ImagePanels have a default zoom level of 100%.
      * </p>
+     * 
+     * @param frame The main frame of the GUI.
      */
-    public ImagePanel() {
-        image = new EditableImage();
+    public ImagePanel(JFrame frame) {
+        image = new EditableImage(frame);
         scale = 1.0;
         this.addMouseListener(mHandler);
         /**
@@ -257,6 +247,7 @@ public class ImagePanel extends JPanel {
      */
     public void setImage(EditableImage image) {
         this.image = image;
+        image.updateFrameTitle();
     }
 
     /**
