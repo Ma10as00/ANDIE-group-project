@@ -8,6 +8,7 @@ import java.beans.PropertyChangeSupport;
 import java.awt.HeadlessException;
 import javax.imageio.*;
 import javax.swing.*;
+import java.nio.file.*;
 
 /**
  * <p>
@@ -43,14 +44,21 @@ public class EditableImage {
     private BufferedImage current;
     /** The sequence of operations currently applied to the image. */
     private Stack<ImageOperation> ops;
-    /** Support for recording {@link ImageOperation}s that is applied to this image. */
-    private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
     /** A memory of 'undone' operations to support 'redo'. */
     private Stack<ImageOperation> redoOps;
+    /** A memory of the original operations that were in the saved .ops file.
+     * This is used to determine if the image has been saved or not. */
+    private Stack<ImageOperation> savedOps;
     /** The file where the original image is stored. */
     private String imageFilename;
     /** The file where the operation sequence is stored. */
     private String opsFilename;
+    /** Support for recording {@link ImageOperation}s that is applied to this image. */
+    private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
+    /** The main GUI frame. Only here so that we can update the title of the frame. */
+    private JFrame frame;
+    /** Keeps track of if this is just a dummy image used to preview actions */
+    private boolean dummy;
 
     /**
      * <p>
@@ -60,14 +68,18 @@ public class EditableImage {
      * <p>
      * A new EditableImage has no image (it is a null reference), and an empty stack of operations.
      * </p>
+     * @param frame The main frame of the GUI.
      */
-    public EditableImage() {
+    public EditableImage(JFrame frame) {
         original = null;
         current = null;
         ops = new Stack<ImageOperation>();
         redoOps = new Stack<ImageOperation>();
+        savedOps = new Stack<ImageOperation>();
         imageFilename = null;
         opsFilename = null;
+        this.frame = frame;
+        dummy = false;
     }
 
     /**
@@ -85,14 +97,18 @@ public class EditableImage {
      * @param redoOps A memory of 'undone' operations to support 'redo'.
      * @param imageFilename The file where the original image is stored.
      * @param opsFilename The file where the operation sequence is stored.
+     * @param frame The main frame of the GUI.
      */
-    private EditableImage(BufferedImage original, BufferedImage current, Stack<ImageOperation> ops, Stack<ImageOperation> redoOps, String imageFilename, String opsFilename) {
+    private EditableImage(BufferedImage original, BufferedImage current, Stack<ImageOperation> ops, Stack<ImageOperation> redoOps, Stack<ImageOperation> savedOps, String imageFilename, String opsFilename, JFrame frame) {
         this.original = original;
         this.current = current;
         this.ops = ops;
         this.redoOps = redoOps;
+        this.savedOps = savedOps;
         this.imageFilename = imageFilename;
         this.opsFilename = opsFilename;
+        this.frame = frame;
+        dummy = true;
     }
 
     /**
@@ -184,6 +200,7 @@ public class EditableImage {
      * 
      * @param filePath The file to open the image from.
      */
+    @SuppressWarnings("unchecked")
     public void open(String filePath) {
         try {
             this.imageFilename = filePath;
@@ -194,13 +211,13 @@ public class EditableImage {
             // This clears the image operations, possibly from the prior open image.
             ops.clear();
             redoOps.clear();
+            savedOps.clear();
         }
         catch (Exception e){
             // This will happen for various reasons. But, will not happen by the way it is set up.
             // So, just exit.
             System.exit(1);
         }
-        
         // This part tries to also read the operations file
         // associated with the image that has been opened.
         // If it doesn't exist yet, no file is read.
@@ -215,15 +232,19 @@ public class EditableImage {
             // produce code that fails at this point in all cases in
             // which there is actually a type mismatch for one of the
             // elements within the Stack, i.e., a non-ImageOperation.
-            @SuppressWarnings("unchecked")
             Stack<ImageOperation> opsFromFile = (Stack<ImageOperation>) objIn.readObject();
             ops = opsFromFile;
+            // Note, I have added this here so we can tell if the current edited image is saved.
+            // i.e. if the currentOps matches the savedOps.
+            savedOps = (Stack<ImageOperation>)ops.clone();
             objIn.close();
             fileIn.close();
         } catch (Exception ex) {
             // Could be no file or something else. Carry on for now.
         }
         this.refresh();
+        // Make the image file name appear in the header of the main GUI.
+        this.updateFrameTitle();
     }
 
     /**
@@ -239,20 +260,25 @@ public class EditableImage {
      * </p>
      * 
      */
+    @SuppressWarnings("unchecked")
     public void save() {
         if (this.opsFilename == null) {
             this.opsFilename = this.imageFilename + ".ops";
         }
         try {
-            // Write image file based on file extension
+            // Write image file based on file extension.
             String extension = imageFilename.substring(1+imageFilename.lastIndexOf(".")).toLowerCase();
             ImageIO.write(original, extension, new File(imageFilename));
-            // Write operations file
+            // Write operations file.
             FileOutputStream fileOut = new FileOutputStream(this.opsFilename);
             ObjectOutputStream objOut = new ObjectOutputStream(fileOut);
             objOut.writeObject(this.ops);
             objOut.close();
             fileOut.close();
+            // Update the saved ops.
+            savedOps = (Stack<ImageOperation>)ops.clone();
+            // Make the image file name appear in the header of the main GUI.
+            this.updateFrameTitle();
         }
         catch (Exception e) {
             // Something has gone wrong in saving the file. Tell the user and do nothing.
@@ -314,13 +340,12 @@ public class EditableImage {
                 System.exit(1);
             }
         }
-        
-
     }
 
     /**
      * <p>
-     * Apply an {@link ImageOperation} to this image.
+     * Apply an {@link ImageOperation} to this image. This also updates the header of the main
+     * GUI frame if the image operations applied don't match those saved.
      * </p>
      * 
      * @param op The operation to apply.
@@ -330,42 +355,43 @@ public class EditableImage {
         @SuppressWarnings("unchecked")
         Stack<ImageOperation> oldOps = (Stack<ImageOperation>) ops.clone();
         ops.add(op);
-        
-        //For PropertyChangeListeners:
+        // For PropertyChangeListeners:
         propertyChangeSupport.firePropertyChange("ops", oldOps, ops);
+        // Make the image file name appear in the header of the main GUI (particularily, if it is saved).
+        this.updateFrameTitle();
     }
 
-
-    // ---------------- PropertyChange support ---------------------------------
-    /** @see PropertyChangeSupport#addPropertyChangeListener(String, PropertyChangeListener) 
+    /** 
+     * @see PropertyChangeSupport#addPropertyChangeListener(String, PropertyChangeListener) 
      * @author Mathias Øgaard
     */
     public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener){
         propertyChangeSupport.addPropertyChangeListener(propertyName,listener);
     }
 
-    /** @see PropertyChangeSupport#removePropertyChangeListener(String, PropertyChangeListener)  
+    /** 
+     * @see PropertyChangeSupport#removePropertyChangeListener(String, PropertyChangeListener)  
      * @author Mathias Øgaard
      */
     public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener){
         propertyChangeSupport.removePropertyChangeListener(propertyName, listener);
     }
 
-    /** @see PropertyChangeSupport#getPropertyChangeListeners(String)  
+    /** 
+     * @see PropertyChangeSupport#getPropertyChangeListeners(String)  
      * @author Mathias Øgaard
      */
     public PropertyChangeListener[] getPropertyChangeListeners(String propertyName){
         return propertyChangeSupport.getPropertyChangeListeners(propertyName);
     }
 
-    /** @see PropertyChangeSupport#hasListeners(String)  
+    /** 
+     * @see PropertyChangeSupport#hasListeners(String)  
      * @author Mathias Øgaard
      */
     public boolean hasListeners(String propertyName){
         return propertyChangeSupport.hasListeners(propertyName);
     }
-    //---------------------------------------------------------------------------
-
 
     /**
      * <p>
@@ -425,6 +451,7 @@ public class EditableImage {
             resizeOrRotate = 1;
         }
         apply(re);
+        refresh();
         return resizeOrRotate;
     }
 
@@ -467,12 +494,15 @@ public class EditableImage {
      * This is useful when undoing changes to the image, or in any other case where {@link current}
      * cannot be easily incrementally updated. 
      * </p>
+     * 
      */
     private void refresh()  {
         current = deepCopy(original);
         for (ImageOperation op: ops) {
             current = op.apply(current);
         }
+        // Update the title of the main frame of the GUI.
+        updateFrameTitle();
     }
 
     /**
@@ -496,11 +526,69 @@ public class EditableImage {
         BufferedImage curr = deepCopy(current);
         Stack<ImageOperation> o = (Stack<ImageOperation>)ops.clone();
         Stack<ImageOperation> r = (Stack<ImageOperation>)redoOps.clone();
+        Stack<ImageOperation> s = (Stack<ImageOperation>)savedOps.clone();
         String ifn = imageFilename; // Strings are immutable, do don't need to clone
         String ofn = opsFilename;
         // Construct a new editable image.
-        EditableImage copy = new EditableImage(origin, curr, o, r, ifn, ofn);
+        EditableImage copy = new EditableImage(origin, curr, o, r, s, ifn, ofn, frame);
         // Return new editable image.
         return copy;
+    }
+
+    /**
+     * <p>
+     * Method to determine if the operations currently applied to this EditableImage
+     * match the saved operations in the associated .ops file.
+     * </p>
+     * 
+     * <p>
+     * This works by checking if the savedOps match exactly (in order and instance) the 
+     * operations currently applied to this editable image.
+     * </p>
+     * 
+     * @return True if the operations saved in the associated .ops file matches the operations currently
+     * applied to this image, false otherwise.
+     */
+    public boolean opsSaved() {
+        // Create lists to iterate over.
+        ArrayList<ImageOperation> opsList = new ArrayList<ImageOperation>(ops);
+        ArrayList<ImageOperation> savedOpsList = new ArrayList<ImageOperation>(savedOps);
+        // Check they are both the same size. If not, they will not be the same.
+        if (opsList.size() != savedOpsList.size()) {
+            return false;
+        }
+        // Now, iterate over list to make sure they are the same.
+        for (int i = 0; i < opsList.size(); i++) {
+            if (opsList.get(i) != savedOpsList.get(i)) {
+                return false;
+            }
+        }
+        // If we are here, all image operations are the same ref. and are in the same order.
+        // So, return true.
+        return true;
+    }
+
+    /**
+     * <p>
+     * This method is used to update the title of the main GUI frame to contain the 
+     * name of the image file open, and whether or not it is saved.
+     * </p>
+     * 
+     * <p>
+     * Note, this only applies to images that are not used to preview the results of {@link ImageAction}s.
+     */
+    public void updateFrameTitle() {
+        if (!dummy) {
+            Path imagePath = Paths.get(imageFilename);
+            String justFilename = imagePath.getFileName().toString();
+            if (this.opsSaved()) {
+                // The image operations applied match those saved.
+                frame.setTitle("ANDIE (" + justFilename + ") - " + LanguageActions.getLocaleString("saved"));
+            }
+            else {
+                // The image operations applied do not match those saved.
+                frame.setTitle("ANDIE (" + justFilename + ") - " + LanguageActions.getLocaleString("unsaved"));
+            }
+        }
     }
 }

@@ -54,6 +54,8 @@ public class ViewActions {
         this.zoomFullAction = new ZoomFullAction(LanguageActions.getLocaleString("zoomFull"), null, LanguageActions.getLocaleString("zoomFullDes"), Integer.valueOf(KeyEvent.VK_1));
         actions.add(this.zoomFullAction);
         actions.add(new ZoomChangeAction(LanguageActions.getLocaleString("customZoom"), null, LanguageActions.getLocaleString("customZoomDes"), Integer.valueOf(KeyEvent.VK_2)));
+        actions.add(new DarkMode(LanguageActions.getLocaleString("darkMode"), null,
+                LanguageActions.getLocaleString("darkmodedesc"), Integer.valueOf(KeyEvent.VK_U)));
     }
 
     /**
@@ -402,6 +404,60 @@ public class ViewActions {
                 target.repaint();
                 target.getParent().revalidate();
             }
+        }
+    }
+
+    /**
+     * <p>
+     * Action to change view to dark mode (or back to light mode).
+     * </p>
+     * 
+     * <p>
+     * This allows the user to toggle between dark and light mode in ANDIE.
+     * </p>
+     * 
+     */
+    public class DarkMode extends ImageAction {
+
+        /**
+         * <p>
+         * Create a new DarkMode.
+         * </p>
+         * 
+         * <p>
+         * This allows the user to toggle between dark and light mode in ANDIE.
+         * </p>
+         * 
+         * @param name     The name of the action (ignored if null).
+         * @param icon     An icon to use to represent the action (ignored if null).
+         * @param desc     A brief description of the action (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
+         */
+        DarkMode(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+            this.putValue(Action.ACCELERATOR_KEY,
+                    KeyStroke.getKeyStroke(KeyEvent.VK_U, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+        }
+
+        /**
+         * <p>
+         * Callback for when the dark mode action is triggered.
+         * </p>
+         * 
+         * <p>
+         * This method is called whenever the darkMode is triggered.
+         * </p>
+         * 
+         * @param e The event triggering this callback.
+         */
+        public void actionPerformed(ActionEvent e) {
+            if (Andie.darkMode) {
+                Andie.darkMode = false;
+            } else {
+                Andie.darkMode = true;
+            } // Toggle dark mode
+            Andie.updateDarkMode(); // Call the method to update the dark mode
+
         }
     }
 }

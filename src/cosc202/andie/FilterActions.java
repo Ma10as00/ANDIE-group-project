@@ -43,9 +43,7 @@ public class FilterActions {
         actions.add(new MeanFilterAction(LanguageActions.getLocaleString("meanFilter"), null, LanguageActions.getLocaleString("meanFilterDes"), Integer.valueOf(KeyEvent.VK_M)));
         actions.add(new MedianFilterAction(LanguageActions.getLocaleString("median"), null, LanguageActions.getLocaleString("medianDes"), Integer.valueOf(KeyEvent.VK_D)));
         actions.add(new GaussianBlurFilterAction(LanguageActions.getLocaleString("gaussian"), null, LanguageActions.getLocaleString("gaussianDes"), Integer.valueOf(KeyEvent.VK_N)));
-        actions.add(new SobelHorizontalFilterAction(LanguageActions.getLocaleString("sobelHorizontal"), null, LanguageActions.getLocaleString("sobelHorizontalDes"), null));
-        actions.add(new SobelVerticalFilterAction(LanguageActions.getLocaleString("sobelVertical"), null, LanguageActions.getLocaleString("sobelVerticalDes"), null));
-        actions.add(new SobelOrientationFilterAction(LanguageActions.getLocaleString("sobelOrientation"), null, LanguageActions.getLocaleString("sobelOrientationlDes"), null));
+        actions.add(new SobelGeneralFilterAction(LanguageActions.getLocaleString("sobel"), null, LanguageActions.getLocaleString("sobelDes"), null));
         actions.add(new EmbossFilterAction(LanguageActions.getLocaleString("emboss"), null, LanguageActions.getLocaleString("embossDes"), null));
     }
 
@@ -792,6 +790,199 @@ public class FilterActions {
 
     /**
      * <p>
+     * Action to detect edges and potentially their orientation with a Sobel filter.
+     * </p>
+     * 
+     * <p>
+     * Note, this includes {@link SobelHorizontalFilter}, {@link SobelVerticalFilter},
+     * and {@link SobelOrientationFilter}, both with and without hue, all with the option
+     * of removing noise or not.
+     * </p>
+     * 
+     * @see SobelOrientationFilter
+     */
+    public class SobelGeneralFilterAction extends ImageAction {
+
+        /**
+         * This is used to keep track of the last button pressed in the option dialogue. When a 
+         * {@link SobelOrientationFilter} is constructed, sobelType = 0. Then, when a button is pressed
+         * it is updated to refer to that type of filter. That is, 1 = {@link SobelHorizontalFilter}, 
+         * 2 = {@link SobelVerticalFilter}, 3 = {@link SobelOrientationFilter} (without hue), and 
+         * 4 = {@link SobelOrientationFilter}.
+         */
+        private int sobelType;
+
+        /**
+         * <p>
+         * Create a new sobel general filter action.
+         * </p>
+         * 
+         * @param name The name of the action (ignored if null).
+         * @param icon An icon to use to represent the action (ignored if null).
+         * @param desc A brief description of the action  (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
+         */
+        SobelGeneralFilterAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+            this.sobelType = 0;
+            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_SEMICOLON, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+        }
+
+        /**
+         * <p>
+         * Callback for when the sobel general filter action is triggered.
+         * </p>
+         * 
+         * <p>
+         * This method is called whenever the SobelGeneralFilterAction is triggered.
+         * It allows the user to apply a {@link SobelHorizontalFilter}, {@link SobelVerticalFilter},
+         * or a {@link SobelOrientationFilter}, both with and without hue, all with the option
+         * of removing noise or not. These filters were combined into one action to improve the user 
+         * experience.
+         * </p>
+         * 
+         * @param e The event triggering this callback.
+         */
+        public void actionPerformed(ActionEvent e) {
+            // Check if there is an image open.
+            if (target.getImage().hasImage() == false) {
+                // There is not an image open, so display error message.
+                try {
+                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("embossErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                } catch (HeadlessException ex) {
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                    // Won't happen for our users, so just exit.
+                    System.exit(1);
+                }
+            }
+            else {
+                // There is an image open, carry on.
+                // Determine if the user wants to remove noise - ask the user.
+                boolean removeNoise = false;
+                // Determine the sobel type - ask the user.
+
+                // Set up buttons for the user to pick between a horizontal, vertical, 
+                // 'full' (orientation with no hue), or a orientation sobel filter.
+                JButton horButton = new JButton(LanguageActions.getLocaleString("hor"));
+                JButton verButton = new JButton(LanguageActions.getLocaleString("ver"));
+                JButton fullButton = new JButton(LanguageActions.getLocaleString("full"));
+                JButton orienButton = new JButton(LanguageActions.getLocaleString("orien"));
+
+                // Set up the check box to decide if we remove noise or not.
+                JCheckBox noiseBox = new JCheckBox(LanguageActions.getLocaleString("removeNoise"));
+                
+                // Add these to a panel.
+                JPanel choosePanel = new JPanel(new GridLayout(0, 1));
+                choosePanel.add(horButton);
+                choosePanel.add(verButton);
+                choosePanel.add(fullButton);
+                choosePanel.add(orienButton);
+                choosePanel.add(noiseBox);
+
+                // Copy this here so that we still have reference to the actual EditableImage.
+                EditableImage actualImage = target.getImage();
+
+                // This part updates how the image looks when each of the buttons are pressed.
+                horButton.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent ce) {
+                        // Create a deep copy of the editable image (so that we don't change the actual editable image)
+                        EditableImage copyImage = actualImage.deepCopyEditableImage();
+                        // Set the target to have this new copy of the actual image.
+                        target.setImage(copyImage);
+                        // Apply the sobel to the image.
+                        target.getImage().apply(new SobelHorizontalFilter(noiseBox.isSelected()));
+                        target.repaint();
+                        target.getParent().revalidate();
+                        // Update what our sobel type is.
+                        sobelType = 1;
+                    }
+                });
+                verButton.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent ce) {
+                        // Create a deep copy of the editable image (so that we don't change the actual editable image)
+                        EditableImage copyImage = actualImage.deepCopyEditableImage();
+                        // Set the target to have this new copy of the actual image.
+                        target.setImage(copyImage);
+                        // Apply the sobel to the image.
+                        target.getImage().apply(new SobelVerticalFilter(noiseBox.isSelected()));
+                        target.repaint();
+                        target.getParent().revalidate();
+                        // Update what our sobel type is.
+                        sobelType = 2;
+                    }
+                });
+                fullButton.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent ce) {
+                        // Create a deep copy of the editable image (so that we don't change the actual editable image)
+                        EditableImage copyImage = actualImage.deepCopyEditableImage();
+                        // Set the target to have this new copy of the actual image.
+                        target.setImage(copyImage);
+                        // Apply the sobel to the image.
+                        target.getImage().apply(new SobelOrientationFilter(noiseBox.isSelected(), false));
+                        target.repaint();
+                        target.getParent().revalidate();
+                        // Update what our sobel type is.
+                        sobelType = 3;
+                    }
+                });
+                orienButton.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent ce) {
+                        // Create a deep copy of the editable image (so that we don't change the actual editable image)
+                        EditableImage copyImage = actualImage.deepCopyEditableImage();
+                        // Set the target to have this new copy of the actual image.
+                        target.setImage(copyImage);
+                        // Apply the sobel to the image.
+                        target.getImage().apply(new SobelOrientationFilter(noiseBox.isSelected(), true));
+                        target.repaint();
+                        target.getParent().revalidate();
+                        // Update what our sobel type is.
+                        sobelType = 4;
+                    }
+                });
+
+                // Ask user for these values with an option dialogue.
+                try {
+                    int option = JOptionPane.showOptionDialog(null, choosePanel, LanguageActions.getLocaleString("embossSlid"),
+                            JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+                    if (option == JOptionPane.CANCEL_OPTION || option == JOptionPane.CLOSED_OPTION) {
+                        // Set the image in target back to the actual image and repaint.
+                        target.setImage(actualImage);
+                        target.repaint();
+                        target.getParent().revalidate();
+                        return;
+                    }
+                    if (option == JOptionPane.OK_OPTION) {
+                        // Set the image in the target back to the actual image.
+                        target.setImage(actualImage);
+                        removeNoise = noiseBox.isSelected();
+                    }
+                } catch (HeadlessException ex) {
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                    // Won't happen for our users, so just exit.
+                    System.exit(1);
+                }
+                // Create and apply the filter. This depends on the last button pressed.
+                if (sobelType == 1) {
+                    target.getImage().apply(new SobelHorizontalFilter(removeNoise));
+                }
+                else if (sobelType == 2) {
+                    target.getImage().apply(new SobelVerticalFilter(removeNoise));
+                }
+                else if (sobelType == 3) {
+                    target.getImage().apply(new SobelOrientationFilter(removeNoise, false));
+                }
+                else if (sobelType == 4) {
+                    target.getImage().apply(new SobelOrientationFilter(removeNoise, true));
+                }  
+                target.repaint();
+                target.getParent().revalidate();
+            }
+        }
+              
+    }
+
+    /**
+     * <p>
      * Action to emboss an image with an emboss filter.
      * </p>
      * 
@@ -876,7 +1067,6 @@ public class FilterActions {
                         if (jslider.getValue() == 0) { // No change to apply.
                             return;
                         }
-                        //target.getImage().apply(new EmbossFilter(removeNoise2, (int)jslider.getValue()));
                         target.getImage().apply(new EmbossFilter(noiseBox.isSelected(), (int)jslider.getValue()));
                         target.repaint();
                         target.getParent().revalidate();
@@ -911,7 +1101,7 @@ public class FilterActions {
                     // Won't happen for our users, so just exit.
                     System.exit(1);
                 }
-                // Create and apply the filter. This will automatically get rid of noise.
+                // Create and apply the filter.
                 target.getImage().apply(new EmbossFilter(removeNoise, embossType));
                 target.repaint();
                 target.getParent().revalidate();

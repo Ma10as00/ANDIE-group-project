@@ -6,7 +6,7 @@ import java.awt.image.*;
 
 
 
-public class RegionSelection implements ImageOperation {
+public class RegionSelection implements ImageOperation, java.io.Serializable  {
     int lX, lY, rX, rY;
     int width, height;  
 

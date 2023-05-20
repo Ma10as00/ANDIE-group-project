@@ -20,15 +20,26 @@ import java.awt.image.*;
  * 
  * @author Katie Wink
  */
-public class RegionCrop implements ImageOperation {
-    Rectangle r;
+public class RegionCrop implements ImageOperation, java.io.Serializable {
+
+    /*
+     * This stores the x and y coordinates of the upper-left corner of the region selected, 
+     * as well as the width and height of that region.
+     */
+    private Rectangle r;
 
     /**
-     * Stores the x and y values and then uses them to calculate the width anbd
-     * heigh of the new subImage
+     * <p>
+     * Construct a new RegionCrop.
+     * </p>
      * 
+     * <p>
+     * RegionCrop crops an image to the region that has been selected as a rectangle.
+     * </p>
+     * 
+     * @param rect The {@link Rectangle} of the region selected that we would like the image to be cropped to.
      */
-    RegionCrop(Rectangle rect) {
+    public RegionCrop(Rectangle rect) {
         r = rect;
     }
 

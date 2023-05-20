@@ -2,10 +2,7 @@ package cosc202.andie;
 
 import java.util.*;
 import java.awt.event.*;
-import java.awt.image.RasterFormatException;
-
 import javax.swing.*;
-
 import java.awt.HeadlessException;
 import java.awt.Toolkit;
 
@@ -40,25 +37,14 @@ public class EditActions {
     /** An instance of RedoAction to be used in renderToolbar. */
     protected RedoAction redoAction;
 
-    /** An instance of CropAction to be used in renderToolbar. */
-    protected RegionCropAction cropAction;
-
-    /**
-     * The main GUI frame. Only here so that we can pack the
-     * frame when we undo or redo operations to an image.
-     */
-    private JFrame frame;
-
     /**
      * <p>
      * Create a set of Edit menu actions.
      * </p>
      * 
-     * @param frame the main GUI frame from which we will apply FileActions.
      */
-    public EditActions(JFrame frame) {
+    public EditActions() {
         actions = new ArrayList<Action>();
-        this.frame = frame;
         this.undoAction = new UndoAction(LanguageActions.getLocaleString("undo"), null,
                 LanguageActions.getLocaleString("undoDes"), Integer.valueOf(KeyEvent.VK_Z));
         this.redoAction = new RedoAction(LanguageActions.getLocaleString("redo"), null,
@@ -67,10 +53,6 @@ public class EditActions {
         actions.add(this.redoAction);
         actions.add(new UndoAllAction(LanguageActions.getLocaleString("undoAll"), null,
                 LanguageActions.getLocaleString("undoAllDes"), Integer.valueOf(KeyEvent.VK_A)));
-        this.cropAction = new RegionCropAction(LanguageActions.getLocaleString("crop"), null,
-                LanguageActions.getLocaleString("regionCropDesc"), Integer.valueOf(KeyEvent.VK_I));
-        actions.add(this.cropAction);
-
     }
 
     /**
@@ -157,18 +139,9 @@ public class EditActions {
                     // Note, we are also checking if any of the undone operations was a resize or
                     // rotation
                     // to decide whether the frame should be packed.
-                    int resizeOrRotate = target.getImage().undo();
+                    target.getImage().undo();
                     target.repaint();
                     target.getParent().revalidate();
-                    if (resizeOrRotate == 1) {
-                        // The undone operation was a resize.
-                        // Reset the zoom of the image.
-                        target.setZoom(100);
-                        // Pack the main GUI frame to the size of the image.
-                        frame.pack();
-                        // Make main GUI frame centered on screen.
-                        frame.setLocationRelativeTo(null);
-                    }
                 }
             } catch (HeadlessException ex) {
                 // Headless exception, thrown when the code is dependent on a keyboard or mouse.
@@ -244,18 +217,9 @@ public class EditActions {
                     // so carry on.
                     // Note, we are also checking if the undone operation was a resize or rotation
                     // to decide whether the frame should be packed.
-                    int resizeOrRotate = target.getImage().undoAll();
+                    target.getImage().undoAll();
                     target.repaint();
                     target.getParent().revalidate();
-                    if (resizeOrRotate == 1) {
-                        // The undone operation was a resize.
-                        // Reset the zoom of the image.
-                        target.setZoom(100);
-                        // Pack the main GUI frame to the size of the image.
-                        frame.pack();
-                        // Make main GUI frame centered on screen.
-                        frame.setLocationRelativeTo(null);
-                    }
                 }
             } catch (HeadlessException ex) {
                 // Headless exception, thrown when the code is dependent on a keyboard or mouse.
@@ -331,18 +295,9 @@ public class EditActions {
                     // There is an image open, and operations to redo, carry on.
                     // Note, we are also checking if the redone operation was a resize or rotation
                     // to decide whether the frame should be packed.
-                    int resizeOrRotate = target.getImage().redo();
+                    target.getImage().redo();
                     target.repaint();
                     target.getParent().revalidate();
-                    if (resizeOrRotate == 1) {
-                        // The redone operation was a resize.
-                        // Reset the zoom of the image.
-                        target.setZoom(100);
-                        // Pack the main GUI frame to the size of the image.
-                        frame.pack();
-                        // Make main GUI frame centered on screen.
-                        frame.setLocationRelativeTo(null);
-                    }
                 }
             } catch (HeadlessException ex) {
                 // Headless exception, thrown when the code is dependent on a keyboard or mouse.
@@ -350,87 +305,6 @@ public class EditActions {
                 System.exit(1);
             }
         }
-    }
-
-    /**
-     * <p>
-     * Accessor method to return CropAction as a single action.
-     * </p>
-     * 
-     * @return an instance of CropAction.
-     */
-    public RegionCropAction getCropAction() {
-        return this.cropAction;
-    }
-
-    /**
-     * <p>
-     * Action to crop a selected region
-     * </p>
-     * 
-     * @see RegionCrop
-     */
-    public class RegionCropAction extends ImageAction {
-
-        /**
-         * <p>
-         * Create a new crop action.
-         * </p>
-         * 
-         * @param name     The name of the action (ignored if null).
-         * @param icon     An icon to use to represent the action (ignored if null).
-         * @param desc     A brief description of the action (ignored if null).
-         * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
-         */
-        RegionCropAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
-            super(name, icon, desc, mnemonic);
-            this.putValue(Action.ACCELERATOR_KEY,
-                    KeyStroke.getKeyStroke(KeyEvent.VK_I, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
-        }
-
-        /**
-         * <p>
-         * Callback for when the crop action is triggered.
-         * </p>
-         * 
-         * <p>
-         * This method is called whenever the RegionCrop is triggered.
-         * It will crop the selected region and then reset the selected region
-         * </p>
-         * 
-         * @param e The event triggering this callback.
-         */
-        public void actionPerformed(ActionEvent e) {
-            try {
-                try {
-                    target.getImage().apply(new RegionCrop(ImagePanel.rect));
-                    ImagePanel.rect = null;
-                    target.repaint();
-                    target.getParent().revalidate();
-                    target.repaint();
-                    ImagePanel.enterX = 0;
-                    ImagePanel.enterY = 0;
-                    ImagePanel.exitX = 0;
-                    ImagePanel.exitY = 0;
-                    target.getParent().revalidate();
-                    // Reset the zoom of the image.
-                    target.setZoom(100);
-                    // Pack the main GUI frame to the size of the image.
-                    frame.pack();
-                    // Make main GUI frame centered on screen.
-                    frame.setLocationRelativeTo(null);
-                } catch (RasterFormatException ex) {
-                    // Trying to crop when there is no region selected
-                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("cropErrorNoSelectedRegion"),
-                            LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
-                }
-            } catch (NullPointerException exception) {
-                // Trying to crop when there is no image
-                JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("cropError"),
-                        LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
-            }
-        }
-
     }
 
 }

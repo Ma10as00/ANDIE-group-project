@@ -7,7 +7,7 @@ import java.awt.Color;
 import java.awt.RenderingHints;
 import java.awt.Point;
 
-public class DrawCircle implements ImageOperation {
+public class DrawCircle implements ImageOperation, java.io.Serializable  {
 
     private Point start;
     private Point end;

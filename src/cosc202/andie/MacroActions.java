@@ -11,12 +11,15 @@ import java.nio.file.*;
 import javax.swing.*;
 
 /**
+ * <p>
  * Class keeping track of all the {@link ImageAction}s concerning macros, and providing a drop-down menu to the GUI.
+ * </p>
+ * 
  * <p>
  * Actions involve letting the user record the operations they apply to their image, and save them in a {@link Macro} for reuse.
+ * </p>
  * 
- * 
- * @author Mathias Øgaard 
+ * @author Mathias Øgaard (Modified by Stella Srzich)
  */
 public class MacroActions{
 
@@ -24,21 +27,14 @@ public class MacroActions{
      * A list of actions for the Macro menu.
      */
     public ArrayList<Action> actions;    
-    
-    /** 
-    * The main GUI frame. Only here so that we can pack the 
-    * frame when we rotate an image.
-    */
-   private JFrame frame;
 
     /**
      * <p>
      * Constructs the list of macro actions.
      * </p>
      */
-    public MacroActions(JFrame frame){
+    public MacroActions(){
         actions = new ArrayList<Action>();
-        this.frame = frame;
         actions.add(new StartRecordingAction(LanguageActions.getLocaleString("initrecord"), null, LanguageActions.getLocaleString("initrecorddesc"), Integer.valueOf(KeyEvent.VK_8)));
         actions.add(new StopRecordingAction(LanguageActions.getLocaleString("endrecord"), null, LanguageActions.getLocaleString("endrecorddesc"), Integer.valueOf(KeyEvent.VK_9)));
         actions.add(new ApplyMacroAction(LanguageActions.getLocaleString("applymacro"), null, LanguageActions.getLocaleString("applymacrodesc"), Integer.valueOf(KeyEvent.VK_L)));
@@ -104,7 +100,6 @@ public class MacroActions{
                 isOpsFile = false;
             }
         }
-
         return isOpsFile;
     }
 
@@ -139,11 +134,14 @@ public class MacroActions{
     }
 
     /**
+     * <p>
      * Action for starting a recording of {@link ImageOperation}s.
+     * </p>
+     * 
      * <p>
      * The recording should take note of all operations that the user applies to the image, and put them into an ordered {@link java.awt.List}.
-     * <p>
      * When performed, this should add an {@link OperationRecorder} to the target {@link ImagePanel}, and show the user that a recording is initiated.
+     * </p>
      * 
      * @author Mathias Øgaard
      */
@@ -160,14 +158,30 @@ public class MacroActions{
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            // Check if there is an image open.
+            if (!target.getImage().hasImage()) {
+                // There is not an image open, don't allow the user to initiate a recording.
+                try {
+                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("macroImageErr"), 
+                        LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                    return;
+                } catch (HeadlessException ex) {
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse.
+                    // Won't happen for our users, so just exit.
+                    System.exit(1);
+                }
+            }
+            // Check if a macro recording is ongoing.
             if (target.ongoingRecording){
-                JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("recorderror"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("recorderror"), 
+                        LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 return;
             }
             IOperationRecorder rec = new OperationRecorder();
             target.getImage().addPropertyChangeListener("ops",rec);
             target.ongoingRecording = true;
-            // TODO Add some graphics to show the user that recording has started.
+            
+            // TO DO Add some graphics to show the user that recording has started.
         }
         
     }
@@ -200,53 +214,43 @@ public class MacroActions{
 
         @Override
         public void actionPerformed(ActionEvent e) {
-
             EditableImage targetImage = target.getImage();
 
-            // Retrieve the recording from the ImagePanel -------------------------
+            // Retrieve the recording from the ImagePanel.
             if(!targetImage.hasListeners("ops")){
                 JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("stoprecorderror"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
             }
-            
             PropertyChangeListener[] plcs = targetImage.getPropertyChangeListeners("ops");
-
             if (plcs.length > 1){
                 throw new UnsupportedOperationException("Couldn't finnish recording because there are more than one PropertyChangeListeners.");
             }
             if (!(plcs[0] instanceof IOperationRecorder)){
                 throw new ClassCastException("Unknown PropertyChangeListener. Was not instance of IOperationRecorder.");
             }
-
             IOperationRecorder rec = (IOperationRecorder) plcs[0];
-            //---------------------------------------------------------------------
 
-            //If no operations were recorded, ask user if they really want to stop the recording
+            // If no operations were recorded, ask user if they really want to stop the recording.
             if(rec.getOps().size() < 1){
                 int choice = JOptionPane.showOptionDialog(null,LanguageActions.getLocaleString("norecord"), LanguageActions.getLocaleString("error"), 
                                                             JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
                 if (choice == JOptionPane.NO_OPTION)
                     return;
             }
-            //----------------------------------------------------------------------
 
-
-            // Build Macro based on the recording ----------------------------------
+            // Build Macro based on the recording.
             IMacro m = new Macro();
             for(int i=0; i<rec.getOps().size(); i++){
                 ImageOperation currentOp = rec.getOps().get(i);
                 m.addOp(currentOp);
             }
-            //----------------------------------------------------------------------
-            
 
-            // Close recording -----------------------------------------------------
+            // Close recording.
             targetImage.removePropertyChangeListener("ops",rec);
             target.ongoingRecording = false;
-            // TODO Remove any graphics indicating an ongoing recording
-            //----------------------------------------------------------------------
 
+            // TO DO Remove any graphics indicating an ongoing recording
 
-            // Give the user an option to save the macro ---------------------------
+            // Give the user an option to save the macro.
             try {
                 int saveOrNot = JOptionPane.showOptionDialog(null, LanguageActions.getLocaleString("wantsave") + System.lineSeparator() + m, LanguageActions.getLocaleString("save"), 
                                                                 JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
@@ -261,7 +265,6 @@ public class MacroActions{
             } catch (HeadlessException he) {
                 System.exit(1);
             } 
-            //-----------------------------------------------------------------------
         }
 
         /**
@@ -290,6 +293,8 @@ public class MacroActions{
             // There is an image open, carry on.
             JFileChooser fileChooser = new JFileChooser();
             int result = fileChooser.showSaveDialog(target);
+            // This is used to keep track of if the user wants to override a file.
+            boolean override = true;
             if (result == JFileChooser.APPROVE_OPTION) {
                 try {                        
                     String opsFilepath = fileChooser.getSelectedFile().getCanonicalPath();
@@ -300,9 +305,8 @@ public class MacroActions{
                         // We return false as the user probably doesn't want to lose the recorded macros.
                         return false;
                     }
-
                     // Check that the ops file name does not describe an image that already exists.
-                    if (isExistingFilename(opsFilepath)) {
+                    else if (isExistingFilename(opsFilepath)) {
                         // The ops file name already describes another file name. 
                         // Ask user if they want to override or cancel.
                         int option = JOptionPane.showConfirmDialog(null, LanguageActions.getLocaleString("warningAnotherFile"), LanguageActions.getLocaleString("warning"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
@@ -311,14 +315,16 @@ public class MacroActions{
                             return false;
                         }
                     }
-                    // Save the ops file.
-                    FileOutputStream fileOut = new FileOutputStream(opsFilepath);
-                    ObjectOutputStream objOut = new ObjectOutputStream(fileOut);
-                    objOut.writeObject(m);
-                    objOut.close();
-                    fileOut.close();
-                    // At this point, the macro is succsefully saved. Return true.
-                    return true;
+                    if (override) {
+                        // Save the ops file.
+                        FileOutputStream fileOut = new FileOutputStream(opsFilepath);
+                        ObjectOutputStream objOut = new ObjectOutputStream(fileOut);
+                        objOut.writeObject(m);
+                        objOut.close();
+                        fileOut.close();
+                        // At this point, the macro is succsefully saved. Return true.
+                        return true;
+                    }
                 } catch (HeadlessException eh) {
                     // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
                     // Won't happen for our users, so just exit.
@@ -346,10 +352,14 @@ public class MacroActions{
     }
 
     /**
+     * <p>
      * Action for loading a {@link IMacro} from a file, and apply it to the target image.
+     * </p>
+     * 
      * <p>
      * If there is an active {@link IOperationRecorder}, all the operations from this {@link IMacro} should be added to the recording in the correct order.
-     * <p>
+     * </p>
+     * 
      * @author Mathias Øgaard
      */
     public class ApplyMacroAction extends ImageAction{
@@ -361,6 +371,18 @@ public class MacroActions{
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            // We loop until the file is successfully opened or the user actively cancelled,
+            // just in case they clicked the wrong file name but don't want to have to click apply macro again.
+            boolean done = false;
+            while(!done) {
+                done = openMacro();
+            }
+        }
+
+        /**
+         * This is a support method to open an {@link Macro}.
+         */
+        private boolean openMacro() {
             // Check if there is an image to export
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
@@ -371,7 +393,8 @@ public class MacroActions{
                     // Won't happen for our users, so just exit.
                     System.exit(1);
                 }
-                return;
+                // No image was open, so don't ask them to open another macro.
+                return true;
             }
 
             // User has an image open, so we can apply macros.
@@ -386,7 +409,8 @@ public class MacroActions{
                     if (isValidOpsName(opsFilepath) == false) {
                         // The ops file name is not valid. Show error message and do not open.
                         JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("errorNotOps"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
-                        return;
+                        // The file opened was not a macro file. Allow the user to try again.
+                        return false;
                     }
                     File macroFile = fileChooser.getSelectedFile();
                     // Apply the ops file.
@@ -395,21 +419,14 @@ public class MacroActions{
                         ObjectInputStream objIn = new ObjectInputStream(fileIn);
     
                         Object obj = objIn.readObject(); 
-                        if(obj instanceof IMacro){
+                        if (obj instanceof IMacro) {
                             IMacro macro = (IMacro) obj;
                             target.getImage().apply(macro);
                             
                             ImagePanel.rect = null; 
                             target.repaint();
                             target.getParent().revalidate();
-                            // Reset the zoom of the image.
-                            target.setZoom(100);
-                            // Pack the main GUI frame to the size of the newly opened image.
-                            frame.pack();
-                            // Make main GUI frame centered on screen
-                            frame.setLocationRelativeTo(null);
-    
-                        }else{
+                        } else {
                             JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("filenomacro"), LanguageActions.getLocaleString("invalidfile"), JOptionPane.ERROR_MESSAGE);
                         }
                         objIn.close();
@@ -434,6 +451,9 @@ public class MacroActions{
                     }
                 }
             }
+            // There was either an error opening the .ops file, or the user sucessfully opened an .ops file,
+            // or the user clicked cancel. So, don't make the user try again.
+            return true;
         }
     }
 }

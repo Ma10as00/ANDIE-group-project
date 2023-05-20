@@ -5,9 +5,13 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 /**
+ * <p>
  * Implementation of an IMacro, keeping the "child operations" in an {@link ArrayList}.
+ * </p>
+ * 
  * <p>
  * This class also provides a toString() method, printing out all operations that are contained in the Macro.
+ * </p>
  * 
  * @author Mathias Øgaard
  */
