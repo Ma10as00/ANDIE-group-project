@@ -24,9 +24,9 @@ public class DrawLine implements ImageOperation, java.io.Serializable {
      * @param col   the color we want the line to be
      * @param width the brush size
      */
-    DrawLine(Point[] l, Color col, int width) {
+    DrawLine(Point[] l, Color userColour, int width) {
         positions = l;
-        this.col = col;
+        col = userColour;
         this.width = width;
     }
 

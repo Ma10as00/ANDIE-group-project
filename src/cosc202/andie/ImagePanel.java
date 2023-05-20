@@ -33,7 +33,7 @@ public class ImagePanel extends JPanel {
      * The image to display in the ImagePanel.
      */
     private EditableImage image;
-    
+
     /**
      * Imports a Mouse Handler.
      */
@@ -43,7 +43,7 @@ public class ImagePanel extends JPanel {
      * Storing variables of mouse clicks and drags.
      */
     public static int enterX, enterY, exitX, exitY, width, height, clickX, clickY;
-    
+
     /**
      * Storing the rectangle the is selected.
      */
@@ -62,8 +62,11 @@ public class ImagePanel extends JPanel {
 
     public Point enter;
     public Point exit;
+    public Point current;
+    public Point last;
     public boolean circle;
 
+    public Point[] positions = null;
     /**
      * <p>
      * The zoom-level of the current view.
@@ -166,6 +169,7 @@ public class ImagePanel extends JPanel {
                 rect = new Rectangle(Math.min(enterX, exitX), Math.min(enterY, exitY), Math.abs(exitX - enterX),
                         Math.abs(exitY - enterY));
                 circle = true;
+                // Point[] positions;
                 repaint();
             }
 
@@ -188,9 +192,13 @@ public class ImagePanel extends JPanel {
                     image.apply(new DrawCircle(enter, exit));
                     circle = false;
                 }
-                if (tool == drawLine) {
+                // if (tool == drawLine) {
+                // Point[] poitions;
+                // for(int )
 
-                }
+                // image.apply(new DrawLine(DrawActions.userColour, width))
+
+                // }
             }
         });
 
@@ -352,6 +360,10 @@ public class ImagePanel extends JPanel {
                         Math.abs((exitX - 20) - (enterX - 20)),
                         Math.abs((exitY - 20) - (enterY - 20)));
             }
+            // if (positions != null && getTool() == 3) {
+            // g2d.setColor(DrawActions.userColour);
+            // g2d.drawLine(current.x, current.y, last.x, last.y);
+            // }
         }
     }
 
