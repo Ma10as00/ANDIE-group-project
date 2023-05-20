@@ -158,11 +158,22 @@ public class Andie {
         JMenuBar menuBar = new JMenuBar();
         setMenuBackground(menuBar);
 
+        // Add the left-aligned menus.
+
         // File menus are pretty standard, so things that usually go in File menus go
         // here. We pass a frame so that when we open an image, the frame is packed to
         // the new image size.
         FileActions fileActions = new FileActions(frame);
         menuBar.add(fileActions.createMenu());
+
+        // Ability to change the language from a set of included language bundles.
+        LanguageActions languageActions = new LanguageActions();
+        menuBar.add(languageActions.createMenu());
+
+        // View actions control how the image is displayed, its zoom, but do not alter
+        // its actual content
+        ViewActions viewActions = new ViewActions();
+        menuBar.add(viewActions.createMenu());
 
         // Likewise Edit menus are very common, so should be clear what might go here.
         // We pass a frame so that when we undo or redo operations on an image, possiby
@@ -170,14 +181,11 @@ public class Andie {
         EditActions editActions = new EditActions(frame);
         menuBar.add(editActions.createMenu());
 
-        // View actions control how the image is displayed, its zoom, but do not alter
-        // its actual content
-        ViewActions viewActions = new ViewActions();
-        menuBar.add(viewActions.createMenu());
+        // Add the right aligned menus.
+        menuBar.add(Box.createHorizontalGlue());
 
         // Orientation actions change the orientation of the image, altering its
-        // content.
-        // We pass a frame so that when we rotate an image, possiby changing its size
+        // content. We pass a frame so that when we rotate an image, possiby changing its size
         // the frame is packed to the new image size.
         OrientationActions orientationActions = new OrientationActions(frame);
         menuBar.add(orientationActions.createMenu());
@@ -188,32 +196,27 @@ public class Andie {
         ResizeActions resizeActions = new ResizeActions(frame);
         menuBar.add(resizeActions.createMenu());
 
-        // Filters apply a per-pixel operation to the image, generally based on a local
-        // window.
-        FilterActions filterActions = new FilterActions();
-        menuBar.add(filterActions.createMenu());
-
         // Actions that affect the representation of colour in the image.
         ColourActions colourActions = new ColourActions();
         menuBar.add(colourActions.createMenu());
 
-        // Macro actions can record what operations are applied to the image, and put
-        // them together into macros.
-        // We pass a frame so that when we resize an image, the frame is packed to the
-        // new image size.
-        MacroActions macroActions = new MacroActions(frame);
-        menuBar.add(macroActions.createMenu());
+        // Filter actions apply a per-pixel operation to the image, generally based on a local window.
+        FilterActions filterActions = new FilterActions();
+        menuBar.add(filterActions.createMenu());
 
-        // Ability to change the language from a set of included language bundles.
-        LanguageActions languageActions = new LanguageActions();
-        menuBar.add(languageActions.createMenu());
-
-        // Drawing action to edit the image with crop or draw a line, rectangle or cirlce.
+        // Draw actions to edit the image with crop or draw a line, rectangle or cirlce.
         // We pass a frame so that when we resize an image, the frame is packed to the
         // new image size.
         DrawActions drawAction = new DrawActions(frame);
         menuBar.add(drawAction.createMenu());
 
+        // Macro actions can record what operations are applied to the image, and put
+        // them together into macros. We pass a frame so that when we resize an image, the frame is packed to the
+        // new image size.
+        MacroActions macroActions = new MacroActions(frame);
+        menuBar.add(macroActions.createMenu());
+
+        // Change the colour depending on the mode.
         if (Andie.darkMode) {
             menuBar.setBackground(Color.darkGray);
             menuBar.setForeground(Color.WHITE);
@@ -222,6 +225,7 @@ public class Andie {
         menuBar.setOpaque(true);
         frame.setJMenuBar(menuBar);
         frame.pack();
+
         // Update the title of the main GUI.
         if (imagePanel.getImage().hasImage()) {
             imagePanel.getImage().updateFrameTitle();
@@ -321,8 +325,12 @@ public class Andie {
         // Adds a separator to the toolbar.
         toolbar.addSeparator();
 
-        // Adds select tool to the toolbar.
+        // Adds the crop button to the toolbar.
         DrawActions drawActions = new DrawActions(frame);
+        button = createButton(drawActions.getCropAction(), "");
+        toolbar.add(button);
+
+        // Adds select tool to the toolbar.
         button = createButton(drawActions.getSelectAction(), "");
         toolbar.add(button);
 
@@ -330,9 +338,6 @@ public class Andie {
         button = createButton(drawActions.getPickColourAction(), "");
         toolbar.add(button);
 
-        // Adds the crop button to the toolbar.
-        button = createButton(drawActions.getCropAction(), "");
-        toolbar.add(button);
 
         frame.pack();
     }
