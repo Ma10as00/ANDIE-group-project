@@ -27,21 +27,14 @@ public class MacroActions{
      * A list of actions for the Macro menu.
      */
     public ArrayList<Action> actions;    
-    
-    /** 
-    * The main GUI frame. Only here so that we can pack the 
-    * frame when we rotate an image.
-    */
-   private JFrame frame;
 
     /**
      * <p>
      * Constructs the list of macro actions.
      * </p>
      */
-    public MacroActions(JFrame frame){
+    public MacroActions(){
         actions = new ArrayList<Action>();
-        this.frame = frame;
         actions.add(new StartRecordingAction(LanguageActions.getLocaleString("initrecord"), null, LanguageActions.getLocaleString("initrecorddesc"), Integer.valueOf(KeyEvent.VK_8)));
         actions.add(new StopRecordingAction(LanguageActions.getLocaleString("endrecord"), null, LanguageActions.getLocaleString("endrecorddesc"), Integer.valueOf(KeyEvent.VK_9)));
         actions.add(new ApplyMacroAction(LanguageActions.getLocaleString("applymacro"), null, LanguageActions.getLocaleString("applymacrodesc"), Integer.valueOf(KeyEvent.VK_L)));
@@ -433,13 +426,6 @@ public class MacroActions{
                             ImagePanel.rect = null; 
                             target.repaint();
                             target.getParent().revalidate();
-                            // Reset the zoom of the image.
-                            target.setZoom(100);
-                            // Pack the main GUI frame to the size of the newly opened image.
-                            frame.pack();
-                            // Make main GUI frame centered on screen
-                            frame.setLocationRelativeTo(null);
-    
                         } else {
                             JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("filenomacro"), LanguageActions.getLocaleString("invalidfile"), JOptionPane.ERROR_MESSAGE);
                         }

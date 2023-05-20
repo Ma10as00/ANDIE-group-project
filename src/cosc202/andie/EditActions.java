@@ -38,21 +38,13 @@ public class EditActions {
     protected RedoAction redoAction;
 
     /**
-     * The main GUI frame. Only here so that we can pack the
-     * frame when we undo or redo operations to an image.
-     */
-    private JFrame frame;
-
-    /**
      * <p>
      * Create a set of Edit menu actions.
      * </p>
      * 
-     * @param frame the main GUI frame from which we will apply FileActions.
      */
-    public EditActions(JFrame frame) {
+    public EditActions() {
         actions = new ArrayList<Action>();
-        this.frame = frame;
         this.undoAction = new UndoAction(LanguageActions.getLocaleString("undo"), null,
                 LanguageActions.getLocaleString("undoDes"), Integer.valueOf(KeyEvent.VK_Z));
         this.redoAction = new RedoAction(LanguageActions.getLocaleString("redo"), null,
@@ -147,18 +139,9 @@ public class EditActions {
                     // Note, we are also checking if any of the undone operations was a resize or
                     // rotation
                     // to decide whether the frame should be packed.
-                    int resizeOrRotate = target.getImage().undo();
+                    target.getImage().undo();
                     target.repaint();
                     target.getParent().revalidate();
-                    if (resizeOrRotate == 1) {
-                        // The undone operation was a resize.
-                        // Reset the zoom of the image.
-                        target.setZoom(100);
-                        // Pack the main GUI frame to the size of the image.
-                        frame.pack();
-                        // Make main GUI frame centered on screen.
-                        frame.setLocationRelativeTo(null);
-                    }
                 }
             } catch (HeadlessException ex) {
                 // Headless exception, thrown when the code is dependent on a keyboard or mouse.
@@ -234,18 +217,9 @@ public class EditActions {
                     // so carry on.
                     // Note, we are also checking if the undone operation was a resize or rotation
                     // to decide whether the frame should be packed.
-                    int resizeOrRotate = target.getImage().undoAll();
+                    target.getImage().undoAll();
                     target.repaint();
                     target.getParent().revalidate();
-                    if (resizeOrRotate == 1) {
-                        // The undone operation was a resize.
-                        // Reset the zoom of the image.
-                        target.setZoom(100);
-                        // Pack the main GUI frame to the size of the image.
-                        frame.pack();
-                        // Make main GUI frame centered on screen.
-                        frame.setLocationRelativeTo(null);
-                    }
                 }
             } catch (HeadlessException ex) {
                 // Headless exception, thrown when the code is dependent on a keyboard or mouse.
@@ -321,18 +295,9 @@ public class EditActions {
                     // There is an image open, and operations to redo, carry on.
                     // Note, we are also checking if the redone operation was a resize or rotation
                     // to decide whether the frame should be packed.
-                    int resizeOrRotate = target.getImage().redo();
+                    target.getImage().redo();
                     target.repaint();
                     target.getParent().revalidate();
-                    if (resizeOrRotate == 1) {
-                        // The redone operation was a resize.
-                        // Reset the zoom of the image.
-                        target.setZoom(100);
-                        // Pack the main GUI frame to the size of the image.
-                        frame.pack();
-                        // Make main GUI frame centered on screen.
-                        frame.setLocationRelativeTo(null);
-                    }
                 }
             } catch (HeadlessException ex) {
                 // Headless exception, thrown when the code is dependent on a keyboard or mouse.

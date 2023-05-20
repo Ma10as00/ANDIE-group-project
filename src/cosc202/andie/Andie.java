@@ -100,7 +100,6 @@ public class Andie {
 
         // Set up the main GUI frame.
         frame = new JFrame("ANDIE");
-
         Image image = ImageIO.read(Andie.class.getClassLoader().getResource("icon.png"));
         frame.setIconImage(image);
         // Changed default close operation to DO_NOTHING_ON_CLOSE
@@ -119,7 +118,11 @@ public class Andie {
         // The main content area is an ImagePanel.
         imagePanel = new ImagePanel(frame);
         ImageAction.setTarget(imagePanel);
-        JScrollPane scrollPane = new JScrollPane(imagePanel);
+
+        // Create another panel to hold the image panel.
+        JPanel outerPanel = new JPanel();
+        outerPanel.add(imagePanel);
+        JScrollPane scrollPane = new JScrollPane(outerPanel);
         frame.add(scrollPane, BorderLayout.CENTER);
 
         try {
@@ -194,24 +197,19 @@ public class Andie {
         menuBar.add(viewActions.createMenu());
 
         // Likewise Edit menus are very common, so should be clear what might go here.
-        // We pass a frame so that when we undo or redo operations on an image, possiby
-        // changing its size the frame is packed to the new image size.
-        EditActions editActions = new EditActions(frame);
+        EditActions editActions = new EditActions();
         menuBar.add(editActions.createMenu());
 
         // Add the right aligned menus.
         menuBar.add(Box.createHorizontalGlue());
 
         // Orientation actions change the orientation of the image, altering its
-        // content. We pass a frame so that when we rotate an image, possiby changing its size
-        // the frame is packed to the new image size.
-        OrientationActions orientationActions = new OrientationActions(frame);
+        // content. 
+        OrientationActions orientationActions = new OrientationActions();
         menuBar.add(orientationActions.createMenu());
 
         // Resize actions change the size of the image, altering its content.
-        // We pass a frame so that when we resize an image, the frame is packed to the
-        // new image size.
-        ResizeActions resizeActions = new ResizeActions(frame);
+        ResizeActions resizeActions = new ResizeActions();
         menuBar.add(resizeActions.createMenu());
 
         // Actions that affect the representation of colour in the image.
@@ -223,15 +221,12 @@ public class Andie {
         menuBar.add(filterActions.createMenu());
 
         // Draw actions to edit the image with crop or draw a line, rectangle or cirlce.
-        // We pass a frame so that when we resize an image, the frame is packed to the
-        // new image size.
-        DrawActions drawAction = new DrawActions(frame);
+        DrawActions drawAction = new DrawActions();
         menuBar.add(drawAction.createMenu());
 
         // Macro actions can record what operations are applied to the image, and put
-        // them together into macros. We pass a frame so that when we resize an image, the frame is packed to the
-        // new image size.
-        MacroActions macroActions = new MacroActions(frame);
+        // them together into macros.
+        MacroActions macroActions = new MacroActions();
         menuBar.add(macroActions.createMenu());
 
         // Change the colour depending on the mode.
@@ -245,7 +240,6 @@ public class Andie {
         }
         menuBar.setOpaque(true);
         frame.setJMenuBar(menuBar);
-        frame.pack();
 
         // Update the title of the main GUI.
         if (imagePanel.getImage().hasImage()) {
@@ -308,7 +302,7 @@ public class Andie {
         toolbar.addSeparator();
 
         // Adds the undo button to the toolbar.
-        EditActions editActions = new EditActions(frame);
+        EditActions editActions = new EditActions();
         button = createButton(editActions.getUndoAction(), "");
         toolbar.add(button);
 
@@ -337,7 +331,7 @@ public class Andie {
         toolbar.addSeparator();
 
         // Adds the rotate left button to the toolbar.
-        OrientationActions orientationActions = new OrientationActions(frame);
+        OrientationActions orientationActions = new OrientationActions();
         button = createButton(orientationActions.getRotateLeftAction(), "");
         toolbar.add(button);
 
@@ -349,7 +343,7 @@ public class Andie {
         toolbar.addSeparator();
 
         // Adds the crop button to the toolbar.
-        DrawActions drawActions = new DrawActions(frame);
+        DrawActions drawActions = new DrawActions();
         button = createButton(drawActions.getCropAction(), "");
         toolbar.add(button);
 
@@ -360,8 +354,6 @@ public class Andie {
         // Adds pick colour to the toolbar.
         button = createButton(drawActions.getPickColourAction(), "");
         toolbar.add(button);
-
-        frame.pack();
     }
 
     private static JButton createButton(Action action, String imagePath){
@@ -430,6 +422,10 @@ public class Andie {
 
     public static void updateDarkMode() {
         if (darkMode) {
+            JFrame.setDefaultLookAndFeelDecorated(true);
+            frame.getRootPane().putClientProperty("JRootPane.titleBarBackground", new Color(23,180,252));
+            frame.getRootPane().putClientProperty("JRootPane.titleBarForeground", Color.white);
+            JFrame.setDefaultLookAndFeelDecorated(true);
             UIManager.put("MenuItem.background", lightGrey);
             UIManager.put("MenuItem.opaque", true);
 

@@ -43,19 +43,12 @@ public class DrawActions extends JFrame {
     protected SelectAction selectAction;
 
     /**
-     * The main GUI frame. Only here so that we can pack the
-     * frame when we undo or redo operations to an image.
-     */
-    private JFrame frame;
-
-    /**
      * <p>
      * Create a set of Drawing menu actions.
      * </p>
      */
-    public DrawActions(JFrame frame) {
+    public DrawActions() {
         actions = new ArrayList<Action>();
-        this.frame = frame;
 
         // Creates an instance of select and pickColour to be used in the toolbar (not in this menu).
         this.pickColourAction = new PickColourAction(LanguageActions.getLocaleString("pickCol"), null,
@@ -353,12 +346,6 @@ public class DrawActions extends JFrame {
             ImagePanel.exitX = 0;
             ImagePanel.exitY = 0;                
             target.getParent().revalidate();
-            // Reset the zoom of the image.
-            target.setZoom(100);
-            // Pack the main GUI frame to the size of the image.
-            frame.pack();
-            // Make main GUI frame centered on screen.
-            frame.setLocationRelativeTo(null);
         }
     }
 
