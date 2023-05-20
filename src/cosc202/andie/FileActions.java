@@ -199,21 +199,23 @@ public class FileActions {
                         LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            // Check if there is an image open.
+            // Check if there is an image open and if it is unsaved.
             if (target.getImage().hasImage()) {
-                // There is an image open, warn user that any unsaved changes will be deleted.
-                try {
-                    int option = JOptionPane.showConfirmDialog(null, LanguageActions.getLocaleString("errorExit"),
-                            LanguageActions.getLocaleString("warning"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+                if (!target.getImage().opsSaved()) {
+                    // There is an image open and it is unsaved, warn user that any unsaved changes will be deleted.
+                    try {
+                        int option = JOptionPane.showConfirmDialog(null, LanguageActions.getLocaleString("errorExit"),
+                                LanguageActions.getLocaleString("warning"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
 
-                    if (option == JOptionPane.CANCEL_OPTION || option == JOptionPane.CLOSED_OPTION) {
-                        // User cancelled or closed box, don't open an image.
-                        return;
+                        if (option == JOptionPane.CANCEL_OPTION || option == JOptionPane.CLOSED_OPTION) {
+                            // User cancelled or closed box, don't open an image.
+                            return;
+                        }
+                    } catch (HeadlessException ex) {
+                        // Headless exception, thrown when the code is dependent on a keyboard or mouse.
+                        // Won't happen for our users, so just exit.
+                        System.exit(1);
                     }
-                } catch (HeadlessException ex) {
-                    // Headless exception, thrown when the code is dependent on a keyboard or mouse.
-                    // Won't happen for our users, so just exit.
-                    System.exit(1);
                 }
             }
             // User either had no image open, or had an image open but decided to still open
@@ -515,26 +517,30 @@ public class FileActions {
          * @param e The event triggering this callback.
          */
         public void actionPerformed(ActionEvent e) {
-            // Check if there is an image open.
+            // Check if there is an image open and if it is unsaved.
             if (target.getImage().hasImage()) {
-                // There is an image open, warn user that any unsaved changes will be deleted.
-                try {
-                    int option = JOptionPane.showConfirmDialog(null, LanguageActions.getLocaleString("warning"), 
-                            LanguageActions.getLocaleString("warningAddImage"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+                if (!target.getImage().opsSaved()) {
+                    // There is an image open and it is unsaved, warn user that any unsaved changes will be deleted.
+                    try {
+                        int option = JOptionPane.showConfirmDialog(null, LanguageActions.getLocaleString("warningAddImage"),
+                                LanguageActions.getLocaleString("warning"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
 
-                    if (option == JOptionPane.CANCEL_OPTION) {
-                        // User cancelled, don't exit.
-                        return;
+                        if (option == JOptionPane.CANCEL_OPTION) {
+                            // User cancelled, don't exit.
+                            return;
+                        }
+                        if (option == JOptionPane.OK_OPTION) {
+                            // User clicked ok, exit.
+                            System.exit(0);
+                        }
+                    } catch (HeadlessException ex) {
+                        // Headless exception, thrown when the code is dependent on a keyboard or mouse.
+                        // Won't happen for our users, so just exit.
+                        System.exit(1);
                     }
-                    if (option == JOptionPane.OK_OPTION) {
-                        // User clicked ok, exit.
-                        System.exit(0);
-                    }
-                } catch (HeadlessException ex) {
-                    // Headless exception, thrown when the code is dependent on a keyboard or mouse.
-                    // Won't happen for our users, so just exit.
-                    System.exit(1);
                 }
+                // If the image is saved, exit.
+                System.exit(0);
             } else {
                 // If there is no image open, exit.
                 System.exit(0);

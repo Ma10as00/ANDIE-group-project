@@ -374,20 +374,26 @@ public class Andie {
     private static void frameClosing() {
         // Check if there is an image open.
         if (imagePanel.getImage().hasImage()) {
-            // There is an image open, warn user that any unsaved changes will be deleted.
-            try {
-                int option = JOptionPane.showConfirmDialog(null, LanguageActions.getLocaleString("errorExit"),
-                        LanguageActions.getLocaleString("warning"), JOptionPane.OK_CANCEL_OPTION,
-                        JOptionPane.WARNING_MESSAGE);
-                if (option == JOptionPane.OK_OPTION) {
-                    // User clicked ok, exit.
-                    System.exit(0);
+            if (!imagePanel.getImage().opsSaved()) {
+                // There is an image open and it has unsaved operations, warn user that any unsaved changes will be deleted.
+                try {
+                    int option = JOptionPane.showConfirmDialog(null, LanguageActions.getLocaleString("errorExit"),
+                            LanguageActions.getLocaleString("warning"), JOptionPane.OK_CANCEL_OPTION,
+                            JOptionPane.WARNING_MESSAGE);
+                    if (option == JOptionPane.OK_OPTION) {
+                        // User clicked ok, exit.
+                        System.exit(0);
+                    }
+                } catch (HeadlessException ex) {
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse,
+                    // as with confrim dialog.
+                    // Won't happen for our users, so just exit.
+                    System.exit(1);
                 }
-            } catch (HeadlessException ex) {
-                // Headless exception, thrown when the code is dependent on a keyboard or mouse,
-                // as with confrim dialog.
-                // Won't happen for our users, so just exit.
-                System.exit(1);
+            }
+            else {
+                // If the image is saved, exit.
+                System.exit(0);
             }
         } else {
             // There is no image open, exit.
