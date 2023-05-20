@@ -32,6 +32,9 @@ public class Andie {
     /** An ImagePanel to disply the image currenlty being edited. */
     public static ImagePanel imagePanel;
 
+    /** The main JPanel in which the ImagePanel sits. */
+    public static JPanel outerPanel;
+
     /** A JFrame of the main GUI frame. */
     public static JFrame frame;
 
@@ -120,8 +123,10 @@ public class Andie {
         ImageAction.setTarget(imagePanel);
 
         // Create another panel to hold the image panel.
-        JPanel outerPanel = new JPanel();
-        outerPanel.add(imagePanel);
+        // Note, the imagePanel is always centered in the outerPanel, which has a scroll pane.
+        outerPanel = new JPanel();
+        outerPanel.setLayout(new GridBagLayout());
+        outerPanel.add(imagePanel, new GridBagConstraints());
         JScrollPane scrollPane = new JScrollPane(outerPanel);
         frame.add(scrollPane, BorderLayout.CENTER);
 
