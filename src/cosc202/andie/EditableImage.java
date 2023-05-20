@@ -583,11 +583,11 @@ public class EditableImage {
             String justFilename = imagePath.getFileName().toString();
             if (this.opsSaved()) {
                 // The image operations applied match those saved.
-                frame.setTitle("ANDIE (" + justFilename + ") - Saved");
+                frame.setTitle("ANDIE (" + justFilename + ") - " + LanguageActions.getLocaleString("saved"));
             }
             else {
                 // The image operations applied do not match those saved.
-                frame.setTitle("ANDIE (" + justFilename + ") - Unsaved");
+                frame.setTitle("ANDIE (" + justFilename + ") - " + LanguageActions.getLocaleString("unsaved"));
             }
         }
     }

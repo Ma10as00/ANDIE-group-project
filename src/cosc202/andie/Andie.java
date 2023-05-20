@@ -222,6 +222,10 @@ public class Andie {
         menuBar.setOpaque(true);
         frame.setJMenuBar(menuBar);
         frame.pack();
+        // Update the title of the main GUI.
+        if (imagePanel.getImage().hasImage()) {
+            imagePanel.getImage().updateFrameTitle();
+        }
     }
 
     private static void setMenuBackground(JMenuBar menuBar) {
@@ -463,7 +467,6 @@ public class Andie {
         renderToolbar();
         frame.repaint();
         imagePanel.repaint();
-
     }
 
     /**
