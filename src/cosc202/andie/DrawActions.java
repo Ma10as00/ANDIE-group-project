@@ -181,7 +181,7 @@ public class DrawActions extends JFrame {
             btnColor.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent evt) {
-                    Color color = JColorChooser.showDialog(DrawActions.this,
+                    Color color = JColorChooser.showDialog(Andie.frame,
                             "Choose a color", bgColor);
                     if (color != null) {
                         bgColor = color;
@@ -204,8 +204,8 @@ public class DrawActions extends JFrame {
             setContentPane(panel);
             userColour = bgColor;
             setTitle("Colour Chooser");
-            setSize(300, 200);
-            setLocationRelativeTo(null);
+            setSize(200, 150);
+            setLocationRelativeTo(Andie.frame);
             setVisible(true);
         }
     }
@@ -326,13 +326,13 @@ public class DrawActions extends JFrame {
         public void actionPerformed(ActionEvent e) {
             if (target.getImage().hasImage() == false) {
                 // There is not an image crop, so display error message.
-                JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("cropError"),
+                JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("cropError"),
                         LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
             }
             // Check if there is a selected region.
             if (ImagePanel.rect == null) {
                 // Trying to crop when there is no region selected. Give the user an error.
-                JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("cropErrorNoSelectedRegion"),
+                JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("cropErrorNoSelectedRegion"),
                         LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
             }
             // There is an image open, and a selected region, so we try to crop it.

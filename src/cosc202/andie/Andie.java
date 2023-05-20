@@ -71,9 +71,8 @@ public class Andie {
      * 
      * @throws Exception if something goes wrong.
      */
-    public static void createAndShowGUI() throws Exception {
-
-        // Sets the starting language to NZ English
+    private static void createAndShowGUI() throws Exception {
+        // Sets the starting language to NZ English.
         Preferences prefs = Preferences.userNodeForPackage(Andie.class);
         String lang = prefs.get("language", "en");
         String country = prefs.get("country", "NZ");

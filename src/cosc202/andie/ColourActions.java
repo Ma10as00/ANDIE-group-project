@@ -103,7 +103,7 @@ public class ColourActions {
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
                 try {
-                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("greyscaleErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("greyscaleErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 } catch (HeadlessException ex) {
                     // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
                     // Won't happen for our users, so just exit.
@@ -161,7 +161,7 @@ public class ColourActions {
             try {
                 if (target.getImage().hasImage() == false) {
                     // There is not an image open, so display error message.
-                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("brightnessErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("brightnessErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 }
                 else {
                     // There is an image open, carry on.
@@ -193,7 +193,7 @@ public class ColourActions {
                         }
                     });
 
-                    int select = JOptionPane.showOptionDialog(null, jslider, LanguageActions.getLocaleString("brightnessSlid"),
+                    int select = JOptionPane.showOptionDialog(Andie.frame, jslider, LanguageActions.getLocaleString("brightnessSlid"),
                     JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
                     if (select == JOptionPane.CANCEL_OPTION || select == JOptionPane.CLOSED_OPTION) {
                         // Set the image in target back to the actual image and repaint.
@@ -264,7 +264,7 @@ public class ColourActions {
             try {
                 if (target.getImage().hasImage() == false) {
                     // There is not an image open, so display error message.
-                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("contrastErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("contrastErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 }
                 else {
                     // There is an image open, carry on.
@@ -296,7 +296,7 @@ public class ColourActions {
                         }
                     });
 
-                    int select = JOptionPane.showOptionDialog(null, jslider, LanguageActions.getLocaleString("contrastSlid"),
+                    int select = JOptionPane.showOptionDialog(Andie.frame, jslider, LanguageActions.getLocaleString("contrastSlid"),
                     JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
                     if (select == JOptionPane.CANCEL_OPTION || select == JOptionPane.CLOSED_OPTION) {
                         // Set the image in target back to the actual image and repaint.

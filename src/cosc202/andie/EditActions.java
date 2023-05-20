@@ -125,14 +125,14 @@ public class EditActions {
             try {
                 if (target.getImage().hasImage() == false) {
                     // There is not an image undo, so display error message.
-                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("noImageToUndo"),
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("noImageToUndo"),
                             LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 } else if (target.getImage().hasOps() == false) {
                     // There are no image operations to undo, so display error message.
-                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("noUndo"),
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("noUndo"),
                             LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 } else if (target.ongoingRecording) {
-                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("recordmacronoundo"),
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("recordmacronoundo"),
                             LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 } else {
                     // There is an image open, and operations to undo, carry on.
@@ -194,19 +194,19 @@ public class EditActions {
             try {
                 if (target.getImage().hasImage() == false) {
                     // There is not an image undo, so display error message.
-                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("noImageToUndoAll"),
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("noImageToUndoAll"),
                             LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 } else if (target.getImage().hasOps() == false) {
                     // There are no image operations to undo, so display error message.
-                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("noUndoAll"),
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("noUndoAll"),
                             LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 } else if (target.ongoingRecording) {
-                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("recordmacronoundo"),
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("recordmacronoundo"),
                             LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 } else {
                     // There is an image open, and operations to undo, carry on.
                     // Check that the user is sure they want to undo all operations.
-                    int option = JOptionPane.showConfirmDialog(null, LanguageActions.getLocaleString("warningUndoAll"),
+                    int option = JOptionPane.showConfirmDialog(Andie.frame, LanguageActions.getLocaleString("warningUndoAll"),
                             LanguageActions.getLocaleString("warning"), JOptionPane.OK_CANCEL_OPTION,
                             JOptionPane.WARNING_MESSAGE);
                     if (option == JOptionPane.CANCEL_OPTION || option == JOptionPane.CLOSED_OPTION) {
@@ -282,14 +282,14 @@ public class EditActions {
             try {
                 if (target.getImage().hasImage() == false) {
                     // There is not an image open to undo, so display error message.
-                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("noImageToRedo"),
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("noImageToRedo"),
                             LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 } else if (target.getImage().hasRedoOps() == false) {
                     // There are no image operations to undo, so display error message.
-                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("noRedo"),
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("noRedo"),
                             LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 } else if (target.ongoingRecording) {
-                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("recordmacroredo"),
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("recordmacroredo"),
                             LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 } else {
                     // There is an image open, and operations to redo, carry on.
