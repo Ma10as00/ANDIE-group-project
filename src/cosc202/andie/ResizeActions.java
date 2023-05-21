@@ -29,22 +29,15 @@ public class ResizeActions {
     
     /** A list of actions for the Resize menu. */
     protected ArrayList<Action> actions;
-    /** 
-     * The main GUI frame. Only here so that we can pack the 
-     * frame when we resize an image.
-     */
-    private JFrame frame;
 
     /**
      * <p>
      * Create a set of Resize menu actions.
      * </p>
      * 
-     * @param frame the main GUI frame from which we will apply ResizeActions.
      */
-    public ResizeActions(JFrame frame) {
+    public ResizeActions() {
         actions = new ArrayList<Action>();
-        this.frame = frame;
         actions.add(new ImageResize50Action(LanguageActions.getLocaleString("resize50"), null, LanguageActions.getLocaleString("resize50Des"), Integer.valueOf(KeyEvent.VK_COMMA)));
         actions.add(new ImageResize150Action(LanguageActions.getLocaleString("resize150"), null, LanguageActions.getLocaleString("resize150Des"), Integer.valueOf(KeyEvent.VK_PERIOD)));
         actions.add(new ImageResizeNAction(LanguageActions.getLocaleString("customResize"), null, LanguageActions.getLocaleString("customResizeDes"), Integer.valueOf(KeyEvent.VK_SLASH)));
@@ -61,7 +54,9 @@ public class ResizeActions {
         JMenu fileMenu = new JMenu(LanguageActions.getLocaleString("resize"));
 
         for(Action action: actions) {
-            fileMenu.add(new JMenuItem(action));
+            JMenuItem item = new JMenuItem(action);
+            item.setBorderPainted(false);
+            fileMenu.add(item);
         }
 
         return fileMenu;
@@ -109,7 +104,7 @@ public class ResizeActions {
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
                 try {
-                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("resize50Err"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("resize50Err"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 } catch (HeadlessException ex) {
                     // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
                     // Won't happen for our users, so just exit.
@@ -121,12 +116,6 @@ public class ResizeActions {
                 target.getImage().apply(new ImageResize50());
                 target.repaint();
                 target.getParent().revalidate();
-                // Reset the zoom of the image.
-                target.setZoom(100);
-                // Pack the main GUI frame to the size of the image.
-                frame.pack();
-                // Make main GUI frame centered on screen.
-                frame.setLocationRelativeTo(null);
             }
         }
     }
@@ -173,7 +162,7 @@ public class ResizeActions {
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
                 try {
-                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("resize150Err"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("resize150Err"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 } catch (HeadlessException ex) {
                     // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
                     // Won't happen for our users, so just exit.
@@ -185,12 +174,6 @@ public class ResizeActions {
                 target.getImage().apply(new ImageResize150());
                 target.repaint();
                 target.getParent().revalidate();
-                // Reset the zoom of the image.
-                target.setZoom(100);
-                // Pack the main GUI frame to the size of the image.
-                frame.pack();
-                // Make main GUI frame centered on screen.
-                frame.setLocationRelativeTo(null);
             }
         }
     }
@@ -237,7 +220,7 @@ public class ResizeActions {
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
                 try {
-                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("resizeErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("resizeErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 } catch (HeadlessException ex) {
                     // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
                     // Won't happen for our users, so just exit.
@@ -278,30 +261,18 @@ public class ResizeActions {
                         target.getImage().apply(new ImageResizeN(jslider.getValue()));
                         target.repaint();
                         target.getParent().revalidate();
-                        // Reset the zoom of the image.
-                        target.setZoom(100);
-                        // Pack the main GUI frame to the size of the image.
-                        frame.pack();
-                        // Make main GUI frame centered on screen.
-                        frame.setLocationRelativeTo(null);
                     }
                 });
 
                 // Ask user for resizePercent value with slider.
                 try {
-                    int option = JOptionPane.showOptionDialog(null, jslider, LanguageActions.getLocaleString("resizeSlid"),
+                    int option = JOptionPane.showOptionDialog(Andie.frame, jslider, LanguageActions.getLocaleString("resizeSlid"),
                             JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
                     if (option == JOptionPane.CANCEL_OPTION || option == JOptionPane.CLOSED_OPTION) {
                         // Set the image in target back to the actual image and repaint.
                         target.setImage(actualImage);
                         target.repaint();
                         target.getParent().revalidate();
-                        // Reset the zoom of the image.
-                        target.setZoom(100);
-                        // Pack the main GUI frame to the size of the image.
-                        frame.pack();
-                        // Make main GUI frame centered on screen.
-                        frame.setLocationRelativeTo(null);
                         // Reset the zoom value.
                         target.setZoom(zoom);
                         target.repaint();
@@ -325,12 +296,6 @@ public class ResizeActions {
                 target.getImage().apply(new ImageResizeN(resizePercent));
                 target.repaint();
                 target.getParent().revalidate();
-                // Reset the zoom of the image.
-                target.setZoom(100);
-                // Pack the main GUI frame to the size of the image.
-                frame.pack();
-                // Make main GUI frame centered on screen.
-                frame.setLocationRelativeTo(null);
             }
         }
     }

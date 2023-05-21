@@ -38,21 +38,13 @@ public class EditActions {
     protected RedoAction redoAction;
 
     /**
-     * The main GUI frame. Only here so that we can pack the
-     * frame when we undo or redo operations to an image.
-     */
-    private JFrame frame;
-
-    /**
      * <p>
      * Create a set of Edit menu actions.
      * </p>
      * 
-     * @param frame the main GUI frame from which we will apply FileActions.
      */
-    public EditActions(JFrame frame) {
+    public EditActions() {
         actions = new ArrayList<Action>();
-        this.frame = frame;
         this.undoAction = new UndoAction(LanguageActions.getLocaleString("undo"), null,
                 LanguageActions.getLocaleString("undoDes"), Integer.valueOf(KeyEvent.VK_Z));
         this.redoAction = new RedoAction(LanguageActions.getLocaleString("redo"), null,
@@ -74,7 +66,9 @@ public class EditActions {
         JMenu editMenu = new JMenu(LanguageActions.getLocaleString("edit"));
 
         for (Action action : actions) {
-            editMenu.add(new JMenuItem(action));
+            JMenuItem item = new JMenuItem(action);
+            item.setBorderPainted(false);
+            editMenu.add(item);
         }
 
         return editMenu;
@@ -133,32 +127,23 @@ public class EditActions {
             try {
                 if (target.getImage().hasImage() == false) {
                     // There is not an image undo, so display error message.
-                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("noImageToUndo"),
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("noImageToUndo"),
                             LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 } else if (target.getImage().hasOps() == false) {
                     // There are no image operations to undo, so display error message.
-                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("noUndo"),
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("noUndo"),
                             LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 } else if (target.ongoingRecording) {
-                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("recordmacronoundo"),
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("recordmacronoundo"),
                             LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 } else {
                     // There is an image open, and operations to undo, carry on.
                     // Note, we are also checking if any of the undone operations was a resize or
                     // rotation
                     // to decide whether the frame should be packed.
-                    int resizeOrRotate = target.getImage().undo();
+                    target.getImage().undo();
                     target.repaint();
                     target.getParent().revalidate();
-                    if (resizeOrRotate == 1) {
-                        // The undone operation was a resize.
-                        // Reset the zoom of the image.
-                        target.setZoom(100);
-                        // Pack the main GUI frame to the size of the image.
-                        frame.pack();
-                        // Make main GUI frame centered on screen.
-                        frame.setLocationRelativeTo(null);
-                    }
                 }
             } catch (HeadlessException ex) {
                 // Headless exception, thrown when the code is dependent on a keyboard or mouse.
@@ -211,19 +196,19 @@ public class EditActions {
             try {
                 if (target.getImage().hasImage() == false) {
                     // There is not an image undo, so display error message.
-                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("noImageToUndoAll"),
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("noImageToUndoAll"),
                             LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 } else if (target.getImage().hasOps() == false) {
                     // There are no image operations to undo, so display error message.
-                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("noUndoAll"),
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("noUndoAll"),
                             LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 } else if (target.ongoingRecording) {
-                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("recordmacronoundo"),
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("recordmacronoundo"),
                             LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 } else {
                     // There is an image open, and operations to undo, carry on.
                     // Check that the user is sure they want to undo all operations.
-                    int option = JOptionPane.showConfirmDialog(null, LanguageActions.getLocaleString("warningUndoAll"),
+                    int option = JOptionPane.showConfirmDialog(Andie.frame, LanguageActions.getLocaleString("warningUndoAll"),
                             LanguageActions.getLocaleString("warning"), JOptionPane.OK_CANCEL_OPTION,
                             JOptionPane.WARNING_MESSAGE);
                     if (option == JOptionPane.CANCEL_OPTION || option == JOptionPane.CLOSED_OPTION) {
@@ -234,18 +219,9 @@ public class EditActions {
                     // so carry on.
                     // Note, we are also checking if the undone operation was a resize or rotation
                     // to decide whether the frame should be packed.
-                    int resizeOrRotate = target.getImage().undoAll();
+                    target.getImage().undoAll();
                     target.repaint();
                     target.getParent().revalidate();
-                    if (resizeOrRotate == 1) {
-                        // The undone operation was a resize.
-                        // Reset the zoom of the image.
-                        target.setZoom(100);
-                        // Pack the main GUI frame to the size of the image.
-                        frame.pack();
-                        // Make main GUI frame centered on screen.
-                        frame.setLocationRelativeTo(null);
-                    }
                 }
             } catch (HeadlessException ex) {
                 // Headless exception, thrown when the code is dependent on a keyboard or mouse.
@@ -308,31 +284,22 @@ public class EditActions {
             try {
                 if (target.getImage().hasImage() == false) {
                     // There is not an image open to undo, so display error message.
-                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("noImageToRedo"),
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("noImageToRedo"),
                             LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 } else if (target.getImage().hasRedoOps() == false) {
                     // There are no image operations to undo, so display error message.
-                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("noRedo"),
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("noRedo"),
                             LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 } else if (target.ongoingRecording) {
-                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("recordmacroredo"),
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("recordmacroredo"),
                             LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 } else {
                     // There is an image open, and operations to redo, carry on.
                     // Note, we are also checking if the redone operation was a resize or rotation
                     // to decide whether the frame should be packed.
-                    int resizeOrRotate = target.getImage().redo();
+                    target.getImage().redo();
                     target.repaint();
                     target.getParent().revalidate();
-                    if (resizeOrRotate == 1) {
-                        // The redone operation was a resize.
-                        // Reset the zoom of the image.
-                        target.setZoom(100);
-                        // Pack the main GUI frame to the size of the image.
-                        frame.pack();
-                        // Make main GUI frame centered on screen.
-                        frame.setLocationRelativeTo(null);
-                    }
                 }
             } catch (HeadlessException ex) {
                 // Headless exception, thrown when the code is dependent on a keyboard or mouse.

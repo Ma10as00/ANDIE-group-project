@@ -549,7 +549,7 @@ public class EditableImage {
      * @return True if the operations saved in the associated .ops file matches the operations currently
      * applied to this image, false otherwise.
      */
-    private boolean opsSaved() {
+    public boolean opsSaved() {
         // Create lists to iterate over.
         ArrayList<ImageOperation> opsList = new ArrayList<ImageOperation>(ops);
         ArrayList<ImageOperation> savedOpsList = new ArrayList<ImageOperation>(savedOps);
@@ -583,11 +583,11 @@ public class EditableImage {
             String justFilename = imagePath.getFileName().toString();
             if (this.opsSaved()) {
                 // The image operations applied match those saved.
-                frame.setTitle("ANDIE (" + justFilename + ") - Saved");
+                frame.setTitle("ANDIE (" + justFilename + ") - " + LanguageActions.getLocaleString("saved"));
             }
             else {
                 // The image operations applied do not match those saved.
-                frame.setTitle("ANDIE (" + justFilename + ") - Unsaved");
+                frame.setTitle("ANDIE (" + justFilename + ") - " + LanguageActions.getLocaleString("unsaved"));
             }
         }
     }

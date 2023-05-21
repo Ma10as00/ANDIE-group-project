@@ -47,7 +47,7 @@ public class ViewActions {
      */
     public ViewActions() {
         actions = new ArrayList<Action>();
-        this.zoomInAction = new ZoomInAction(LanguageActions.getLocaleString("zoomIn"), null, LanguageActions.getLocaleString("zoomInDes"), Integer.valueOf(KeyEvent.VK_PLUS));
+        this.zoomInAction = new ZoomInAction(LanguageActions.getLocaleString("zoomIn"), null, LanguageActions.getLocaleString("zoomInDes"), Integer.valueOf(KeyEvent.VK_EQUALS));
         actions.add(this.zoomInAction);
         this.zoomOutAction = new ZoomOutAction(LanguageActions.getLocaleString("zoomOut"), null, LanguageActions.getLocaleString("zoomOutDes"), Integer.valueOf(KeyEvent.VK_MINUS));
         actions.add(this.zoomOutAction);
@@ -55,7 +55,7 @@ public class ViewActions {
         actions.add(this.zoomFullAction);
         actions.add(new ZoomChangeAction(LanguageActions.getLocaleString("customZoom"), null, LanguageActions.getLocaleString("customZoomDes"), Integer.valueOf(KeyEvent.VK_2)));
         actions.add(new DarkMode(LanguageActions.getLocaleString("darkMode"), null,
-                LanguageActions.getLocaleString("darkmodedesc"), Integer.valueOf(KeyEvent.VK_D)));
+                LanguageActions.getLocaleString("darkmodedesc"), Integer.valueOf(KeyEvent.VK_U)));
     }
 
     /**
@@ -69,7 +69,9 @@ public class ViewActions {
         JMenu viewMenu = new JMenu(LanguageActions.getLocaleString("view"));
 
         for (Action action: actions) {
-            viewMenu.add(new JMenuItem(action));
+            JMenuItem item = new JMenuItem(action);
+            item.setBorderPainted(false);
+            viewMenu.add(item);
         }
 
         return viewMenu;
@@ -109,7 +111,7 @@ public class ViewActions {
          */
         ZoomInAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
-            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_PLUS, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_EQUALS, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         }
 
         /**
@@ -129,7 +131,7 @@ public class ViewActions {
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
                 try {
-                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("noZoomIn"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("noZoomIn"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 } catch (HeadlessException ex) {
                     // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
                     // Won't happen for our users, so just exit.
@@ -199,7 +201,7 @@ public class ViewActions {
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
                 try {
-                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("noZoomOut"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("noZoomOut"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 } catch (HeadlessException ex) {
                     // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
                     // Won't happen for our users, so just exit.
@@ -258,7 +260,7 @@ public class ViewActions {
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
                 try {
-                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("noCustomZoom"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("noCustomZoom"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 } catch (HeadlessException ex) {
                     // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
                     // Won't happen for our users, so just exit.
@@ -303,7 +305,7 @@ public class ViewActions {
 
                 // Ask user for zoom change value with slider.
                 try {
-                    int option = JOptionPane.showOptionDialog(null, jslider, LanguageActions.getLocaleString("zoomChange"),
+                    int option = JOptionPane.showOptionDialog(Andie.frame, jslider, LanguageActions.getLocaleString("zoomChange"),
                             JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
                     if (option == JOptionPane.CANCEL_OPTION || option == JOptionPane.CLOSED_OPTION) {
                         // Set the image in target back to the actual image and repaint.
@@ -389,7 +391,7 @@ public class ViewActions {
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
                 try {
-                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("noZoomFull"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("noZoomFull"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 } catch (HeadlessException ex) {
                     // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
                     // Won't happen for our users, so just exit.
@@ -436,7 +438,7 @@ public class ViewActions {
         DarkMode(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
             this.putValue(Action.ACCELERATOR_KEY,
-                    KeyStroke.getKeyStroke(KeyEvent.VK_S, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+                    KeyStroke.getKeyStroke(KeyEvent.VK_U, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         }
 
         /**

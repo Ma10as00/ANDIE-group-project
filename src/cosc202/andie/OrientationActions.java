@@ -30,22 +30,14 @@ public class OrientationActions {
     /** An instance of RotateLeftAction to be used in renderToolbar. */
     protected RotateLeftAction rotateLeftAction;
 
-    /** 
-     * The main GUI frame. Only here so that we can pack the 
-     * frame when we rotate an image.
-     */
-    private JFrame frame;
-
     /**
      * <p>
      * Constructs the list of orientation actions.
      * </p>
      * 
-     *  @param frame the main GUI frame from which we will apply OrientationActions.
      */
-    public OrientationActions(JFrame frame){
+    public OrientationActions(){
         actions = new ArrayList<Action>();
-        this.frame = frame;
         this.rotateRightAction = new RotateRightAction(LanguageActions.getLocaleString("rotateRight"), null, LanguageActions.getLocaleString("rotateRightDes"), Integer.valueOf(KeyEvent.VK_3));
         actions.add(this.rotateRightAction);
         this.rotateLeftAction = new RotateLeftAction(LanguageActions.getLocaleString("rotateLeft"), null, LanguageActions.getLocaleString("rotateLeftDes"), Integer.valueOf(KeyEvent.VK_4));
@@ -66,7 +58,9 @@ public class OrientationActions {
         JMenu menu = new JMenu(LanguageActions.getLocaleString("orientation"));
 
         for (Action action: actions) {
-            menu.add(new JMenuItem(action));
+            JMenuItem item = new JMenuItem(action);
+            item.setBorderPainted(false);
+            menu.add(item);
         }
 
         return menu;
@@ -123,7 +117,7 @@ public class OrientationActions {
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
                 try {
-                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("rotateRightErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("rotateRightErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 } catch (HeadlessException ex) {
                     // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
                     // Won't happen for our users, so just exit.
@@ -135,12 +129,6 @@ public class OrientationActions {
                 target.getImage().apply(new RotateRight());
                 target.repaint();
                 target.getParent().revalidate();
-                // Reset the zoom of the image.
-                target.setZoom(100);
-                // Pack the main GUI frame to the size of the image.
-                frame.pack();
-                // Make main GUI frame centered on screen.
-                frame.setLocationRelativeTo(null);
             }
         }
     }
@@ -197,7 +185,7 @@ public class OrientationActions {
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
                 try {
-                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("rotateLeftErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("rotateLeftErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 } catch (HeadlessException ex) {
                     // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
                     // Won't happen for our users, so just exit.
@@ -209,12 +197,6 @@ public class OrientationActions {
                 target.getImage().apply(new RotateLeft());
                 target.repaint();
                 target.getParent().revalidate();
-                // Reset the zoom of the image.
-                target.setZoom(100);
-                // Pack the main GUI frame to the size of the image.
-                frame.pack();
-                // Make main GUI frame centered on screen.
-                frame.setLocationRelativeTo(null);
             }
         }
     }
@@ -260,7 +242,7 @@ public class OrientationActions {
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
                 try {
-                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("rotate180Err"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("rotate180Err"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 } catch (HeadlessException ex) {
                     // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
                     // Won't happen for our users, so just exit.
@@ -316,7 +298,7 @@ public class OrientationActions {
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
                 try {
-                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("flipVerErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("flipVerErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 } catch (HeadlessException ex) {
                     // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
                     // Won't happen for our users, so just exit.
@@ -373,7 +355,7 @@ public class OrientationActions {
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
                 try {
-                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("flipHorErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("flipHorErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 } catch (HeadlessException ex) {
                     // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
                     // Won't happen for our users, so just exit.

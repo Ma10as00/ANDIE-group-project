@@ -41,19 +41,12 @@ public class DrawActions extends JFrame {
     protected SelectAction selectAction;
 
     /**
-     * The main GUI frame. Only here so that we can pack the
-     * frame when we undo or redo operations to an image.
-     */
-    private JFrame frame;
-
-    /**
      * <p>
      * Create a set of Drawing menu actions.
      * </p>
      */
-    public DrawActions(JFrame frame) {
+    public DrawActions() {
         actions = new ArrayList<Action>();
-        this.frame = frame;
 
         // Creates an instance of select and pickColour to be used in the toolbar (not
         // in this menu).
@@ -93,10 +86,14 @@ public class DrawActions extends JFrame {
         JMenu subMenu = new JMenu(LanguageActions.getLocaleString("drawing"));
 
         for (Action action : actions) {
-            fileMenu.add(new JMenuItem(action));
+            JMenuItem item = new JMenuItem(action);
+            item.setBorderPainted(false);
+            fileMenu.add(item);
         }
         for (Action action : actionsSub) {
-            subMenu.add(new JMenuItem(action));
+            JMenuItem item = new JMenuItem(action);
+            item.setBorderPainted(false);
+            subMenu.add(item);
         }
 
         fileMenu.add(subMenu);
@@ -190,7 +187,7 @@ public class DrawActions extends JFrame {
             btnColor.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent evt) {
-                    Color color = JColorChooser.showDialog(DrawActions.this,
+                    Color color = JColorChooser.showDialog(Andie.frame,
                             "Choose a color", userColour);
                     if (color != null) {
                         userColour = color;
@@ -212,8 +209,8 @@ public class DrawActions extends JFrame {
 
             setContentPane(panel);
             setTitle("Colour Chooser");
-            setSize(300, 200);
-            setLocationRelativeTo(null);
+            setSize(200, 150);
+            setLocationRelativeTo(Andie.frame);
             setVisible(true);
         }
     }
@@ -334,13 +331,13 @@ public class DrawActions extends JFrame {
         public void actionPerformed(ActionEvent e) {
             if (target.getImage().hasImage() == false) {
                 // There is not an image crop, so display error message.
-                JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("cropError"),
+                JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("cropError"),
                         LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
             }
             // Check if there is a selected region.
             if (ImagePanel.rect == null) {
                 // Trying to crop when there is no region selected. Give the user an error.
-                JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("cropErrorNoSelectedRegion"),
+                JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("cropErrorNoSelectedRegion"),
                         LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
             }
             // There is an image open, and a selected region, so we try to crop it.
@@ -354,12 +351,6 @@ public class DrawActions extends JFrame {
             ImagePanel.exitX = 0;
             ImagePanel.exitY = 0;
             target.getParent().revalidate();
-            // Reset the zoom of the image.
-            target.setZoom(100);
-            // Pack the main GUI frame to the size of the image.
-            frame.pack();
-            // Make main GUI frame centered on screen.
-            frame.setLocationRelativeTo(null);
         }
     }
 
