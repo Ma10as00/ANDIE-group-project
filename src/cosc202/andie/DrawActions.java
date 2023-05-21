@@ -97,7 +97,9 @@ public class DrawActions extends JFrame {
     public JMenu createMenu() {
         JMenu fileMenu = new JMenu(LanguageActions.getLocaleString("tools"));
         JMenu subMenuCirc = new JMenu(LanguageActions.getLocaleString("circle"));
+        subMenuCirc.setBorderPainted(false);
         JMenu subMenuRect = new JMenu(LanguageActions.getLocaleString("rectangle"));
+        subMenuRect.setBorderPainted(false);
 
         for (Action action : actions) {
             JMenuItem item = new JMenuItem(action);
@@ -277,7 +279,7 @@ public class DrawActions extends JFrame {
      * Action to draw circle.
      * </p>
      * 
-     * @see DrawRec
+     * @see DrawCircle
      */
     public class DrawCircleAction extends ImageAction {
 
@@ -451,7 +453,7 @@ public class DrawActions extends JFrame {
      * Action to draw a rectangle.
      * </p>
      * 
-     * @see DrawCirc
+     * @see DrawCircle
      */
     public class DrawCircOutlineAction extends ImageAction {
 
