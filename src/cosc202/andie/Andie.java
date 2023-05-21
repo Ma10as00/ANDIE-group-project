@@ -310,6 +310,8 @@ public class Andie {
         if (imagePanel.getImage().hasImage()) {
             imagePanel.getImage().updateFrameTitle();
         }
+
+        frame.pack();
     }
 
     private static void setMenuBackground(JMenuBar menuBar) {
@@ -433,6 +435,8 @@ public class Andie {
 
         // Update UI so that the whole bar changes colour.
         toolbar.updateUI();
+        
+        frame.pack();
     }
 
     private static JButton createButton(Action action, String imagePath){
