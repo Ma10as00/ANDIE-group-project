@@ -240,6 +240,22 @@ public class ImagePanel extends JPanel {
 
     }
 
+     /**
+     * <p>
+     * Create a new ImagePanel, purely for the use of JUnit tests.
+     * </p>
+     * 
+     * <p>
+     * Newly created ImagePanels have a default zoom level of 100%. 
+     * Note, this will construct an ImagePanel with no frame or mouse handler.
+     * So, do not use it for any purpose other then JUnit tests.
+     * </p>
+     * 
+     */
+    public ImagePanel() {
+        scale = 1.0;
+    }
+
     /**
      * <p>
      * Get the currently displayed image.
