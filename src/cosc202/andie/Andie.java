@@ -41,24 +41,25 @@ public class Andie {
     /** A boolean to represent whether or not we are in dark mode. */
     public static boolean darkMode;
 
-    /** The colour used as the background in dark mode and light mode. */
+    /** The colour used as the foreground in light mode and the background 
+     * for the tool bar in dark mode. */
     private static Color grey = new Color(30, 30, 30);
 
-    /** The second colour used as the background in dark mode. */
+    /** The colour used for the menu and menu items in dark mode. */
     private static Color lightGrey = new Color(50, 50, 50);
 
-    /** The forth colour used as the background in dark mode. */
+    /** The colour used as the background for the outer panel in dark mode. */
     private static Color darkGrey = new Color(20, 20, 20);
 
-    /** The fifth colour used as the background in dark mode. */
+    /** The colour used as the menu background in light mode. */
     private static Color lightWhite = new Color(225, 225, 225);
 
-    /** The sixth colour used as the background in light mode. */
+    /** The colour used as the background for the outer panel in light mode. */
     private static Color darkerWhite = new Color(220, 220, 220);
 
-    /** The seventh colour used as the background in light mode. */
+    /** The colour used as the background for the tool bar in light mode. */
     private static Color darkWhite = new Color(240, 240, 240);
-    
+
     /**
      * <p>
      * Launches the main GUI for the ANDIE program.
@@ -94,7 +95,7 @@ public class Andie {
         else if (languageCode.equals("sp_ES")) {
             Locale.setDefault(new Locale("sp", "ES"));
         }
-        // If language code is de sets default to German
+        // If language code is de sets default to German.
         else if (languageCode.equals("de_DE")) {
             Locale.setDefault(new Locale("de", "DE"));
         }
@@ -143,38 +144,7 @@ public class Andie {
         renderToolbar();
 
         // Update the mode.
-        if (Andie.darkMode) {
-            UIManager.put("MenuItem.background", lightGrey);
-            UIManager.put("MenuItem.opaque", true);
-
-            // Set the background and foreground colors for the frame
-            frame.setBackground(darkGrey);
-            frame.setForeground(darkGrey);
-
-            // Set the background and foreground colors for the outer panel
-            outerPanel.setBackground(darkGrey);
-            outerPanel.setForeground(darkGrey);
-
-            // Set the background and foreground colors for the image panel
-            imagePanel.setBackground(darkGrey);
-            imagePanel.setForeground(darkGrey);
-        }
-        else {
-            UIManager.put("MenuItem.background", Color.white);
-            UIManager.put("MenuItem.opaque", true);
-
-            // Set the background and foreground colors for the frame
-            frame.setBackground(darkerWhite);
-            frame.setForeground(darkerWhite);
-
-            // Set the background and foreground colors for the outer panel
-            outerPanel.setBackground(darkerWhite);
-            outerPanel.setForeground(darkerWhite);
-
-            // Set the background and foreground colors for the image panel
-            imagePanel.setBackground(darkerWhite);
-            imagePanel.setForeground(darkerWhite);
-        }
+        updateDarkMode();
 
         frame.pack();
         // Make window centered on screen.
@@ -209,7 +179,7 @@ public class Andie {
      * @see ResizeActions
      * @see LanguageActions
      * @see DrawActions
-     * 
+     *
      */
     public static void renderMenu() {
         // Make the pop up borders for each menu match the mode.
@@ -311,9 +281,18 @@ public class Andie {
             imagePanel.getImage().updateFrameTitle();
         }
 
+        // We only repack the frame the first time the application is opened, 
+        // or if the langauge is being changed.
         frame.pack();
     }
 
+    /**
+     * <p>
+     * A support method to use a UIManager to keep track of the Menu's
+     * background and foreground colours for light and dark mode.
+     * </p>
+     * @param menuBar The menu of this application.
+     */
     private static void setMenuBackground(JMenuBar menuBar) {
         if (Andie.darkMode) {
             UIManager.put("Menu.background", lightGrey);
@@ -350,8 +329,7 @@ public class Andie {
         JToolBar toolbar = new JToolBar();
         toolbar.setOrientation(SwingConstants.VERTICAL);
         toolbar.setFloatable(false);
-        toolbar.setBorderPainted(false);
-        frame.add(toolbar,BorderLayout.WEST);
+        toolbar.setBorderPainted(false);        
         JButton button = null;
         if (Andie.darkMode) {
             toolbar.setBackground(grey);
@@ -360,6 +338,7 @@ public class Andie {
             toolbar.setBackground(darkWhite);
             toolbar.setForeground(grey);
         }
+        frame.add(toolbar,BorderLayout.WEST);
 
         // Adds the save button to the toolbar.
         FileActions fileActions = new FileActions(frame);
@@ -432,10 +411,8 @@ public class Andie {
         button = createButton(drawActions.getPickColourAction(), "");
         button.setBorderPainted(false);
         toolbar.add(button);
-
-        // Update UI so that the whole bar changes colour.
-        toolbar.updateUI();
         
+        // Pack the frame.
         frame.pack();
     }
 
@@ -505,33 +482,30 @@ public class Andie {
 
     public static void updateDarkMode() {
         if (darkMode) {
-            UIManager.put("MenuItem.background", lightGrey);
-            UIManager.put("MenuItem.opaque", true);
-
-            // Set the background and foreground colors for the frame
+            // Set the background and foreground colors for the frame.
             frame.setBackground(darkGrey);
             frame.setForeground(darkGrey);
 
-            // Set the background and foreground colors for the outer panel
+            // Set the background and foreground colors for the outer panel.
             outerPanel.setBackground(darkGrey);
             outerPanel.setForeground(darkGrey);
 
-            // Set the background and foreground colors for the image panel
+            // Set the background and foreground colors for the image panel.
             imagePanel.setBackground(darkGrey);
             imagePanel.setForeground(darkGrey);
 
-            // Set the background and foreground colors for the menu bar
+            // Set the background and foreground colors for the menu bar.
             JMenuBar menuBar = frame.getJMenuBar();
             menuBar.setBackground(lightGrey);
             menuBar.setForeground(lightWhite);
 
-            // Set the background and foreground colors for the tool bar
+            // Set the background and foreground colors for the tool bar.
             JToolBar toolbar = (JToolBar) frame.getContentPane().getComponent(1);
             toolbar.setBackground(grey);
             toolbar.setForeground(lightWhite);
 
             // Set the background and foreground colors for individual buttons in the
-            // toolbar
+            // toolbar.
             Component[] components = toolbar.getComponents();
             for (Component component : components) {
                 if (component instanceof JButton) {
@@ -540,35 +514,33 @@ public class Andie {
                     button.setForeground(lightWhite);
                 }
             }
+            
         }
         if (!darkMode) {
-            UIManager.put("MenuItem.background", Color.white);
-            UIManager.put("MenuItem.opaque", true);
-
-            // Set the background and foreground colors for the frame
+            // Set the background and foreground colors for the frame.
             frame.setBackground(darkerWhite);
             frame.setForeground(darkerWhite);
 
-            // Set the background and foreground colors for the outer panel
+            // Set the background and foreground colors for the outer panel.
             outerPanel.setBackground(darkerWhite);
             outerPanel.setForeground(darkerWhite);
 
-            // Set the background and foreground colors for the image panel
+            // Set the background and foreground colors for the image panel.
             imagePanel.setBackground(darkerWhite);
             imagePanel.setForeground(darkerWhite);
 
-            // Set the background and foreground colors for the menu bar
+            // Set the background and foreground colors for the menu bar.
             JMenuBar menuBar = frame.getJMenuBar();
             menuBar.setBackground(Color.white);
             menuBar.setForeground(grey);
 
-            // Set the background and foreground colors for the tool bar
+            // Set the background and foreground colors for the tool bar.
             JToolBar toolbar = (JToolBar) frame.getContentPane().getComponent(1);
             toolbar.setBackground(darkWhite);
             toolbar.setForeground(grey);
 
             // Set the background and foreground colors for individual buttons in the
-            // toolbar
+            // toolbar.
             Component[] components = toolbar.getComponents();
             for (Component component : components) {
                 if (component instanceof JButton) {
@@ -578,9 +550,9 @@ public class Andie {
                 }
             }
         }
-        // Repaint the frame and image panel to reflect the changes
+        // Repaint the frame and image panel to reflect the changes.
         renderMenu();
-        renderToolbar();
+        // Note, I don't re-render the tool bar as that was causing issues with the bottom of the tool bar.
         frame.repaint();
         imagePanel.repaint();
     }
