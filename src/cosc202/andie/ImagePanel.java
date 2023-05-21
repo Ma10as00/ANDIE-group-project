@@ -41,7 +41,7 @@ public class ImagePanel extends JPanel {
     /**
      * Storing variables of mouse clicks and drags.
      */
-    public static int enterX, enterY, exitX, exitY, width, height, clickX, clickY, l, lineWidth;
+    public static int enterX, enterY, exitX, exitY, width, height, clickX, clickY;
 
     /**
      * Storing the rectangle the is selected.
