@@ -60,6 +60,12 @@ public class Andie {
     /** The colour used as the background for the tool bar in light mode. */
     private static Color darkWhite = new Color(240, 240, 240);
 
+    /** The colour used for all buttons in dark mode. */
+    private static Color greyBlue = new Color(87, 111, 158);
+
+    /** The colour used for all buttons in light mode. */
+    private static Color lightGreyBlue = new Color(195, 216, 237);
+
     /**
      * <p>
      * Launches the main GUI for the ANDIE program.
@@ -137,6 +143,17 @@ public class Andie {
             // TO DO Auto-generated catch block
             e.printStackTrace();
         }
+
+        // This makes dark and light mode remembered when you exit the application.
+        // By default, this application is in light mode.
+        String mode = prefs.get("mode", "light");
+        if (mode.equals("dark")){
+            darkMode = true;
+        }
+        else if (mode.equals("light")) {
+            darkMode = false;
+        }
+
         // Calls renderMenu method to render the menu in the selected language.
         renderMenu();
 
@@ -342,7 +359,7 @@ public class Andie {
 
         // Adds the save button to the toolbar.
         FileActions fileActions = new FileActions(frame);
-        button = createButton(fileActions.getFileSaveAction(), "saveImageIcon.png");
+        button = createButton(fileActions.getFileSaveAction(), "saveButtonIcon.png");
         button.setBorderPainted(false);
         toolbar.add(button);
 
@@ -351,12 +368,12 @@ public class Andie {
 
         // Adds the undo button to the toolbar.
         EditActions editActions = new EditActions();
-        button = createButton(editActions.getUndoAction(), "");
+        button = createButton(editActions.getUndoAction(), "undoButtonIcon.png");
         button.setBorderPainted(false);
         toolbar.add(button);
 
         // Adds the redo button to the toolbar.
-        button = createButton(editActions.getRedoAction(), "");
+        button = createButton(editActions.getRedoAction(), "redoButtonIcon.png");
         button.setBorderPainted(false);
         toolbar.add(button);
 
@@ -365,17 +382,17 @@ public class Andie {
 
         // Adds the Zoom In button to the toolbar.
         ViewActions viewActions = new ViewActions();
-        button = createButton(viewActions.getZoomInAction(), "");
+        button = createButton(viewActions.getZoomInAction(), "zoomInButtonIcon.png");
         button.setBorderPainted(false);
         toolbar.add(button);
 
         // Adds the Zoom out button to the toolbar.
-        button = createButton(viewActions.getZoomOutAction(), "");
+        button = createButton(viewActions.getZoomOutAction(), "zoomOutButtonIcon.png");
         button.setBorderPainted(false);
         toolbar.add(button);
 
         // Adds the Zoom Full button to the toolbar.
-        button = createButton(viewActions.getZoomFullAction(), "");
+        button = createButton(viewActions.getZoomFullAction(), "zoomFullButtonIcon.png");
         button.setBorderPainted(false);
         toolbar.add(button);
 
@@ -384,12 +401,12 @@ public class Andie {
 
         // Adds the rotate left button to the toolbar.
         OrientationActions orientationActions = new OrientationActions();
-        button = createButton(orientationActions.getRotateLeftAction(), "");
+        button = createButton(orientationActions.getRotateLeftAction(), "rotateLeftButtonIcon.png");
         button.setBorderPainted(false);
         toolbar.add(button);
 
         // Adds the rotate right button to the toolbar.
-        button = createButton(orientationActions.getRotateRightAction(), "");
+        button = createButton(orientationActions.getRotateRightAction(), "rotateRightButtonIcon.png");
         button.setBorderPainted(false);
         toolbar.add(button);
 
@@ -398,17 +415,17 @@ public class Andie {
 
         // Adds the crop button to the toolbar.
         DrawActions drawActions = new DrawActions();
-        button = createButton(drawActions.getCropAction(), "");
+        button = createButton(drawActions.getCropAction(), "cropButtonIcon.png");
         button.setBorderPainted(false);
         toolbar.add(button);
 
         // Adds select tool to the toolbar.
-        button = createButton(drawActions.getSelectAction(), "");
+        button = createButton(drawActions.getSelectAction(), "selectButtonIcon.png");
         button.setBorderPainted(false);
         toolbar.add(button);
 
         // Adds pick colour to the toolbar.
-        button = createButton(drawActions.getPickColourAction(), "");
+        button = createButton(drawActions.getPickColourAction(), "paletteButtonIcon.png");
         button.setBorderPainted(false);
         toolbar.add(button);
         
@@ -416,6 +433,15 @@ public class Andie {
         frame.pack();
     }
 
+    /**
+     * <p>
+     * Creates a JButton with the provided parameters and returns it
+     * </p>
+     * 
+     * @param action an action to be assigned to the button
+     * @param imagePath a String to indicate the filename of the png to use as an icon
+     * @return a JButton with the assigned action and Image
+     */
     private static JButton createButton(Action action, String imagePath){
         JButton button = new JButton(action);
         if (Andie.darkMode) {
@@ -428,7 +454,7 @@ public class Andie {
         try {
         if (button.getIcon() == null) {
             Image buttonImage = ImageIO.read(Andie.class.getClassLoader().getResource(imagePath));
-            buttonImage = buttonImage.getScaledInstance(15, 15, Image.SCALE_SMOOTH);
+            buttonImage = buttonImage.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
 
             button.setIcon(new ImageIcon(buttonImage));
         }
@@ -482,6 +508,50 @@ public class Andie {
 
     public static void updateDarkMode() {
         if (darkMode) {
+            // Option panes.
+            UIManager.put("OptionPane.background", lightGrey);
+            UIManager.put("OptionPane.foreground", lightWhite);
+            UIManager.put("OptionPane.messageForeground", lightWhite);
+            // Sliders.
+            UIManager.put("Slider.background", lightGrey);
+            UIManager.put("Slider.foreground", lightWhite);
+            // File choosers.
+            UIManager.put("FileChooser.background", lightGrey);
+            UIManager.put("FileChooser.foreground", lightWhite);
+            UIManager.put("ComboBox.background", grey);
+            UIManager.put("ComboBox.foreground", lightWhite);
+            UIManager.put("List.background", grey);
+            UIManager.put("List.foreground", lightWhite);
+            // Colour choosers.
+            UIManager.put("ColorChooser.background", lightGrey);
+            UIManager.put("ColorChooser.foreground", lightWhite);
+            UIManager.put("TabbedPane.background", lightGrey);
+            UIManager.put("TabbedPane.foreground", lightWhite);
+            UIManager.put("TabbedPane.selected", greyBlue);
+            UIManager.put("Label.background", lightGrey);
+            UIManager.put("Label.foreground", lightWhite);
+            UIManager.put("RadioButton.background", lightGrey);
+            UIManager.put("RadioButton.foreground", lightWhite);
+            UIManager.put("Spinner.background", lightGrey);
+            UIManager.put("Spinner.foreground", lightWhite);
+            UIManager.put("FormattedTextField.background", grey);
+            UIManager.put("FormattedTextField.foreground", lightWhite);
+            UIManager.put("TextField.background", grey);
+            UIManager.put("TextField.foreground", lightWhite);
+            // Panels.
+            UIManager.put("Panel.background", lightGrey);
+            UIManager.put("Panel.foreground", lightWhite);
+            // Buttons.
+            UIManager.put("Button.foreground", lightWhite);
+            UIManager.put("Button.background", greyBlue);
+            UIManager.put("Button.shadow", greyBlue);
+            UIManager.put("Button.gradient", greyBlue);
+            // Check boxes.
+            UIManager.put("CheckBox.foreground", lightWhite);
+            UIManager.put("CheckBox.background", lightGrey);
+            UIManager.put("CheckBox.shadow", lightGrey);
+            UIManager.put("CheckBox.border", lightGrey);
+
             // Set the background and foreground colors for the frame.
             frame.setBackground(darkGrey);
             frame.setForeground(darkGrey);
@@ -517,6 +587,53 @@ public class Andie {
             
         }
         if (!darkMode) {
+            // Option panes.
+            UIManager.put("OptionPane.background", Color.white);
+            UIManager.put("OptionPane.foreground", grey);
+            UIManager.put("OptionPane.messageForeground", grey);
+            // Sliders.
+            UIManager.put("Slider.background", Color.white);
+            UIManager.put("Slider.foreground", grey);
+            // File choosers.
+            UIManager.put("FileChooser.background", Color.white);
+            UIManager.put("FileChooser.foreground", grey);
+            UIManager.put("ComboBox.background", darkWhite);
+            UIManager.put("ComboBox.foreground", grey);
+            UIManager.put("List.background", darkWhite);
+            UIManager.put("List.foreground", grey);
+            // Colour choosers.
+            UIManager.put("ColorChooser.background", Color.white);
+            UIManager.put("ColorChooser.foreground", grey);
+            UIManager.put("TabbedPane.background", Color.white);
+            UIManager.put("TabbedPane.foreground", grey);
+            UIManager.put("TabbedPane.selected", lightGreyBlue);
+            UIManager.put("Label.background", Color.white);
+            UIManager.put("Label.foreground", grey);
+            UIManager.put("RadioButton.background", Color.white);
+            UIManager.put("RadioButton.foreground", grey);
+            UIManager.put("Spinner.background", Color.white);
+            UIManager.put("Spinner.foreground", grey);
+            UIManager.put("FormattedTextField.background", darkWhite);
+            UIManager.put("FormattedTextField.foreground", grey);
+            UIManager.put("TextField.background", darkWhite);
+            UIManager.put("TextField.foreground", grey);
+            // Panels.
+            UIManager.put("Panel.background", Color.white);
+            UIManager.put("Panel.foreground", grey);
+            // Buttons.
+            UIManager.put("Button.foreground", grey);
+            UIManager.put("Button.background", lightGreyBlue);
+            UIManager.put("Button.shadow", lightGreyBlue);
+            UIManager.put("Button.gradient", lightGreyBlue);
+            // Check boxes.
+            UIManager.put("CheckBox.foreground", grey);
+            UIManager.put("CheckBox.background", Color.white);
+            UIManager.put("CheckBox.shadow", Color.white);
+            UIManager.put("CheckBox.border", Color.white);
+
+            // This is for the JOptionPanes used in actions.
+            UIManager.put("OptionPane.background", Color.white);
+
             // Set the background and foreground colors for the frame.
             frame.setBackground(darkerWhite);
             frame.setForeground(darkerWhite);
