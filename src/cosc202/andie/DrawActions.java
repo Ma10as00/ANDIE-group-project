@@ -392,6 +392,7 @@ public class DrawActions extends JFrame {
                 // There is not an image crop, so display error message.
                 JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("cropError"),
                         LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                return;
             }
             // Check if there is a selected region.
             if (ImagePanel.rect == null) {
