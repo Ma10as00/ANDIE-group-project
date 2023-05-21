@@ -509,9 +509,9 @@ public class Andie {
             // File choosers.
             UIManager.put("FileChooser.background", lightGrey);
             UIManager.put("FileChooser.foreground", lightWhite);
-            UIManager.put("ComboBox.background", lightGrey);
+            UIManager.put("ComboBox.background", grey);
             UIManager.put("ComboBox.foreground", lightWhite);
-            UIManager.put("List.background", lightGrey);
+            UIManager.put("List.background", grey);
             UIManager.put("List.foreground", lightWhite);
             // Colour choosers.
             UIManager.put("ColorChooser.background", lightGrey);
@@ -525,9 +525,9 @@ public class Andie {
             UIManager.put("RadioButton.foreground", lightWhite);
             UIManager.put("Spinner.background", lightGrey);
             UIManager.put("Spinner.foreground", lightWhite);
-            UIManager.put("FormattedTextField.background", lightGrey);
+            UIManager.put("FormattedTextField.background", grey);
             UIManager.put("FormattedTextField.foreground", lightWhite);
-            UIManager.put("TextField.background", lightGrey);
+            UIManager.put("TextField.background", grey);
             UIManager.put("TextField.foreground", lightWhite);
             // Panels.
             UIManager.put("Panel.background", lightGrey);
@@ -588,9 +588,9 @@ public class Andie {
             // File choosers.
             UIManager.put("FileChooser.background", Color.white);
             UIManager.put("FileChooser.foreground", grey);
-            UIManager.put("ComboBox.background", Color.white);
+            UIManager.put("ComboBox.background", darkWhite);
             UIManager.put("ComboBox.foreground", grey);
-            UIManager.put("List.background", Color.white);
+            UIManager.put("List.background", darkWhite);
             UIManager.put("List.foreground", grey);
             // Colour choosers.
             UIManager.put("ColorChooser.background", Color.white);
@@ -604,9 +604,9 @@ public class Andie {
             UIManager.put("RadioButton.foreground", grey);
             UIManager.put("Spinner.background", Color.white);
             UIManager.put("Spinner.foreground", grey);
-            UIManager.put("FormattedTextField.background", Color.white);
+            UIManager.put("FormattedTextField.background", darkWhite);
             UIManager.put("FormattedTextField.foreground", grey);
-            UIManager.put("TextField.background", Color.white);
+            UIManager.put("TextField.background", darkWhite);
             UIManager.put("TextField.foreground", grey);
             // Panels.
             UIManager.put("Panel.background", Color.white);

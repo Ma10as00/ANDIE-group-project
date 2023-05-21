@@ -273,7 +273,6 @@ public class ViewActions {
                 // Need to keep track of the original zoom as the slider changes its value.
                 double zoom = target.getZoom();
                 final int oldZoom = (int) zoom;
-                System.out.println(oldZoom);
                 // Determine the zoom change - ask the user.
 
                 // Set up slider for user to the zoom change.
