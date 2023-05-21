@@ -187,7 +187,8 @@ public class ImagePanel extends JPanel {
 
                 }
                 if (tool == drawLine) {
-
+                    image.apply(new DrawLine(enterX, enterY, exitX, exitY));
+                    deselect();
                 }
                 if (tool == drawRectOutline) {
                     image.apply(new DrawRec(rect, DrawActions.userColour, true));
@@ -201,6 +202,7 @@ public class ImagePanel extends JPanel {
                     image.apply(new DrawCircle(x, y, height, width, true));
                     deselect();
                 }
+
             }
         });
 
@@ -366,7 +368,9 @@ public class ImagePanel extends JPanel {
                 g2d.fillOval(x, y, width, height);
             }
             if (enterX != 0 && getTool() == drawLine) {
-
+                g2d.setColor(DrawActions.userColour);
+                g2d.setStroke(new BasicStroke((float) DrawActions.userWidth));
+                g2d.drawLine(enterX, enterY, exitX, exitY);
             }
             if (rect != null && getTool() == drawRectOutline) {
                 g2d.setColor(DrawActions.userColour);

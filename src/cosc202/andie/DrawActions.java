@@ -167,7 +167,6 @@ public class DrawActions extends JFrame {
                 }
                 if (option == JOptionPane.OK_OPTION) {
                     userWidth = jslider.getValue();
-                    System.out.println(userWidth);
                 }
                 if (userWidth == 5) {
                     return;

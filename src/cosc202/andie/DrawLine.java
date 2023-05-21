@@ -12,22 +12,26 @@ import java.awt.Color;
 public class DrawLine implements ImageOperation, java.io.Serializable {
 
     private Color col;
-    private int width;
+    int enterX;
+    int enterY;
+    int exitX;
+    int exitY;
 
-    /**
-     * Image operation that draws a line over the image
-     * 
-     * 
-     */
-    DrawLine() {
-
+    DrawLine(int enterX, int enterY, int exitX, int exitY) {
+        this.enterX = enterX;
+        this.enterY = enterY;
+        this.exitX = exitX;
+        this.exitY = exitY;
+        col = DrawActions.userColour;
     }
 
     @Override
     public BufferedImage apply(BufferedImage input) {
-
-        // Return the image
+        Graphics2D g = (Graphics2D) input.getGraphics();
+        g.setStroke(new BasicStroke(DrawActions.userWidth));
+        g.setColor(col);
+        g.drawLine(enterX, enterY, exitX, exitY);
+        g.dispose();
         return input;
     }
-
 }
