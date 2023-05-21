@@ -415,12 +415,12 @@ public class Andie {
 
         // Adds the crop button to the toolbar.
         DrawActions drawActions = new DrawActions();
-        button = createButton(drawActions.getCropAction(), "");
+        button = createButton(drawActions.getCropAction(), "cropButtonIcon.png");
         button.setBorderPainted(false);
         toolbar.add(button);
 
         // Adds select tool to the toolbar.
-        button = createButton(drawActions.getSelectAction(), "");
+        button = createButton(drawActions.getSelectAction(), "selectButtonIcon.png");
         button.setBorderPainted(false);
         toolbar.add(button);
 
@@ -454,7 +454,7 @@ public class Andie {
         try {
         if (button.getIcon() == null) {
             Image buttonImage = ImageIO.read(Andie.class.getClassLoader().getResource(imagePath));
-            buttonImage = buttonImage.getScaledInstance(15, 15, Image.SCALE_SMOOTH);
+            buttonImage = buttonImage.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
 
             button.setIcon(new ImageIcon(buttonImage));
         }
