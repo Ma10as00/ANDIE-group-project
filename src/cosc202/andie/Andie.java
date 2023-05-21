@@ -314,12 +314,20 @@ public class Andie {
         if (Andie.darkMode) {
             UIManager.put("Menu.background", lightGrey);
             UIManager.put("Menu.foreground", lightWhite);
+            UIManager.put("Menu.opaque", true); 
+            UIManager.put("MenuBar.background", lightGrey);
+            UIManager.put("MenuBar.foreground", lightWhite);
+            UIManager.put("MenuBar.opaque", true); 
             UIManager.put("MenuItem.background", lightGrey);
             UIManager.put("MenuItem.foreground", lightWhite);
             UIManager.put("MenuItem.opaque", true);
         } else {
             UIManager.put("Menu.background", Color.white);
             UIManager.put("Menu.foreground", grey);
+            UIManager.put("Menu.opaque", true); 
+            UIManager.put("MenuBar.background", Color.white);
+            UIManager.put("MenuBar.foreground", grey);
+            UIManager.put("MenuBar.opaque", true); 
             UIManager.put("MenuItem.background", Color.white);
             UIManager.put("MenuItem.foreground", grey);
             UIManager.put("MenuItem.opaque", true);
@@ -557,6 +565,7 @@ public class Andie {
             UIManager.put("Button.background", greyBlue);
             UIManager.put("Button.shadow", greyBlue);
             UIManager.put("Button.gradient", greyBlue);
+            UIManager.put("Button.focus", greyBlue);
             // Check boxes.
             UIManager.put("CheckBox.foreground", lightWhite);
             UIManager.put("CheckBox.background", lightGrey);
@@ -593,6 +602,7 @@ public class Andie {
                     JButton button = (JButton) component;
                     button.setBackground(grey);
                     button.setForeground(lightWhite);
+                    button.setFocusPainted(false);
                 }
             }
             
@@ -636,6 +646,7 @@ public class Andie {
             UIManager.put("Button.background", lightGreyBlue);
             UIManager.put("Button.shadow", lightGreyBlue);
             UIManager.put("Button.gradient", lightGreyBlue);
+            UIManager.put("Button.focus", lightGreyBlue);
             // Check boxes.
             UIManager.put("CheckBox.foreground", grey);
             UIManager.put("CheckBox.background", Color.white);
@@ -675,6 +686,7 @@ public class Andie {
                     JButton button = (JButton) component;
                     button.setBackground(darkWhite);
                     button.setForeground(grey);
+                    button.setFocusPainted(false);
                 }
             }
         }

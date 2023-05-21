@@ -97,7 +97,9 @@ public class DrawActions extends JFrame {
     public JMenu createMenu() {
         JMenu fileMenu = new JMenu(LanguageActions.getLocaleString("tools"));
         JMenu subMenuCirc = new JMenu(LanguageActions.getLocaleString("circle"));
+        subMenuCirc.setBorderPainted(false);
         JMenu subMenuRect = new JMenu(LanguageActions.getLocaleString("rectangle"));
+        subMenuRect.setBorderPainted(false);
 
         for (Action action : actions) {
             JMenuItem item = new JMenuItem(action);
