@@ -5,6 +5,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.geom.Line2D;
+
 import javax.swing.*;
 import javax.swing.text.Position;
 
@@ -48,11 +50,7 @@ public class ImagePanel extends JPanel {
      * Storing the rectangle the is selected.
      */
     public static Rectangle rect;
-<<<<<<< HEAD
-    public static Circle circle;
     public static Line2D line;
-=======
->>>>>>> 73e0992777e09832da46f0910a136126c8e96aa0
 
     /**
      * To keep track of if marcos is recording.
@@ -172,12 +170,8 @@ public class ImagePanel extends JPanel {
                 }
                 rect = new Rectangle(Math.min(enterX, exitX), Math.min(enterY, exitY), Math.abs(exitX - enterX),
                         Math.abs(exitY - enterY));
-<<<<<<< HEAD
-                double radius = Math.abs(exitX - enterX) / 2;
-                circle = new Circle(radius);
                 line = new Line2D.Double(enterX, enterY, exitX, exitY);
-=======
->>>>>>> 73e0992777e09832da46f0910a136126c8e96aa0
+                repaint();
                 repaint();
             }
 
@@ -199,20 +193,7 @@ public class ImagePanel extends JPanel {
 
                 }
                 if (tool == drawLine) {
-                    image.apply(new DrawLine(enterX, enterY, exitX, exitY));
-                    line = null;
-                }
-                if (tool == drawRectOutline) {
-                    image.apply(new DrawRec(rect, DrawActions.userColour, true));
-                    deselect();
-                }
-                if (tool == drawCircOutline) {
-                    int x = Math.min(enterX, exitX);
-                    int y = Math.min(enterY, exitY);
-                    int width = Math.abs(enterX - exitX);
-                    int height = Math.abs(enterY - exitY);
-                    image.apply(new DrawCircle(x, y, height, width, true));
-                    deselect();
+
                 }
             }
         });
@@ -378,40 +359,31 @@ public class ImagePanel extends JPanel {
                 int height = Math.abs(enterY - exitY);
                 g2d.fillOval(x, y, width, height);
             }
-<<<<<<< HEAD
-            if (line != null && getTool() == 3) {
+            if (enterX != 0 && getTool() == drawLine) {
                 g2d.setColor(DrawActions.userColour);
                 g2d.drawLine(enterX, enterY, exitX, exitY);
-=======
-            if (enterX != 0 && getTool() == drawLine) {
-
             }
-            if (rect != null && getTool() == drawRectOutline) {
-                g2d.setColor(DrawActions.userColour);
-                BasicStroke stroke = new BasicStroke((float) DrawActions.userWidth);
-                g2d.setStroke(stroke);
-                g2d.draw(rect);
-            }
-            if (enterX != 0 && getTool() == drawCircOutline) {
-                g2d.setColor(DrawActions.userColour);
-                g2d.setStroke(new BasicStroke((float) DrawActions.userWidth));
-                int x = Math.min(enterX, exitX);
-                int y = Math.min(enterY, exitY);
-                int width = Math.abs(enterX - exitX);
-                int height = Math.abs(enterY - exitY);
-                g2d.drawOval(x, y, width, height);
->>>>>>> 73e0992777e09832da46f0910a136126c8e96aa0
-            }
+        }
+        if (rect != null && getTool() == drawRectOutline) {
+            g2d.setColor(DrawActions.userColour);
+            BasicStroke stroke = new BasicStroke((float) DrawActions.userWidth);
+            g2d.setStroke(stroke);
+            g2d.draw(rect);
+        }
+        if (enterX != 0 && getTool() == drawCircOutline) {
+            g2d.setColor(DrawActions.userColour);
+            g2d.setStroke(new BasicStroke((float) DrawActions.userWidth));
+            int x = Math.min(enterX, exitX);
+            int y = Math.min(enterY, exitY);
+            int width = Math.abs(enterX - exitX);
+            int height = Math.abs(enterY - exitY);
+            g2d.drawOval(x, y, width, height);
         }
     }
 
     public void deselect() {
-        rect = null;
-<<<<<<< HEAD
-        circle = null;
         line = null;
-=======
->>>>>>> 73e0992777e09832da46f0910a136126c8e96aa0
+        rect = null;
         ImagePanel.enterX = 0;
         ImagePanel.enterY = 0;
         ImagePanel.exitX = 0;
@@ -426,55 +398,6 @@ public class ImagePanel extends JPanel {
         return tool;
     }
 
-<<<<<<< HEAD
-    public class Circle {
-        private double radius;
-
-        public Circle(double radius) {
-            this.radius = radius;
-        }
-
-        public double getRadius() {
-            return radius;
-        }
-
-        public void setRadius(double radius) {
-            this.radius = radius;
-        }
-
-        public double getArea() {
-            return Math.PI * radius * radius;
-        }
-
-        public double getCircumference() {
-            return 2 * Math.PI * radius;
-        }
-    }
-
-    public class CustomLine extends Line2D.Double {
-        private Color color;
-
-        public CustomLine(double x1, double y1, double x2, double y2, Color color) {
-            super(x1, y1, x2, y2);
-            this.color = color;
-        }
-
-        public Color getColor() {
-            return color;
-        }
-
-        public void setColor(Color color) {
-            this.color = color;
-        }
-
-        public float getWidth() {
-            return width;
-        }
-
-    }
-
-=======
->>>>>>> 73e0992777e09832da46f0910a136126c8e96aa0
     /**
      * <p>
      * Class that implements Mouse Listener and Motion Listener
