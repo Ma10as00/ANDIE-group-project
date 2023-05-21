@@ -193,7 +193,8 @@ public class ImagePanel extends JPanel {
 
                 }
                 if (tool == drawLine) {
-
+                    image.apply(new DrawLine(enterX, enterY, exitX, exitY));
+                    deselect();
                 }
             }
         });
