@@ -187,7 +187,8 @@ public class ImagePanel extends JPanel {
 
                 }
                 if (tool == drawLine) {
-
+                    image.apply(new DrawLine(enterX, enterY, exitX, exitY));
+                    deselect();
                 }
                 if (tool == drawRectOutline) {
                     image.apply(new DrawRec(rect, DrawActions.userColour, true));
@@ -366,23 +367,24 @@ public class ImagePanel extends JPanel {
                 g2d.fillOval(x, y, width, height);
             }
             if (enterX != 0 && getTool() == drawLine) {
-
-            }
-            if (rect != null && getTool() == drawRectOutline) {
                 g2d.setColor(DrawActions.userColour);
-                BasicStroke stroke = new BasicStroke((float) DrawActions.userWidth);
-                g2d.setStroke(stroke);
-                g2d.draw(rect);
+                g2d.drawLine(enterX, enterY, exitX, exitY);
             }
-            if (enterX != 0 && getTool() == drawCircOutline) {
-                g2d.setColor(DrawActions.userColour);
-                g2d.setStroke(new BasicStroke((float) DrawActions.userWidth));
-                int x = Math.min(enterX, exitX);
-                int y = Math.min(enterY, exitY);
-                int width = Math.abs(enterX - exitX);
-                int height = Math.abs(enterY - exitY);
-                g2d.drawOval(x, y, width, height);
-            }
+        }
+        if (rect != null && getTool() == drawRectOutline) {
+            g2d.setColor(DrawActions.userColour);
+            BasicStroke stroke = new BasicStroke((float) DrawActions.userWidth);
+            g2d.setStroke(stroke);
+            g2d.draw(rect);
+        }
+        if (enterX != 0 && getTool() == drawCircOutline) {
+            g2d.setColor(DrawActions.userColour);
+            g2d.setStroke(new BasicStroke((float) DrawActions.userWidth));
+            int x = Math.min(enterX, exitX);
+            int y = Math.min(enterY, exitY);
+            int width = Math.abs(enterX - exitX);
+            int height = Math.abs(enterY - exitY);
+            g2d.drawOval(x, y, width, height);
         }
     }
 
