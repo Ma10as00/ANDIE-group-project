@@ -206,7 +206,7 @@ public class FileActions {
                 if (!target.getImage().opsSaved()) {
                     // There is an image open and it is unsaved, warn user that any unsaved changes will be deleted.
                     try {
-                        int option = JOptionPane.showConfirmDialog(null, LanguageActions.getLocaleString("errorExit"),
+                        int option = JOptionPane.showConfirmDialog(Andie.frame, LanguageActions.getLocaleString("errorExit"),
                                 LanguageActions.getLocaleString("warning"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
 
                         if (option == JOptionPane.CANCEL_OPTION || option == JOptionPane.CLOSED_OPTION) {
@@ -445,7 +445,7 @@ public class FileActions {
                         // The image file name already describes another file name.
                         // Ask user if they want to override or cancel.
                         try {
-                            int option = JOptionPane.showConfirmDialog(null, LanguageActions.getLocaleString("warningAnotherFile"),
+                            int option = JOptionPane.showConfirmDialog(Andie.frame, LanguageActions.getLocaleString("warningAnotherFile"),
                                     LanguageActions.getLocaleString("warning"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
                             if (option == JOptionPane.CANCEL_OPTION || option == JOptionPane.CLOSED_OPTION) {
                                 // User cancelled or closed the pop up, don't save as. But, allow the user to try again.

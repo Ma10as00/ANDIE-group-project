@@ -60,6 +60,12 @@ public class Andie {
     /** The colour used as the background for the tool bar in light mode. */
     private static Color darkWhite = new Color(240, 240, 240);
 
+    /** The colour used for all buttons in dark mode. */
+    private static Color greyBlue = new Color(87, 111, 158);
+
+    /** The colour used for all buttons in light mode. */
+    private static Color lightGreyBlue = new Color(195, 216, 237);
+
     /**
      * <p>
      * Launches the main GUI for the ANDIE program.
@@ -482,6 +488,50 @@ public class Andie {
 
     public static void updateDarkMode() {
         if (darkMode) {
+            // Option panes.
+            UIManager.put("OptionPane.background", lightGrey);
+            UIManager.put("OptionPane.foreground", lightWhite);
+            UIManager.put("OptionPane.messageForeground", lightWhite);
+            // Sliders.
+            UIManager.put("Slider.background", lightGrey);
+            UIManager.put("Slider.foreground", lightWhite);
+            // File choosers.
+            UIManager.put("FileChooser.background", lightGrey);
+            UIManager.put("FileChooser.foreground", lightWhite);
+            UIManager.put("ComboBox.background", lightGrey);
+            UIManager.put("ComboBox.foreground", lightWhite);
+            UIManager.put("List.background", lightGrey);
+            UIManager.put("List.foreground", lightWhite);
+            // Colour choosers.
+            UIManager.put("ColorChooser.background", lightGrey);
+            UIManager.put("ColorChooser.foreground", lightWhite);
+            UIManager.put("TabbedPane.background", lightGrey);
+            UIManager.put("TabbedPane.foreground", lightWhite);
+            UIManager.put("TabbedPane.selected", greyBlue);
+            UIManager.put("Label.background", lightGrey);
+            UIManager.put("Label.foreground", lightWhite);
+            UIManager.put("RadioButton.background", lightGrey);
+            UIManager.put("RadioButton.foreground", lightWhite);
+            UIManager.put("Spinner.background", lightGrey);
+            UIManager.put("Spinner.foreground", lightWhite);
+            UIManager.put("FormattedTextField.background", lightGrey);
+            UIManager.put("FormattedTextField.foreground", lightWhite);
+            UIManager.put("TextField.background", lightGrey);
+            UIManager.put("TextField.foreground", lightWhite);
+            // Panels.
+            UIManager.put("Panel.background", lightGrey);
+            UIManager.put("Panel.foreground", lightWhite);
+            // Buttons.
+            UIManager.put("Button.foreground", lightWhite);
+            UIManager.put("Button.background", greyBlue);
+            UIManager.put("Button.shadow", greyBlue);
+            UIManager.put("Button.gradient", greyBlue);
+            // Check boxes.
+            UIManager.put("CheckBox.foreground", lightWhite);
+            UIManager.put("CheckBox.background", lightGrey);
+            UIManager.put("CheckBox.shadow", lightGrey);
+            UIManager.put("CheckBox.border", lightGrey);
+
             // Set the background and foreground colors for the frame.
             frame.setBackground(darkGrey);
             frame.setForeground(darkGrey);
@@ -517,6 +567,53 @@ public class Andie {
             
         }
         if (!darkMode) {
+            // Option panes.
+            UIManager.put("OptionPane.background", Color.white);
+            UIManager.put("OptionPane.foreground", grey);
+            UIManager.put("OptionPane.messageForeground", grey);
+            // Sliders.
+            UIManager.put("Slider.background", Color.white);
+            UIManager.put("Slider.foreground", grey);
+            // File choosers.
+            UIManager.put("FileChooser.background", Color.white);
+            UIManager.put("FileChooser.foreground", grey);
+            UIManager.put("ComboBox.background", Color.white);
+            UIManager.put("ComboBox.foreground", grey);
+            UIManager.put("List.background", Color.white);
+            UIManager.put("List.foreground", grey);
+            // Colour choosers.
+            UIManager.put("ColorChooser.background", Color.white);
+            UIManager.put("ColorChooser.foreground", grey);
+            UIManager.put("TabbedPane.background", Color.white);
+            UIManager.put("TabbedPane.foreground", grey);
+            UIManager.put("TabbedPane.selected", lightGreyBlue);
+            UIManager.put("Label.background", Color.white);
+            UIManager.put("Label.foreground", grey);
+            UIManager.put("RadioButton.background", Color.white);
+            UIManager.put("RadioButton.foreground", grey);
+            UIManager.put("Spinner.background", Color.white);
+            UIManager.put("Spinner.foreground", grey);
+            UIManager.put("FormattedTextField.background", Color.white);
+            UIManager.put("FormattedTextField.foreground", grey);
+            UIManager.put("TextField.background", Color.white);
+            UIManager.put("TextField.foreground", grey);
+            // Panels.
+            UIManager.put("Panel.background", Color.white);
+            UIManager.put("Panel.foreground", grey);
+            // Buttons.
+            UIManager.put("Button.foreground", grey);
+            UIManager.put("Button.background", lightGreyBlue);
+            UIManager.put("Button.shadow", lightGreyBlue);
+            UIManager.put("Button.gradient", lightGreyBlue);
+            // Check boxes.
+            UIManager.put("CheckBox.foreground", grey);
+            UIManager.put("CheckBox.background", Color.white);
+            UIManager.put("CheckBox.shadow", Color.white);
+            UIManager.put("CheckBox.border", Color.white);
+
+            // This is for the JOptionPanes used in actions.
+            UIManager.put("OptionPane.background", Color.white);
+
             // Set the background and foreground colors for the frame.
             frame.setBackground(darkerWhite);
             frame.setForeground(darkerWhite);
