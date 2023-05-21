@@ -3,6 +3,7 @@ package cosc202.andie;
 import java.util.*;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.HeadlessException;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,6 +20,7 @@ public class DrawActions extends JFrame {
     JPanel panel;
     public static Color userColour = Color.white;
     public static boolean drawMode;
+    public static int userWidth = 5;
 
     /**
      * A list of actions for the Tool (Draw) menu.
@@ -62,6 +64,9 @@ public class DrawActions extends JFrame {
                 LanguageActions.getLocaleString("regionCropDesc"), Integer.valueOf(KeyEvent.VK_X));
         actions.add(this.cropAction);
 
+        actions.add(new SelectWidth(LanguageActions.getLocaleString("width"), null,
+                LanguageActions.getLocaleString("pickAWidth"), Integer.valueOf(KeyEvent.VK_P)));
+
         // Add the draw line/circle/rectangle actions to the list of sub actions (for
         // this menu).
         actionsSub = new ArrayList<Action>();
@@ -72,6 +77,10 @@ public class DrawActions extends JFrame {
         actionsSub.add(new DrawLineAction(LanguageActions.getLocaleString("drawLine"),
                 null,
                 LanguageActions.getLocaleString("drawLineDesc"), Integer.valueOf(0)));
+        actionsSub.add(new DrawRecOutlineAction(LanguageActions.getLocaleString("drawRecOutline"), null,
+                LanguageActions.getLocaleString("drawRecOutlineDesc"), Integer.valueOf(0)));
+        actionsSub.add(new DrawCircOutlineAction(LanguageActions.getLocaleString("drawCircOutline"), null,
+                LanguageActions.getLocaleString("drawCircOutlineDesc"), Integer.valueOf(0)));
     }
 
     /**
@@ -119,6 +128,44 @@ public class DrawActions extends JFrame {
 
         public void actionPerformed(ActionEvent e) {
             target.setTool(0);
+        }
+
+    }
+
+    public class SelectWidth extends ImageAction {
+
+        SelectWidth(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+        }
+
+        public void actionPerformed(ActionEvent e) {
+            JSlider jslider = new JSlider();
+            jslider.setValue(userWidth);
+            jslider.setMaximum(50);
+            jslider.setMinimum(5);
+            jslider.setMajorTickSpacing(5);
+            jslider.setPaintLabels(true);
+            jslider.setPaintTicks(true);
+
+            try {
+                int option = JOptionPane.showOptionDialog(Andie.frame, jslider,
+                        LanguageActions.getLocaleString("widthSlider"),
+                        JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+                if (option == JOptionPane.CANCEL_OPTION || option == JOptionPane.CLOSED_OPTION) {
+                    return;
+                }
+                if (option == JOptionPane.OK_OPTION) {
+                    userWidth = jslider.getValue();
+                    System.out.println(userWidth);
+                }
+                if (userWidth == 5) {
+                    return;
+                }
+            } catch (HeadlessException ex) {
+                // Headless exception, thrown when the code is dependent on a keyboard or mouse.
+                // Won't happen for our users, so just exit.
+                System.exit(1);
+            }
         }
 
     }
@@ -339,6 +386,7 @@ public class DrawActions extends JFrame {
                 // Trying to crop when there is no region selected. Give the user an error.
                 JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("cropErrorNoSelectedRegion"),
                         LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                return;
             }
             // There is an image open, and a selected region, so we try to crop it.
             target.getImage().apply(new RegionCrop(ImagePanel.rect));
@@ -352,6 +400,74 @@ public class DrawActions extends JFrame {
             ImagePanel.exitY = 0;
             target.getParent().revalidate();
         }
+    }
+
+    /**
+     * <p>
+     * Action to draw a rectangle.
+     * </p>
+     * 
+     * @see DrawRec
+     */
+    public class DrawRecOutlineAction extends ImageAction {
+
+        /**
+         * <p>
+         * Create a new select region action.
+         * </p>
+         * 
+         * @param name     The name of the action (ignored if null).
+         * @param icon     An icon to use to represent the action (ignored if null).
+         * @param desc     A brief description of the action (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
+         */
+        DrawRecOutlineAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+        }
+
+        public void actionPerformed(ActionEvent e) {
+            try {
+                target.deselect();
+                target.setTool(4);
+                target.repaint();
+            } catch (Exception ert) {
+            }
+        }
+
+    }
+
+    /**
+     * <p>
+     * Action to draw a rectangle.
+     * </p>
+     * 
+     * @see DrawCirc
+     */
+    public class DrawCircOutlineAction extends ImageAction {
+
+        /**
+         * <p>
+         * Create a new select region action.
+         * </p>
+         * 
+         * @param name     The name of the action (ignored if null).
+         * @param icon     An icon to use to represent the action (ignored if null).
+         * @param desc     A brief description of the action (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
+         */
+        DrawCircOutlineAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+        }
+
+        public void actionPerformed(ActionEvent e) {
+            try {
+                target.deselect();
+                target.setTool(5);
+                target.repaint();
+            } catch (Exception ert) {
+            }
+        }
+
     }
 
 }
