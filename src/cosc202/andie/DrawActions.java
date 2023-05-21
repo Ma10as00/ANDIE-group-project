@@ -13,7 +13,8 @@ import java.awt.Toolkit;
 import java.awt.event.*;
 
 public class DrawActions extends JFrame {
-    protected ArrayList<Action> actionsSub;
+    protected ArrayList<Action> actionsSubRect;
+    protected ArrayList<Action> actionsSubCirc;
     public int startX, startY, endX, endY;
     public Rectangle rectangle;
     int chooseOption;
@@ -71,17 +72,18 @@ public class DrawActions extends JFrame {
 
         // Add the draw line/circle/rectangle actions to the list of sub actions (for
         // this menu).
-        actionsSub = new ArrayList<Action>();
-        actionsSub.add(new DrawCircleAction(LanguageActions.getLocaleString("drawCircle"), null,
+        actionsSubRect = new ArrayList<Action>();
+        actionsSubCirc = new ArrayList<Action>();
+        actionsSubCirc.add(new DrawCircleAction(LanguageActions.getLocaleString("drawCircle"), null,
                 LanguageActions.getLocaleString("drawCircleDesc"), Integer.valueOf(0)));
-        actionsSub.add(new DrawRecAction(LanguageActions.getLocaleString("drawRec"), null,
+        actionsSubRect.add(new DrawRecAction(LanguageActions.getLocaleString("drawRec"), null,
                 LanguageActions.getLocaleString("drawRecDesc"), Integer.valueOf(0)));
-        actionsSub.add(new DrawLineAction(LanguageActions.getLocaleString("drawLine"),
+        actions.add(new DrawLineAction(LanguageActions.getLocaleString("drawLine"),
                 null,
                 LanguageActions.getLocaleString("drawLineDesc"), Integer.valueOf(0)));
-        actionsSub.add(new DrawRecOutlineAction(LanguageActions.getLocaleString("drawRecOutline"), null,
+        actionsSubRect.add(new DrawRecOutlineAction(LanguageActions.getLocaleString("drawRecOutline"), null,
                 LanguageActions.getLocaleString("drawRecOutlineDesc"), Integer.valueOf(0)));
-        actionsSub.add(new DrawCircOutlineAction(LanguageActions.getLocaleString("drawCircOutline"), null,
+        actionsSubCirc.add(new DrawCircOutlineAction(LanguageActions.getLocaleString("drawCircOutline"), null,
                 LanguageActions.getLocaleString("drawCircOutlineDesc"), Integer.valueOf(0)));
     }
 
@@ -94,20 +96,27 @@ public class DrawActions extends JFrame {
      */
     public JMenu createMenu() {
         JMenu fileMenu = new JMenu(LanguageActions.getLocaleString("tools"));
-        JMenu subMenu = new JMenu(LanguageActions.getLocaleString("drawing"));
+        JMenu subMenuCirc = new JMenu(LanguageActions.getLocaleString("circle"));
+        JMenu subMenuRect = new JMenu(LanguageActions.getLocaleString("rectangle"));
 
         for (Action action : actions) {
             JMenuItem item = new JMenuItem(action);
             item.setBorderPainted(false);
             fileMenu.add(item);
         }
-        for (Action action : actionsSub) {
+        for (Action action : actionsSubRect) {
             JMenuItem item = new JMenuItem(action);
             item.setBorderPainted(false);
-            subMenu.add(item);
+            subMenuRect.add(item);
+        }
+        for (Action action : actionsSubCirc) {
+            JMenuItem item = new JMenuItem(action);
+            item.setBorderPainted(false);
+            subMenuCirc.add(item);
         }
 
-        fileMenu.add(subMenu);
+        fileMenu.add(subMenuRect);
+        fileMenu.add(subMenuCirc);
         return fileMenu;
     }
 
