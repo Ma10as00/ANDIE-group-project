@@ -54,9 +54,11 @@ public class DrawActions extends JFrame {
         // in this menu).
         this.pickColourAction = new PickColourAction(LanguageActions.getLocaleString("pickCol"), null,
                 LanguageActions.getLocaleString("pickColDesc"), Integer.valueOf(0));
+        actions.add(this.pickColourAction);
 
         this.selectAction = new SelectAction(LanguageActions.getLocaleString("selectTool"), null,
                 LanguageActions.getLocaleString("returnToSelect"), null);
+        actions.add(this.selectAction);
 
         // Create an instance of RegionCropAction to be used in the toolbar and add to
         // the list of actions (for this menu).
