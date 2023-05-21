@@ -5,10 +5,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.awt.geom.Line2D;
-
 import javax.swing.*;
-import javax.swing.text.Position;
 
 /**
  * <p>
@@ -50,7 +47,6 @@ public class ImagePanel extends JPanel {
      * Storing the rectangle the is selected.
      */
     public static Rectangle rect;
-    public static Line2D line;
 
     /**
      * To keep track of if marcos is recording.
@@ -170,8 +166,6 @@ public class ImagePanel extends JPanel {
                 }
                 rect = new Rectangle(Math.min(enterX, exitX), Math.min(enterY, exitY), Math.abs(exitX - enterX),
                         Math.abs(exitY - enterY));
-                line = new Line2D.Double(enterX, enterY, exitX, exitY);
-                repaint();
                 repaint();
             }
 
@@ -194,6 +188,18 @@ public class ImagePanel extends JPanel {
                 }
                 if (tool == drawLine) {
                     image.apply(new DrawLine(enterX, enterY, exitX, exitY));
+                    deselect();
+                }
+                if (tool == drawRectOutline) {
+                    image.apply(new DrawRec(rect, DrawActions.userColour, true));
+                    deselect();
+                }
+                if (tool == drawCircOutline) {
+                    int x = Math.min(enterX, exitX);
+                    int y = Math.min(enterY, exitY);
+                    int width = Math.abs(enterX - exitX);
+                    int height = Math.abs(enterY - exitY);
+                    image.apply(new DrawCircle(x, y, height, width, true));
                     deselect();
                 }
             }
@@ -383,7 +389,6 @@ public class ImagePanel extends JPanel {
     }
 
     public void deselect() {
-        line = null;
         rect = null;
         ImagePanel.enterX = 0;
         ImagePanel.enterY = 0;
