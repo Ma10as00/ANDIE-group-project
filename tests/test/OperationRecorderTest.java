@@ -6,9 +6,10 @@ import static org.junit.Assert.assertTrue;
 
 import java.beans.PropertyChangeListener;
 
-import javax.swing.*;
-
 import org.junit.Test;
+
+import java.awt.*;
+import java.awt.event.KeyEvent;
 
 import cosc202.andie.*;
 
@@ -18,10 +19,18 @@ import cosc202.andie.*;
  */
 public class OperationRecorderTest {
 
+    /** Robot acting as the user of the Andie-program */
+    private Robot robot;
+
     /**
      * Initiates the GUI of Andie.
      */
     private void startAndie(){
+        try {
+            robot = new Robot();
+        } catch (AWTException e) {
+            e.printStackTrace();
+        }
         try {
             Andie.createAndShowGUI();
             ImageAction.setTarget(Andie.imagePanel);
@@ -43,32 +52,13 @@ public class OperationRecorderTest {
         assertFalse(Andie.imagePanel.ongoingRecording);
         assertFalse(Andie.imagePanel.getImage().hasListeners("ops"));
 
-        //User clicks on the button for a StartRecordingAction:
+        //User initiates a StartRecordingAction:
         startRecording();
 
         //Now, there should be a recording ongoing:
+        System.out.println(Andie.imagePanel.ongoingRecording);
         assertTrue(Andie.imagePanel.ongoingRecording);
         assertTrue(Andie.imagePanel.getImage().hasListeners("ops"));
-    }
-
-    /**
-     * Opening a picture in the ImagePanel of Andie.
-     */
-    private void openImage() {
-        // Should find a way to use this
-        String relativePath = "pictures/ANDIE_GUI.png"; 
-        // instead of this:
-        String fullPath = "C:/COSC202/andie-return-a-plus/pictures/ANDIE_GUI.png"; 
-        
-        Andie.imagePanel.getImage().open(fullPath); // This will only work on Mathias' computer.
-    }
-
-    /**
-     * Mimicing a user clicking on the "Start recording" button in the GUI.
-     */
-    private void startRecording() {
-        JMenuItem startRecordingButton = Andie.frame.getJMenuBar().getMenu(7).getItem(0);
-        startRecordingButton.doClick();
     }
 
     /**
@@ -78,7 +68,7 @@ public class OperationRecorderTest {
     public void OperationIsRecordedTest(){
         System.out.println("Made it to here");
         startAndie();
-        openImage(); //TODO This isn't working as it should right now
+        openImage();
         startRecording();
 
         //Retrieving the recorder from Andie:
@@ -97,11 +87,45 @@ public class OperationRecorderTest {
     }
 
     /**
-     * Mimicing a user clicking on the "Greyscale" button in the GUI.
+     * Opening a picture in the ImagePanel of Andie.
+     */
+    private void openImage() {
+        // Find path to the folder of this project, "..../andie-return-a-plus":
+        String currentDirectory = System.getProperty("user.dir"); 
+        // Add path within folder:
+        String relativePath = "pictures/ANDIE_GUI.png"; 
+        
+        //This should now work on all computers, no matter where they this project stored:
+        Andie.imagePanel.getImage().open(currentDirectory + relativePath);
+    }
+
+    /**
+     * Mimicing a user initiating the "Start recording" action in the GUI.
+     */
+    private void startRecording() {
+        //User presses Ctrl+8, the command for "Start recording"
+        robot.keyPress(KeyEvent.VK_CONTROL);
+        robot.delay(100);
+        robot.keyPress(KeyEvent.VK_8);
+        robot.delay(100);
+        robot.keyRelease(KeyEvent.VK_CONTROL);
+        robot.delay(100);
+        robot.keyRelease(KeyEvent.VK_8);
+        robot.delay(100);
+    }
+
+    /**
+     * Mimicing a user initiating the "Greyscale" action in the GUI.
      */
     private void greyScaleFilter() {
-        JMenuItem greyScaleButton = Andie.frame.getJMenuBar().getMenu(6).getItem(0);
-        greyScaleButton.doClick();
+        //User presses Ctrl+G, the command for "Greyscale"
+        robot.keyPress(KeyEvent.VK_CONTROL);
+        robot.delay(100);
+        robot.keyPress(KeyEvent.VK_G);
+        robot.delay(100);
+        robot.keyRelease(KeyEvent.VK_CONTROL);
+        robot.delay(100);
+        robot.keyRelease(KeyEvent.VK_G);
+        robot.delay(100);
     }
-    
 }
