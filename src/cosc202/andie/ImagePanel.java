@@ -5,6 +5,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.geom.Line2D;
+
+import javax.sound.sampled.Line;
 import javax.swing.*;
 
 /**
@@ -56,9 +59,12 @@ public class ImagePanel extends JPanel {
 
     public int tool;
 
+    private static int selection = 0;
     private static int drawRect = 1;
     private static int drawCircle = 2;
     private static int drawLine = 3;
+    private static int drawRectOutline = 4;
+    private static int drawCircOutline = 5;
 
     public Point enter;
     public Point exit;
@@ -178,7 +184,11 @@ public class ImagePanel extends JPanel {
                     rect = null;
                 }
                 if (tool == drawCircle) {
-                    image.apply(new DrawCircle());
+                    int x = Math.min(enterX, exitX);
+                    int y = Math.min(enterY, exitY);
+                    int width = Math.abs(enterX - exitX);
+                    int height = Math.abs(enterY - exitY);
+                    image.apply(new DrawCircle(x, y, height, width));
                     circle = null;
                 }
                 if (tool == drawLine) {
@@ -342,11 +352,11 @@ public class ImagePanel extends JPanel {
             }
             if (circle != null && getTool() == 2) {
                 g2d.setColor(DrawActions.userColour);
-                g2d.fillOval(Math.min(enterX,
-                        enterY),
-                        Math.min(enterY, exitY),
-                        Math.abs((exitX - 20) - (enterX - 20)),
-                        Math.abs((exitY - 20) - (enterY - 20)));
+                int x = Math.min(enterX, exitX);
+                int y = Math.min(enterY, exitY);
+                int width = Math.abs(enterX - exitX);
+                int height = Math.abs(enterY - exitY);
+                g2d.fillOval(x, y, width, height);
             }
         }
     }
