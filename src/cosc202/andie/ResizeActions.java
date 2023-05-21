@@ -54,7 +54,9 @@ public class ResizeActions {
         JMenu fileMenu = new JMenu(LanguageActions.getLocaleString("resize"));
 
         for(Action action: actions) {
-            fileMenu.add(new JMenuItem(action));
+            JMenuItem item = new JMenuItem(action);
+            item.setBorderPainted(false);
+            fileMenu.add(item);
         }
 
         return fileMenu;
@@ -102,7 +104,7 @@ public class ResizeActions {
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
                 try {
-                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("resize50Err"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("resize50Err"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 } catch (HeadlessException ex) {
                     // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
                     // Won't happen for our users, so just exit.
@@ -160,7 +162,7 @@ public class ResizeActions {
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
                 try {
-                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("resize150Err"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("resize150Err"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 } catch (HeadlessException ex) {
                     // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
                     // Won't happen for our users, so just exit.
@@ -218,7 +220,7 @@ public class ResizeActions {
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
                 try {
-                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("resizeErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("resizeErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 } catch (HeadlessException ex) {
                     // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
                     // Won't happen for our users, so just exit.
@@ -264,7 +266,7 @@ public class ResizeActions {
 
                 // Ask user for resizePercent value with slider.
                 try {
-                    int option = JOptionPane.showOptionDialog(null, jslider, LanguageActions.getLocaleString("resizeSlid"),
+                    int option = JOptionPane.showOptionDialog(Andie.frame, jslider, LanguageActions.getLocaleString("resizeSlid"),
                             JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
                     if (option == JOptionPane.CANCEL_OPTION || option == JOptionPane.CLOSED_OPTION) {
                         // Set the image in target back to the actual image and repaint.

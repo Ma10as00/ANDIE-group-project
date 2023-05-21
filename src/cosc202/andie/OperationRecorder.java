@@ -23,6 +23,9 @@ public class OperationRecorder implements IOperationRecorder{
 
     private ArrayList<ImageOperation> recordedOps;
 
+    /**
+     * Constructs a new {@link OperationRecorder}.
+     */
     public OperationRecorder(){
         recordedOps = new ArrayList<>();
     }

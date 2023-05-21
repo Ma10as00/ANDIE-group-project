@@ -58,7 +58,9 @@ public class FilterActions {
         JMenu fileMenu = new JMenu(LanguageActions.getLocaleString("filter"));
 
         for(Action action: actions) {
-            fileMenu.add(new JMenuItem(action));
+            JMenuItem item = new JMenuItem(action);
+            item.setBorderPainted(false);
+            fileMenu.add(item);
         }
 
         return fileMenu;
@@ -105,7 +107,7 @@ public class FilterActions {
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
                 try {
-                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("meanErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("meanErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 } catch (HeadlessException ex) {
                     // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
                     // Won't happen for our users, so just exit.
@@ -148,7 +150,7 @@ public class FilterActions {
 
                 // Ask user for radius value with slider.
                 try {
-                    int option = JOptionPane.showOptionDialog(null, jslider, LanguageActions.getLocaleString("meanSlid"),
+                    int option = JOptionPane.showOptionDialog(Andie.frame, jslider, LanguageActions.getLocaleString("meanSlid"),
                             JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
                     if (option == JOptionPane.CANCEL_OPTION) {
                         // Set the image in target back to the actual image and repaint.
@@ -227,7 +229,7 @@ public class FilterActions {
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
                 try {
-                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("sharpenErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("sharpenErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 } catch (HeadlessException ex) {
                     // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
                     // Won't happen for our users, so just exit.
@@ -270,7 +272,7 @@ public class FilterActions {
 
                 // Ask user for radius value with slider.
                 try {
-                    int option = JOptionPane.showOptionDialog(null, jslider, LanguageActions.getLocaleString("sharpenSlid"),
+                    int option = JOptionPane.showOptionDialog(Andie.frame, jslider, LanguageActions.getLocaleString("sharpenSlid"),
                             JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
                     if (option == JOptionPane.CANCEL_OPTION) {
                         // Set the image in target back to the actual image and repaint.
@@ -348,7 +350,7 @@ public class FilterActions {
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
                 try { 
-                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("gaussianErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("gaussianErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 } catch (HeadlessException ex) {
                     // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
                     // Won't happen for our users, so just exit.
@@ -391,7 +393,7 @@ public class FilterActions {
 
                 // Ask user for radius value with slider.
                 try {
-                    int option = JOptionPane.showOptionDialog(null, jslider, LanguageActions.getLocaleString("gaussianSlid"),
+                    int option = JOptionPane.showOptionDialog(Andie.frame, jslider, LanguageActions.getLocaleString("gaussianSlid"),
                             JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
                     if (option == JOptionPane.CANCEL_OPTION) {
                         // Set the image in target back to the actual image and repaint.
@@ -469,7 +471,7 @@ public class FilterActions {
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
                 try{
-                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("medianErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("medianErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 } catch (HeadlessException ex) {
                     // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
                     // Won't happen for our users, so just exit.
@@ -520,7 +522,7 @@ public class FilterActions {
 
                 // Ask user for radius value with slider.
                 try {
-                    int option = JOptionPane.showOptionDialog(null, jslider, LanguageActions.getLocaleString("medianRad"),
+                    int option = JOptionPane.showOptionDialog(Andie.frame, jslider, LanguageActions.getLocaleString("medianRad"),
                             JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
                     if (option == JOptionPane.CANCEL_OPTION) {
                         // Set the image in target back to the actual image and repaint.
@@ -598,7 +600,7 @@ public class FilterActions {
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
                 try { 
-                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("sobelErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("sobelErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 } catch (HeadlessException ex) {
                     // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
                     // Won't happen for our users, so just exit.
@@ -611,7 +613,7 @@ public class FilterActions {
                 boolean removeNoise = false;
                 // Ask user if they want to remove noise.
                 try {
-                    int option = JOptionPane.showOptionDialog(null, LanguageActions.getLocaleString("sobelQuestion"), LanguageActions.getLocaleString("sobelHorizontalTitle"),
+                    int option = JOptionPane.showOptionDialog(Andie.frame, LanguageActions.getLocaleString("sobelQuestion"), LanguageActions.getLocaleString("sobelHorizontalTitle"),
                             JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
                     if (option == JOptionPane.YES_OPTION) {
                         // The user wants to remove noise.
@@ -675,7 +677,7 @@ public class FilterActions {
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
                 try { 
-                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("sobelErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("sobelErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 } catch (HeadlessException ex) {
                     // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
                     // Won't happen for our users, so just exit.
@@ -688,7 +690,7 @@ public class FilterActions {
                 boolean removeNoise = false;
                 // Ask user if they want to remove noise.
                 try {
-                    int option = JOptionPane.showOptionDialog(null, LanguageActions.getLocaleString("sobelQuestion"), LanguageActions.getLocaleString("sobelVericalTitle"),
+                    int option = JOptionPane.showOptionDialog(Andie.frame, LanguageActions.getLocaleString("sobelQuestion"), LanguageActions.getLocaleString("sobelVericalTitle"),
                             JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
                     if (option == JOptionPane.YES_OPTION) {
                         // The user wants to remove noise.
@@ -752,7 +754,7 @@ public class FilterActions {
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
                 try { 
-                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("sobelErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("sobelErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 } catch (HeadlessException ex) {
                     // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
                     // Won't happen for our users, so just exit.
@@ -765,7 +767,7 @@ public class FilterActions {
                 boolean removeNoise = false;
                 // Ask user if they want to remove noise.
                 try {
-                    int option = JOptionPane.showOptionDialog(null, LanguageActions.getLocaleString("sobelQuestion"), LanguageActions.getLocaleString("sobelOrientationTitle"),
+                    int option = JOptionPane.showOptionDialog(Andie.frame, LanguageActions.getLocaleString("sobelQuestion"), LanguageActions.getLocaleString("sobelOrientationTitle"),
                             JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
                     if (option == JOptionPane.YES_OPTION) {
                         // The user wants to remove noise.
@@ -848,7 +850,7 @@ public class FilterActions {
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
                 try {
-                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("embossErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("embossErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 } catch (HeadlessException ex) {
                     // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
                     // Won't happen for our users, so just exit.
@@ -942,7 +944,7 @@ public class FilterActions {
 
                 // Ask user for these values with an option dialogue.
                 try {
-                    int option = JOptionPane.showOptionDialog(null, choosePanel, LanguageActions.getLocaleString("embossSlid"),
+                    int option = JOptionPane.showOptionDialog(Andie.frame, choosePanel, LanguageActions.getLocaleString("embossSlid"),
                             JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
                     if (option == JOptionPane.CANCEL_OPTION || option == JOptionPane.CLOSED_OPTION) {
                         // Set the image in target back to the actual image and repaint.
@@ -1022,7 +1024,7 @@ public class FilterActions {
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
                 try {
-                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("embossErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("embossErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 } catch (HeadlessException ex) {
                     // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
                     // Won't happen for our users, so just exit.
@@ -1074,7 +1076,7 @@ public class FilterActions {
                 });
                 // Ask user for emboss type with a slider.
                 try {
-                    int option = JOptionPane.showOptionDialog(null, choosePanel, LanguageActions.getLocaleString("embossSlid"),
+                    int option = JOptionPane.showOptionDialog(Andie.frame, choosePanel, LanguageActions.getLocaleString("embossSlid"),
                             JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
                     if (option == JOptionPane.CANCEL_OPTION) {
                         // Set the image in target back to the actual image and repaint.

@@ -51,7 +51,9 @@ public class MacroActions{
         JMenu menu = new JMenu(LanguageActions.getLocaleString("macro"));
 
         for (Action action: actions) {
-            menu.add(new JMenuItem(action));
+            JMenuItem item = new JMenuItem(action);
+            item.setBorderPainted(false);
+            menu.add(item);
         }
 
         return menu;
@@ -162,7 +164,7 @@ public class MacroActions{
             if (!target.getImage().hasImage()) {
                 // There is not an image open, don't allow the user to initiate a recording.
                 try {
-                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("macroImageErr"), 
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("macroImageErr"), 
                         LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                     return;
                 } catch (HeadlessException ex) {
@@ -173,7 +175,7 @@ public class MacroActions{
             }
             // Check if a macro recording is ongoing.
             if (target.ongoingRecording){
-                JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("recorderror"), 
+                JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("recorderror"), 
                         LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 return;
             }
@@ -218,7 +220,7 @@ public class MacroActions{
 
             // Retrieve the recording from the ImagePanel.
             if(!targetImage.hasListeners("ops")){
-                JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("stoprecorderror"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("stoprecorderror"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
             }
             PropertyChangeListener[] plcs = targetImage.getPropertyChangeListeners("ops");
             if (plcs.length > 1){
@@ -231,7 +233,7 @@ public class MacroActions{
 
             // If no operations were recorded, ask user if they really want to stop the recording.
             if(rec.getOps().size() < 1){
-                int choice = JOptionPane.showOptionDialog(null,LanguageActions.getLocaleString("norecord"), LanguageActions.getLocaleString("error"), 
+                int choice = JOptionPane.showOptionDialog(Andie.frame,LanguageActions.getLocaleString("norecord"), LanguageActions.getLocaleString("error"), 
                                                             JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
                 if (choice == JOptionPane.NO_OPTION)
                     return;
@@ -252,7 +254,7 @@ public class MacroActions{
 
             // Give the user an option to save the macro.
             try {
-                int saveOrNot = JOptionPane.showOptionDialog(null, LanguageActions.getLocaleString("wantsave"), LanguageActions.getLocaleString("save"), 
+                int saveOrNot = JOptionPane.showOptionDialog(null, LanguageActions.getLocaleString("wantsave") + System.lineSeparator() + m, LanguageActions.getLocaleString("save"), 
                                                                 JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
                 if (saveOrNot == JOptionPane.YES_OPTION) {
                     // We loop until the file is successfully saved or the user actively cancelled,
@@ -282,7 +284,7 @@ public class MacroActions{
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message, and do not save.
                 try {
-                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("errorNoImageAs"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("errorNoImageAs"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 } catch (HeadlessException ex) {
                     // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
                     // Won't happen for our users, so just exit.
@@ -301,7 +303,7 @@ public class MacroActions{
                     // Check that the ops file name is valid.
                     if (isValidOpsName(opsFilepath) == false) {
                         // The image file name is not valid. Show error message and do not save as.
-                        JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("opsSyntaxError"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("opsSyntaxError"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                         // We return false as the user probably doesn't want to lose the recorded macros.
                         return false;
                     }
@@ -309,7 +311,7 @@ public class MacroActions{
                     else if (isExistingFilename(opsFilepath)) {
                         // The ops file name already describes another file name. 
                         // Ask user if they want to override or cancel.
-                        int option = JOptionPane.showConfirmDialog(null, LanguageActions.getLocaleString("warningAnotherFile"), LanguageActions.getLocaleString("warning"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+                        int option = JOptionPane.showConfirmDialog(Andie.frame, LanguageActions.getLocaleString("warningAnotherFile"), LanguageActions.getLocaleString("warning"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
                         if (option == JOptionPane.CANCEL_OPTION || option == JOptionPane.CLOSED_OPTION) {
                             // User cancelled or closed the pop up, allow them to try to save again.
                             return false;
@@ -333,7 +335,7 @@ public class MacroActions{
                     // There would have been an error in getting canonical pathname.
                     // Just let the user know. Probably won't happen.
                     try {
-                        JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("savemacroerror"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("savemacroerror"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                     }   
                     catch (HeadlessException eh) {
                         // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
@@ -387,7 +389,7 @@ public class MacroActions{
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
                 try {
-                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("errorNoOpen"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("errorNoOpen"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 } catch (HeadlessException ex) {
                     // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
                     // Won't happen for our users, so just exit.
@@ -408,7 +410,7 @@ public class MacroActions{
                     // First, check that the file trying to be opened is an ops file.
                     if (isValidOpsName(opsFilepath) == false) {
                         // The ops file name is not valid. Show error message and do not open.
-                        JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("errorNotOps"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("errorNotOps"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                         // The file opened was not a macro file. Allow the user to try again.
                         return false;
                     }
@@ -427,7 +429,7 @@ public class MacroActions{
                             target.repaint();
                             target.getParent().revalidate();
                         } else {
-                            JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("filenomacro"), LanguageActions.getLocaleString("invalidfile"), JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("filenomacro"), LanguageActions.getLocaleString("invalidfile"), JOptionPane.ERROR_MESSAGE);
                         }
                         objIn.close();
                         fileIn.close();
@@ -442,7 +444,7 @@ public class MacroActions{
                     // There would have been an error in getting canonical pathname.
                     // Just let the user know. Probably won't happen.
                     try {
-                        JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("errorOpenFile"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("errorOpenFile"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                     }   
                     catch (HeadlessException eh) {
                         // Headless exception, thrown when the code is dependent on a keyboard or mouse. 

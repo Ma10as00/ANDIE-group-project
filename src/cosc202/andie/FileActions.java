@@ -73,7 +73,9 @@ public class FileActions {
         JMenu fileMenu = new JMenu(LanguageActions.getLocaleString("file"));
 
         for (Action action : actions) {
-            fileMenu.add(new JMenuItem(action));
+            JMenuItem item = new JMenuItem(action);
+            item.setBorderPainted(false);
+            fileMenu.add(item);
         }
 
         return fileMenu;
@@ -195,7 +197,7 @@ public class FileActions {
             // Check if there is an ongoing recording of macros.
             if (target.ongoingRecording) {
                 // There is an ongoing recording of a macro. Do not let them open another image.
-                JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("recordmacroopen"),
+                JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("recordmacroopen"),
                         LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 return;
             }
@@ -204,7 +206,7 @@ public class FileActions {
                 if (!target.getImage().opsSaved()) {
                     // There is an image open and it is unsaved, warn user that any unsaved changes will be deleted.
                     try {
-                        int option = JOptionPane.showConfirmDialog(null, LanguageActions.getLocaleString("errorExit"),
+                        int option = JOptionPane.showConfirmDialog(Andie.frame, LanguageActions.getLocaleString("errorExit"),
                                 LanguageActions.getLocaleString("warning"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
 
                         if (option == JOptionPane.CANCEL_OPTION || option == JOptionPane.CLOSED_OPTION) {
@@ -246,7 +248,7 @@ public class FileActions {
                     // First, check that the file trying to be opened is a png image
                     if (isValidPNGName(imageFilepath) == false) {
                         // The image file name is not valid. Show error message and do not open.
-                        JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("errorNotPng"), 
+                        JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("errorNotPng"), 
                                 LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
 
                         return false;
@@ -263,7 +265,7 @@ public class FileActions {
                     // There would have been an error in getting canonical pathname.
                     // Just let the user know. Probably won't happen.
                     try {
-                        JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("errorOpenFile"),
+                        JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("errorOpenFile"),
                             LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                     } catch (HeadlessException eh) {
                         // Headless exception, thrown when the code is dependent on a keyboard or mouse.
@@ -336,14 +338,14 @@ public class FileActions {
             // Check if there is an ongoing recording of macros.
             if (target.ongoingRecording) {
                 // There is an ongoing recording of a macro. Do not let them save.
-                JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("recordmacrosave"),
+                JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("recordmacrosave"),
                         LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 return;
             }
             // Check if there is an image open.
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
-                JOptionPane.showMessageDialog(null, "There is no image open to save.", "Error",
+                JOptionPane.showMessageDialog(Andie.frame, "There is no image open to save.", "Error",
                         JOptionPane.ERROR_MESSAGE);
             } else {
                 // There is an image open, carry on.
@@ -393,14 +395,14 @@ public class FileActions {
             // Check if there is an ongoing recording of macros.
             if (target.ongoingRecording) {
                 // There is an ongoing recording of a macro. Do not let them save as.
-                JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("recordmacrosaveas"),
+                JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("recordmacrosaveas"),
                         LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 return;
             }
             // Check if there is an image open.
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message, and do not save as.
-                JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("errorNoImageAs"), 
+                JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("errorNoImageAs"), 
                         LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
 
                 return;
@@ -433,7 +435,7 @@ public class FileActions {
                     // Check that the image file name is valid.
                     if (isValidPNGName(imageFilepath) == false) {
                         // The image file name is not valid. Show error message and do not save as.
-                        JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("syntaxError"),
+                        JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("syntaxError"),
                                 LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
 
                         return false;
@@ -443,7 +445,7 @@ public class FileActions {
                         // The image file name already describes another file name.
                         // Ask user if they want to override or cancel.
                         try {
-                            int option = JOptionPane.showConfirmDialog(null, LanguageActions.getLocaleString("warningAnotherFile"),
+                            int option = JOptionPane.showConfirmDialog(Andie.frame, LanguageActions.getLocaleString("warningAnotherFile"),
                                     LanguageActions.getLocaleString("warning"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
                             if (option == JOptionPane.CANCEL_OPTION || option == JOptionPane.CLOSED_OPTION) {
                                 // User cancelled or closed the pop up, don't save as. But, allow the user to try again.
@@ -464,7 +466,7 @@ public class FileActions {
                     // There would have been an error in getting canonical pathname.
                     // Just let the user know. Probably won't happen.
                     try {
-                        JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("errorSavingFileAs"),
+                        JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("errorSavingFileAs"),
                                 LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                     } catch (HeadlessException eh) {
                         // Headless exception, thrown when the code is dependent on a keyboard or mouse.
@@ -522,7 +524,7 @@ public class FileActions {
                 if (!target.getImage().opsSaved()) {
                     // There is an image open and it is unsaved, warn user that any unsaved changes will be deleted.
                     try {
-                        int option = JOptionPane.showConfirmDialog(null, LanguageActions.getLocaleString("warningAddImage"),
+                        int option = JOptionPane.showConfirmDialog(Andie.frame, LanguageActions.getLocaleString("warningAddImage"),
                                 LanguageActions.getLocaleString("warning"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
 
                         if (option == JOptionPane.CANCEL_OPTION) {
@@ -589,7 +591,7 @@ public class FileActions {
             // Check if there is an ongoing recording of macros.
             if (target.ongoingRecording) {
                 // There is an ongoing recording of a macro. Do not let them export.
-                JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("recordmacroexport"),
+                JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("recordmacroexport"),
                         LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 return;
             }
@@ -597,7 +599,7 @@ public class FileActions {
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
                 try {
-                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("errorNoExport"),
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("errorNoExport"),
                             LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 } catch (HeadlessException ex) {
                     // Headless exception, thrown when the code is dependent on a keyboard or mouse.
@@ -627,7 +629,7 @@ public class FileActions {
         private boolean export() {
             // Allow user to name image file and select location to export to.
             JFileChooser fileChooser = new JFileChooser();
-            int result = fileChooser.showSaveDialog(null);
+            int result = fileChooser.showSaveDialog(target);
             if (result == JFileChooser.APPROVE_OPTION) {
                 try {
                     // Get file path as inputted by user.
@@ -635,7 +637,7 @@ public class FileActions {
                     // Check that the image file name is valid.
                     if (isValidPNGName(imageFilepath) == false) {
                         // The image file name is not valid. Show error message and do not export.
-                        JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("syntaxError"),
+                        JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("syntaxError"),
                                 LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                         // This was not successful. Return  false.
                         return false;
@@ -667,7 +669,7 @@ public class FileActions {
                     // There would have been an error in getting canonical pathname.
                     // Just let the user know. Probably won't happen.
                     try {
-                        JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("errorExport"),
+                        JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("errorExport"),
                                 LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                     } catch (HeadlessException eh) {
                         // Headless exception, thrown when the code is dependent on a keyboard or mouse.

@@ -41,7 +41,7 @@ public class Macro extends ArrayList<ImageOperation> implements IMacro {
         else{
             for(int i=0; i<size(); i++){
                 str += System.lineSeparator();
-                String op = get(i).getClass().getName();
+                String op = get(i).getClass().getSimpleName();
                 str += op;
             }
         }

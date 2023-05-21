@@ -6,6 +6,7 @@ import javax.swing.*;
 import javax.swing.event.*;
 import java.awt.HeadlessException;
 import java.awt.Toolkit;
+import java.util.prefs.*;
 
 /**
  * <p>
@@ -47,7 +48,7 @@ public class ViewActions {
      */
     public ViewActions() {
         actions = new ArrayList<Action>();
-        this.zoomInAction = new ZoomInAction(LanguageActions.getLocaleString("zoomIn"), null, LanguageActions.getLocaleString("zoomInDes"), Integer.valueOf(KeyEvent.VK_PLUS));
+        this.zoomInAction = new ZoomInAction(LanguageActions.getLocaleString("zoomIn"), null, LanguageActions.getLocaleString("zoomInDes"), Integer.valueOf(KeyEvent.VK_EQUALS));
         actions.add(this.zoomInAction);
         this.zoomOutAction = new ZoomOutAction(LanguageActions.getLocaleString("zoomOut"), null, LanguageActions.getLocaleString("zoomOutDes"), Integer.valueOf(KeyEvent.VK_MINUS));
         actions.add(this.zoomOutAction);
@@ -69,7 +70,9 @@ public class ViewActions {
         JMenu viewMenu = new JMenu(LanguageActions.getLocaleString("view"));
 
         for (Action action: actions) {
-            viewMenu.add(new JMenuItem(action));
+            JMenuItem item = new JMenuItem(action);
+            item.setBorderPainted(false);
+            viewMenu.add(item);
         }
 
         return viewMenu;
@@ -109,7 +112,7 @@ public class ViewActions {
          */
         ZoomInAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
-            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_PLUS, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_EQUALS, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         }
 
         /**
@@ -129,7 +132,7 @@ public class ViewActions {
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
                 try {
-                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("noZoomIn"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("noZoomIn"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 } catch (HeadlessException ex) {
                     // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
                     // Won't happen for our users, so just exit.
@@ -199,7 +202,7 @@ public class ViewActions {
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
                 try {
-                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("noZoomOut"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("noZoomOut"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 } catch (HeadlessException ex) {
                     // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
                     // Won't happen for our users, so just exit.
@@ -258,7 +261,7 @@ public class ViewActions {
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
                 try {
-                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("noCustomZoom"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("noCustomZoom"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 } catch (HeadlessException ex) {
                     // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
                     // Won't happen for our users, so just exit.
@@ -267,22 +270,22 @@ public class ViewActions {
             }
             else {
                 // There is an image open, carry on.
+                // Need to keep track of the original zoom as the slider changes its value.
+                double zoom = target.getZoom();
+                final int oldZoom = (int) zoom;
                 // Determine the zoom change - ask the user.
-                int change = 0;
 
                 // Set up slider for user to the zoom change.
                 JSlider jslider = new JSlider();
-                jslider.setValue(0);
-                jslider.setMaximum(150);
-                jslider.setMinimum(-50);
+                jslider.setMaximum(200);
+                jslider.setMinimum(50);
                 jslider.setMajorTickSpacing(50);
+                jslider.setValue(oldZoom);
                 jslider.setPaintLabels(true);
                 jslider.setPaintTicks(true);
 
                 // Copy this here so that we still have reference to the actual EditableImage.
                 EditableImage actualImage = target.getImage();
-                // Need to keep track of the original zoom as the slider changes its value.
-                double zoom = target.getZoom();
 
                 // This part updates how the image looks when the slider is moved.
                 jslider.addChangeListener(new ChangeListener() {
@@ -292,10 +295,10 @@ public class ViewActions {
                         // Set the target to have this new copy of the actual image.
                         target.setImage(copyImage);
                         // Apply the brightness change to the new copy of the actual image.
-                        if (jslider.getValue() == 0) { // No change to apply.
+                        if (jslider.getValue() == oldZoom) { // No change to apply.
                             return;
                         }
-                        target.setZoom(zoom + jslider.getValue());
+                        target.setZoom(jslider.getValue());
                         target.repaint();
                         target.getParent().revalidate();
                     }
@@ -303,7 +306,7 @@ public class ViewActions {
 
                 // Ask user for zoom change value with slider.
                 try {
-                    int option = JOptionPane.showOptionDialog(null, jslider, LanguageActions.getLocaleString("zoomChange"),
+                    int option = JOptionPane.showOptionDialog(Andie.frame, jslider, LanguageActions.getLocaleString("zoomChange"),
                             JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
                     if (option == JOptionPane.CANCEL_OPTION || option == JOptionPane.CLOSED_OPTION) {
                         // Set the image in target back to the actual image and repaint.
@@ -317,9 +320,6 @@ public class ViewActions {
                     if (option == JOptionPane.OK_OPTION) {
                         // Set the image in the target back to the actual image.
                         target.setImage(actualImage);
-                        // Reset the zoom value.
-                        target.setZoom(zoom);
-                        change = jslider.getValue();
                     }
                 } catch (HeadlessException ex) {
                     // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
@@ -328,7 +328,7 @@ public class ViewActions {
                 }
 
                 // Apply changed zoom.
-                target.setZoom(target.getZoom()+change);
+                target.setZoom(jslider.getValue());
                 target.repaint();
                 target.getParent().revalidate();
             }
@@ -389,7 +389,7 @@ public class ViewActions {
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
                 try {
-                    JOptionPane.showMessageDialog(null, LanguageActions.getLocaleString("noZoomFull"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("noZoomFull"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 } catch (HeadlessException ex) {
                     // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
                     // Won't happen for our users, so just exit.
@@ -451,13 +451,17 @@ public class ViewActions {
          * @param e The event triggering this callback.
          */
         public void actionPerformed(ActionEvent e) {
+            Preferences prefs = Preferences.userNodeForPackage(Andie.class);
+            prefs.remove("mode");
             if (Andie.darkMode) {
+                prefs.put("mode", "light");
                 Andie.darkMode = false;
             } else {
+                prefs.put("mode", "dark");
                 Andie.darkMode = true;
-            } // Toggle dark mode
-            Andie.updateDarkMode(); // Call the method to update the dark mode
-
+            }
+            // This actually updates the mode.
+            Andie.updateDarkMode();
         }
     }
 }
