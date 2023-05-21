@@ -6,6 +6,7 @@ import javax.swing.*;
 import javax.swing.event.*;
 import java.awt.HeadlessException;
 import java.awt.Toolkit;
+import java.util.prefs.*;
 
 /**
  * <p>
@@ -269,22 +270,22 @@ public class ViewActions {
             }
             else {
                 // There is an image open, carry on.
+                // Need to keep track of the original zoom as the slider changes its value.
+                double zoom = target.getZoom();
+                final int oldZoom = (int) zoom;
                 // Determine the zoom change - ask the user.
-                int change = 0;
 
                 // Set up slider for user to the zoom change.
                 JSlider jslider = new JSlider();
-                jslider.setValue(0);
-                jslider.setMaximum(150);
-                jslider.setMinimum(-50);
+                jslider.setMaximum(200);
+                jslider.setMinimum(50);
                 jslider.setMajorTickSpacing(50);
+                jslider.setValue(oldZoom);
                 jslider.setPaintLabels(true);
                 jslider.setPaintTicks(true);
 
                 // Copy this here so that we still have reference to the actual EditableImage.
                 EditableImage actualImage = target.getImage();
-                // Need to keep track of the original zoom as the slider changes its value.
-                double zoom = target.getZoom();
 
                 // This part updates how the image looks when the slider is moved.
                 jslider.addChangeListener(new ChangeListener() {
@@ -294,10 +295,10 @@ public class ViewActions {
                         // Set the target to have this new copy of the actual image.
                         target.setImage(copyImage);
                         // Apply the brightness change to the new copy of the actual image.
-                        if (jslider.getValue() == 0) { // No change to apply.
+                        if (jslider.getValue() == oldZoom) { // No change to apply.
                             return;
                         }
-                        target.setZoom(zoom + jslider.getValue());
+                        target.setZoom(jslider.getValue());
                         target.repaint();
                         target.getParent().revalidate();
                     }
@@ -319,9 +320,6 @@ public class ViewActions {
                     if (option == JOptionPane.OK_OPTION) {
                         // Set the image in the target back to the actual image.
                         target.setImage(actualImage);
-                        // Reset the zoom value.
-                        target.setZoom(zoom);
-                        change = jslider.getValue();
                     }
                 } catch (HeadlessException ex) {
                     // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
@@ -330,7 +328,7 @@ public class ViewActions {
                 }
 
                 // Apply changed zoom.
-                target.setZoom(target.getZoom()+change);
+                target.setZoom(jslider.getValue());
                 target.repaint();
                 target.getParent().revalidate();
             }
@@ -453,13 +451,17 @@ public class ViewActions {
          * @param e The event triggering this callback.
          */
         public void actionPerformed(ActionEvent e) {
+            Preferences prefs = Preferences.userNodeForPackage(Andie.class);
+            prefs.remove("mode");
             if (Andie.darkMode) {
+                prefs.put("mode", "light");
                 Andie.darkMode = false;
             } else {
+                prefs.put("mode", "dark");
                 Andie.darkMode = true;
-            } // Toggle dark mode
-            Andie.updateDarkMode(); // Call the method to update the dark mode
-
+            }
+            // This actually updates the mode.
+            Andie.updateDarkMode();
         }
     }
 }

@@ -111,7 +111,7 @@ public class LanguageActions {
             
             // Calls renderMenu() to repaint the menu in English.
             Andie.renderMenu();
-
+            
         }
 
     }
