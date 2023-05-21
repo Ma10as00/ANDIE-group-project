@@ -147,7 +147,6 @@ public class DrawActions extends JFrame {
         }
 
         public void actionPerformed(ActionEvent e) {
-<<<<<<< HEAD
             try{
 
             JPanel choosePanel = new JPanel(new GridLayout(0, 1));
@@ -171,148 +170,17 @@ public class DrawActions extends JFrame {
             }
             }
             }
-=======
-            try {
-                target.deselect();
-                target.setTool(1);
-                target.repaint();
-            } catch (Exception ert) {
-            }
-        }
-
     }
 
-    /**
-     * <p>
-     * Accessor method to return PickColourAction as a single action.
-     * </p>
-     * 
-     * @return an instance of PickColourAction.
-     */
-    public PickColourAction getPickColourAction() {
-        return this.pickColourAction;
-    }
-
-    public class PickColourAction extends ImageAction {
-
-        PickColourAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
-            super(name, icon, desc, mnemonic);
-        }
-
-        public void actionPerformed(ActionEvent e) {
-            panel = new JPanel(new BorderLayout());
-            JPanel subPanel = new JPanel();
-
-            JButton btnColor = new JButton("Change Color");
-            JButton confirmButton = new JButton("Confirm");
-            subPanel.add(btnColor);
-            subPanel.add(confirmButton);
-            panel.add(subPanel, BorderLayout.SOUTH);
-            panel.setBackground(userColour);
-            btnColor.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent evt) {
-                    Color color = JColorChooser.showDialog(Andie.frame,
-                            "Choose a color", userColour);
-                    if (color != null) {
-                        userColour = color;
-                    }
-                    panel.setBackground(userColour);
-
-                }
-            });
-
-            confirmButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent awt) {
-                    panel.setVisible(false);
-                    JComponent comp = (JComponent) awt.getSource();
-                    Window win = SwingUtilities.getWindowAncestor(comp);
-                    win.dispose();
-                }
-            });
-
-            setContentPane(panel);
-            setTitle("Colour Chooser");
-            setSize(200, 150);
-            setLocationRelativeTo(Andie.frame);
-            setVisible(true);
-        }
-    }
-
-    /**
-     * <p>
-     * Action to draw circle.
-     * </p>
-     * 
-     * @see DrawRec
-     */
-    public class DrawCircleAction extends ImageAction {
-
-        /**
-         * <p>
-         * Create a new draw circle action.
-         * </p>
-         *
-         * @param name     The name of the action (ignored if null).
-         * @param icon     An icon to use to represent the action (ignored if null).
-         * @param desc     A brief description of the action (ignored if null).
-         * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
-         */
-        DrawCircleAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
-            super(name, icon, desc, mnemonic);
-        }
-
-        public void actionPerformed(ActionEvent e) {
-            try {
-                target.deselect();
-                target.setTool(2);
-                target.repaint();
-            } catch (Exception ert) {
-            }
-        }
-    }
-
-    /**
-     * <p>
-     * Action to draw line.
-     * </p>
-     *
-     * @see DrawLine
-     */
-    public class DrawLineAction extends ImageAction {
-        /**
-         * <p>
-         * Create a new draw line action.
-         * </p>
-         *
-         * @param name     The name of the action (ignored if null).
-         * @param icon     An icon to use to represent the action (ignored if null).
-         * @param desc     A brief description of the action (ignored if null).
-         * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
-         */
-        DrawLineAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
-            super(name, icon, desc, mnemonic);
-        }
-
-        public void actionPerformed(ActionEvent e) {
-            try {
-                target.deselect();
-                target.setTool(3);
-                target.repaint();
-            } catch (Exception ert) {
-            }
-        }
->>>>>>> 4a7d7704d06c1e4dab0c0ceb39e778f6654393e7
-    }
-
-    /**
-     * <p>
-     * Accessor method to return CropAction as a single action.
-     * </p>
-     * 
-     * @return an instance of CropAction.
-     */
+        
+            
+            method to return C
+            
+        
+        
+        
+        r
+    
     public RegionCropAction getCropAction() {
         return this.cropAction;
     }
