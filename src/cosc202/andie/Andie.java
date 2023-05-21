@@ -4,9 +4,9 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.Locale;
 import java.util.prefs.Preferences;
-
 import javax.swing.*;
 import javax.imageio.*;
+import javax.swing.border.*;
 
 /**
  * <p>
@@ -41,23 +41,30 @@ public class Andie {
     /** A boolean to represent whether or not we are in dark mode. */
     public static boolean darkMode;
 
-    /** The colour used as the background in dark mode and light mode. */
+    /** The colour used as the foreground in light mode and the background 
+     * for the tool bar in dark mode. */
     private static Color grey = new Color(30, 30, 30);
 
-    /** The second colour used as the background in dark mode. */
-    private static Color lightGrey = new Color(45, 45, 45);
+    /** The colour used for the menu and menu items in dark mode. */
+    private static Color lightGrey = new Color(50, 50, 50);
 
-    /** The forth colour used as the background in dark mode. */
+    /** The colour used as the background for the outer panel in dark mode. */
     private static Color darkGrey = new Color(20, 20, 20);
 
-    /** The fifth colour used as the background in dark mode. */
+    /** The colour used as the menu background in light mode. */
     private static Color lightWhite = new Color(225, 225, 225);
 
-    /** The sixth colour used as the background in light mode. */
+    /** The colour used as the background for the outer panel in light mode. */
     private static Color darkerWhite = new Color(220, 220, 220);
 
-    /** The seventh colour used as the background in light mode. */
+    /** The colour used as the background for the tool bar in light mode. */
     private static Color darkWhite = new Color(240, 240, 240);
+
+    /** The colour used for all buttons in dark mode. */
+    private static Color greyBlue = new Color(87, 111, 158);
+
+    /** The colour used for all buttons in light mode. */
+    private static Color lightGreyBlue = new Color(195, 216, 237);
 
     /**
      * <p>
@@ -72,7 +79,7 @@ public class Andie {
      * @throws Exception if something goes wrong.
      */
     private static void createAndShowGUI() throws Exception {
-        // Sets the starting language to NZ English
+        // Sets the starting language to NZ English.
         Preferences prefs = Preferences.userNodeForPackage(Andie.class);
         String lang = prefs.get("language", "en");
         String country = prefs.get("country", "NZ");
@@ -94,7 +101,7 @@ public class Andie {
         else if (languageCode.equals("sp_ES")) {
             Locale.setDefault(new Locale("sp", "ES"));
         }
-        // If language code is de sets default to German
+        // If language code is de sets default to German.
         else if (languageCode.equals("de_DE")) {
             Locale.setDefault(new Locale("de", "DE"));
         }
@@ -126,6 +133,7 @@ public class Andie {
         outerPanel.setLayout(new GridBagLayout());
         outerPanel.add(imagePanel, new GridBagConstraints());
         JScrollPane scrollPane = new JScrollPane(outerPanel);
+        scrollPane.setBorder(BorderFactory.createEmptyBorder());
         frame.add(scrollPane, BorderLayout.CENTER);
 
         try {
@@ -135,6 +143,17 @@ public class Andie {
             // TO DO Auto-generated catch block
             e.printStackTrace();
         }
+
+        // This makes dark and light mode remembered when you exit the application.
+        // By default, this application is in light mode.
+        String mode = prefs.get("mode", "light");
+        if (mode.equals("dark")){
+            darkMode = true;
+        }
+        else if (mode.equals("light")) {
+            darkMode = false;
+        }
+
         // Calls renderMenu method to render the menu in the selected language.
         renderMenu();
 
@@ -142,38 +161,7 @@ public class Andie {
         renderToolbar();
 
         // Update the mode.
-        if (Andie.darkMode) {
-            UIManager.put("MenuItem.background", lightGrey);
-            UIManager.put("MenuItem.opaque", true);
-
-            // Set the background and foreground colors for the frame
-            frame.setBackground(darkGrey);
-            frame.setForeground(darkGrey);
-
-            // Set the background and foreground colors for the outer panel
-            outerPanel.setBackground(darkGrey);
-            outerPanel.setForeground(darkGrey);
-
-            // Set the background and foreground colors for the image panel
-            imagePanel.setBackground(darkGrey);
-            imagePanel.setForeground(darkGrey);
-        }
-        else {
-            UIManager.put("MenuItem.background", Color.white);
-            UIManager.put("MenuItem.opaque", true);
-
-            // Set the background and foreground colors for the frame
-            frame.setBackground(darkerWhite);
-            frame.setForeground(darkerWhite);
-
-            // Set the background and foreground colors for the outer panel
-            outerPanel.setBackground(darkerWhite);
-            outerPanel.setForeground(darkerWhite);
-
-            // Set the background and foreground colors for the image panel
-            imagePanel.setBackground(darkerWhite);
-            imagePanel.setForeground(darkerWhite);
-        }
+        updateDarkMode();
 
         frame.pack();
         // Make window centered on screen.
@@ -208,11 +196,19 @@ public class Andie {
      * @see ResizeActions
      * @see LanguageActions
      * @see DrawActions
-     * 
+     *
      */
     public static void renderMenu() {
+        // Make the pop up borders for each menu match the mode.
+        if (Andie.darkMode) {
+            UIManager.put("PopupMenu.border", new LineBorder(lightGrey));
+        }
+        else {
+            UIManager.put("PopupMenu.border", new LineBorder(Color.white));
+        }
         // Add in menus for various types of action the user may perform.
         JMenuBar menuBar = new JMenuBar();
+        menuBar.setBorder(BorderFactory.createEmptyBorder());
         setMenuBackground(menuBar);
 
         // Add the left-aligned menus.
@@ -221,20 +217,28 @@ public class Andie {
         // here. We pass a frame so that when we open an image, the frame is packed to
         // the new image size.
         FileActions fileActions = new FileActions(frame);
-        menuBar.add(fileActions.createMenu());
+        JMenu fileMenu = fileActions.createMenu();
+        fileMenu.setBorderPainted(false);
+        menuBar.add(fileMenu);
 
         // Ability to change the language from a set of included language bundles.
         LanguageActions languageActions = new LanguageActions();
-        menuBar.add(languageActions.createMenu());
+        JMenu languageMenu = languageActions.createMenu();
+        languageMenu.setBorderPainted(false);
+        menuBar.add(languageMenu);
 
         // View actions control how the image is displayed, its zoom, but do not alter
         // its actual content
         ViewActions viewActions = new ViewActions();
-        menuBar.add(viewActions.createMenu());
+        JMenu viewMenu = viewActions.createMenu();
+        viewMenu.setBorderPainted(false);
+        menuBar.add(viewMenu);
 
         // Likewise Edit menus are very common, so should be clear what might go here.
         EditActions editActions = new EditActions();
-        menuBar.add(editActions.createMenu());
+        JMenu editMenu = editActions.createMenu();
+        editMenu.setBorderPainted(false);
+        menuBar.add(editMenu);
 
         // Add the right aligned menus.
         menuBar.add(Box.createHorizontalGlue());
@@ -242,28 +246,40 @@ public class Andie {
         // Orientation actions change the orientation of the image, altering its
         // content. 
         OrientationActions orientationActions = new OrientationActions();
-        menuBar.add(orientationActions.createMenu());
+        JMenu orientationMenu = orientationActions.createMenu();
+        orientationMenu.setBorderPainted(false);
+        menuBar.add(orientationMenu);
 
         // Resize actions change the size of the image, altering its content.
         ResizeActions resizeActions = new ResizeActions();
-        menuBar.add(resizeActions.createMenu());
+        JMenu resizeMenu = resizeActions.createMenu();
+        resizeMenu.setBorderPainted(false);
+        menuBar.add(resizeMenu);
 
         // Actions that affect the representation of colour in the image.
         ColourActions colourActions = new ColourActions();
-        menuBar.add(colourActions.createMenu());
+        JMenu colourMenu = colourActions.createMenu();
+        colourMenu.setBorderPainted(false);
+        menuBar.add(colourMenu);
 
         // Filter actions apply a per-pixel operation to the image, generally based on a local window.
         FilterActions filterActions = new FilterActions();
-        menuBar.add(filterActions.createMenu());
+        JMenu filterMenu = filterActions.createMenu();
+        filterMenu.setBorderPainted(false);
+        menuBar.add(filterMenu);
 
         // Draw actions to edit the image with crop or draw a line, rectangle or cirlce.
-        DrawActions drawAction = new DrawActions();
-        menuBar.add(drawAction.createMenu());
+        DrawActions drawActions = new DrawActions();
+        JMenu drawMenu = drawActions.createMenu();
+        drawMenu.setBorderPainted(false);
+        menuBar.add(drawMenu);
 
         // Macro actions can record what operations are applied to the image, and put
         // them together into macros.
         MacroActions macroActions = new MacroActions();
-        menuBar.add(macroActions.createMenu());
+        JMenu macroMenu = macroActions.createMenu();
+        macroMenu.setBorderPainted(false);
+        menuBar.add(macroMenu);
 
         // Change the colour depending on the mode.
         if (Andie.darkMode) {
@@ -281,8 +297,19 @@ public class Andie {
         if (imagePanel.getImage().hasImage()) {
             imagePanel.getImage().updateFrameTitle();
         }
+
+        // We only repack the frame the first time the application is opened, 
+        // or if the langauge is being changed.
+        frame.pack();
     }
 
+    /**
+     * <p>
+     * A support method to use a UIManager to keep track of the Menu's
+     * background and foreground colours for light and dark mode.
+     * </p>
+     * @param menuBar The menu of this application.
+     */
     private static void setMenuBackground(JMenuBar menuBar) {
         if (Andie.darkMode) {
             UIManager.put("Menu.background", lightGrey);
@@ -319,7 +346,7 @@ public class Andie {
         JToolBar toolbar = new JToolBar();
         toolbar.setOrientation(SwingConstants.VERTICAL);
         toolbar.setFloatable(false);
-        frame.add(toolbar,BorderLayout.WEST);
+        toolbar.setBorderPainted(false);        
         JButton button = null;
         if (Andie.darkMode) {
             toolbar.setBackground(grey);
@@ -328,10 +355,12 @@ public class Andie {
             toolbar.setBackground(darkWhite);
             toolbar.setForeground(grey);
         }
+        frame.add(toolbar,BorderLayout.WEST);
 
         // Adds the save button to the toolbar.
         FileActions fileActions = new FileActions(frame);
         button = createButton(fileActions.getFileSaveAction(), "saveImageIcon.png");
+        button.setBorderPainted(false);
         toolbar.add(button);
 
         // Adds a separator to the toolbar.
@@ -340,10 +369,12 @@ public class Andie {
         // Adds the undo button to the toolbar.
         EditActions editActions = new EditActions();
         button = createButton(editActions.getUndoAction(), "");
+        button.setBorderPainted(false);
         toolbar.add(button);
 
         // Adds the redo button to the toolbar.
         button = createButton(editActions.getRedoAction(), "");
+        button.setBorderPainted(false);
         toolbar.add(button);
 
         // Adds a separator to the toolbar.
@@ -352,15 +383,17 @@ public class Andie {
         // Adds the Zoom In button to the toolbar.
         ViewActions viewActions = new ViewActions();
         button = createButton(viewActions.getZoomInAction(), "");
-
+        button.setBorderPainted(false);
         toolbar.add(button);
 
         // Adds the Zoom out button to the toolbar.
         button = createButton(viewActions.getZoomOutAction(), "");
+        button.setBorderPainted(false);
         toolbar.add(button);
 
         // Adds the Zoom Full button to the toolbar.
         button = createButton(viewActions.getZoomFullAction(), "");
+        button.setBorderPainted(false);
         toolbar.add(button);
 
         // Adds a separator to the toolbar.
@@ -369,10 +402,12 @@ public class Andie {
         // Adds the rotate left button to the toolbar.
         OrientationActions orientationActions = new OrientationActions();
         button = createButton(orientationActions.getRotateLeftAction(), "");
+        button.setBorderPainted(false);
         toolbar.add(button);
 
         // Adds the rotate right button to the toolbar.
         button = createButton(orientationActions.getRotateRightAction(), "");
+        button.setBorderPainted(false);
         toolbar.add(button);
 
         // Adds a separator to the toolbar.
@@ -381,15 +416,21 @@ public class Andie {
         // Adds the crop button to the toolbar.
         DrawActions drawActions = new DrawActions();
         button = createButton(drawActions.getCropAction(), "");
+        button.setBorderPainted(false);
         toolbar.add(button);
 
         // Adds select tool to the toolbar.
         button = createButton(drawActions.getSelectAction(), "");
+        button.setBorderPainted(false);
         toolbar.add(button);
 
         // Adds pick colour to the toolbar.
         button = createButton(drawActions.getPickColourAction(), "");
+        button.setBorderPainted(false);
         toolbar.add(button);
+        
+        // Pack the frame.
+        frame.pack();
     }
 
     private static JButton createButton(Action action, String imagePath){
@@ -458,33 +499,74 @@ public class Andie {
 
     public static void updateDarkMode() {
         if (darkMode) {
-            UIManager.put("MenuItem.background", lightGrey);
-            UIManager.put("MenuItem.opaque", true);
+            // Option panes.
+            UIManager.put("OptionPane.background", lightGrey);
+            UIManager.put("OptionPane.foreground", lightWhite);
+            UIManager.put("OptionPane.messageForeground", lightWhite);
+            // Sliders.
+            UIManager.put("Slider.background", lightGrey);
+            UIManager.put("Slider.foreground", lightWhite);
+            // File choosers.
+            UIManager.put("FileChooser.background", lightGrey);
+            UIManager.put("FileChooser.foreground", lightWhite);
+            UIManager.put("ComboBox.background", grey);
+            UIManager.put("ComboBox.foreground", lightWhite);
+            UIManager.put("List.background", grey);
+            UIManager.put("List.foreground", lightWhite);
+            // Colour choosers.
+            UIManager.put("ColorChooser.background", lightGrey);
+            UIManager.put("ColorChooser.foreground", lightWhite);
+            UIManager.put("TabbedPane.background", lightGrey);
+            UIManager.put("TabbedPane.foreground", lightWhite);
+            UIManager.put("TabbedPane.selected", greyBlue);
+            UIManager.put("Label.background", lightGrey);
+            UIManager.put("Label.foreground", lightWhite);
+            UIManager.put("RadioButton.background", lightGrey);
+            UIManager.put("RadioButton.foreground", lightWhite);
+            UIManager.put("Spinner.background", lightGrey);
+            UIManager.put("Spinner.foreground", lightWhite);
+            UIManager.put("FormattedTextField.background", grey);
+            UIManager.put("FormattedTextField.foreground", lightWhite);
+            UIManager.put("TextField.background", grey);
+            UIManager.put("TextField.foreground", lightWhite);
+            // Panels.
+            UIManager.put("Panel.background", lightGrey);
+            UIManager.put("Panel.foreground", lightWhite);
+            // Buttons.
+            UIManager.put("Button.foreground", lightWhite);
+            UIManager.put("Button.background", greyBlue);
+            UIManager.put("Button.shadow", greyBlue);
+            UIManager.put("Button.gradient", greyBlue);
+            // Check boxes.
+            UIManager.put("CheckBox.foreground", lightWhite);
+            UIManager.put("CheckBox.background", lightGrey);
+            UIManager.put("CheckBox.shadow", lightGrey);
+            UIManager.put("CheckBox.border", lightGrey);
 
-            // Set the background and foreground colors for the frame
+            // Set the background and foreground colors for the frame.
             frame.setBackground(darkGrey);
             frame.setForeground(darkGrey);
 
-            // Set the background and foreground colors for the outer panel
+            // Set the background and foreground colors for the outer panel.
             outerPanel.setBackground(darkGrey);
             outerPanel.setForeground(darkGrey);
 
-            // Set the background and foreground colors for the image panel
+            // Set the background and foreground colors for the image panel.
             imagePanel.setBackground(darkGrey);
             imagePanel.setForeground(darkGrey);
 
-            // Set the background and foreground colors for the menu bar
+            // Set the background and foreground colors for the menu bar.
             JMenuBar menuBar = frame.getJMenuBar();
             menuBar.setBackground(lightGrey);
             menuBar.setForeground(lightWhite);
 
-            // Set the background and foreground colors for the tool bar
+            // Set the background and foreground colors for the tool bar.
             JToolBar toolbar = (JToolBar) frame.getContentPane().getComponent(1);
             toolbar.setBackground(grey);
             toolbar.setForeground(lightWhite);
 
             // Set the background and foreground colors for individual buttons in the
-            // toolbar
+            // toolbar.
             Component[] components = toolbar.getComponents();
             for (Component component : components) {
                 if (component instanceof JButton) {
@@ -493,35 +575,80 @@ public class Andie {
                     button.setForeground(lightWhite);
                 }
             }
+            
         }
         if (!darkMode) {
-            UIManager.put("MenuItem.background", Color.white);
-            UIManager.put("MenuItem.opaque", true);
+            // Option panes.
+            UIManager.put("OptionPane.background", Color.white);
+            UIManager.put("OptionPane.foreground", grey);
+            UIManager.put("OptionPane.messageForeground", grey);
+            // Sliders.
+            UIManager.put("Slider.background", Color.white);
+            UIManager.put("Slider.foreground", grey);
+            // File choosers.
+            UIManager.put("FileChooser.background", Color.white);
+            UIManager.put("FileChooser.foreground", grey);
+            UIManager.put("ComboBox.background", darkWhite);
+            UIManager.put("ComboBox.foreground", grey);
+            UIManager.put("List.background", darkWhite);
+            UIManager.put("List.foreground", grey);
+            // Colour choosers.
+            UIManager.put("ColorChooser.background", Color.white);
+            UIManager.put("ColorChooser.foreground", grey);
+            UIManager.put("TabbedPane.background", Color.white);
+            UIManager.put("TabbedPane.foreground", grey);
+            UIManager.put("TabbedPane.selected", lightGreyBlue);
+            UIManager.put("Label.background", Color.white);
+            UIManager.put("Label.foreground", grey);
+            UIManager.put("RadioButton.background", Color.white);
+            UIManager.put("RadioButton.foreground", grey);
+            UIManager.put("Spinner.background", Color.white);
+            UIManager.put("Spinner.foreground", grey);
+            UIManager.put("FormattedTextField.background", darkWhite);
+            UIManager.put("FormattedTextField.foreground", grey);
+            UIManager.put("TextField.background", darkWhite);
+            UIManager.put("TextField.foreground", grey);
+            // Panels.
+            UIManager.put("Panel.background", Color.white);
+            UIManager.put("Panel.foreground", grey);
+            // Buttons.
+            UIManager.put("Button.foreground", grey);
+            UIManager.put("Button.background", lightGreyBlue);
+            UIManager.put("Button.shadow", lightGreyBlue);
+            UIManager.put("Button.gradient", lightGreyBlue);
+            // Check boxes.
+            UIManager.put("CheckBox.foreground", grey);
+            UIManager.put("CheckBox.background", Color.white);
+            UIManager.put("CheckBox.shadow", Color.white);
+            UIManager.put("CheckBox.border", Color.white);
 
-            // Set the background and foreground colors for the frame
+            // This is for the JOptionPanes used in actions.
+            UIManager.put("OptionPane.background", Color.white);
+
+            // Set the background and foreground colors for the frame.
             frame.setBackground(darkerWhite);
             frame.setForeground(darkerWhite);
 
-            // Set the background and foreground colors for the outer panel
+            // Set the background and foreground colors for the outer panel.
             outerPanel.setBackground(darkerWhite);
             outerPanel.setForeground(darkerWhite);
 
-            // Set the background and foreground colors for the image panel
+            // Set the background and foreground colors for the image panel.
             imagePanel.setBackground(darkerWhite);
             imagePanel.setForeground(darkerWhite);
 
-            // Set the background and foreground colors for the menu bar
+            // Set the background and foreground colors for the menu bar.
             JMenuBar menuBar = frame.getJMenuBar();
             menuBar.setBackground(Color.white);
             menuBar.setForeground(grey);
 
-            // Set the background and foreground colors for the tool bar
+            // Set the background and foreground colors for the tool bar.
             JToolBar toolbar = (JToolBar) frame.getContentPane().getComponent(1);
             toolbar.setBackground(darkWhite);
             toolbar.setForeground(grey);
 
             // Set the background and foreground colors for individual buttons in the
-            // toolbar
+            // toolbar.
             Component[] components = toolbar.getComponents();
             for (Component component : components) {
                 if (component instanceof JButton) {
@@ -531,9 +658,14 @@ public class Andie {
                 }
             }
         }
-        // Repaint the frame and image panel to reflect the changes
+        // This is done so that when we change the mode we don't change the size of the frame.
+        Rectangle sizeBefore = frame.getBounds();
+        // Repaint the frame and image panel to reflect the changes.
         renderMenu();
-        renderToolbar();
+        // Note, I don't re-render the tool bar as that was causing issues with the bottom of the tool bar.
+        // This is done so that when we change the mode we don't change the size of the frame.
+        frame.setBounds(sizeBefore);
+        // Repaint the frame and image panel.
         frame.repaint();
         imagePanel.repaint();
     }
