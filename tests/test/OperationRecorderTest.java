@@ -23,7 +23,7 @@ public class OperationRecorderTest {
     private Robot robot;
 
     /**
-     * Initiates the GUI of Andie.
+     * Initiates the GUI of Andie, along with a robot user.
      */
     private void startAndie(){
         try {
@@ -66,7 +66,6 @@ public class OperationRecorderTest {
      */
     @Test
     public void OperationIsRecordedTest(){
-        System.out.println("Made it to here");
         startAndie();
         openImage();
         startRecording();
@@ -75,13 +74,13 @@ public class OperationRecorderTest {
         PropertyChangeListener[] pcls = Andie.imagePanel.getImage().getPropertyChangeListeners("ops");
         OperationRecorder rec = (OperationRecorder) pcls[0];
         //The recorder should have 0 recorded operations:
-        assertTrue(rec.getOps().size() == 0); 
+        assertEquals(0, rec.getOps().size()); 
 
         //User makes image greyscale:
         greyScaleFilter();
 
         //The recorder should now have recorded an instance of ConvertToGrey:
-        assertTrue(rec.getOps().size() == 1);
+        assertEquals(1, rec.getOps().size());
         String recordedOp = rec.getOps().get(0).getClass().getSimpleName();
         assertEquals("ConvertToGrey", recordedOp);
     }

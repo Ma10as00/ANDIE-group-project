@@ -21,6 +21,7 @@ import cosc202.andie.EditActions.UndoAction;
  */
 public class OperationRecorder implements IOperationRecorder{
 
+    /** The list of recorded {@link ImageOperation}s */
     private ArrayList<ImageOperation> recordedOps;
 
     /**
