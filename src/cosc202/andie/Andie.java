@@ -363,7 +363,7 @@ public class Andie {
 
         // Adds the save button to the toolbar.
         FileActions fileActions = new FileActions(frame);
-        button = createButton(fileActions.getFileSaveAction(), "saveImageIcon.png");
+        button = createButton(fileActions.getFileSaveAction(), "saveButtonIcon.png");
         button.setBorderPainted(false);
         toolbar.add(button);
 
@@ -372,12 +372,12 @@ public class Andie {
 
         // Adds the undo button to the toolbar.
         EditActions editActions = new EditActions();
-        button = createButton(editActions.getUndoAction(), "");
+        button = createButton(editActions.getUndoAction(), "undoButtonIcon.png");
         button.setBorderPainted(false);
         toolbar.add(button);
 
         // Adds the redo button to the toolbar.
-        button = createButton(editActions.getRedoAction(), "");
+        button = createButton(editActions.getRedoAction(), "redoButtonIcon.png");
         button.setBorderPainted(false);
         toolbar.add(button);
 
@@ -386,17 +386,17 @@ public class Andie {
 
         // Adds the Zoom In button to the toolbar.
         ViewActions viewActions = new ViewActions();
-        button = createButton(viewActions.getZoomInAction(), "");
+        button = createButton(viewActions.getZoomInAction(), "zoomInButtonIcon.png");
         button.setBorderPainted(false);
         toolbar.add(button);
 
         // Adds the Zoom out button to the toolbar.
-        button = createButton(viewActions.getZoomOutAction(), "");
+        button = createButton(viewActions.getZoomOutAction(), "zoomOutButtonIcon.png");
         button.setBorderPainted(false);
         toolbar.add(button);
 
         // Adds the Zoom Full button to the toolbar.
-        button = createButton(viewActions.getZoomFullAction(), "");
+        button = createButton(viewActions.getZoomFullAction(), "zoomFullButtonIcon.png");
         button.setBorderPainted(false);
         toolbar.add(button);
 
@@ -405,12 +405,12 @@ public class Andie {
 
         // Adds the rotate left button to the toolbar.
         OrientationActions orientationActions = new OrientationActions();
-        button = createButton(orientationActions.getRotateLeftAction(), "");
+        button = createButton(orientationActions.getRotateLeftAction(), "rotateLeftButtonIcon.png");
         button.setBorderPainted(false);
         toolbar.add(button);
 
         // Adds the rotate right button to the toolbar.
-        button = createButton(orientationActions.getRotateRightAction(), "");
+        button = createButton(orientationActions.getRotateRightAction(), "rotateRightButtonIcon.png");
         button.setBorderPainted(false);
         toolbar.add(button);
 
@@ -429,7 +429,7 @@ public class Andie {
         toolbar.add(button);
 
         // Adds pick colour to the toolbar.
-        button = createButton(drawActions.getPickColourAction(), "");
+        button = createButton(drawActions.getPickColourAction(), "paletteButtonIcon.png");
         button.setBorderPainted(false);
         toolbar.add(button);
 
@@ -439,6 +439,15 @@ public class Andie {
         frame.pack();
     }
 
+    /**
+     * <p>
+     * Creates a JButton with the provided parameters and returns it
+     * </p>
+     * 
+     * @param action an action to be assigned to the button
+     * @param imagePath a String to indicate the filename of the png to use as an icon
+     * @return a JButton with the assigned action and Image
+     */
     private static JButton createButton(Action action, String imagePath){
         JButton button = new JButton(action);
         if (Andie.darkMode) {
