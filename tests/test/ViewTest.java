@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.Assert.*;
 
 import cosc202.andie.*;
-import javax.swing.*;
 
 /**
  * <p>
