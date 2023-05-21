@@ -9,6 +9,7 @@ import java.awt.geom.Line2D;
 
 import javax.sound.sampled.Line;
 import javax.swing.*;
+import javax.swing.text.Position;
 
 /**
  * <p>
@@ -44,13 +45,14 @@ public class ImagePanel extends JPanel {
     /**
      * Storing variables of mouse clicks and drags.
      */
-    public static int enterX, enterY, exitX, exitY, width, height, clickX, clickY;
+    public static int enterX, enterY, exitX, exitY, width, height, clickX, clickY, l, lineWidth;
 
     /**
      * Storing the rectangle the is selected.
      */
     public static Rectangle rect;
     public static Circle circle;
+    public static Line2D line;
 
     /**
      * To keep track of if marcos is recording.
@@ -69,10 +71,13 @@ public class ImagePanel extends JPanel {
     public Point enter;
     public Point exit;
 
-    /**     
+    /**
+     * <p>
      * The zoom-level of the current view.
      * A scale of 1.0 represents actual size; 0.5 is zoomed out to half size; 1.5 is
-     * zoomed in to one-an     *      *  
+     * zoomed in to one-and-a-half size; and so forth.
+     * </p>
+     * 
      * <p>
      * Note that the scale is internally represented as a multiplier, but externally
      * as a percentage.
@@ -169,6 +174,7 @@ public class ImagePanel extends JPanel {
                         Math.abs(exitY - enterY));
                 double radius = Math.abs(exitX - enterX) / 2;
                 circle = new Circle(radius);
+                line = new Line2D.Double(enterX, enterY, exitX, exitY);
                 repaint();
             }
 
@@ -189,11 +195,12 @@ public class ImagePanel extends JPanel {
                     circle = null;
                 }
                 if (tool == drawLine) {
-
+                    image.apply(new DrawLine(enterX, enterY, exitX, exitY));
+                    line = null;
                 }
             }
         });
-            
+
         /**
          * <p>
          * Adds new mouse listener
@@ -226,7 +233,7 @@ public class ImagePanel extends JPanel {
             }
         });
 
-    
+    }
 
     /**
      * <p>
@@ -355,16 +362,17 @@ public class ImagePanel extends JPanel {
                 int height = Math.abs(enterY - exitY);
                 g2d.fillOval(x, y, width, height);
             }
-            // if (positions != null && getTool() == 3) {
-            // g2d.setColor(DrawActions.userColour);
-            // g2d.drawLine(current.x, current.y, last.x, last.y);
-            // }
+            if (line != null && getTool() == 3) {
+                g2d.setColor(DrawActions.userColour);
+                g2d.drawLine(enterX, enterY, exitX, exitY);
+            }
         }
     }
 
     public void deselect() {
         rect = null;
         circle = null;
+        line = null;
         ImagePanel.enterX = 0;
         ImagePanel.enterY = 0;
         ImagePanel.exitX = 0;
@@ -401,6 +409,28 @@ public class ImagePanel extends JPanel {
         public double getCircumference() {
             return 2 * Math.PI * radius;
         }
+    }
+
+    public class CustomLine extends Line2D.Double {
+        private Color color;
+
+        public CustomLine(double x1, double y1, double x2, double y2, Color color) {
+            super(x1, y1, x2, y2);
+            this.color = color;
+        }
+
+        public Color getColor() {
+            return color;
+        }
+
+        public void setColor(Color color) {
+            this.color = color;
+        }
+
+        public float getWidth() {
+            return width;
+        }
+
     }
 
     /**

@@ -147,40 +147,146 @@ public class DrawActions extends JFrame {
         }
 
         public void actionPerformed(ActionEvent e) {
-            try{
-
-            JPanel choosePanel = new JPanel(new GridLayout(0, 1));
-            JCheckBox colourBox = new JCheckBox("Colour");
-            choosePanel.add(colourBox);
-
-            int chooseOption = JOptionPane.showOptionDialog(null, choosePanel, "Colour
-            Rectangle?", JOptionPane.OK_CANCEL_OPTION, JOptionPane.CANCEL_OPTION, null,
-            null, chooseOption);
-            if(chooseOption == JOptionPane.CANCEL_OPTION){
-            return;
-            }else if(chooseOption == JOptionPane.OK_CANCEL_OPTION){
-            target.getImage().undo();
-            //Andie.RegionSelection = false;
-
-            //if(colourBox.isSelected()) target.getImage().apply(new
-            DrawRec(Andie.mouseSec, ColourActions.activeColour , chooseOption, enabled));
-
-            target.repaint();
-            target.getParent().revalidate();
+            try {
+                target.deselect();
+                target.setTool(1);
+                target.repaint();
+            } catch (Exception ert) {
             }
-            }
-            }
+        }
+
     }
 
-        
-            
-            method to return C
-            
-        
-        
-        
-        r
-    
+    /**
+     * <p>
+     * Accessor method to return PickColourAction as a single action.
+     * </p>
+     * 
+     * @return an instance of PickColourAction.
+     */
+    public PickColourAction getPickColourAction() {
+        return this.pickColourAction;
+    }
+
+    public class PickColourAction extends ImageAction {
+
+        PickColourAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+        }
+
+        public void actionPerformed(ActionEvent e) {
+            panel = new JPanel(new BorderLayout());
+            JPanel subPanel = new JPanel();
+
+            JButton btnColor = new JButton("Change Color");
+            JButton confirmButton = new JButton("Confirm");
+            subPanel.add(btnColor);
+            subPanel.add(confirmButton);
+            panel.add(subPanel, BorderLayout.SOUTH);
+            panel.setBackground(userColour);
+            btnColor.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent evt) {
+                    Color color = JColorChooser.showDialog(Andie.frame,
+                            "Choose a color", userColour);
+                    if (color != null) {
+                        userColour = color;
+                    }
+                    panel.setBackground(userColour);
+
+                }
+            });
+
+            confirmButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent awt) {
+                    panel.setVisible(false);
+                    JComponent comp = (JComponent) awt.getSource();
+                    Window win = SwingUtilities.getWindowAncestor(comp);
+                    win.dispose();
+                }
+            });
+
+            setContentPane(panel);
+            setTitle("Colour Chooser");
+            setSize(200, 150);
+            setLocationRelativeTo(Andie.frame);
+            setVisible(true);
+        }
+    }
+
+    /**
+     * <p>
+     * Action to draw circle.
+     * </p>
+     * 
+     * @see DrawRec
+     */
+    public class DrawCircleAction extends ImageAction {
+
+        /**
+         * <p>
+         * Create a new draw circle action.
+         * </p>
+         *
+         * @param name     The name of the action (ignored if null).
+         * @param icon     An icon to use to represent the action (ignored if null).
+         * @param desc     A brief description of the action (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
+         */
+        DrawCircleAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+        }
+
+        public void actionPerformed(ActionEvent e) {
+            try {
+                target.deselect();
+                target.setTool(2);
+                target.repaint();
+            } catch (Exception ert) {
+            }
+        }
+    }
+
+    /**
+     * <p>
+     * Action to draw line.
+     * </p>
+     *
+     * @see DrawLine
+     */
+    public class DrawLineAction extends ImageAction {
+        /**
+         * <p>
+         * Create a new draw line action.
+         * </p>
+         *
+         * @param name     The name of the action (ignored if null).
+         * @param icon     An icon to use to represent the action (ignored if null).
+         * @param desc     A brief description of the action (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
+         */
+        DrawLineAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+        }
+
+        public void actionPerformed(ActionEvent e) {
+            try {
+                target.deselect();
+                target.setTool(3);
+                target.repaint();
+            } catch (Exception ert) {
+            }
+        }
+    }
+
+    /**
+     * <p>
+     * Accessor method to return CropAction as a single action.
+     * </p>
+     * 
+     * @return an instance of CropAction.
+     */
     public RegionCropAction getCropAction() {
         return this.cropAction;
     }
@@ -249,61 +355,3 @@ public class DrawActions extends JFrame {
     }
 
 }
-
-/**
- * <p>
- * Action to draw circle
- * </p>
- * 
- * @see DrawRec
- */
-public class DrawCircleAction extends ImageAction {
-
-    /**
-     * <p>
-     * Create a new draw circle action.
-     * </p>
-     * 
-     * @param name     The name of the action (ignored if null).
-     * @param icon     An icon to use to represent the action (ignored if null).
-     * @param desc     A brief description of the action (ignored if null).
-     * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
-     */
-    DrawCircleAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
-        super(name, icon, desc, mnemonic);
-    }
-
-    public void actionPerformed(ActionEvent e) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'actionPerformed'");
-    }
-}
-
-/**
- * <p>
- * Action to draw line
- * </p>
- * 
- * @see DrawLine
- */
-public class DrawLineAction extends ImageAction {
-
-    /**
-     * <p>
-     * Create a new draw line action.
-     * </p>
-     * 
-     * @param name     The name of the action (ignored if null).
-     * @param icon     An icon to use to represent the action (ignored if null).
-     * @param desc     A brief description of the action (ignored if null).
-     * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
-     */
-    DrawLineAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
-        super(name, icon, desc, mnemonic);
-    }
-
-    public void actionPerformed(ActionEvent e) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'actionPerformed'");
-    }
-}}
