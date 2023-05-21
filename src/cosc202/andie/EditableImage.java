@@ -362,6 +362,8 @@ public class EditableImage {
     }
 
     /** 
+     * @param listener The listener to add to this image
+     * @param propertyName The property to which the listener is added, should be "ops" for our purpose
      * @see PropertyChangeSupport#addPropertyChangeListener(String, PropertyChangeListener) 
      * @author Mathias Øgaard
     */
@@ -370,6 +372,8 @@ public class EditableImage {
     }
 
     /** 
+     * @param listener The listener to remove from this image
+     * @param propertyName The property from which the listener is removed, should be "ops" for our purpose
      * @see PropertyChangeSupport#removePropertyChangeListener(String, PropertyChangeListener)  
      * @author Mathias Øgaard
      */
@@ -378,6 +382,8 @@ public class EditableImage {
     }
 
     /** 
+     * @param propertyName The property to retrieve listeners from, should be "ops" for our purpose
+     * @return an array of all listeners for the given property
      * @see PropertyChangeSupport#getPropertyChangeListeners(String)  
      * @author Mathias Øgaard
      */
@@ -386,6 +392,8 @@ public class EditableImage {
     }
 
     /** 
+     * @param propertyName The property to search for listeners on, should be "ops" for our purpose
+     * @return true if there are one or more listeners for the given property
      * @see PropertyChangeSupport#hasListeners(String)  
      * @author Mathias Øgaard
      */
