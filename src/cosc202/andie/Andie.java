@@ -550,9 +550,14 @@ public class Andie {
                 }
             }
         }
+        // This is done so that when we change the mode we don't change the size of the frame.
+        Rectangle sizeBefore = frame.getBounds();
         // Repaint the frame and image panel to reflect the changes.
         renderMenu();
         // Note, I don't re-render the tool bar as that was causing issues with the bottom of the tool bar.
+        // This is done so that when we change the mode we don't change the size of the frame.
+        frame.setBounds(sizeBefore);
+        // Repaint the frame and image panel.
         frame.repaint();
         imagePanel.repaint();
     }
