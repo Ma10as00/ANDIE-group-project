@@ -143,6 +143,17 @@ public class Andie {
             // TO DO Auto-generated catch block
             e.printStackTrace();
         }
+
+        // This makes dark and light mode remembered when you exit the application.
+        // By default, this application is in light mode.
+        String mode = prefs.get("mode", "light");
+        if (mode.equals("dark")){
+            darkMode = true;
+        }
+        else if (mode.equals("light")) {
+            darkMode = false;
+        }
+
         // Calls renderMenu method to render the menu in the selected language.
         renderMenu();
 

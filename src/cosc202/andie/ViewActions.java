@@ -6,6 +6,7 @@ import javax.swing.*;
 import javax.swing.event.*;
 import java.awt.HeadlessException;
 import java.awt.Toolkit;
+import java.util.prefs.*;
 
 /**
  * <p>
@@ -453,13 +454,17 @@ public class ViewActions {
          * @param e The event triggering this callback.
          */
         public void actionPerformed(ActionEvent e) {
+            Preferences prefs = Preferences.userNodeForPackage(Andie.class);
+            prefs.remove("mode");
             if (Andie.darkMode) {
+                prefs.put("mode", "light");
                 Andie.darkMode = false;
             } else {
+                prefs.put("mode", "dark");
                 Andie.darkMode = true;
-            } // Toggle dark mode
-            Andie.updateDarkMode(); // Call the method to update the dark mode
-
+            }
+            // This actually updates the mode.
+            Andie.updateDarkMode();
         }
     }
 }
