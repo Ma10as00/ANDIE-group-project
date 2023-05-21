@@ -279,7 +279,7 @@ public class DrawActions extends JFrame {
      * Action to draw circle.
      * </p>
      * 
-     * @see DrawRec
+     * @see DrawCircle
      */
     public class DrawCircleAction extends ImageAction {
 
@@ -453,7 +453,7 @@ public class DrawActions extends JFrame {
      * Action to draw a rectangle.
      * </p>
      * 
-     * @see DrawCirc
+     * @see DrawCircle
      */
     public class DrawCircOutlineAction extends ImageAction {
 
