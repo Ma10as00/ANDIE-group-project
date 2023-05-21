@@ -8,7 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Rectangle;
 import javax.swing.*;
-import java.awt.image.RasterFormatException;
 import java.awt.Toolkit;
 import java.awt.event.*;
 
@@ -18,27 +17,26 @@ public class DrawActions extends JFrame {
     public Rectangle rectangle;
     int chooseOption;
     JPanel panel;
-    Color bgColor = Color.WHITE;
-    public static Color userColour;
+    public static Color userColour = Color.white;
     public static boolean drawMode;
 
-    /** 
-     * A list of actions for the Tool (Draw) menu. 
+    /**
+     * A list of actions for the Tool (Draw) menu.
      */
     protected ArrayList<Action> actions;
 
-    /** 
-     * An instance of RegionCropAction to be used in renderToolbar. 
+    /**
+     * An instance of RegionCropAction to be used in renderToolbar.
      */
     protected RegionCropAction cropAction;
 
-    /** 
-     * An instance of PickColourAction to be used in renderToolbar. 
+    /**
+     * An instance of PickColourAction to be used in renderToolbar.
      */
     protected PickColourAction pickColourAction;
 
-    /** 
-     * An instance of SelectAction to be used in renderToolbar. 
+    /**
+     * An instance of SelectAction to be used in renderToolbar.
      */
     protected SelectAction selectAction;
 
@@ -57,19 +55,22 @@ public class DrawActions extends JFrame {
         actions = new ArrayList<Action>();
         this.frame = frame;
 
-        // Creates an instance of select and pickColour to be used in the toolbar (not in this menu).
+        // Creates an instance of select and pickColour to be used in the toolbar (not
+        // in this menu).
         this.pickColourAction = new PickColourAction(LanguageActions.getLocaleString("pickCol"), null,
                 LanguageActions.getLocaleString("pickColDesc"), Integer.valueOf(0));
 
         this.selectAction = new SelectAction(LanguageActions.getLocaleString("selectTool"), null,
                 LanguageActions.getLocaleString("returnToSelect"), null);
 
-        // Create an instance of RegionCropAction to be used in the toolbar and add to the list of actions (for this menu).
+        // Create an instance of RegionCropAction to be used in the toolbar and add to
+        // the list of actions (for this menu).
         this.cropAction = new RegionCropAction(LanguageActions.getLocaleString("crop"), null,
                 LanguageActions.getLocaleString("regionCropDesc"), Integer.valueOf(KeyEvent.VK_X));
         actions.add(this.cropAction);
 
-        // Add the draw line/circle/rectangle actions to the list of sub actions (for this menu).
+        // Add the draw line/circle/rectangle actions to the list of sub actions (for
+        // this menu).
         actionsSub = new ArrayList<Action>();
         actionsSub.add(new DrawCircleAction(LanguageActions.getLocaleString("drawCircle"), null,
                 LanguageActions.getLocaleString("drawCircleDesc"), Integer.valueOf(0)));
@@ -185,22 +186,23 @@ public class DrawActions extends JFrame {
             subPanel.add(btnColor);
             subPanel.add(confirmButton);
             panel.add(subPanel, BorderLayout.SOUTH);
+            panel.setBackground(userColour);
             btnColor.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent evt) {
                     Color color = JColorChooser.showDialog(DrawActions.this,
-                            "Choose a color", bgColor);
+                            "Choose a color", userColour);
                     if (color != null) {
-                        bgColor = color;
+                        userColour = color;
                     }
-                    panel.setBackground(bgColor);
+                    panel.setBackground(userColour);
+
                 }
             });
 
             confirmButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent awt) {
-                    userColour = bgColor;
                     panel.setVisible(false);
                     JComponent comp = (JComponent) awt.getSource();
                     Window win = SwingUtilities.getWindowAncestor(comp);
@@ -209,7 +211,6 @@ public class DrawActions extends JFrame {
             });
 
             setContentPane(panel);
-            userColour = bgColor;
             setTitle("Colour Chooser");
             setSize(300, 200);
             setLocationRelativeTo(null);
@@ -351,7 +352,7 @@ public class DrawActions extends JFrame {
             ImagePanel.enterX = 0;
             ImagePanel.enterY = 0;
             ImagePanel.exitX = 0;
-            ImagePanel.exitY = 0;                
+            ImagePanel.exitY = 0;
             target.getParent().revalidate();
             // Reset the zoom of the image.
             target.setZoom(100);
