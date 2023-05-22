@@ -70,16 +70,16 @@ public class DrawCircle implements ImageOperation, Serializable {
         Graphics2D g = input.createGraphics();
 
         // If the circle is not supposed to be filled:
-        // Set the color on the Graphics2D object.
-        // Fill the circle with the specified color.
         if (!fill) {
+            // Set the color on the Graphics2D object.
+            // Fill the circle with the specified color.
             g.setColor(col);
             g.fillOval(x, y, width, height);
         }
         // If the circle is supposed to be filled:
-        // Set the color and stroke on the Graphics2D object.
-        // Draw the outline of the circle using the specified color and stroke.
         if (fill) {
+            // Set the color on the Graphics2D object.
+            // Fill the circle with the specified color.
             g.setColor(this.col);
             g.setStroke(stroke);
             g.drawOval(x, y, width, height);
