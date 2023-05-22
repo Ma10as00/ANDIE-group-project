@@ -161,7 +161,21 @@ public class DrawActions extends JFrame {
          * @param e The event triggering this callback.
          */
         public void actionPerformed(ActionEvent e) {
-            target.setTool(0);
+            // Check if there is an image open.
+            if (target.getImage().hasImage() == false) {
+                // There is not an image open, so display error message.
+                try {
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("selectErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                } catch (HeadlessException ex) {
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                    // Won't happen for our users, so just exit.
+                    System.exit(1);
+                }
+            }
+            else {
+                // There is an image open, carry on.
+                target.setTool(0);
+            }
         }
 
     }
@@ -270,11 +284,24 @@ public class DrawActions extends JFrame {
          * @param e The event triggering this callback.
          */
         public void actionPerformed(ActionEvent e) {
-            try {
-                target.deselect();
-                target.setTool(1);
-                target.repaint();
-            } catch (Exception ert) {
+            // Check if there is an image open.
+            if (target.getImage().hasImage() == false) {
+                // There is not an image open, so display error message.
+                try {
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("rectFillErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                } catch (HeadlessException ex) {
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                    // Won't happen for our users, so just exit.
+                    System.exit(1);
+                }
+            }
+            else {
+                try {
+                    target.deselect();
+                    target.setTool(1);
+                    target.repaint();
+                } catch (Exception ert) {
+                }
             }
         }
 
@@ -422,11 +449,25 @@ public class DrawActions extends JFrame {
          * @param e The event triggering this callback.
          */
         public void actionPerformed(ActionEvent e) {
-            try {
-                target.deselect();
-                target.setTool(2);
-                target.repaint();
-            } catch (Exception ert) {
+            // Check if there is an image open.
+            if (target.getImage().hasImage() == false) {
+                // There is not an image open, so display error message.
+                try {
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("circleFillErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                } catch (HeadlessException ex) {
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                    // Won't happen for our users, so just exit.
+                    System.exit(1);
+                }
+            }
+            else {
+                // There is an image open, carry on.
+                try {
+                    target.deselect();
+                    target.setTool(2);
+                    target.repaint();
+                } catch (Exception ert) {
+                }
             }
         }
     }
@@ -466,11 +507,25 @@ public class DrawActions extends JFrame {
          * @param e The event triggering this callback.
          */
         public void actionPerformed(ActionEvent e) {
-            try {
-                target.deselect();
-                target.setTool(3);
-                target.repaint();
-            } catch (Exception ert) {
+            // Check if there is an image open.
+            if (target.getImage().hasImage() == false) {
+                // There is not an image open, so display error message.
+                try {
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("lineErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                } catch (HeadlessException ex) {
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                    // Won't happen for our users, so just exit.
+                    System.exit(1);
+                }
+            }
+            else {
+                // There is an image open, carry on.
+                try {
+                    target.deselect();
+                    target.setTool(3);
+                    target.repaint();
+                } catch (Exception ert) {
+                }
             }
         }
     }
@@ -588,11 +643,25 @@ public class DrawActions extends JFrame {
          * @param e The event triggering this callback.
          */
         public void actionPerformed(ActionEvent e) {
-            try {
-                target.deselect();
-                target.setTool(4);
-                target.repaint();
-            } catch (Exception ert) {
+            // Check if there is an image open.
+            if (target.getImage().hasImage() == false) {
+                // There is not an image open, so display error message.
+                try {
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("rectOutErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                } catch (HeadlessException ex) {
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                    // Won't happen for our users, so just exit.
+                    System.exit(1);
+                }
+            }
+            else {
+                // There is an image open, carry on.
+                try {
+                    target.deselect();
+                    target.setTool(4);
+                    target.repaint();
+                } catch (Exception ert) {
+                }
             }
         }
 
@@ -635,11 +704,25 @@ public class DrawActions extends JFrame {
          * @param e The event triggering this callback.
          */
         public void actionPerformed(ActionEvent e) {
-            try {
-                target.deselect();
-                target.setTool(5);
-                target.repaint();
-            } catch (Exception ert) {
+            // Check if there is an image open.
+            if (target.getImage().hasImage() == false) {
+                // There is not an image open, so display error message.
+                try {
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("circleOutErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                } catch (HeadlessException ex) {
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                    // Won't happen for our users, so just exit.
+                    System.exit(1);
+                }
+            }
+            else {
+                // There is an image open, carry on.
+                try {
+                    target.deselect();
+                    target.setTool(5);
+                    target.repaint();
+                } catch (Exception ert) {
+                }
             }
         }
 

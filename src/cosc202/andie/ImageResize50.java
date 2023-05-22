@@ -10,7 +10,7 @@ import java.io.Serializable;
  * </p>
  * 
  */
-public class ImageResize50 implements ImageOperation, Serializable{
+public class ImageResize50 implements ImageOperation, Serializable {
 
     /**
     * <p>
