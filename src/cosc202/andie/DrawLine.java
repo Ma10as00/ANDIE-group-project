@@ -17,20 +17,21 @@ public class DrawLine implements ImageOperation, Serializable {
     private int enterY;
     private int exitX;
     private int exitY;
-    private BasicStroke stroke;
+    private int strokeWidth;
 
     public DrawLine(double scale, int enterX, int enterY, int exitX, int exitY) {
         this.enterX = (int)((double)enterX/scale);
         this.enterY = (int)((double)enterY/scale);
         this.exitX = (int)((double)exitX/scale);
         this.exitY = (int)((double)exitY/scale);
-        this.stroke = new BasicStroke((int)(DrawActions.userWidth/scale));
+        this.strokeWidth = (int)(DrawActions.userWidth/scale);
         col = new Color(DrawActions.userColour.getRed(), DrawActions.userColour.getGreen(), DrawActions.userColour.getBlue());
     }
 
     @Override
     public BufferedImage apply(BufferedImage input) {
         Graphics2D g = input.createGraphics();
+        BasicStroke stroke = new BasicStroke(strokeWidth);
         g.setStroke(stroke);
         g.setColor(col);
         g.drawLine(enterX, enterY, exitX, exitY);
