@@ -422,7 +422,7 @@ public class DrawActions extends JFrame {
                 // Set up the panel that will change colours.
                 JPanel colourPanel = new JPanel(new GridLayout(0, 1));
                 colourPanel.setPreferredSize(new Dimension(100, userWidth));
-                colourPanel.setBackground(userColour);
+                colourPanel.setBackground(originalColour);
                 holdColourPanel.add(colourPanel, new GridBagConstraints());
 
                 // Add these to the outer panel.
@@ -439,7 +439,7 @@ public class DrawActions extends JFrame {
                         if (colour != null) {
                             userColour = colour;
                         }
-                        colourPanel.setBackground(userColour);
+                        colourPanel.setBackground(new Color(userColour.getRed(), userColour.getGreen(), userColour.getBlue()));
                     }
                 });
 

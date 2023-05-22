@@ -179,7 +179,7 @@ public class ImagePanel extends JPanel {
         addMouseListener(new MouseAdapter() {
             public void mouseReleased(MouseEvent e) {
                 if (tool == drawRect) {
-                    image.apply(new DrawRec(rect, DrawActions.userColour, false));
+                    image.apply(new DrawRec(rect, false));
                     deselect();
                 }
                 if (tool == drawCircle) {
@@ -189,14 +189,13 @@ public class ImagePanel extends JPanel {
                     int height = Math.abs(enterY - exitY);
                     image.apply(new DrawCircle(x, y, height, width, false));
                     deselect();
-
                 }
                 if (tool == drawLine) {
                     image.apply(new DrawLine(enterX, enterY, exitX, exitY));
                     deselect();
                 }
                 if (tool == drawRectOutline) {
-                    image.apply(new DrawRec(rect, DrawActions.userColour, true));
+                    image.apply(new DrawRec(rect, true));
                     deselect();
                 }
                 if (tool == drawCircOutline) {
@@ -207,7 +206,6 @@ public class ImagePanel extends JPanel {
                     image.apply(new DrawCircle(x, y, height, width, true));
                     deselect();
                 }
-
             }
         });
 

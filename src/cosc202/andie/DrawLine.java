@@ -13,23 +13,23 @@ import java.awt.Color;
 public class DrawLine implements ImageOperation, Serializable {
 
     private Color col;
-    int enterX;
-    int enterY;
-    int exitX;
-    int exitY;
-    BasicStroke stroke = new BasicStroke(DrawActions.userWidth);
+    private int enterX;
+    private int enterY;
+    private int exitX;
+    private int exitY;
+    private BasicStroke stroke = new BasicStroke(DrawActions.userWidth);
 
     DrawLine(int enterX, int enterY, int exitX, int exitY) {
         this.enterX = enterX;
         this.enterY = enterY;
         this.exitX = exitX;
         this.exitY = exitY;
-        col = DrawActions.userColour;
+        col = new Color(DrawActions.userColour.getRed(), DrawActions.userColour.getGreen(), DrawActions.userColour.getBlue());
     }
 
     @Override
     public BufferedImage apply(BufferedImage input) {
-        Graphics2D g = (Graphics2D) input.getGraphics();
+        Graphics2D g = input.createGraphics();
         g.setStroke(stroke);
         g.setColor(col);
         g.drawLine(enterX, enterY, exitX, exitY);

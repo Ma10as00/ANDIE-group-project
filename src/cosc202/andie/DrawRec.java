@@ -12,11 +12,11 @@ public class DrawRec implements ImageOperation, Serializable {
     private Rectangle r;
     private Color col;
     private boolean fill;
-    BasicStroke stroke = new BasicStroke(DrawActions.userWidth);
+    private BasicStroke stroke = new BasicStroke(DrawActions.userWidth);
 
-    DrawRec(Rectangle rect, Color userColor, Boolean fill) {
+    DrawRec(Rectangle rect, Boolean fill) {
         r = rect;
-        col = userColor;
+        col = new Color(DrawActions.userColour.getRed(), DrawActions.userColour.getGreen(), DrawActions.userColour.getBlue());
         this.fill = fill;
     }
 
@@ -24,12 +24,11 @@ public class DrawRec implements ImageOperation, Serializable {
     public BufferedImage apply(BufferedImage input) {
         Graphics2D g2d = (Graphics2D) input.getGraphics();
         if (!fill) {
-            g2d.setColor(col);
+            g2d.setColor(this.col);
             g2d.fill(r);
         }
-
         if (fill) {
-            g2d.setColor(DrawActions.userColour);
+            g2d.setColor(this.col);
             g2d.setStroke(stroke);
             g2d.draw(r);
         }

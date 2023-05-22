@@ -23,12 +23,12 @@ import java.awt.Color;
 public class DrawCircle implements ImageOperation, Serializable {
 
     private Color col;
-    int x;
-    int y;
-    int width;
-    int height;
-    boolean fill;
-    BasicStroke stoke = new BasicStroke(DrawActions.userWidth);
+    private int x;
+    private int y;
+    private int width;
+    private int height;
+    private boolean fill;
+    private BasicStroke stoke = new BasicStroke(DrawActions.userWidth);
 
     DrawCircle(int x, int y, int height, int width, boolean fill) {
         this.x = x;
@@ -36,7 +36,7 @@ public class DrawCircle implements ImageOperation, Serializable {
         this.height = height;
         this.width = width;
         this.fill = fill;
-        col = DrawActions.userColour;
+        col = new Color(DrawActions.userColour.getRed(), DrawActions.userColour.getGreen(), DrawActions.userColour.getBlue());
     }
 
     @Override
@@ -46,9 +46,8 @@ public class DrawCircle implements ImageOperation, Serializable {
             g.setColor(col);
             g.fillOval(x, y, width, height);
         }
-
         if (fill) {
-            g.setColor(DrawActions.userColour);
+            g.setColor(this.col);
             g.setStroke(stoke);
             g.drawOval(x, y, width, height);
         }
