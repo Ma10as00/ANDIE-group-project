@@ -51,38 +51,36 @@ public class DrawActions extends JFrame {
     public DrawActions() {
         actions = new ArrayList<Action>();
 
-        // Creates an instance of select and pickColour to be used in the toolbar (not
-        // in this menu).
-        this.pickColourAction = new PickColourAction(LanguageActions.getLocaleString("pickCol"), null,
-                LanguageActions.getLocaleString("pickColDesc"), Integer.valueOf(0));
-        actions.add(this.pickColourAction);
-
+        // Creates an instance of select and region crop to be used in the toolbar (and this menu).
         this.selectAction = new SelectAction(LanguageActions.getLocaleString("selectTool"), null,
                 LanguageActions.getLocaleString("returnToSelect"), null);
         actions.add(this.selectAction);
 
-        // Create an instance of RegionCropAction to be used in the toolbar and add to
-        // the list of actions (for this menu).
         this.cropAction = new RegionCropAction(LanguageActions.getLocaleString("crop"), null,
                 LanguageActions.getLocaleString("regionCropDesc"), Integer.valueOf(KeyEvent.VK_X));
         actions.add(this.cropAction);
 
+        // Create an instance of PickColourAction and SelectWidthAction to be used in the toolbar and add to
+        // the list of actions (and this menu).
+        this.pickColourAction = new PickColourAction(LanguageActions.getLocaleString("pickCol"), null,
+                LanguageActions.getLocaleString("pickColDesc"), Integer.valueOf(0));
+        actions.add(this.pickColourAction);
         actions.add(new SelectWidth(LanguageActions.getLocaleString("width"), null,
                 LanguageActions.getLocaleString("pickAWidth"), Integer.valueOf(KeyEvent.VK_P)));
 
-        // Add the draw line/circle/rectangle actions to the list of sub actions (for
-        // this menu).
+        // Add the draw line/circle/rectangle actions to the list of sub actions (and this menu).
+        actions.add(new DrawLineAction(LanguageActions.getLocaleString("drawLine"), null,
+                LanguageActions.getLocaleString("drawLineDesc"), Integer.valueOf(0)));
+
         actionsSubRect = new ArrayList<Action>();
+        actionsSubRect.add(new DrawRecAction(LanguageActions.getLocaleString("drawRec"), null,
+                LanguageActions.getLocaleString("drawRecDesc"), Integer.valueOf(0)));
+        actionsSubRect.add(new DrawRecOutlineAction(LanguageActions.getLocaleString("drawRecOutline"), null,
+                LanguageActions.getLocaleString("drawRecOutlineDesc"), Integer.valueOf(0)));
+
         actionsSubCirc = new ArrayList<Action>();
         actionsSubCirc.add(new DrawCircleAction(LanguageActions.getLocaleString("drawCircle"), null,
                 LanguageActions.getLocaleString("drawCircleDesc"), Integer.valueOf(0)));
-        actionsSubRect.add(new DrawRecAction(LanguageActions.getLocaleString("drawRec"), null,
-                LanguageActions.getLocaleString("drawRecDesc"), Integer.valueOf(0)));
-        actions.add(new DrawLineAction(LanguageActions.getLocaleString("drawLine"),
-                null,
-                LanguageActions.getLocaleString("drawLineDesc"), Integer.valueOf(0)));
-        actionsSubRect.add(new DrawRecOutlineAction(LanguageActions.getLocaleString("drawRecOutline"), null,
-                LanguageActions.getLocaleString("drawRecOutlineDesc"), Integer.valueOf(0)));
         actionsSubCirc.add(new DrawCircOutlineAction(LanguageActions.getLocaleString("drawCircOutline"), null,
                 LanguageActions.getLocaleString("drawCircOutlineDesc"), Integer.valueOf(0)));
     }
