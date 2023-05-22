@@ -7,7 +7,7 @@ import static org.junit.Assert.assertTrue;
 import java.beans.PropertyChangeListener;
 import java.util.Stack;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
