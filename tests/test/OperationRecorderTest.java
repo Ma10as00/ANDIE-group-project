@@ -28,12 +28,6 @@ public class OperationRecorderTest {
      * Initiates the GUI of Andie, along with a robot user to interact with Andie.
      */
     private void startAndie(){
-        //Constructing robot user to interact with Andie:
-        try {
-            user = new Robot();
-        } catch (AWTException e) {
-            e.printStackTrace();
-        }
         //Initiating GUI of Andie, with a starting image:
         try {
             Andie.createAndShowGUI();
@@ -42,6 +36,13 @@ public class OperationRecorderTest {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        //Constructing robot user to interact with Andie:
+        try {
+            user = new Robot();
+        } catch (AWTException e) {
+            e.printStackTrace();
+        }
+        
     }
 
     /**
