@@ -281,7 +281,6 @@ public class Andie {
         MacroActions macroActions = new MacroActions();
         JMenu macroMenu = macroActions.createMenu();
         macroMenu.setBorderPainted(false);
-        menuBar.add(macroMenu);
 
         // Change the colour depending on the mode.
         if (Andie.darkMode) {
@@ -290,6 +289,14 @@ public class Andie {
         } else {
             menuBar.setBackground(Color.white);
             menuBar.setForeground(grey);
+        }
+        // Changes the background colour of macroMenu to red to indicate that it is currently recording.
+        if(ImagePanel.macroPressed){
+            macroMenu.setBackground(new Color(227, 93, 69));
+            menuBar.add(macroMenu);
+        }
+        else{
+            menuBar.add(macroMenu);
         }
         menuBar.setOpaque(true);
         frame.setJMenuBar(menuBar);

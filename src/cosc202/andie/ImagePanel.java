@@ -54,6 +54,12 @@ public class ImagePanel extends JPanel {
      */
     public boolean ongoingRecording = false;
 
+    /**
+     * Allows the menu to know when macros are being recorded in Andie.
+     * 
+     */
+    public static boolean macroPressed = false;
+
     /** Sets the tool int which will be used to decide what shape is to be drawn */
     public int tool;
 
