@@ -36,13 +36,13 @@ public class DrawRec implements ImageOperation, Serializable {
         
         // Creating a BasicStroke object for the stroke of the rectangle.
         // The stroke width is calculated by dividing DrawActions.userWidth by the scale.
-        // Creating a Rectangle object with the scaled coordinates and dimensions.
-        // Creating a Color object based on the RGB values obtained from DrawActions.userColour.
-        // Setting the fill status based on the provided boolean value.
         this.stroke = new BasicStroke((int) (DrawActions.userWidth / scale));
+        // Creating a Rectangle object with the scaled coordinates and dimensions.
         r = new Rectangle(x, y, width, height);
+        // Creating a Color object based on the RGB values obtained from DrawActions.userColour.
         col = new Color(DrawActions.userColour.getRed(), DrawActions.userColour.getGreen(),
                 DrawActions.userColour.getBlue());
+        // Setting the fill status based on the provided boolean value.
         this.fill = fill;
     }
     // Implementation of the apply() method from the ImageOperation interface.
@@ -53,18 +53,18 @@ public class DrawRec implements ImageOperation, Serializable {
         Graphics2D g2d = (Graphics2D) input.getGraphics();
 
         // If the rectangle is not supposed to be filled:
-        // Set the color on the Graphics2D object.
-        // Fill the rectangle with the specified color.
         if (!fill) {
+            // Set the color on the Graphics2D object.
             g2d.setColor(this.col);
+            // Fill the rectangle with the specified color.
             g2d.fill(r);
         }
         // If the rectangle is supposed to be filled:
-        // Set the color and stroke on the Graphics2D object.
-        // Draw the outline of the rectangle using the specified color and stroke.
         if (fill) {
+            // Set the color and stroke on the Graphics2D object.
             g2d.setColor(this.col);
             g2d.setStroke(stroke);
+            // Draw the outline of the rectangle using the specified color and stroke.
             g2d.draw(r);
         }
         // Releasing system resources associated with the Graphics2D object.
