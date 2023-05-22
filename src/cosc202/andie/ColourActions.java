@@ -38,12 +38,17 @@ public class ColourActions {
      * Create a set of Colour menu actions.
      * </p>
      */
+    // This is the constructor of the ColourActions class.
     public ColourActions() {
+        // Create a new ArrayList to store Action objects.
         actions = new ArrayList<Action>();
+        // Create a new ConvertToGreyAction object and add it to the actions list. 
         actions.add(new ConvertToGreyAction(LanguageActions.getLocaleString("greyscale"), null,
                 LanguageActions.getLocaleString("greyscaleDes"), Integer.valueOf(KeyEvent.VK_G)));
+        // Create a new BrightnessAction object and add it to the actions list.
         actions.add(new BrightnessAction(LanguageActions.getLocaleString("brightness"), null,
                 LanguageActions.getLocaleString("brightnessDes"), Integer.valueOf(KeyEvent.VK_B)));
+        // Create a new ContrastAction object and add it to the actions list.
         actions.add(new ContrastAction(LanguageActions.getLocaleString("contrast"), null,
                 LanguageActions.getLocaleString("contrastDes"), Integer.valueOf(KeyEvent.VK_C)));
     }
