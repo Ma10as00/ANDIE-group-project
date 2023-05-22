@@ -5,6 +5,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.ArrayList;
+
 import javax.swing.*;
 
 /**
@@ -64,6 +66,8 @@ public class ImagePanel extends JPanel {
 
     public Point enter;
     public Point exit;
+
+    public static ArrayList<Shapes> shapes;
 
     /**
      * <p>
@@ -175,6 +179,8 @@ public class ImagePanel extends JPanel {
             public void mouseReleased(MouseEvent e) {
                 if (tool == drawRect) {
                     image.apply(new DrawRec(rect, DrawActions.userColour, false));
+                    shapes.add(new Shapes((Action) new DrawRec(rect, DrawActions.userColour, false),
+                            DrawActions.userWidth));
                     deselect();
                 }
                 if (tool == drawCircle) {
@@ -238,6 +244,22 @@ public class ImagePanel extends JPanel {
             }
         });
 
+    }
+
+    /**
+     * <p>
+     * Create a new ImagePanel, purely for the use of JUnit tests.
+     * </p>
+     * 
+     * <p>
+     * Newly created ImagePanels have a default zoom level of 100%.
+     * Note, this will construct an ImagePanel with no frame or mouse handler.
+     * So, do not use it for any purpose other then JUnit tests.
+     * </p>
+     * 
+     */
+    public ImagePanel() {
+        scale = 1.0;
     }
 
     /**
@@ -404,6 +426,25 @@ public class ImagePanel extends JPanel {
 
     public int getTool() {
         return tool;
+    }
+
+    private static class Shapes {
+        private Action comp;
+        private int width;
+
+        public Shapes(Action comp, int width) {
+            this.comp = comp;
+
+            this.width = width;
+        }
+
+        public Action getComp() {
+            return comp;
+        }
+
+        public int getWidth() {
+            return width;
+        }
     }
 
     /**

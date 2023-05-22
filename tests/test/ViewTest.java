@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.Assert.*;
 
 import cosc202.andie.*;
-import javax.swing.*;
 
 /**
  * <p>
@@ -26,8 +25,7 @@ public class ViewTest {
      */
     @Test
     public void ZoomInTest() {
-        JFrame frame = new JFrame();
-        ImagePanel imagePanel = new ImagePanel(frame);
+        ImagePanel imagePanel = new ImagePanel();
         double zoomBefore = imagePanel.getZoom();
         // Change the zoom as done in ZoomInAction.
         imagePanel.setZoom(imagePanel.getZoom()+10);
@@ -44,8 +42,7 @@ public class ViewTest {
      */
     @Test
     public void ZoomOutTest() {
-        JFrame frame = new JFrame();
-        ImagePanel imagePanel = new ImagePanel(frame);
+        ImagePanel imagePanel = new ImagePanel();
         double zoomBefore = imagePanel.getZoom();
         // Change the zoom as done in ZoomOutAction.
         imagePanel.setZoom(imagePanel.getZoom()-10);
@@ -64,8 +61,7 @@ public class ViewTest {
     public void ZoomChangeTest() {
         // Repeat test for different zoom changes.
         for (double change = -100; change < 200; change+=10) {
-            JFrame frame = new JFrame();
-            ImagePanel imagePanel = new ImagePanel(frame);
+            ImagePanel imagePanel = new ImagePanel();
             double zoomBefore = imagePanel.getZoom();
             // Change the zoom as done in ZoomInAction.
             imagePanel.setZoom(imagePanel.getZoom()+change);

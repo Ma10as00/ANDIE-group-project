@@ -13,6 +13,7 @@ public class DrawCircle implements ImageOperation, java.io.Serializable {
     int width;
     int height;
     boolean fill;
+    BasicStroke stoke = new BasicStroke(width);
 
     DrawCircle(int x, int y, int height, int width, boolean fill) {
         this.x = x;
@@ -33,7 +34,7 @@ public class DrawCircle implements ImageOperation, java.io.Serializable {
 
         if (fill) {
             g.setColor(DrawActions.userColour);
-            g.setStroke(new BasicStroke((float) DrawActions.userWidth));
+            g.setStroke(stoke);
             g.drawOval(x, y, width, height);
         }
         g.dispose();

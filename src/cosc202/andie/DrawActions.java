@@ -4,13 +4,13 @@ import java.util.*;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.HeadlessException;
-import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Rectangle;
 import javax.swing.*;
 import java.awt.Toolkit;
 import java.awt.event.*;
+import java.awt.*;
 
 public class DrawActions extends JFrame {
     protected ArrayList<Action> actionsSubRect;
@@ -22,6 +22,7 @@ public class DrawActions extends JFrame {
     public static Color userColour = Color.white;
     public static boolean drawMode;
     public static int userWidth = 5;
+    public static ArrayList<Integer> widths;
 
     /**
      * A list of actions for the Tool (Draw) menu.
@@ -51,38 +52,36 @@ public class DrawActions extends JFrame {
     public DrawActions() {
         actions = new ArrayList<Action>();
 
-        // Creates an instance of select and pickColour to be used in the toolbar (not
-        // in this menu).
-        this.pickColourAction = new PickColourAction(LanguageActions.getLocaleString("pickCol"), null,
-                LanguageActions.getLocaleString("pickColDesc"), Integer.valueOf(0));
-        actions.add(this.pickColourAction);
-
+        // Creates an instance of select and region crop to be used in the toolbar (and this menu).
         this.selectAction = new SelectAction(LanguageActions.getLocaleString("selectTool"), null,
                 LanguageActions.getLocaleString("returnToSelect"), null);
         actions.add(this.selectAction);
 
-        // Create an instance of RegionCropAction to be used in the toolbar and add to
-        // the list of actions (for this menu).
         this.cropAction = new RegionCropAction(LanguageActions.getLocaleString("crop"), null,
                 LanguageActions.getLocaleString("regionCropDesc"), Integer.valueOf(KeyEvent.VK_X));
         actions.add(this.cropAction);
 
+        // Create an instance of PickColourAction and SelectWidthAction to be used in the toolbar and add to
+        // the list of actions (and this menu).
+        this.pickColourAction = new PickColourAction(LanguageActions.getLocaleString("pickCol"), null,
+                LanguageActions.getLocaleString("pickColDesc"), Integer.valueOf(0));
+        actions.add(this.pickColourAction);
         actions.add(new SelectWidth(LanguageActions.getLocaleString("width"), null,
                 LanguageActions.getLocaleString("pickAWidth"), Integer.valueOf(KeyEvent.VK_P)));
 
-        // Add the draw line/circle/rectangle actions to the list of sub actions (for
-        // this menu).
+        // Add the draw line/circle/rectangle actions to the list of sub actions (and this menu).
+        actions.add(new DrawLineAction(LanguageActions.getLocaleString("drawLine"), null,
+                LanguageActions.getLocaleString("drawLineDesc"), Integer.valueOf(0)));
+
         actionsSubRect = new ArrayList<Action>();
+        actionsSubRect.add(new DrawRecAction(LanguageActions.getLocaleString("drawRec"), null,
+                LanguageActions.getLocaleString("drawRecDesc"), Integer.valueOf(0)));
+        actionsSubRect.add(new DrawRecOutlineAction(LanguageActions.getLocaleString("drawRecOutline"), null,
+                LanguageActions.getLocaleString("drawRecOutlineDesc"), Integer.valueOf(0)));
+
         actionsSubCirc = new ArrayList<Action>();
         actionsSubCirc.add(new DrawCircleAction(LanguageActions.getLocaleString("drawCircle"), null,
                 LanguageActions.getLocaleString("drawCircleDesc"), Integer.valueOf(0)));
-        actionsSubRect.add(new DrawRecAction(LanguageActions.getLocaleString("drawRec"), null,
-                LanguageActions.getLocaleString("drawRecDesc"), Integer.valueOf(0)));
-        actions.add(new DrawLineAction(LanguageActions.getLocaleString("drawLine"),
-                null,
-                LanguageActions.getLocaleString("drawLineDesc"), Integer.valueOf(0)));
-        actionsSubRect.add(new DrawRecOutlineAction(LanguageActions.getLocaleString("drawRecOutline"), null,
-                LanguageActions.getLocaleString("drawRecOutlineDesc"), Integer.valueOf(0)));
         actionsSubCirc.add(new DrawCircOutlineAction(LanguageActions.getLocaleString("drawCircOutline"), null,
                 LanguageActions.getLocaleString("drawCircOutlineDesc"), Integer.valueOf(0)));
     }
@@ -234,43 +233,67 @@ public class DrawActions extends JFrame {
         }
 
         public void actionPerformed(ActionEvent e) {
-            panel = new JPanel(new BorderLayout());
-            JPanel subPanel = new JPanel();
+            // Check if there is an image open.
+            if (target.getImage().hasImage() == false) {
+                // There is not an image open, so display error message.
+                try {
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("colourErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                } catch (HeadlessException ex) {
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                    // Won't happen for our users, so just exit.
+                    System.exit(1);
+                }
+            }
+            else {
+                // There is an image open, carry on.
+                // Determine the colour the user wants to pick.
+                // Remember the original colour.
+                Color originalColour = new Color(userColour.getRed(), userColour.getGreen(), userColour.getBlue());
 
-            JButton btnColor = new JButton("Change Color");
-            JButton confirmButton = new JButton("Confirm");
-            subPanel.add(btnColor);
-            subPanel.add(confirmButton);
-            panel.add(subPanel, BorderLayout.SOUTH);
-            panel.setBackground(userColour);
-            btnColor.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent evt) {
-                    Color color = JColorChooser.showDialog(Andie.frame,
-                            "Choose a color", userColour);
-                    if (color != null) {
-                        userColour = color;
+                // Set up buttons for the user to pick a new colour.
+                JButton colourButton = new JButton(LanguageActions.getLocaleString("changeCol"));
+
+                // Set up the panel that will change colours.
+                JPanel colourPanel = new JPanel(new GridLayout(0, 1));
+                colourPanel.setBackground(userColour);
+                
+                // Add these to the outer panel.
+                JPanel outerPanel = new JPanel(new BorderLayout());
+                outerPanel.add(colourPanel, BorderLayout.CENTER);
+                outerPanel.add(colourButton, BorderLayout.SOUTH);
+
+                // Make the colout button allow the user to pick a colour.
+                colourButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent evt) {
+                        Color colour = JColorChooser.showDialog(Andie.frame,
+                        LanguageActions.getLocaleString("pickCol"), userColour);
+                        if (colour != null) {
+                            userColour = colour;
+                        }
+                        colourPanel.setBackground(userColour);
                     }
-                    panel.setBackground(userColour);
+                });
 
+                // Ask user for the colour with an option dialogue.
+                try {
+                    int option = JOptionPane.showOptionDialog(Andie.frame, outerPanel, LanguageActions.getLocaleString("drawCol"),
+                            JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
+                    if (option == JOptionPane.CLOSED_OPTION || option == JOptionPane.CANCEL_OPTION) {
+                        // Set the colour back to the original colour.
+                        userColour = originalColour;
+                        return;
+                    }
+                    if (option == JOptionPane.OK_OPTION) {
+                        // Do nothing, the colour is already set.
+                        return;
+                    }
+                } catch (HeadlessException ex) {
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                    // Won't happen for our users, so just exit.
+                    System.exit(1);
                 }
-            });
-
-            confirmButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent awt) {
-                    panel.setVisible(false);
-                    JComponent comp = (JComponent) awt.getSource();
-                    Window win = SwingUtilities.getWindowAncestor(comp);
-                    win.dispose();
-                }
-            });
-
-            setContentPane(panel);
-            setTitle("Colour Chooser");
-            setSize(200, 150);
-            setLocationRelativeTo(Andie.frame);
-            setVisible(true);
+            }
         }
     }
 
@@ -392,6 +415,7 @@ public class DrawActions extends JFrame {
                 // There is not an image crop, so display error message.
                 JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("cropError"),
                         LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                return;
             }
             // Check if there is a selected region.
             if (ImagePanel.rect == null) {

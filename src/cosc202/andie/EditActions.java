@@ -208,7 +208,8 @@ public class EditActions {
                 } else {
                     // There is an image open, and operations to undo, carry on.
                     // Check that the user is sure they want to undo all operations.
-                    int option = JOptionPane.showConfirmDialog(Andie.frame, LanguageActions.getLocaleString("warningUndoAll"),
+                    int option = JOptionPane.showConfirmDialog(Andie.frame,
+                            LanguageActions.getLocaleString("warningUndoAll"),
                             LanguageActions.getLocaleString("warning"), JOptionPane.OK_CANCEL_OPTION,
                             JOptionPane.WARNING_MESSAGE);
                     if (option == JOptionPane.CANCEL_OPTION || option == JOptionPane.CLOSED_OPTION) {
