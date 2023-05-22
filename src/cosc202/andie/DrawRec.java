@@ -1,12 +1,13 @@
 package cosc202.andie;
 
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 import java.awt.Graphics2D;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Rectangle;
 
-public class DrawRec implements ImageOperation, java.io.Serializable {
+public class DrawRec implements ImageOperation, Serializable {
 
     private Rectangle r;
     private Color col;

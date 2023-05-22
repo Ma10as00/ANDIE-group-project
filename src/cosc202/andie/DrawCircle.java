@@ -1,11 +1,12 @@
 package cosc202.andie;
 
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 import java.awt.Graphics2D;
 import java.awt.BasicStroke;
 import java.awt.Color;
 
-public class DrawCircle implements ImageOperation, java.io.Serializable {
+public class DrawCircle implements ImageOperation, Serializable {
 
     private Color col;
     int x;

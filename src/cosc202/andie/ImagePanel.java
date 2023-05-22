@@ -5,7 +5,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.util.ArrayList;
 
 import javax.swing.*;
 
@@ -55,19 +54,21 @@ public class ImagePanel extends JPanel {
      */
     public boolean ongoingRecording = false;
 
+    /** Sets the tool int which will be used to decide what shape is to be drawn */
     public int tool;
 
+    /** Sets the tool int 0 to selection tool to make coding easier */
     private static int selection = 0;
+    /** Sets the tool int 1 to draw rectangle tool to make coding easier */
     private static int drawRect = 1;
+    /** Sets the tool int 2 to draw circle tool to make coding easier */
     private static int drawCircle = 2;
+    /** Sets the tool int 3 to draw line tool to make coding easier */
     private static int drawLine = 3;
+    /** Sets the tool int 4 to draw rectangle outline tool to make coding easier */
     private static int drawRectOutline = 4;
+    /** Sets the tool int 5 to draw circle outline tool to make coding easier */
     private static int drawCircOutline = 5;
-
-    public Point enter;
-    public Point exit;
-
-    public static ArrayList<Shapes> shapes;
 
     /**
      * <p>
@@ -179,8 +180,6 @@ public class ImagePanel extends JPanel {
             public void mouseReleased(MouseEvent e) {
                 if (tool == drawRect) {
                     image.apply(new DrawRec(rect, DrawActions.userColour, false));
-                    shapes.add(new Shapes((Action) new DrawRec(rect, DrawActions.userColour, false),
-                            DrawActions.userWidth));
                     deselect();
                 }
                 if (tool == drawCircle) {
@@ -426,25 +425,6 @@ public class ImagePanel extends JPanel {
 
     public int getTool() {
         return tool;
-    }
-
-    private static class Shapes {
-        private Action comp;
-        private int width;
-
-        public Shapes(Action comp, int width) {
-            this.comp = comp;
-
-            this.width = width;
-        }
-
-        public Action getComp() {
-            return comp;
-        }
-
-        public int getWidth() {
-            return width;
-        }
     }
 
     /**

@@ -1,6 +1,7 @@
 package cosc202.andie;
 
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 import java.awt.Graphics2D;
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -9,7 +10,7 @@ import java.awt.Color;
  * An image operation that draws pixels to the screen in an array with a
  * selected
  */
-public class DrawLine implements ImageOperation, java.io.Serializable {
+public class DrawLine implements ImageOperation, Serializable {
 
     private Color col;
     int enterX;

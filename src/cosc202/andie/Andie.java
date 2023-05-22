@@ -24,7 +24,7 @@ import javax.swing.border.*;
  * 4.0</a>
  * </p>
  * 
- * @author Steven Mills
+ * @author Steven Mills (Edited by Michael Campbell, Stella Srzich, Katie Wink)
  * @version 1.0
  */
 public class Andie {
@@ -41,8 +41,10 @@ public class Andie {
     /** A boolean to represent whether or not we are in dark mode. */
     public static boolean darkMode;
 
-    /** The colour used as the foreground in light mode and the background 
-     * for the tool bar in dark mode. */
+    /**
+     * The colour used as the foreground in light mode and the background
+     * for the tool bar in dark mode.
+     */
     private static Color grey = new Color(30, 30, 30);
 
     /** The colour used for the menu and menu items in dark mode. */
@@ -128,7 +130,8 @@ public class Andie {
         ImageAction.setTarget(imagePanel);
 
         // Create another panel to hold the image panel.
-        // Note, the imagePanel is always centered in the outerPanel, which has a scroll pane.
+        // Note, the imagePanel is always centered in the outerPanel, which has a scroll
+        // pane.
         outerPanel = new JPanel();
         outerPanel.setLayout(new GridBagLayout());
         outerPanel.add(imagePanel, new GridBagConstraints());
@@ -147,10 +150,9 @@ public class Andie {
         // This makes dark and light mode remembered when you exit the application.
         // By default, this application is in light mode.
         String mode = prefs.get("mode", "light");
-        if (mode.equals("dark")){
+        if (mode.equals("dark")) {
             darkMode = true;
-        }
-        else if (mode.equals("light")) {
+        } else if (mode.equals("light")) {
             darkMode = false;
         }
 
@@ -202,8 +204,7 @@ public class Andie {
         // Make the pop up borders for each menu match the mode.
         if (Andie.darkMode) {
             UIManager.put("PopupMenu.border", new LineBorder(lightGrey));
-        }
-        else {
+        } else {
             UIManager.put("PopupMenu.border", new LineBorder(Color.white));
         }
         // Add in menus for various types of action the user may perform.
@@ -244,7 +245,7 @@ public class Andie {
         menuBar.add(Box.createHorizontalGlue());
 
         // Orientation actions change the orientation of the image, altering its
-        // content. 
+        // content.
         OrientationActions orientationActions = new OrientationActions();
         JMenu orientationMenu = orientationActions.createMenu();
         orientationMenu.setBorderPainted(false);
@@ -262,7 +263,8 @@ public class Andie {
         colourMenu.setBorderPainted(false);
         menuBar.add(colourMenu);
 
-        // Filter actions apply a per-pixel operation to the image, generally based on a local window.
+        // Filter actions apply a per-pixel operation to the image, generally based on a
+        // local window.
         FilterActions filterActions = new FilterActions();
         JMenu filterMenu = filterActions.createMenu();
         filterMenu.setBorderPainted(false);
@@ -285,8 +287,7 @@ public class Andie {
         if (Andie.darkMode) {
             menuBar.setBackground(lightGrey);
             menuBar.setForeground(lightWhite);
-        }
-        else {
+        } else {
             menuBar.setBackground(Color.white);
             menuBar.setForeground(grey);
         }
@@ -298,7 +299,7 @@ public class Andie {
             imagePanel.getImage().updateFrameTitle();
         }
 
-        // We only repack the frame the first time the application is opened, 
+        // We only repack the frame the first time the application is opened,
         // or if the langauge is being changed.
         frame.pack();
     }
@@ -308,26 +309,27 @@ public class Andie {
      * A support method to use a UIManager to keep track of the Menu's
      * background and foreground colours for light and dark mode.
      * </p>
+     * 
      * @param menuBar The menu of this application.
      */
     private static void setMenuBackground(JMenuBar menuBar) {
         if (Andie.darkMode) {
             UIManager.put("Menu.background", lightGrey);
             UIManager.put("Menu.foreground", lightWhite);
-            UIManager.put("Menu.opaque", true); 
+            UIManager.put("Menu.opaque", true);
             UIManager.put("MenuBar.background", lightGrey);
             UIManager.put("MenuBar.foreground", lightWhite);
-            UIManager.put("MenuBar.opaque", true); 
+            UIManager.put("MenuBar.opaque", true);
             UIManager.put("MenuItem.background", lightGrey);
             UIManager.put("MenuItem.foreground", lightWhite);
             UIManager.put("MenuItem.opaque", true);
         } else {
             UIManager.put("Menu.background", Color.white);
             UIManager.put("Menu.foreground", grey);
-            UIManager.put("Menu.opaque", true); 
+            UIManager.put("Menu.opaque", true);
             UIManager.put("MenuBar.background", Color.white);
             UIManager.put("MenuBar.foreground", grey);
-            UIManager.put("MenuBar.opaque", true); 
+            UIManager.put("MenuBar.opaque", true);
             UIManager.put("MenuItem.background", Color.white);
             UIManager.put("MenuItem.foreground", grey);
             UIManager.put("MenuItem.opaque", true);
@@ -354,7 +356,7 @@ public class Andie {
         JToolBar toolbar = new JToolBar();
         toolbar.setOrientation(SwingConstants.VERTICAL);
         toolbar.setFloatable(false);
-        toolbar.setBorderPainted(false);        
+        toolbar.setBorderPainted(false);
         JButton button = null;
         if (Andie.darkMode) {
             toolbar.setBackground(grey);
@@ -363,7 +365,7 @@ public class Andie {
             toolbar.setBackground(darkWhite);
             toolbar.setForeground(grey);
         }
-        frame.add(toolbar,BorderLayout.WEST);
+        frame.add(toolbar, BorderLayout.WEST);
 
         // Adds the save button to the toolbar.
         FileActions fileActions = new FileActions(frame);
@@ -447,7 +449,7 @@ public class Andie {
         button.setText("");
         button.setBorderPainted(false);
         toolbar.add(button);
-        
+
         // Pack the frame.
         frame.pack();
     }
@@ -457,11 +459,12 @@ public class Andie {
      * Creates a JButton with the provided parameters and returns it
      * </p>
      * 
-     * @param action an action to be assigned to the button
-     * @param imagePath a String to indicate the filename of the png to use as an icon
+     * @param action    an action to be assigned to the button
+     * @param imagePath a String to indicate the filename of the png to use as an
+     *                  icon
      * @return a JButton with the assigned action and Image
      */
-    private static JButton createButton(Action action, String imagePath){
+    private static JButton createButton(Action action, String imagePath) {
         JButton button = new JButton(action);
         if (Andie.darkMode) {
             button.setForeground(grey);
@@ -471,13 +474,13 @@ public class Andie {
             button.setBackground(darkWhite);
         }
         try {
-        if (button.getIcon() == null) {
-            Image buttonImage = ImageIO.read(Andie.class.getClassLoader().getResource(imagePath));
-            buttonImage = buttonImage.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+            if (button.getIcon() == null) {
+                Image buttonImage = ImageIO.read(Andie.class.getClassLoader().getResource(imagePath));
+                buttonImage = buttonImage.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
 
-            button.setIcon(new ImageIcon(buttonImage));
-        }
-        } catch(Exception fileNotFoundException) {
+                button.setIcon(new ImageIcon(buttonImage));
+            }
+        } catch (Exception fileNotFoundException) {
 
         }
 
@@ -499,7 +502,8 @@ public class Andie {
         // Check if there is an image open.
         if (imagePanel.getImage().hasImage()) {
             if (!imagePanel.getImage().opsSaved()) {
-                // There is an image open and it has unsaved operations, warn user that any unsaved changes will be deleted.
+                // There is an image open and it has unsaved operations, warn user that any
+                // unsaved changes will be deleted.
                 try {
                     int option = JOptionPane.showConfirmDialog(null, LanguageActions.getLocaleString("errorExit"),
                             LanguageActions.getLocaleString("warning"), JOptionPane.OK_CANCEL_OPTION,
@@ -514,8 +518,7 @@ public class Andie {
                     // Won't happen for our users, so just exit.
                     System.exit(1);
                 }
-            }
-            else {
+            } else {
                 // If the image is saved, exit.
                 System.exit(0);
             }
@@ -525,6 +528,18 @@ public class Andie {
         }
     }
 
+    /**
+     * <p>
+     * Method that updates the colours of the GUI so that the UI is in dark mode.
+     * Will change the background and foreground(text) to our set colours that look
+     * the best
+     * for each mode.
+     * </p>
+     * 
+     * <p>
+     * Gets changed depending on whever "darkmode" is true of false
+     * </p>
+     */
     public static void updateDarkMode() {
         if (darkMode) {
             // Option panes.
@@ -605,7 +620,7 @@ public class Andie {
                     button.setFocusPainted(false);
                 }
             }
-            
+
         }
         if (!darkMode) {
             // Option panes.
@@ -690,12 +705,15 @@ public class Andie {
                 }
             }
         }
-        // This is done so that when we change the mode we don't change the size of the frame.
+        // This is done so that when we change the mode we don't change the size of the
+        // frame.
         Rectangle sizeBefore = frame.getBounds();
         // Repaint the frame and image panel to reflect the changes.
         renderMenu();
-        // Note, I don't re-render the tool bar as that was causing issues with the bottom of the tool bar.
-        // This is done so that when we change the mode we don't change the size of the frame.
+        // Note, I don't re-render the tool bar as that was causing issues with the
+        // bottom of the tool bar.
+        // This is done so that when we change the mode we don't change the size of the
+        // frame.
         frame.setBounds(sizeBefore);
         // Repaint the frame and image panel.
         frame.repaint();
