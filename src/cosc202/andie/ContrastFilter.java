@@ -10,6 +10,12 @@ import java.awt.HeadlessException;
  * </p>
  * 
  * <p>
+ * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA
+ * 4.0</a>
+ * </p>
+ * 
+ * 
+ * <p>
  * ContrastFilter that implements the ImageOperation interface,
  * The class has a constructor that takes an integer parameter scale,
  * which is used to determine the contrast of the image.
@@ -17,18 +23,18 @@ import java.awt.HeadlessException;
  *
  */
 
-public class ContrastFilter implements ImageOperation, java.io.Serializable  {
+public class ContrastFilter implements ImageOperation, java.io.Serializable {
     /** The size of the scale which is what is used to determine the contrast. */
     int value;
-    
-    /** 
+
+    /**
      * <p>
      * Construct the contrast filter with the given scale.
      * </p>
      * 
      * @param value the value that is used to detetmind the scale of contrast.
      * 
-    */
+     */
     public ContrastFilter(int value) {
         this.value = value;
     }
@@ -56,12 +62,12 @@ public class ContrastFilter implements ImageOperation, java.io.Serializable  {
      * 
      * @param previousImage the input image to filter
      * @return a new image with the contrast filter applied
-
+     * 
      */
     @Override
     public BufferedImage apply(BufferedImage previousImage) {
         try {
-            float contrast = 1.0f + ((float)value) / 100.0f;
+            float contrast = 1.0f + ((float) value) / 100.0f;
             RescaleOp rescale = new RescaleOp(contrast, (-12.75f * contrast), null);
             rescale.filter(previousImage, previousImage);
         } catch (IllegalArgumentException e) {

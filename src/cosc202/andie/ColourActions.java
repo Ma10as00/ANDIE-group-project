@@ -38,11 +38,19 @@ public class ColourActions {
      * Create a set of Colour menu actions.
      * </p>
      */
+    // This is the constructor of the ColourActions class.
     public ColourActions() {
+        // Create a new ArrayList to store Action objects.
         actions = new ArrayList<Action>();
-        actions.add(new ConvertToGreyAction(LanguageActions.getLocaleString("greyscale"), null, LanguageActions.getLocaleString("greyscaleDes"), Integer.valueOf(KeyEvent.VK_G)));
-        actions.add(new BrightnessAction(LanguageActions.getLocaleString("brightness"), null, LanguageActions.getLocaleString("brightnessDes"), Integer.valueOf(KeyEvent.VK_B)));
-        actions.add(new ContrastAction(LanguageActions.getLocaleString("contrast"), null, LanguageActions.getLocaleString("contrastDes"), Integer.valueOf(KeyEvent.VK_C)));
+        // Create a new ConvertToGreyAction object and add it to the actions list. 
+        actions.add(new ConvertToGreyAction(LanguageActions.getLocaleString("greyscale"), null,
+                LanguageActions.getLocaleString("greyscaleDes"), Integer.valueOf(KeyEvent.VK_G)));
+        // Create a new BrightnessAction object and add it to the actions list.
+        actions.add(new BrightnessAction(LanguageActions.getLocaleString("brightness"), null,
+                LanguageActions.getLocaleString("brightnessDes"), Integer.valueOf(KeyEvent.VK_B)));
+        // Create a new ContrastAction object and add it to the actions list.
+        actions.add(new ContrastAction(LanguageActions.getLocaleString("contrast"), null,
+                LanguageActions.getLocaleString("contrastDes"), Integer.valueOf(KeyEvent.VK_C)));
     }
 
     /**
@@ -85,7 +93,8 @@ public class ColourActions {
          */
         ConvertToGreyAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
-            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_G, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+            this.putValue(Action.ACCELERATOR_KEY,
+                    KeyStroke.getKeyStroke(KeyEvent.VK_G, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         }
 
         /**
@@ -105,14 +114,14 @@ public class ColourActions {
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
                 try {
-                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("greyscaleErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("greyscaleErr"),
+                            LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 } catch (HeadlessException ex) {
-                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse.
                     // Won't happen for our users, so just exit.
                     System.exit(1);
                 }
-            }
-            else {
+            } else {
                 // There is an image open, carry on.
                 target.getImage().apply(new ConvertToGrey());
                 target.repaint();
@@ -142,7 +151,8 @@ public class ColourActions {
          */
         BrightnessAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
-            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_B, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+            this.putValue(Action.ACCELERATOR_KEY,
+                    KeyStroke.getKeyStroke(KeyEvent.VK_B, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         }
 
         /**
@@ -163,9 +173,9 @@ public class ColourActions {
             try {
                 if (target.getImage().hasImage() == false) {
                     // There is not an image open, so display error message.
-                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("brightnessErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
-                }
-                else {
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("brightnessErr"),
+                            LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                } else {
                     // There is an image open, carry on.
                     JSlider jslider = new JSlider();
                     jslider.setValue(0);
@@ -174,14 +184,15 @@ public class ColourActions {
                     jslider.setMajorTickSpacing(50);
                     jslider.setPaintLabels(true);
                     jslider.setPaintTicks(true);
-                    
+
                     // Copy this here so that we still have reference to the actual EditableImage.
                     EditableImage actualImage = target.getImage();
 
                     // This part updates how the image looks when the slider is moved.
                     jslider.addChangeListener(new ChangeListener() {
                         public void stateChanged(ChangeEvent ce) {
-                            // Create a deep copy of the editable image (so that we don't change the actual editable image)
+                            // Create a deep copy of the editable image (so that we don't change the actual
+                            // editable image)
                             EditableImage copyImage = actualImage.deepCopyEditableImage();
                             // Set the target to have this new copy of the actual image.
                             target.setImage(copyImage);
@@ -195,8 +206,9 @@ public class ColourActions {
                         }
                     });
 
-                    int select = JOptionPane.showOptionDialog(Andie.frame, jslider, LanguageActions.getLocaleString("brightnessSlid"),
-                    JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+                    int select = JOptionPane.showOptionDialog(Andie.frame, jslider,
+                            LanguageActions.getLocaleString("brightnessSlid"),
+                            JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
                     if (select == JOptionPane.CANCEL_OPTION || select == JOptionPane.CLOSED_OPTION) {
                         // Set the image in target back to the actual image and repaint.
                         target.setImage(actualImage);
@@ -216,7 +228,7 @@ public class ColourActions {
                     }
                 }
             } catch (HeadlessException ex) {
-                // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                // Headless exception, thrown when the code is dependent on a keyboard or mouse.
                 // Won't happen for our users, so just exit.
                 System.exit(1);
             }
@@ -244,7 +256,8 @@ public class ColourActions {
          */
         ContrastAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
-            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_C, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+            this.putValue(Action.ACCELERATOR_KEY,
+                    KeyStroke.getKeyStroke(KeyEvent.VK_C, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
 
         }
 
@@ -266,9 +279,9 @@ public class ColourActions {
             try {
                 if (target.getImage().hasImage() == false) {
                     // There is not an image open, so display error message.
-                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("contrastErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
-                }
-                else {
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("contrastErr"),
+                            LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                } else {
                     // There is an image open, carry on.
                     JSlider jslider = new JSlider();
                     jslider.setValue(0);
@@ -284,7 +297,8 @@ public class ColourActions {
                     // This part updates how the image looks when the slider is moved.
                     jslider.addChangeListener(new ChangeListener() {
                         public void stateChanged(ChangeEvent ce) {
-                            // Create a deep copy of the editable image (so that we don't change the actual editable image)
+                            // Create a deep copy of the editable image (so that we don't change the actual
+                            // editable image)
                             EditableImage copyImage = actualImage.deepCopyEditableImage();
                             // Set the target to have this new copy of the actual image.
                             target.setImage(copyImage);
@@ -298,8 +312,9 @@ public class ColourActions {
                         }
                     });
 
-                    int select = JOptionPane.showOptionDialog(Andie.frame, jslider, LanguageActions.getLocaleString("contrastSlid"),
-                    JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+                    int select = JOptionPane.showOptionDialog(Andie.frame, jslider,
+                            LanguageActions.getLocaleString("contrastSlid"),
+                            JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
                     if (select == JOptionPane.CANCEL_OPTION || select == JOptionPane.CLOSED_OPTION) {
                         // Set the image in target back to the actual image and repaint.
                         target.setImage(actualImage);
@@ -319,7 +334,7 @@ public class ColourActions {
                     }
                 }
             } catch (HeadlessException ex) {
-                // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                // Headless exception, thrown when the code is dependent on a keyboard or mouse.
                 // Won't happen for our users, so just exit.
                 System.exit(1);
             }

@@ -6,14 +6,19 @@ import cosc202.andie.*;
 
 /**
  * <p>
- * Tests to test that the resize actions in 
+ * Tests to test that the resize actions in
  * {@link ResizeActions} behave as we would expect.
+ * </p>
+ * 
+ * <p>
+ * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA
+ * 4.0</a>
  * </p>
  * 
  * @author Stella Srzich
  */
 public class ResizeTest {
-    
+
     /**
      * <p>
      * Test to make sure that when an image is resized by
@@ -24,7 +29,7 @@ public class ResizeTest {
     @Test
     public void Resize50Test() {
         // Repeat test for various dimensions of an image.
-        for (int n = 50; n < 1000; n+=50) {
+        for (int n = 50; n < 1000; n += 50) {
             // Create test image.
             BufferedImage testImage = new BufferedImage(n, n, BufferedImage.TYPE_INT_ARGB);
             int widthBefore = testImage.getWidth();
@@ -51,7 +56,7 @@ public class ResizeTest {
     @Test
     public void Resize150Test() {
         // Repeat test for various dimensions of an image.
-        for (int n = 50; n < 1000; n+=50) {
+        for (int n = 50; n < 1000; n += 50) {
             // Create test image.
             BufferedImage testImage = new BufferedImage(n, n, BufferedImage.TYPE_INT_ARGB);
             int widthBefore = testImage.getWidth();
@@ -79,7 +84,7 @@ public class ResizeTest {
     @Test
     public void ResizeNTest() {
         // Repeat test for various dimensions of an image.
-        for (int n = 50; n <= 200; n+=10) {
+        for (int n = 50; n <= 200; n += 10) {
             // Create test image.
             BufferedImage testImage = new BufferedImage(1000, 1000, BufferedImage.TYPE_INT_ARGB);
             int widthBefore = testImage.getWidth();

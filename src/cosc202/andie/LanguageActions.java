@@ -5,14 +5,19 @@ import java.util.prefs.Preferences;
 import java.awt.event.*;
 import javax.swing.*;
 
-
 /**
  * <p>
  * Actions provided by the Language.
  * </p>
  * 
  * <p>
- * The Language menu contains actions that can change the langauge used in ANDIE. This
+ * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA
+ * 4.0</a>
+ * </p>
+ * 
+ * <p>
+ * The Language menu contains actions that can change the langauge used in
+ * ANDIE. This
  * includes English, Māori, Spanish and Norwegian.
  * </p>
  * 
@@ -20,7 +25,7 @@ import javax.swing.*;
  */
 public class LanguageActions {
 
-    /** 
+    /**
      * A list of actions for the Language menu.
      */
     protected ArrayList<Action> actions;
@@ -63,7 +68,7 @@ public class LanguageActions {
     public JMenu createMenu() {
         JMenu languageMenu = new JMenu(getLocaleString("language"));
 
-        for(Action action: actions) {
+        for (Action action : actions) {
             JMenuItem item = new JMenuItem(action);
             item.setBorderPainted(false);
             languageMenu.add(item);
@@ -85,10 +90,10 @@ public class LanguageActions {
          * Create a new English action.
          * </p>
          * 
-         * @param name The name of the action (ignored if null).
-         * @param icon An icon to use to represent the action (ignored if null).
-         * @param desc A brief description of the action  (ignored if null).
-         * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
+         * @param name     The name of the action (ignored if null).
+         * @param icon     An icon to use to represent the action (ignored if null).
+         * @param desc     A brief description of the action (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
          */
         EnglishAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
@@ -108,10 +113,10 @@ public class LanguageActions {
         public void actionPerformed(ActionEvent e) {
 
             Language("english");
-            
+
             // Calls renderMenu() to repaint the menu in English.
             Andie.renderMenu();
-            
+
         }
 
     }
@@ -129,10 +134,10 @@ public class LanguageActions {
          * Create a new Maori action.
          * </p>
          * 
-         * @param name The name of the action (ignored if null).
-         * @param icon An icon to use to represent the action (ignored if null).
-         * @param desc A brief description of the action  (ignored if null).
-         * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
+         * @param name     The name of the action (ignored if null).
+         * @param icon     An icon to use to represent the action (ignored if null).
+         * @param desc     A brief description of the action (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
          */
         MaoriAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
@@ -173,10 +178,10 @@ public class LanguageActions {
          * Create a new Norwegian action.
          * </p>
          * 
-         * @param name The name of the action (ignored if null).
-         * @param icon An icon to use to represent the action (ignored if null).
-         * @param desc A brief description of the action  (ignored if null).
-         * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
+         * @param name     The name of the action (ignored if null).
+         * @param icon     An icon to use to represent the action (ignored if null).
+         * @param desc     A brief description of the action (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
          */
         NorwegianAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
@@ -196,7 +201,7 @@ public class LanguageActions {
         public void actionPerformed(ActionEvent e) {
 
             Language("norwegian");
-            
+
             // Calls renderMenu() to repaint the menu in Norwegian.
             Andie.renderMenu();
 
@@ -218,10 +223,10 @@ public class LanguageActions {
          * Create a new Spanish action.
          * </p>
          * 
-         * @param name The name of the action (ignored if null).
-         * @param icon An icon to use to represent the action (ignored if null).
-         * @param desc A brief description of the action  (ignored if null).
-         * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
+         * @param name     The name of the action (ignored if null).
+         * @param icon     An icon to use to represent the action (ignored if null).
+         * @param desc     A brief description of the action (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
          */
         SpanishAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
@@ -241,7 +246,7 @@ public class LanguageActions {
         public void actionPerformed(ActionEvent e) {
 
             Language("spanish");
-            
+
             // Calls renderMenu() to repaint the menu in Spanish.
             Andie.renderMenu();
 
@@ -263,10 +268,10 @@ public class LanguageActions {
          * Create a new German action.
          * </p>
          * 
-         * @param name The name of the action (ignored if null).
-         * @param icon An icon to use to represent the action (ignored if null).
-         * @param desc A brief description of the action  (ignored if null).
-         * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
+         * @param name     The name of the action (ignored if null).
+         * @param icon     An icon to use to represent the action (ignored if null).
+         * @param desc     A brief description of the action (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
          */
         GermanAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
@@ -286,7 +291,7 @@ public class LanguageActions {
         public void actionPerformed(ActionEvent e) {
 
             Language("german");
-            
+
             // Calls renderMenu() to repaint the menu in German.
             Andie.renderMenu();
 
@@ -301,13 +306,13 @@ public class LanguageActions {
      * 
      * @param lang a string representing each of the supported language bundles.
      */
-    public void Language(String lang){
+    public void Language(String lang) {
 
         Preferences prefs = Preferences.userNodeForPackage(Andie.class);
         prefs.remove("language");
         prefs.remove("country");
 
-        switch(lang.toLowerCase()){
+        switch (lang.toLowerCase()) {
             case "english":
                 prefs.put("language", "en");
                 prefs.put("country", "NZ");

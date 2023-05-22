@@ -1,3 +1,4 @@
+
 package cosc202.andie;
 
 import java.awt.image.*;
@@ -9,6 +10,13 @@ import java.awt.HeadlessException;
  * ImagineOperation to apply a brightness filter.
  * </p>
  * 
+ * 
+ * <p>
+ * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA
+ * 4.0</a>
+ * </p>
+ * 
+ * 
  * <p>
  * BrightnessFilter that implements the ImageOperation interface,
  * The class has a constructor that takes an integer parameter scale,
@@ -18,19 +26,19 @@ import java.awt.HeadlessException;
  */
 public class BrightnessFilter implements ImageOperation, java.io.Serializable {
 
-    /** 
+    /**
      * The size of the scale which is what is used to determine the brightness.
-    */
+     */
     public int scale;
 
-    /** 
+    /**
      * <p>
      * Construct the brightness filter with the given scale
      * </p>
      * 
      * @param scale the size of the scale used to determine brightness
      * 
-    */
+     */
     public BrightnessFilter(int scale) {
         this.scale = scale;
     }
@@ -62,7 +70,7 @@ public class BrightnessFilter implements ImageOperation, java.io.Serializable {
      */
     public BufferedImage apply(BufferedImage previousImage) {
         try {
-            float brightness = (scale > 0 ? 1.0f + (((float)scale) / 100.0f) : 1 - Math.abs(((float)scale) / 100.0f));
+            float brightness = (scale > 0 ? 1.0f + (((float) scale) / 100.0f) : 1 - Math.abs(((float) scale) / 100.0f));
             RescaleOp rescale = new RescaleOp(brightness, 0, null);
             rescale.filter(previousImage, previousImage);
         } catch (IllegalArgumentException e) {
@@ -81,5 +89,5 @@ public class BrightnessFilter implements ImageOperation, java.io.Serializable {
         }
         return previousImage;
     }
-    
+
 }

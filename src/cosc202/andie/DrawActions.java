@@ -12,6 +12,13 @@ import java.awt.Toolkit;
 import java.awt.event.*;
 import java.awt.*;
 
+/**
+* <p>
+* <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA
+* 4.0</a>
+* </p>
+*/
+
 public class DrawActions extends JFrame {
 
     /** Creates a new array list for draw rectangle actions */
@@ -75,12 +82,16 @@ public class DrawActions extends JFrame {
         actions.add(new DrawLineAction(LanguageActions.getLocaleString("drawLine"), null,
                 LanguageActions.getLocaleString("drawLineDesc"),null));
 
-        actionsSubRect = new ArrayList<Action>();
+        // Create a new ArrayList to store Action objects related to drawing rectangles.
+        // Add a new DrawRecAction object representing the action to draw a filled rectangle.
+                actionsSubRect = new ArrayList<Action>();
         actionsSubRect.add(new DrawRecAction(LanguageActions.getLocaleString("drawRec"), null,
                 LanguageActions.getLocaleString("drawRecDesc"), null));
         actionsSubRect.add(new DrawRecOutlineAction(LanguageActions.getLocaleString("drawRecOutline"), null,
                 LanguageActions.getLocaleString("drawRecOutlineDesc"), null));
 
+        // Create a new ArrayList to store Action objects related to drawing circles.
+        // Add a new DrawCircleAction object representing the action to draw a filled circle.
         actionsSubCirc = new ArrayList<Action>();
         actionsSubCirc.add(new DrawCircleAction(LanguageActions.getLocaleString("drawCircle"), null,
                 LanguageActions.getLocaleString("drawCircleDesc"), null));
@@ -96,17 +107,24 @@ public class DrawActions extends JFrame {
      * @return The colour menu UI element.
      */
     public JMenu createMenu() {
+        // Create a new JMenu object named fileMenu with the display name obtained from the LanguageActions.getLocaleString method.
         JMenu fileMenu = new JMenu(LanguageActions.getLocaleString("tools"));
+        // Create a new JMenu object named subMenuCirc with the display name obtained from the LanguageActions.getLocaleString method.
         JMenu subMenuCirc = new JMenu(LanguageActions.getLocaleString("circle"));
         subMenuCirc.setBorderPainted(false);
+        // Create a new JMenu object named subMenuRect with the display name obtained from the LanguageActions.getLocaleString method.
         JMenu subMenuRect = new JMenu(LanguageActions.getLocaleString("rectangle"));
         subMenuRect.setBorderPainted(false);
 
+        // Set the border painted property of each JMenuItem to false.
+        // Add each JMenuItem to the fileMenu.
         for (Action action : actions) {
             JMenuItem item = new JMenuItem(action);
             item.setBorderPainted(false);
             fileMenu.add(item);
         }
+        // Set the border painted property of each JMenuItem to false.
+        // Add each JMenuItem to the subMenuRect.
         for (Action action : actionsSubRect) {
             JMenuItem item = new JMenuItem(action);
             item.setBorderPainted(false);
@@ -117,7 +135,8 @@ public class DrawActions extends JFrame {
             item.setBorderPainted(false);
             subMenuCirc.add(item);
         }
-
+        // Set the border painted property of each JMenuItem to false.
+        // Add each JMenuItem to the subMenuCirc.
         fileMenu.add(subMenuRect);
         fileMenu.add(subMenuCirc);
         return fileMenu;

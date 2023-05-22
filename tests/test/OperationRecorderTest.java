@@ -15,6 +15,12 @@ import cosc202.andie.*;
 
 /**
  * Class for testing basic functionality of the {@link OperationRecorder} class.
+ * 
+ * <p>
+ * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA
+ * 4.0</a>
+ * </p>
+ * 
  * @author Mathias Øgaard
  */
 public class OperationRecorderTest {
@@ -41,7 +47,7 @@ public class OperationRecorderTest {
         //Should be no ongoing recordings yet:
         assertFalse(image.hasListeners("ops"));
 
-        //User initiates a StartRecordingAction:
+        // User initiates a StartRecordingAction:
         startRecording();
 
         //Now, there should be a recording ongoing:
@@ -49,7 +55,9 @@ public class OperationRecorderTest {
     }
 
     /**
-     * Tests that the {@link cosc202.andie.OperationRecorder} actually records it when an operation is applied to the image.
+     * Tests that the {@link cosc202.andie.OperationRecorder} actually records it
+     * when an operation is applied to the image.
+     * 
      * @throws Exception if startAndie() failed in the current environment.
      */
     @Test
@@ -63,7 +71,7 @@ public class OperationRecorderTest {
         //User makes image greyscale:
         image.apply(new ConvertToGrey());
 
-        //The recorder should now have recorded an instance of ConvertToGrey:
+        // The recorder should now have recorded an instance of ConvertToGrey:
         assertEquals(1, rec.getOps().size());
         String recordedOp = rec.getOps().get(0).getClass().getSimpleName();
         assertEquals("ConvertToGrey", recordedOp);
@@ -107,24 +115,23 @@ public class OperationRecorderTest {
         int height = 100;
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR);
         Graphics g = image.getGraphics();
-        //Coloring the image red, just to give it some content:
+        // Coloring the image red, just to give it some content:
         g.setColor(Color.RED);
         g.fillRect(0, 0, width, height);
         g.dispose();
 
-        //Constructing EditableImage:
+        // Constructing EditableImage:
         EditableImage edim = new EditableImage(
-            image, 
-            image,
-            new Stack<ImageOperation>(), 
-            new Stack<ImageOperation>(),
-            new Stack<ImageOperation>(), 
-            "",
-            ".ops", 
-            Andie.frame
-        );
-            
-        //Passing constructed image to Andie's ImagePanel:
+                image,
+                image,
+                new Stack<ImageOperation>(),
+                new Stack<ImageOperation>(),
+                new Stack<ImageOperation>(),
+                "",
+                ".ops",
+                Andie.frame);
+
+        // Passing constructed image to Andie's ImagePanel:
         Andie.imagePanel.setImage(edim);
         return edim;
     }
