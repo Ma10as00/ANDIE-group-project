@@ -43,13 +43,21 @@ public class OrientationActions {
      * 
      */
     public OrientationActions() {
+        // Create a new ArrayList to store Action objects.
         actions = new ArrayList<Action>();
+        // Create a new RotateRightAction object and assign it to the rotateRightAction variable.
         this.rotateRightAction = new RotateRightAction(LanguageActions.getLocaleString("rotateRight"), null, LanguageActions.getLocaleString("rotateRightDes"), Integer.valueOf(KeyEvent.VK_0));
+        // Add the rotateRightAction to the actions list.
         actions.add(this.rotateRightAction);
+        // Create a new RotateLeftAction object and assign it to the rotateLeftAction variable.
         this.rotateLeftAction = new RotateLeftAction(LanguageActions.getLocaleString("rotateLeft"), null, LanguageActions.getLocaleString("rotateLeftDes"), Integer.valueOf(KeyEvent.VK_1));
+        // Add the rotateLeftAction to the actions list.
         actions.add(this.rotateLeftAction);
+        // Create a new Rotate180Action object and add it to the actions list.
         actions.add(new Rotate180Action(LanguageActions.getLocaleString("rotate180"), null, LanguageActions.getLocaleString("rotate180Des"), Integer.valueOf(KeyEvent.VK_2)));
+        // Create a new FlipVertAction object and add it to the actions list.
         actions.add(new FlipVertAction(LanguageActions.getLocaleString("flipVertically"), null, LanguageActions.getLocaleString("flipVerticallyDes"), Integer.valueOf(KeyEvent.VK_3)));
+        // Create a new FlipHorAction object and add it to the actions list.
         actions.add(new FlipHorAction(LanguageActions.getLocaleString("flipHorizontally"), null, LanguageActions.getLocaleString("flipHorizontallyDes"), Integer.valueOf(KeyEvent.VK_4)));
     }
 
