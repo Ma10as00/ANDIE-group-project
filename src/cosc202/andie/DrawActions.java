@@ -232,11 +232,10 @@ public class DrawActions extends JFrame {
             else {
                 // There is an image open, carry on.
                 // Determine the width - ask the user.
-                int width = userWidth;
 
                 // Set up slider for user to pick the width, set to last width.
                 JSlider jslider = new JSlider();
-                jslider.setValue(width);
+                jslider.setValue(userWidth);
                 jslider.setMaximum(55);
                 jslider.setMinimum(5);
                 jslider.setMajorTickSpacing(10);
@@ -283,6 +282,7 @@ public class DrawActions extends JFrame {
                     if (option == JOptionPane.OK_OPTION) {
                         // Update userWidth to the new width.
                         userWidth = jslider.getValue();
+                        stroke = new BasicStroke(userWidth);
                     }
                 } catch (HeadlessException ex) {
                     // Headless exception, thrown when the code is dependent on a keyboard or mouse. 

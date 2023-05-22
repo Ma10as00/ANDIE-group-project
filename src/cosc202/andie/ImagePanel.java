@@ -395,7 +395,6 @@ public class ImagePanel extends JPanel {
             }
             if (rect != null && getTool() == drawRectOutline) {
                 g2d.setColor(DrawActions.userColour);
-                ;
                 g2d.setStroke(DrawActions.stroke);
                 g2d.draw(rect);
             }
