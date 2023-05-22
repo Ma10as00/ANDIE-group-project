@@ -29,7 +29,7 @@ public class DrawLine implements ImageOperation, Serializable {
     private int enterY;
     private int exitX;
     private int exitY;
-    private BasicStroke stroke;
+    private int strokeWidth;
 
     // Constructor for the DrawLine class.
     // It takes a scale value and starting/ending coordinates of the line as parameters.
@@ -54,6 +54,7 @@ public class DrawLine implements ImageOperation, Serializable {
     public BufferedImage apply(BufferedImage input) {
         // Creating a Graphics2D object based on the input BufferedImage.
         Graphics2D g = input.createGraphics();
+        BasicStroke stroke = new BasicStroke(strokeWidth);
         g.setStroke(stroke);
         g.setColor(col);
         g.drawLine(enterX, enterY, exitX, exitY);

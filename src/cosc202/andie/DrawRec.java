@@ -22,7 +22,7 @@ public class DrawRec implements ImageOperation, Serializable {
     private Rectangle r;
     private Color col;
     private boolean fill;
-    private BasicStroke stroke;
+    private int strokeWidth;
 
     // Constructor for the DrawRec class.
     // It takes a scale value, a rectangle object, and a boolean value indicating whether the rectangle should be filled or not.
@@ -63,6 +63,7 @@ public class DrawRec implements ImageOperation, Serializable {
         if (fill) {
             // Set the color and stroke on the Graphics2D object.
             g2d.setColor(this.col);
+            BasicStroke stroke = new BasicStroke(strokeWidth);
             g2d.setStroke(stroke);
             // Draw the outline of the rectangle using the specified color and stroke.
             g2d.draw(r);
