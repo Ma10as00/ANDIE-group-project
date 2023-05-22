@@ -55,7 +55,7 @@ public class FileActions {
                 LanguageActions.getLocaleString("saveDes"), Integer.valueOf(KeyEvent.VK_S));
         actions.add(this.fileSaveAction);
         actions.add(new FileSaveAsAction(LanguageActions.getLocaleString("saveAs"), null,
-                LanguageActions.getLocaleString("saveAsDes"), Integer.valueOf(KeyEvent.VK_SHIFT)));
+                LanguageActions.getLocaleString("saveAsDes"), Integer.valueOf(KeyEvent.VK_A)));
         actions.add(new FileExportAction(LanguageActions.getLocaleString("export"), null,
                 LanguageActions.getLocaleString("exportDes"), Integer.valueOf(KeyEvent.VK_E)));
         actions.add(new FileExitAction(LanguageActions.getLocaleString("exit"), null,
@@ -376,7 +376,7 @@ public class FileActions {
         FileSaveAsAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
             this.putValue(Action.ACCELERATOR_KEY,
-                    KeyStroke.getKeyStroke(KeyEvent.VK_SHIFT, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+                    KeyStroke.getKeyStroke(KeyEvent.VK_A, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         }
 
         /**

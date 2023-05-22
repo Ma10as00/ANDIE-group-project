@@ -53,6 +53,11 @@ public class Macro extends ArrayList<ImageOperation> implements IMacro {
             }
         }
         return str;
+<<<<<<< HEAD
     }
 
+=======
+    } 
+    
+>>>>>>> e3361f5641565fd5ce6bf783b800f3e9b1603cc3
 }
