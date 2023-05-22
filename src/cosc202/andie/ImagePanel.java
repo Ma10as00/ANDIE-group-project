@@ -5,10 +5,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.awt.geom.Line2D;
 
 import javax.swing.*;
-import javax.swing.text.Position;
 
 /**
  * <p>
@@ -44,30 +42,33 @@ public class ImagePanel extends JPanel {
     /**
      * Storing variables of mouse clicks and drags.
      */
-    public static int enterX, enterY, exitX, exitY, width, height, clickX, clickY, l, lineWidth;
+    public static int enterX, enterY, exitX, exitY, width, height, clickX, clickY;
 
     /**
      * Storing the rectangle the is selected.
      */
     public static Rectangle rect;
-    public static Line2D line;
 
     /**
      * To keep track of if marcos is recording.
      */
     public boolean ongoingRecording = false;
 
+    /** Sets the tool int which will be used to decide what shape is to be drawn */
     public int tool;
 
+    /** Sets the tool int 0 to selection tool to make coding easier */
     private static int selection = 0;
+    /** Sets the tool int 1 to draw rectangle tool to make coding easier */
     private static int drawRect = 1;
+    /** Sets the tool int 2 to draw circle tool to make coding easier */
     private static int drawCircle = 2;
+    /** Sets the tool int 3 to draw line tool to make coding easier */
     private static int drawLine = 3;
+    /** Sets the tool int 4 to draw rectangle outline tool to make coding easier */
     private static int drawRectOutline = 4;
+    /** Sets the tool int 5 to draw circle outline tool to make coding easier */
     private static int drawCircOutline = 5;
-
-    public Point enter;
-    public Point exit;
 
     /**
      * <p>
@@ -81,7 +82,7 @@ public class ImagePanel extends JPanel {
      * as a percentage.
      * </p>
      */
-    private double scale;
+    public static double scale;
 
     /**
      * <p>
@@ -171,9 +172,12 @@ public class ImagePanel extends JPanel {
                 rect = new Rectangle(Math.min(enterX, exitX), Math.min(enterY, exitY), Math.abs(exitX - enterX),
                         Math.abs(exitY - enterY));
                 repaint();
+<<<<<<< HEAD
                 line = new Line2D.Double(enterX, enterY, exitX, exitY);
                 repaint();
 
+=======
+>>>>>>> 32732ca4a46dfa37e819e2b0400c184a8684f7d3
             }
 
         });
@@ -181,7 +185,9 @@ public class ImagePanel extends JPanel {
         addMouseListener(new MouseAdapter() {
             public void mouseReleased(MouseEvent e) {
                 if (tool == drawRect) {
-                    image.apply(new DrawRec(rect, DrawActions.userColour, false));
+                    image.apply(new DrawRec(scale, rect, false));
+                    Andie.imagePanel.repaint();
+                    Andie.imagePanel.getParent().revalidate();
                     deselect();
                 }
                 if (tool == drawCircle) {
@@ -189,12 +195,31 @@ public class ImagePanel extends JPanel {
                     int y = Math.min(enterY, exitY);
                     int width = Math.abs(enterX - exitX);
                     int height = Math.abs(enterY - exitY);
-                    image.apply(new DrawCircle(x, y, height, width, false));
+                    image.apply(new DrawCircle(scale, x, y, height, width, false));
+                    Andie.imagePanel.repaint();
+                    Andie.imagePanel.getParent().revalidate();
                     deselect();
-
                 }
                 if (tool == drawLine) {
-                    image.apply(new DrawLine(enterX, enterY, exitX, exitY));
+                    image.apply(new DrawLine(scale, enterX, enterY, exitX, exitY));
+                    Andie.imagePanel.repaint();
+                    Andie.imagePanel.getParent().revalidate();
+                    deselect();
+                }
+                if (tool == drawRectOutline) {
+                    image.apply(new DrawRec(scale, rect, true));
+                    Andie.imagePanel.repaint();
+                    Andie.imagePanel.getParent().revalidate();
+                    deselect();
+                }
+                if (tool == drawCircOutline) {
+                    int x = Math.min(enterX, exitX);
+                    int y = Math.min(enterY, exitY);
+                    int width = Math.abs(enterX - exitX);
+                    int height = Math.abs(enterY - exitY);
+                    image.apply(new DrawCircle(scale, x, y, height, width, true));
+                    Andie.imagePanel.repaint();
+                    Andie.imagePanel.getParent().revalidate();
                     deselect();
                 }
             }
@@ -232,6 +257,22 @@ public class ImagePanel extends JPanel {
             }
         });
 
+    }
+
+    /**
+     * <p>
+     * Create a new ImagePanel, purely for the use of JUnit tests.
+     * </p>
+     * 
+     * <p>
+     * Newly created ImagePanels have a default zoom level of 100%.
+     * Note, this will construct an ImagePanel with no frame or mouse handler.
+     * So, do not use it for any purpose other then JUnit tests.
+     * </p>
+     * 
+     */
+    public ImagePanel() {
+        scale = 1.0;
     }
 
     /**
@@ -334,7 +375,7 @@ public class ImagePanel extends JPanel {
             g2.drawImage(image.getCurrentImage(), null, 0, 0);
             g2.dispose();
         }
-        Graphics2D g2d = (Graphics2D) g;
+        Graphics2D g2d = (Graphics2D) g.create();
         if (image.hasImage()) {
             if (rect != null && getTool() == selection) {
                 float[] dash = new float[] { 4.0f, 4.0f };
@@ -347,7 +388,6 @@ public class ImagePanel extends JPanel {
                 g2d.setStroke(dashStroke);
                 g2d.setColor(Color.black);
                 g2d.draw(rect);
-
             }
             if (rect != null && getTool() == drawRect) {
                 g2d.setColor(DrawActions.userColour);
@@ -363,28 +403,28 @@ public class ImagePanel extends JPanel {
             }
             if (enterX != 0 && getTool() == drawLine) {
                 g2d.setColor(DrawActions.userColour);
+                g2d.setStroke(DrawActions.stroke);
                 g2d.drawLine(enterX, enterY, exitX, exitY);
             }
+            if (rect != null && getTool() == drawRectOutline) {
+                g2d.setColor(DrawActions.userColour);
+                g2d.setStroke(DrawActions.stroke);
+                g2d.draw(rect);
+            }
+            if (enterX != 0 && getTool() == drawCircOutline) {
+                g2d.setColor(DrawActions.userColour);
+                g2d.setStroke(DrawActions.stroke);
+                int x = Math.min(enterX, exitX);
+                int y = Math.min(enterY, exitY);
+                int width = Math.abs(enterX - exitX);
+                int height = Math.abs(enterY - exitY);
+                g2d.drawOval(x, y, width, height);
+            }
         }
-        if (rect != null && getTool() == drawRectOutline) {
-            g2d.setColor(DrawActions.userColour);
-            BasicStroke stroke = new BasicStroke((float) DrawActions.userWidth);
-            g2d.setStroke(stroke);
-            g2d.draw(rect);
-        }
-        if (enterX != 0 && getTool() == drawCircOutline) {
-            g2d.setColor(DrawActions.userColour);
-            g2d.setStroke(new BasicStroke((float) DrawActions.userWidth));
-            int x = Math.min(enterX, exitX);
-            int y = Math.min(enterY, exitY);
-            int width = Math.abs(enterX - exitX);
-            int height = Math.abs(enterY - exitY);
-            g2d.drawOval(x, y, width, height);
-        }
+        g2d.dispose();
     }
 
     public void deselect() {
-        line = null;
         rect = null;
         ImagePanel.enterX = 0;
         ImagePanel.enterY = 0;

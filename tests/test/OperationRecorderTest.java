@@ -5,10 +5,13 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.beans.PropertyChangeListener;
+import java.util.Stack;
 
-import javax.swing.*;
+import org.junit.jupiter.api.Test;
 
-import org.junit.Test;
+import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 
 import cosc202.andie.*;
 
@@ -18,90 +21,129 @@ import cosc202.andie.*;
  */
 public class OperationRecorderTest {
 
+    /** Robot acting as the user of the Andie-program */
+    private Robot user;
+
     /**
-     * Initiates the GUI of Andie.
+     * Initiates the GUI of Andie, along with a robot user to interact with Andie.
+     * @throws Exception if GUI can't show, or if the construction of a robot user failed.
+     * <p> (if the platform configuration does not allow low-level input control.)
      */
-    private void startAndie(){
-        try {
-            Andie.createAndShowGUI();
-            ImageAction.setTarget(Andie.imagePanel);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    private void startAndie() throws Exception{
+        //Initiating GUI of Andie, with a starting image:
+        Andie.createAndShowGUI();
+        ImageAction.setTarget(Andie.imagePanel);
+        setImage();
+        //Constructing robot user to interact with Andie:
+        user = new Robot();
+        
     }
 
     /**
      * Tests that the {@link cosc202.andie.MacroActions.StartRecordingAction} actually adds a {@link java.beans.PropertyChangeListener} to the image,
      * and that the field ongoingRecording is set to true.
+     * @throws Exception if startAndie() failed in the current environment.
      */
     @Test
-    public void StartRecordingTest(){
+    public void StartRecordingTest() throws Exception{
         startAndie();
-        openImage();
 
         //Should be no ongoing recordings yet:
         assertFalse(Andie.imagePanel.ongoingRecording);
         assertFalse(Andie.imagePanel.getImage().hasListeners("ops"));
 
-        //User clicks on the button for a StartRecordingAction:
+        //User initiates a StartRecordingAction:
         startRecording();
 
         //Now, there should be a recording ongoing:
+        System.out.println(Andie.imagePanel.ongoingRecording);
         assertTrue(Andie.imagePanel.ongoingRecording);
         assertTrue(Andie.imagePanel.getImage().hasListeners("ops"));
     }
 
     /**
-     * Opening a picture in the ImagePanel of Andie.
-     */
-    private void openImage() {
-        // Should find a way to use this
-        String relativePath = "pictures/ANDIE_GUI.png"; 
-        // instead of this:
-        String fullPath = "C:/COSC202/andie-return-a-plus/pictures/ANDIE_GUI.png"; 
-        
-        Andie.imagePanel.getImage().open(fullPath); // This will only work on Mathias' computer.
-    }
-
-    /**
-     * Mimicing a user clicking on the "Start recording" button in the GUI.
-     */
-    private void startRecording() {
-        JMenuItem startRecordingButton = Andie.frame.getJMenuBar().getMenu(7).getItem(0);
-        startRecordingButton.doClick();
-    }
-
-    /**
      * Tests that the {@link cosc202.andie.OperationRecorder} actually records it when an operation is applied to the image.
+     * @throws Exception if startAndie() failed in the current environment.
      */
     @Test
-    public void OperationIsRecordedTest(){
-        System.out.println("Made it to here");
+    public void OperationIsRecordedTest() throws Exception{
         startAndie();
-        openImage(); //TODO This isn't working as it should right now
         startRecording();
 
         //Retrieving the recorder from Andie:
         PropertyChangeListener[] pcls = Andie.imagePanel.getImage().getPropertyChangeListeners("ops");
         OperationRecorder rec = (OperationRecorder) pcls[0];
         //The recorder should have 0 recorded operations:
-        assertTrue(rec.getOps().size() == 0); 
+        assertEquals(0, rec.getOps().size()); 
 
         //User makes image greyscale:
         greyScaleFilter();
 
         //The recorder should now have recorded an instance of ConvertToGrey:
-        assertTrue(rec.getOps().size() == 1);
+        assertEquals(1, rec.getOps().size());
         String recordedOp = rec.getOps().get(0).getClass().getSimpleName();
         assertEquals("ConvertToGrey", recordedOp);
     }
 
     /**
-     * Mimicing a user clicking on the "Greyscale" button in the GUI.
+     * Passing an image of a red square to {@link Andie#imagePanel}.
+     * <p>
+     * This image is only for the purpose of testing how the program responds when a user applies {@link ImageOperation}s to it.
+     */
+    private void setImage() {
+        //Constructing BufferedImage:
+        int width = 100;
+        int height = 100;
+        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR);
+        Graphics g = image.getGraphics();
+        //Coloring the image red, just to give it some content:
+        g.setColor(Color.RED);
+        g.fillRect(0, 0, width, height);
+        g.dispose();
+
+        //Constructing EditableImage:
+        EditableImage edim = new EditableImage(
+            image, 
+            image,
+            new Stack<ImageOperation>(), 
+            new Stack<ImageOperation>(),
+            new Stack<ImageOperation>(), 
+            "",
+            ".ops", 
+            Andie.frame
+        );
+            
+        //Passing constructed image to Andie's ImagePanel:
+        Andie.imagePanel.setImage(edim);
+    }
+
+    /**
+     * Mimicing a user initiating the "Start recording" action in the GUI.
+     */
+    private void startRecording() {
+        //User presses Ctrl+8, the command for "Start recording"
+        user.keyPress(KeyEvent.VK_CONTROL);
+        user.delay(100);
+        user.keyPress(KeyEvent.VK_8);
+        user.delay(100);
+        user.keyRelease(KeyEvent.VK_CONTROL);
+        user.delay(100);
+        user.keyRelease(KeyEvent.VK_8);
+        user.delay(100);
+    }
+
+    /**
+     * Mimicing a user initiating the "Greyscale" action in the GUI.
      */
     private void greyScaleFilter() {
-        JMenuItem greyScaleButton = Andie.frame.getJMenuBar().getMenu(6).getItem(0);
-        greyScaleButton.doClick();
+        //User presses Ctrl+G, the command for "Greyscale"
+        user.keyPress(KeyEvent.VK_CONTROL);
+        user.delay(100);
+        user.keyPress(KeyEvent.VK_G);
+        user.delay(100);
+        user.keyRelease(KeyEvent.VK_CONTROL);
+        user.delay(100);
+        user.keyRelease(KeyEvent.VK_G);
+        user.delay(100);
     }
-    
 }

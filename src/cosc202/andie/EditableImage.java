@@ -88,7 +88,7 @@ public class EditableImage {
      * </p>
      * 
      * <p>
-     * This constructor is only used within EditableImage. It constructs a new EditableImage with the specified
+     * This constructor is only used within EditableImage (and in {@link tests.test.OperationRecorderTest}). It constructs a new EditableImage with the specified
      * parameters. This is used in {@link deepCopyEditableImage} to create a deep copy of this EditableImage.
      * </p>
      * @param original The original image. This should never be altered by ANDIE.
@@ -99,7 +99,7 @@ public class EditableImage {
      * @param opsFilename The file where the operation sequence is stored.
      * @param frame The main frame of the GUI.
      */
-    private EditableImage(BufferedImage original, BufferedImage current, Stack<ImageOperation> ops, Stack<ImageOperation> redoOps, Stack<ImageOperation> savedOps, String imageFilename, String opsFilename, JFrame frame) {
+    public EditableImage(BufferedImage original, BufferedImage current, Stack<ImageOperation> ops, Stack<ImageOperation> redoOps, Stack<ImageOperation> savedOps, String imageFilename, String opsFilename, JFrame frame) {
         this.original = original;
         this.current = current;
         this.ops = ops;
@@ -362,6 +362,8 @@ public class EditableImage {
     }
 
     /** 
+     * @param listener The listener to add to this image
+     * @param propertyName The property to which the listener is added, should be "ops" for our purpose
      * @see PropertyChangeSupport#addPropertyChangeListener(String, PropertyChangeListener) 
      * @author Mathias Øgaard
     */
@@ -370,6 +372,8 @@ public class EditableImage {
     }
 
     /** 
+     * @param listener The listener to remove from this image
+     * @param propertyName The property from which the listener is removed, should be "ops" for our purpose
      * @see PropertyChangeSupport#removePropertyChangeListener(String, PropertyChangeListener)  
      * @author Mathias Øgaard
      */
@@ -378,6 +382,8 @@ public class EditableImage {
     }
 
     /** 
+     * @param propertyName The property to retrieve listeners from, should be "ops" for our purpose
+     * @return an array of all listeners for the given property
      * @see PropertyChangeSupport#getPropertyChangeListeners(String)  
      * @author Mathias Øgaard
      */
@@ -386,6 +392,8 @@ public class EditableImage {
     }
 
     /** 
+     * @param propertyName The property to search for listeners on, should be "ops" for our purpose
+     * @return true if there are one or more listeners for the given property
      * @see PropertyChangeSupport#hasListeners(String)  
      * @author Mathias Øgaard
      */

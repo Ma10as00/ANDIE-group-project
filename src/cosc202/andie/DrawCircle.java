@@ -1,26 +1,43 @@
 package cosc202.andie;
 
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 import java.awt.Graphics2D;
 import java.awt.BasicStroke;
 import java.awt.Color;
 
-public class DrawCircle implements ImageOperation, java.io.Serializable {
+/**
+ * <p>
+ * ImageOperation to draw a circle on the image.
+ * </p>
+ * 
+ * <p>
+ * This class draws a circle on the image.
+ * It will either fill draw a circle or draw an outline drpending on the boolean
+ * "fill"
+ * 
+ * </p>
+ * 
+ * @author Katie Wink
+ */
+public class DrawCircle implements ImageOperation, Serializable {
 
     private Color col;
-    int x;
-    int y;
-    int width;
-    int height;
-    boolean fill;
+    private int x;
+    private int y;
+    private int width;
+    private int height;
+    private boolean fill;
+    private BasicStroke stroke;
 
-    DrawCircle(int x, int y, int height, int width, boolean fill) {
-        this.x = x;
-        this.y = y;
-        this.height = height;
-        this.width = width;
+    public DrawCircle(double scale, int x, int y, int height, int width, boolean fill) {
+        this.x = (int)((double)x/scale);
+        this.y = (int)((double)y/scale);
+        this.height = (int)((double)height/scale);
+        this.width = (int)((double)width/scale);
         this.fill = fill;
-        col = DrawActions.userColour;
+        this.stroke = new BasicStroke((int)(DrawActions.userWidth/scale));
+        col = new Color(DrawActions.userColour.getRed(), DrawActions.userColour.getGreen(), DrawActions.userColour.getBlue());
     }
 
     @Override
@@ -30,10 +47,9 @@ public class DrawCircle implements ImageOperation, java.io.Serializable {
             g.setColor(col);
             g.fillOval(x, y, width, height);
         }
-
         if (fill) {
-            g.setColor(DrawActions.userColour);
-            g.setStroke(new BasicStroke((float) DrawActions.userWidth));
+            g.setColor(this.col);
+            g.setStroke(stroke);
             g.drawOval(x, y, width, height);
         }
         g.dispose();

@@ -150,7 +150,11 @@ public class MacroActions{
     public class StartRecordingAction extends ImageAction{
 
         /**
-         * Constructs a {@link StartRecordingAction}.
+         * Constructing instance of {@link StartRecordingAction}, as defined in {@link ImageAction#ImageAction(String, ImageIcon, String, Integer)}.
+         * @param name
+         * @param icon
+         * @param desc
+         * @param mnemonic
          */
         public StartRecordingAction(String name, ImageIcon icon, String desc, Integer mnemonic){
             super(name, icon, desc, mnemonic);
@@ -207,7 +211,11 @@ public class MacroActions{
     public class StopRecordingAction extends ImageAction{
 
         /**
-         * Constructs a {@link StopRecordingAction}.
+         * Constructing instance of {@link StopRecordingAction}, as defined in {@link ImageAction#ImageAction(String, ImageIcon, String, Integer)}.
+         * @param name
+         * @param icon
+         * @param desc
+         * @param mnemonic
          */
         protected StopRecordingAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
@@ -366,6 +374,13 @@ public class MacroActions{
      */
     public class ApplyMacroAction extends ImageAction{
 
+        /**
+         * Constructing instance of {@link ApplyMacroAction}, as defined in {@link ImageAction#ImageAction(String, ImageIcon, String, Integer)}.
+         * @param name
+         * @param icon
+         * @param desc
+         * @param mnemonic
+         */
         protected ApplyMacroAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
             this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_L, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
@@ -382,7 +397,7 @@ public class MacroActions{
         }
 
         /**
-         * This is a support method to open an {@link Macro}.
+         * This is a support method to open an {@link IMacro} from a file.
          */
         private boolean openMacro() {
             // Check if there is an image to export

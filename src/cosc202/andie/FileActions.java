@@ -647,7 +647,7 @@ public class FileActions {
                         // The image file name already describes another file name.
                         // Ask user if they want to override or cancel.
                         try {
-                            int option = JOptionPane.showConfirmDialog(null, LanguageActions.getLocaleString("warningAnotherFile"),
+                            int option = JOptionPane.showConfirmDialog(Andie.frame, LanguageActions.getLocaleString("warningAnotherFile"),
                                     LanguageActions.getLocaleString("warning"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
                             if (option == JOptionPane.CANCEL_OPTION || option == JOptionPane.CLOSED_OPTION) {
                                 // User cancelled or closed the pop up, don't export. But, allow the user to try again.
