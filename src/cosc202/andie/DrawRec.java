@@ -33,10 +33,7 @@ public class DrawRec implements ImageOperation, Serializable {
         int y = (int) ((double) rect.y / scale);
         int width = (int) ((double) rect.width / scale);
         int height = (int) ((double) rect.height / scale);
-        
-        // Creating a BasicStroke object for the stroke of the rectangle.
-        // The stroke width is calculated by dividing DrawActions.userWidth by the scale.
-        this.stroke = new BasicStroke((int) (DrawActions.userWidth / scale));
+        this.strokeWidth = (int) (DrawActions.userWidth / scale);
         // Creating a Rectangle object with the scaled coordinates and dimensions.
         r = new Rectangle(x, y, width, height);
         // Creating a Color object based on the RGB values obtained from DrawActions.userColour.

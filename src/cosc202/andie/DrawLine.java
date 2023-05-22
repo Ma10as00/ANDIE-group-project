@@ -44,7 +44,7 @@ public class DrawLine implements ImageOperation, Serializable {
         this.exitY = (int)((double)exitY/scale);
         
         // The stroke width is calculated by dividing DrawActions.userWidth by the scale.
-        this.stroke = new BasicStroke((int)(DrawActions.userWidth/scale));
+        this.strokeWidth = (int)(DrawActions.userWidth/scale);
         // Creating a Color object based on the RGB values obtained from DrawActions.userColour.
         col = new Color(DrawActions.userColour.getRed(), DrawActions.userColour.getGreen(), DrawActions.userColour.getBlue());
     }
