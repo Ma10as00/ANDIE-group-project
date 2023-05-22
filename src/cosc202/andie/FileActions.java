@@ -345,7 +345,7 @@ public class FileActions {
             // Check if there is an image open.
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
-                JOptionPane.showMessageDialog(Andie.frame, "There is no image open to save.", "Error",
+                JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("errorNoImage"), LanguageActions.getLocaleString("error"),
                         JOptionPane.ERROR_MESSAGE);
             } else {
                 // There is an image open, carry on.
