@@ -26,31 +26,26 @@ public class OperationRecorderTest {
 
     /**
      * Initiates the GUI of Andie, along with a robot user to interact with Andie.
+     * @throws Exception if GUI can't show, or if the construction of a robot user failed.
+     * <p> (if the platform configuration does not allow low-level input control.)
      */
-    private void startAndie(){
+    private void startAndie() throws Exception{
         //Initiating GUI of Andie, with a starting image:
-        try {
-            Andie.createAndShowGUI();
-            ImageAction.setTarget(Andie.imagePanel);
-            setImage();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        Andie.createAndShowGUI();
+        ImageAction.setTarget(Andie.imagePanel);
+        setImage();
         //Constructing robot user to interact with Andie:
-        try {
-            user = new Robot();
-        } catch (AWTException e) {
-            e.printStackTrace();
-        }
+        user = new Robot();
         
     }
 
     /**
      * Tests that the {@link cosc202.andie.MacroActions.StartRecordingAction} actually adds a {@link java.beans.PropertyChangeListener} to the image,
      * and that the field ongoingRecording is set to true.
+     * @throws Exception if startAndie() failed in the current environment.
      */
     @Test
-    public void StartRecordingTest(){
+    public void StartRecordingTest() throws Exception{
         startAndie();
 
         //Should be no ongoing recordings yet:
@@ -68,9 +63,10 @@ public class OperationRecorderTest {
 
     /**
      * Tests that the {@link cosc202.andie.OperationRecorder} actually records it when an operation is applied to the image.
+     * @throws Exception if startAndie() failed in the current environment.
      */
     @Test
-    public void OperationIsRecordedTest(){
+    public void OperationIsRecordedTest() throws Exception{
         startAndie();
         startRecording();
 
