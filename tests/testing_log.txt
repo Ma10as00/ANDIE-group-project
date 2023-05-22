@@ -135,3 +135,6 @@ Fixed Bugs 2.0:
 	• Fixed the colours changing when you undo the last operation. 
 	• Made crop and draw actions compatible with the level of zoom.  
 
+Possible Bugs:
+	• Get rid of the borders in the colour and file choosers for aesthetic. Also get rid of the focus on the buttons to look more modern.
+
