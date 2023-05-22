@@ -69,6 +69,7 @@ public class OperationRecorderTest {
         assertEquals("ConvertToGrey", recordedOp);
     }
 
+    /** Tests that a recorder can be detatched from an image without loosing its recorded operations. */
     @Test
     public void RemoveRecorderTest(){
         setup();
