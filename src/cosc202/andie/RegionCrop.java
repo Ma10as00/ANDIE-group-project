@@ -29,6 +29,12 @@ public class RegionCrop implements ImageOperation, java.io.Serializable {
     private Rectangle r;
 
     /**
+     * This is stores the scale of the EditableImage at the time when the crop was applied.
+     * This means we can correctly crop the image how the user would expect.
+     */
+    private double scale;
+
+    /**
      * <p>
      * Construct a new RegionCrop.
      * </p>
@@ -39,7 +45,8 @@ public class RegionCrop implements ImageOperation, java.io.Serializable {
      * 
      * @param rect The {@link Rectangle} of the region selected that we would like the image to be cropped to.
      */
-    public RegionCrop(Rectangle rect) {
+    public RegionCrop(double scale, Rectangle rect) {
+        this.scale = scale;
         r = rect;
     }
 
@@ -52,8 +59,8 @@ public class RegionCrop implements ImageOperation, java.io.Serializable {
      * @return The resulting (cropped) image.
      */
     public BufferedImage apply(BufferedImage previousImage) {
-        BufferedImage img = previousImage.getSubimage(r.x, r.y, r.width, r.height); // fill in the corners of the
-                                                                                    // desired crop location here
+        BufferedImage img = previousImage.getSubimage((int)(r.x / scale), (int)(r.y / scale), (int)(r.width / scale), (int)(r.height / scale)); 
+        // fill in the corners of the desired crop location here
         BufferedImage copyOfImage = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_RGB);
         Graphics g = copyOfImage.createGraphics();
         g.drawImage(img, 0, 0, null);

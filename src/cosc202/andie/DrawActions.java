@@ -346,7 +346,6 @@ public class DrawActions extends JFrame {
                 try {
                     target.deselect();
                     target.setTool(1);
-                    target.repaint();
                 } catch (Exception ert) {
                 }
             }
@@ -518,7 +517,6 @@ public class DrawActions extends JFrame {
                 try {
                     target.deselect();
                     target.setTool(2);
-                    target.repaint();
                 } catch (Exception ert) {
                 }
             }
@@ -576,7 +574,6 @@ public class DrawActions extends JFrame {
                 try {
                     target.deselect();
                     target.setTool(3);
-                    target.repaint();
                 } catch (Exception ert) {
                 }
             }
@@ -646,7 +643,7 @@ public class DrawActions extends JFrame {
                 return;
             }
             // There is an image open, and a selected region, so we try to crop it.
-            target.getImage().apply(new RegionCrop(ImagePanel.rect));
+            target.getImage().apply(new RegionCrop(ImagePanel.scale, ImagePanel.rect));
             ImagePanel.rect = null;
             target.repaint();
             target.getParent().revalidate();
@@ -712,7 +709,6 @@ public class DrawActions extends JFrame {
                 try {
                     target.deselect();
                     target.setTool(4);
-                    target.repaint();
                 } catch (Exception ert) {
                 }
             }
@@ -773,12 +769,9 @@ public class DrawActions extends JFrame {
                 try {
                     target.deselect();
                     target.setTool(5);
-                    target.repaint();
                 } catch (Exception ert) {
                 }
             }
         }
-
     }
-
 }

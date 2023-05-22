@@ -28,14 +28,15 @@ public class DrawCircle implements ImageOperation, Serializable {
     private int width;
     private int height;
     private boolean fill;
-    private BasicStroke stoke = new BasicStroke(DrawActions.userWidth);
+    private BasicStroke stroke;
 
-    DrawCircle(int x, int y, int height, int width, boolean fill) {
-        this.x = x;
-        this.y = y;
-        this.height = height;
-        this.width = width;
+    public DrawCircle(double scale, int x, int y, int height, int width, boolean fill) {
+        this.x = (int)((double)x/scale);
+        this.y = (int)((double)y/scale);
+        this.height = (int)((double)height/scale);
+        this.width = (int)((double)width/scale);
         this.fill = fill;
+        this.stroke = new BasicStroke((int)(DrawActions.userWidth/scale));
         col = new Color(DrawActions.userColour.getRed(), DrawActions.userColour.getGreen(), DrawActions.userColour.getBlue());
     }
 
@@ -48,7 +49,7 @@ public class DrawCircle implements ImageOperation, Serializable {
         }
         if (fill) {
             g.setColor(this.col);
-            g.setStroke(stoke);
+            g.setStroke(stroke);
             g.drawOval(x, y, width, height);
         }
         g.dispose();
