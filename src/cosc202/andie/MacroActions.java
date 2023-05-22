@@ -204,16 +204,11 @@ public class MacroActions {
             IOperationRecorder rec = new OperationRecorder();
             target.getImage().addPropertyChangeListener("ops", rec);
             target.ongoingRecording = true;
-<<<<<<< HEAD
-
-            // TO DO Add some graphics to show the user that recording has started.
-=======
             // Indicates that recording has started.
             ImagePanel.macroPressed = true;
             // Renders the menu in Andie to indicate to the user that recording has started.
             Andie.renderMenu();
             
->>>>>>> 38aca59b4d909e3462969d643c608e678ce11ab0
         }
 
     }
