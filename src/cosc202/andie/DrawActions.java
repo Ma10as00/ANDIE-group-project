@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.event.*;
 import java.awt.Rectangle;
 import javax.swing.*;
 import java.awt.Toolkit;
@@ -151,31 +152,77 @@ public class DrawActions extends JFrame {
         }
 
         public void actionPerformed(ActionEvent e) {
-            JSlider jslider = new JSlider();
-            jslider.setValue(userWidth);
-            jslider.setMaximum(50);
-            jslider.setMinimum(5);
-            jslider.setMajorTickSpacing(5);
-            jslider.setPaintLabels(true);
-            jslider.setPaintTicks(true);
+            // Check if there is an image open.
+            if (target.getImage().hasImage() == false) {
+                // There is not an image open, so display error message.
+                try {
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("widthErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                } catch (HeadlessException ex) {
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                    // Won't happen for our users, so just exit.
+                    System.exit(1);
+                }
+            }
+            else {
+                // There is an image open, carry on.
+                // Determine the width - ask the user.
+                int width = userWidth;
 
-            try {
-                int option = JOptionPane.showOptionDialog(Andie.frame, jslider,
-                        LanguageActions.getLocaleString("widthSlider"),
-                        JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
-                if (option == JOptionPane.CANCEL_OPTION || option == JOptionPane.CLOSED_OPTION) {
-                    return;
+                // Set up slider for user to pick the width, set to last width.
+                JSlider jslider = new JSlider();
+                jslider.setValue(width);
+                jslider.setMaximum(55);
+                jslider.setMinimum(5);
+                jslider.setMajorTickSpacing(10);
+                jslider.setPaintLabels(true);
+                jslider.setPaintTicks(true);
+                
+                // Create a panel for the width panel.
+                JPanel holdWidthPanel = new JPanel(new GridBagLayout());
+                holdWidthPanel.setPreferredSize(new Dimension(100, 60));
+
+                // Create a panel to preview the new width.
+                JPanel widthPanel = new JPanel(new GridLayout(0, 1));
+                widthPanel.setBackground(userColour);
+                widthPanel.setPreferredSize(new Dimension(100, userWidth));
+                holdWidthPanel.add(widthPanel, new GridBagConstraints());
+
+                // Add these to the outer panel.
+                JPanel outerPanel = new JPanel(new BorderLayout());
+                outerPanel.add(holdWidthPanel, BorderLayout.CENTER);
+                outerPanel.add(jslider, BorderLayout.SOUTH);
+
+                // This part updates how the image looks when the slider is moved.
+                jslider.addChangeListener(new ChangeListener() {
+                    public void stateChanged(ChangeEvent ce) {
+                        // Update the width of the width panel.
+                        widthPanel.setPreferredSize(new Dimension(100, jslider.getValue()));
+                        widthPanel.repaint();
+                        widthPanel.getParent().revalidate();
+                        holdWidthPanel.repaint();
+                        holdWidthPanel.getParent().revalidate();
+                        outerPanel.repaint();
+                        outerPanel.getParent().revalidate();
+                    }
+                });
+
+                // Ask user for width with slider in JOptionPane.
+                try {
+                    int option = JOptionPane.showOptionDialog(Andie.frame, outerPanel, LanguageActions.getLocaleString("widthSlider"),
+                            JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+                    if (option == JOptionPane.CANCEL_OPTION || option == JOptionPane.CLOSED_OPTION) {
+                        // Do nothing. The original width is still in userWidth.
+                        return;
+                    }
+                    if (option == JOptionPane.OK_OPTION) {
+                        // Update userWidth to the new width.
+                        userWidth = jslider.getValue();
+                    }
+                } catch (HeadlessException ex) {
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                    // Won't happen for our users, so just exit.
+                    System.exit(1);
                 }
-                if (option == JOptionPane.OK_OPTION) {
-                    userWidth = jslider.getValue();
-                }
-                if (userWidth == 5) {
-                    return;
-                }
-            } catch (HeadlessException ex) {
-                // Headless exception, thrown when the code is dependent on a keyboard or mouse.
-                // Won't happen for our users, so just exit.
-                System.exit(1);
             }
         }
 
@@ -253,13 +300,19 @@ public class DrawActions extends JFrame {
                 // Set up buttons for the user to pick a new colour.
                 JButton colourButton = new JButton(LanguageActions.getLocaleString("changeCol"));
 
+                // Create a panel to hold the colour panel.
+                JPanel holdColourPanel = new JPanel(new GridBagLayout());
+                holdColourPanel.setPreferredSize(new Dimension(100, 60));
+
                 // Set up the panel that will change colours.
                 JPanel colourPanel = new JPanel(new GridLayout(0, 1));
+                colourPanel.setPreferredSize(new Dimension(100, userWidth));
                 colourPanel.setBackground(userColour);
+                holdColourPanel.add(colourPanel, new GridBagConstraints());
                 
                 // Add these to the outer panel.
                 JPanel outerPanel = new JPanel(new BorderLayout());
-                outerPanel.add(colourPanel, BorderLayout.CENTER);
+                outerPanel.add(holdColourPanel, BorderLayout.CENTER);
                 outerPanel.add(colourButton, BorderLayout.SOUTH);
 
                 // Make the colout button allow the user to pick a colour.
