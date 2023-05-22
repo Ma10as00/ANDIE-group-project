@@ -16,6 +16,7 @@ public class DrawLine implements ImageOperation, java.io.Serializable {
     int enterY;
     int exitX;
     int exitY;
+    BasicStroke stroke = new BasicStroke(DrawActions.userWidth);
 
     DrawLine(int enterX, int enterY, int exitX, int exitY) {
         this.enterX = enterX;
@@ -28,7 +29,7 @@ public class DrawLine implements ImageOperation, java.io.Serializable {
     @Override
     public BufferedImage apply(BufferedImage input) {
         Graphics2D g = (Graphics2D) input.getGraphics();
-        g.setStroke(new BasicStroke(DrawActions.userWidth));
+        g.setStroke(stroke);
         g.setColor(col);
         g.drawLine(enterX, enterY, exitX, exitY);
         g.dispose();

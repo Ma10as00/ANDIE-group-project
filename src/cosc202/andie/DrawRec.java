@@ -11,6 +11,7 @@ public class DrawRec implements ImageOperation, java.io.Serializable {
     private Rectangle r;
     private Color col;
     private boolean fill;
+    BasicStroke stroke = new BasicStroke(DrawActions.userWidth);
 
     DrawRec(Rectangle rect, Color userColor, Boolean fill) {
         r = rect;
@@ -28,7 +29,6 @@ public class DrawRec implements ImageOperation, java.io.Serializable {
 
         if (fill) {
             g2d.setColor(DrawActions.userColour);
-            BasicStroke stroke = new BasicStroke((float) DrawActions.userWidth);
             g2d.setStroke(stroke);
             g2d.draw(r);
         }
