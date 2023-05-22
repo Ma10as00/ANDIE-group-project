@@ -58,7 +58,7 @@ public class DrawActions extends JFrame {
         actions.add(this.selectAction);
 
         this.cropAction = new RegionCropAction(LanguageActions.getLocaleString("crop"), null,
-                LanguageActions.getLocaleString("regionCropDesc"), Integer.valueOf(KeyEvent.VK_T));
+                LanguageActions.getLocaleString("regionCropDesc"), Integer.valueOf(KeyEvent.VK_X));
         actions.add(this.cropAction);
 
         // Create an instance of PickColourAction and SelectWidthAction to be used in
@@ -619,7 +619,7 @@ public class DrawActions extends JFrame {
         RegionCropAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
             this.putValue(Action.ACCELERATOR_KEY,
-                    KeyStroke.getKeyStroke(KeyEvent.VK_T, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+                    KeyStroke.getKeyStroke(KeyEvent.VK_X, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         }
 
         /**
