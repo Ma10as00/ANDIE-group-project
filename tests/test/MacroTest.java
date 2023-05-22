@@ -10,6 +10,7 @@ import cosc202.andie.BrightnessFilter;
 import cosc202.andie.ConvertToGrey;
 import cosc202.andie.ImageOperation;
 import cosc202.andie.ImageResize150;
+import cosc202.andie.LanguageActions;
 import cosc202.andie.Macro;
 
 /**
@@ -68,15 +69,15 @@ public class MacroTest {
     @Test
     public void MacroToStringTest(){
         setup();
-        String resizeName = resize.getClass().getSimpleName();
-        String brightName = bright.getClass().getSimpleName();
-        String greyName = grey.getClass().getSimpleName();
-        assertEquals(("Macro containing: " + newLine + 
-                        resizeName + newLine + 
-                        brightName + newLine + 
-                        greyName), 
+        String resizeName = LanguageActions.getLocaleString("ImageResize150");
+        String brightName = LanguageActions.getLocaleString("BrightnessFilter");
+        String greyName = LanguageActions.getLocaleString("ConvertToGrey");
+        assertEquals((LanguageActions.getLocaleString("macroContains") + " " + newLine + 
+                        " - " + resizeName + newLine + 
+                        " - " + brightName + newLine + 
+                        " - " + greyName), 
                         m.toString());
         m.clear();
-        assertEquals("Macro containing: No operations", m.toString());
+        assertEquals(LanguageActions.getLocaleString("macroContains") + " " + LanguageActions.getLocaleString("macroNoOps"), m.toString());
     }
 }
