@@ -4,13 +4,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.beans.PropertyChangeListener;
 import java.util.Stack;
 
 import org.junit.jupiter.api.Test;
 
 import java.awt.*;
-import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 
 import cosc202.andie.*;
@@ -21,44 +19,33 @@ import cosc202.andie.*;
  */
 public class OperationRecorderTest {
 
-    /** Robot acting as the user of the Andie-program */
-    private Robot user;
+    private EditableImage image;
 
     /**
-     * Initiates the GUI of Andie, along with a robot user to interact with Andie.
-     * @throws Exception if GUI can't show, or if the construction of a robot user failed.
-     * <p> (if the platform configuration does not allow low-level input control.)
+     * Sets up an {@link ImagePanel} with an {@link EditableImage} to {@link Andie}.
      */
-    private void startAndie() throws Exception{
-        //Initiating GUI of Andie, with a starting image:
-        Andie.createAndShowGUI();
+    private void setup(){
+        Andie.imagePanel = new ImagePanel(Andie.frame);
         ImageAction.setTarget(Andie.imagePanel);
-        setImage();
-        //Constructing robot user to interact with Andie:
-        user = new Robot();
+        image = setImage();
         
     }
 
     /**
-     * Tests that the {@link cosc202.andie.MacroActions.StartRecordingAction} actually adds a {@link java.beans.PropertyChangeListener} to the image,
-     * and that the field ongoingRecording is set to true.
-     * @throws Exception if startAndie() failed in the current environment.
+     * Tests that an {@link OperationRecorder} can be successfully added as a {@link java.beans.PropertyChangeListener} to the image.
      */
     @Test
-    public void StartRecordingTest() throws Exception{
-        startAndie();
+    public void AddRecorderTest(){
+        setup();
 
         //Should be no ongoing recordings yet:
-        assertFalse(Andie.imagePanel.ongoingRecording);
-        assertFalse(Andie.imagePanel.getImage().hasListeners("ops"));
+        assertFalse(image.hasListeners("ops"));
 
         //User initiates a StartRecordingAction:
         startRecording();
 
         //Now, there should be a recording ongoing:
-        System.out.println(Andie.imagePanel.ongoingRecording);
-        assertTrue(Andie.imagePanel.ongoingRecording);
-        assertTrue(Andie.imagePanel.getImage().hasListeners("ops"));
+        assertTrue(image.hasListeners("ops"));
     }
 
     /**
@@ -66,18 +53,15 @@ public class OperationRecorderTest {
      * @throws Exception if startAndie() failed in the current environment.
      */
     @Test
-    public void OperationIsRecordedTest() throws Exception{
-        startAndie();
-        startRecording();
+    public void OperationIsRecordedTest(){
+        setup();
+        OperationRecorder rec = startRecording();
 
-        //Retrieving the recorder from Andie:
-        PropertyChangeListener[] pcls = Andie.imagePanel.getImage().getPropertyChangeListeners("ops");
-        OperationRecorder rec = (OperationRecorder) pcls[0];
         //The recorder should have 0 recorded operations:
         assertEquals(0, rec.getOps().size()); 
 
         //User makes image greyscale:
-        greyScaleFilter();
+        image.apply(new ConvertToGrey());
 
         //The recorder should now have recorded an instance of ConvertToGrey:
         assertEquals(1, rec.getOps().size());
@@ -85,12 +69,38 @@ public class OperationRecorderTest {
         assertEquals("ConvertToGrey", recordedOp);
     }
 
+    @Test
+    public void RemoveRecorderTest(){
+        setup();
+        OperationRecorder rec = startRecording();
+
+        //Image should have a Recorder listening:
+        assertTrue(image.hasListeners("ops"));
+
+        //Applying some operations to the image:
+        image.apply(new ConvertToGrey());
+        image.apply(new FlipVertical());
+
+        //Recorder should have recorded 2 operations:
+        assertEquals(2, rec.getOps().size());
+
+        //Detaching recorder from image
+        image.removePropertyChangeListener("ops", rec); 
+
+        //Image should not have any listeners anymore:
+        assertFalse(image.hasListeners("ops"));
+
+        //Recorder should still hold 2 operations after being detached from image
+        assertEquals(2, rec.getOps().size());
+    }
+
     /**
      * Passing an image of a red square to {@link Andie#imagePanel}.
      * <p>
-     * This image is only for the purpose of testing how the program responds when a user applies {@link ImageOperation}s to it.
+     * This image is only for the purpose of testing how the program (particularly the recorders) responds when a user applies {@link ImageOperation}s to it.
+     * @return the image that was passed to {@link Andie#imagePanel}
      */
-    private void setImage() {
+    private EditableImage setImage() {
         //Constructing BufferedImage:
         int width = 100;
         int height = 100;
@@ -115,35 +125,16 @@ public class OperationRecorderTest {
             
         //Passing constructed image to Andie's ImagePanel:
         Andie.imagePanel.setImage(edim);
+        return edim;
     }
 
     /**
-     * Mimicing a user initiating the "Start recording" action in the GUI.
+     * Adding a new {@link OperationRecorder} to the image in {@link Andie#imagePanel}.
+     * @return the recorder that was added
      */
-    private void startRecording() {
-        //User presses Ctrl+8, the command for "Start recording"
-        user.keyPress(KeyEvent.VK_CONTROL);
-        user.delay(100);
-        user.keyPress(KeyEvent.VK_8);
-        user.delay(100);
-        user.keyRelease(KeyEvent.VK_CONTROL);
-        user.delay(100);
-        user.keyRelease(KeyEvent.VK_8);
-        user.delay(100);
-    }
-
-    /**
-     * Mimicing a user initiating the "Greyscale" action in the GUI.
-     */
-    private void greyScaleFilter() {
-        //User presses Ctrl+G, the command for "Greyscale"
-        user.keyPress(KeyEvent.VK_CONTROL);
-        user.delay(100);
-        user.keyPress(KeyEvent.VK_G);
-        user.delay(100);
-        user.keyRelease(KeyEvent.VK_CONTROL);
-        user.delay(100);
-        user.keyRelease(KeyEvent.VK_G);
-        user.delay(100);
+    private OperationRecorder startRecording() {
+        OperationRecorder rec = new OperationRecorder();
+        image.addPropertyChangeListener("ops", rec);
+        return rec;
     }
 }
