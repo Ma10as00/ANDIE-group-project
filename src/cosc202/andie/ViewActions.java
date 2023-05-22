@@ -52,11 +52,11 @@ public class ViewActions {
         actions.add(this.zoomInAction);
         this.zoomOutAction = new ZoomOutAction(LanguageActions.getLocaleString("zoomOut"), null, LanguageActions.getLocaleString("zoomOutDes"), Integer.valueOf(KeyEvent.VK_MINUS));
         actions.add(this.zoomOutAction);
-        this.zoomFullAction = new ZoomFullAction(LanguageActions.getLocaleString("zoomFull"), null, LanguageActions.getLocaleString("zoomFullDes"), Integer.valueOf(KeyEvent.VK_1));
+        this.zoomFullAction = new ZoomFullAction(LanguageActions.getLocaleString("zoomFull"), null, LanguageActions.getLocaleString("zoomFullDes"), Integer.valueOf(KeyEvent.VK_0));
         actions.add(this.zoomFullAction);
-        actions.add(new ZoomChangeAction(LanguageActions.getLocaleString("customZoom"), null, LanguageActions.getLocaleString("customZoomDes"), Integer.valueOf(KeyEvent.VK_2)));
+        actions.add(new ZoomChangeAction(LanguageActions.getLocaleString("customZoom"), null, LanguageActions.getLocaleString("customZoomDes"), Integer.valueOf(KeyEvent.VK_9)));
         actions.add(new DarkMode(LanguageActions.getLocaleString("darkMode"), null,
-                LanguageActions.getLocaleString("darkmodedesc"), Integer.valueOf(KeyEvent.VK_U)));
+                LanguageActions.getLocaleString("darkmodedesc"), Integer.valueOf(KeyEvent.VK_Q)));
     }
 
     /**
@@ -241,7 +241,7 @@ public class ViewActions {
          */
         ZoomChangeAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
-            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_2, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_9, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         }
 
         /**
@@ -369,7 +369,7 @@ public class ViewActions {
          */
         ZoomFullAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
-            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_1, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_0, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         }
 
         /**
@@ -436,7 +436,7 @@ public class ViewActions {
         DarkMode(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
             this.putValue(Action.ACCELERATOR_KEY,
-                    KeyStroke.getKeyStroke(KeyEvent.VK_U, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+                    KeyStroke.getKeyStroke(KeyEvent.VK_Q, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         }
 
         /**

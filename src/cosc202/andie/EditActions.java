@@ -48,11 +48,11 @@ public class EditActions {
         this.undoAction = new UndoAction(LanguageActions.getLocaleString("undo"), null,
                 LanguageActions.getLocaleString("undoDes"), Integer.valueOf(KeyEvent.VK_Z));
         this.redoAction = new RedoAction(LanguageActions.getLocaleString("redo"), null,
-                LanguageActions.getLocaleString("redoDes"), Integer.valueOf(KeyEvent.VK_Y));
+                LanguageActions.getLocaleString("redoDes"), Integer.valueOf(KeyEvent.VK_X));
         actions.add(this.undoAction);
         actions.add(this.redoAction);
         actions.add(new UndoAllAction(LanguageActions.getLocaleString("undoAll"), null,
-                LanguageActions.getLocaleString("undoAllDes"), Integer.valueOf(KeyEvent.VK_A)));
+                LanguageActions.getLocaleString("undoAllDes"), Integer.valueOf(KeyEvent.VK_D)));
     }
 
     /**
@@ -175,7 +175,7 @@ public class EditActions {
         UndoAllAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
             this.putValue(Action.ACCELERATOR_KEY,
-                    KeyStroke.getKeyStroke(KeyEvent.VK_A, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+                    KeyStroke.getKeyStroke(KeyEvent.VK_D, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         }
 
         /**
@@ -265,7 +265,7 @@ public class EditActions {
         RedoAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
             this.putValue(Action.ACCELERATOR_KEY,
-                    KeyStroke.getKeyStroke(KeyEvent.VK_Y, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+                    KeyStroke.getKeyStroke(KeyEvent.VK_X, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         }
 
         /**

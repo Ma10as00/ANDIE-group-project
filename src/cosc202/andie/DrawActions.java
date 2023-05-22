@@ -54,38 +54,38 @@ public class DrawActions extends JFrame {
         // Creates an instance of select and region crop to be used in the toolbar (and
         // this menu).
         this.selectAction = new SelectAction(LanguageActions.getLocaleString("selectTool"), null,
-                LanguageActions.getLocaleString("returnToSelect"), null);
+                LanguageActions.getLocaleString("returnToSelect"), Integer.valueOf(KeyEvent.VK_R));
         actions.add(this.selectAction);
 
         this.cropAction = new RegionCropAction(LanguageActions.getLocaleString("crop"), null,
-                LanguageActions.getLocaleString("regionCropDesc"), Integer.valueOf(KeyEvent.VK_X));
+                LanguageActions.getLocaleString("regionCropDesc"), Integer.valueOf(KeyEvent.VK_T));
         actions.add(this.cropAction);
 
         // Create an instance of PickColourAction and SelectWidthAction to be used in
         // the toolbar and add to
         // the list of actions (and this menu).
         this.pickColourAction = new PickColourAction(LanguageActions.getLocaleString("pickCol"), null,
-                LanguageActions.getLocaleString("pickColDesc"), Integer.valueOf(0));
+                LanguageActions.getLocaleString("pickColDesc"), Integer.valueOf(KeyEvent.VK_Y));
         actions.add(this.pickColourAction);
         actions.add(new SelectWidth(LanguageActions.getLocaleString("width"), null,
-                LanguageActions.getLocaleString("pickAWidth"), Integer.valueOf(KeyEvent.VK_P)));
+                LanguageActions.getLocaleString("pickAWidth"), Integer.valueOf(KeyEvent.VK_U)));
 
         // Add the draw line/circle/rectangle actions to the list of sub actions (and
         // this menu).
         actions.add(new DrawLineAction(LanguageActions.getLocaleString("drawLine"), null,
-                LanguageActions.getLocaleString("drawLineDesc"), Integer.valueOf(0)));
+                LanguageActions.getLocaleString("drawLineDesc"),Integer.valueOf(KeyEvent.VK_I)));
 
         actionsSubRect = new ArrayList<Action>();
         actionsSubRect.add(new DrawRecAction(LanguageActions.getLocaleString("drawRec"), null,
-                LanguageActions.getLocaleString("drawRecDesc"), Integer.valueOf(0)));
+                LanguageActions.getLocaleString("drawRecDesc"), null));
         actionsSubRect.add(new DrawRecOutlineAction(LanguageActions.getLocaleString("drawRecOutline"), null,
-                LanguageActions.getLocaleString("drawRecOutlineDesc"), Integer.valueOf(0)));
+                LanguageActions.getLocaleString("drawRecOutlineDesc"), null));
 
         actionsSubCirc = new ArrayList<Action>();
         actionsSubCirc.add(new DrawCircleAction(LanguageActions.getLocaleString("drawCircle"), null,
-                LanguageActions.getLocaleString("drawCircleDesc"), Integer.valueOf(0)));
+                LanguageActions.getLocaleString("drawCircleDesc"), null));
         actionsSubCirc.add(new DrawCircOutlineAction(LanguageActions.getLocaleString("drawCircOutline"), null,
-                LanguageActions.getLocaleString("drawCircOutlineDesc"), Integer.valueOf(0)));
+                LanguageActions.getLocaleString("drawCircOutlineDesc"), null));
     }
 
     /**
@@ -132,6 +132,7 @@ public class DrawActions extends JFrame {
      */
     public SelectAction getSelectAction() {
         return this.selectAction;
+        
     }
 
     /**
@@ -146,6 +147,7 @@ public class DrawActions extends JFrame {
 
         protected SelectAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
+            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_R, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         }
 
         /**
@@ -202,6 +204,7 @@ public class DrawActions extends JFrame {
          */
         SelectWidth(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
+            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_U, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         }
 
         /**
@@ -379,6 +382,7 @@ public class DrawActions extends JFrame {
          */
         PickColourAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
+            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_Y, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         }
 
         /**
@@ -545,6 +549,7 @@ public class DrawActions extends JFrame {
          */
         DrawLineAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
+            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_I, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         }
 
         /**
@@ -616,7 +621,7 @@ public class DrawActions extends JFrame {
         RegionCropAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
             this.putValue(Action.ACCELERATOR_KEY,
-                    KeyStroke.getKeyStroke(KeyEvent.VK_X, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+                    KeyStroke.getKeyStroke(KeyEvent.VK_T, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         }
 
         /**

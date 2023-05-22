@@ -35,8 +35,8 @@ public class MacroActions{
      */
     public MacroActions(){
         actions = new ArrayList<Action>();
-        actions.add(new StartRecordingAction(LanguageActions.getLocaleString("initrecord"), null, LanguageActions.getLocaleString("initrecorddesc"), Integer.valueOf(KeyEvent.VK_8)));
-        actions.add(new StopRecordingAction(LanguageActions.getLocaleString("endrecord"), null, LanguageActions.getLocaleString("endrecorddesc"), Integer.valueOf(KeyEvent.VK_9)));
+        actions.add(new StartRecordingAction(LanguageActions.getLocaleString("initrecord"), null, LanguageActions.getLocaleString("initrecorddesc"), Integer.valueOf(KeyEvent.VK_J)));
+        actions.add(new StopRecordingAction(LanguageActions.getLocaleString("endrecord"), null, LanguageActions.getLocaleString("endrecorddesc"), Integer.valueOf(KeyEvent.VK_K)));
         actions.add(new ApplyMacroAction(LanguageActions.getLocaleString("applymacro"), null, LanguageActions.getLocaleString("applymacrodesc"), Integer.valueOf(KeyEvent.VK_L)));
     }
 
@@ -158,7 +158,7 @@ public class MacroActions{
          */
         public StartRecordingAction(String name, ImageIcon icon, String desc, Integer mnemonic){
             super(name, icon, desc, mnemonic);
-            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_8, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_J, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
             
         }
 
@@ -219,7 +219,7 @@ public class MacroActions{
          */
         protected StopRecordingAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
-            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_9, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_K, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         }
 
         @Override
