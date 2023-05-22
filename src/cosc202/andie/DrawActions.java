@@ -4,13 +4,13 @@ import java.util.*;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.HeadlessException;
-import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Rectangle;
 import javax.swing.*;
 import java.awt.Toolkit;
 import java.awt.event.*;
+import java.awt.*;
 
 public class DrawActions extends JFrame {
     protected ArrayList<Action> actionsSubRect;
@@ -232,43 +232,67 @@ public class DrawActions extends JFrame {
         }
 
         public void actionPerformed(ActionEvent e) {
-            panel = new JPanel(new BorderLayout());
-            JPanel subPanel = new JPanel();
+            // Check if there is an image open.
+            if (target.getImage().hasImage() == false) {
+                // There is not an image open, so display error message.
+                try {
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("colourErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                } catch (HeadlessException ex) {
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                    // Won't happen for our users, so just exit.
+                    System.exit(1);
+                }
+            }
+            else {
+                // There is an image open, carry on.
+                // Determine the colour the user wants to pick.
+                // Remember the original colour.
+                Color originalColour = new Color(userColour.getRed(), userColour.getGreen(), userColour.getBlue());
 
-            JButton btnColor = new JButton("Change Color");
-            JButton confirmButton = new JButton("Confirm");
-            subPanel.add(btnColor);
-            subPanel.add(confirmButton);
-            panel.add(subPanel, BorderLayout.SOUTH);
-            panel.setBackground(userColour);
-            btnColor.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent evt) {
-                    Color color = JColorChooser.showDialog(Andie.frame,
-                            "Choose a color", userColour);
-                    if (color != null) {
-                        userColour = color;
+                // Set up buttons for the user to pick a new colour.
+                JButton colourButton = new JButton(LanguageActions.getLocaleString("changeCol"));
+
+                // Set up the panel that will change colours.
+                JPanel colourPanel = new JPanel(new GridLayout(0, 1));
+                colourPanel.setBackground(userColour);
+                
+                // Add these to the outer panel.
+                JPanel outerPanel = new JPanel(new BorderLayout());
+                outerPanel.add(colourPanel, BorderLayout.CENTER);
+                outerPanel.add(colourButton, BorderLayout.SOUTH);
+
+                // Make the colout button allow the user to pick a colour.
+                colourButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent evt) {
+                        Color colour = JColorChooser.showDialog(Andie.frame,
+                        LanguageActions.getLocaleString("pickCol"), userColour);
+                        if (colour != null) {
+                            userColour = colour;
+                        }
+                        colourPanel.setBackground(userColour);
                     }
-                    panel.setBackground(userColour);
+                });
 
+                // Ask user for the colour with an option dialogue.
+                try {
+                    int option = JOptionPane.showOptionDialog(Andie.frame, outerPanel, LanguageActions.getLocaleString("drawCol"),
+                            JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
+                    if (option == JOptionPane.CLOSED_OPTION || option == JOptionPane.CANCEL_OPTION) {
+                        // Set the colour back to the original colour.
+                        userColour = originalColour;
+                        return;
+                    }
+                    if (option == JOptionPane.OK_OPTION) {
+                        // Do nothing, the colour is already set.
+                        return;
+                    }
+                } catch (HeadlessException ex) {
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                    // Won't happen for our users, so just exit.
+                    System.exit(1);
                 }
-            });
-
-            confirmButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent awt) {
-                    panel.setVisible(false);
-                    JComponent comp = (JComponent) awt.getSource();
-                    Window win = SwingUtilities.getWindowAncestor(comp);
-                    win.dispose();
-                }
-            });
-
-            setContentPane(panel);
-            setTitle("Colour Chooser");
-            setSize(200, 150);
-            setLocationRelativeTo(Andie.frame);
-            setVisible(true);
+            }
         }
     }
 
