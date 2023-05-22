@@ -6,6 +6,20 @@ import java.awt.Graphics2D;
 import java.awt.BasicStroke;
 import java.awt.Color;
 
+/**
+ * <p>
+ * ImageOperation to draw a circle on the image.
+ * </p>
+ * 
+ * <p>
+ * This class draws a circle on the image.
+ * It will either fill draw a circle or draw an outline drpending on the boolean
+ * "fill"
+ * 
+ * </p>
+ * 
+ * @author Katie Wink
+ */
 public class DrawCircle implements ImageOperation, Serializable {
 
     private Color col;
@@ -14,7 +28,7 @@ public class DrawCircle implements ImageOperation, Serializable {
     int width;
     int height;
     boolean fill;
-    BasicStroke stoke = new BasicStroke(width);
+    BasicStroke stoke = new BasicStroke(DrawActions.userWidth);
 
     DrawCircle(int x, int y, int height, int width, boolean fill) {
         this.x = x;

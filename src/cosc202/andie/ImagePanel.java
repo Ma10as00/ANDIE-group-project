@@ -390,18 +390,18 @@ public class ImagePanel extends JPanel {
             }
             if (enterX != 0 && getTool() == drawLine) {
                 g2d.setColor(DrawActions.userColour);
-                g2d.setStroke(new BasicStroke((float) DrawActions.userWidth));
+                g2d.setStroke(DrawActions.stroke);
                 g2d.drawLine(enterX, enterY, exitX, exitY);
             }
             if (rect != null && getTool() == drawRectOutline) {
                 g2d.setColor(DrawActions.userColour);
-                BasicStroke stroke = new BasicStroke((float) DrawActions.userWidth);
-                g2d.setStroke(stroke);
+                ;
+                g2d.setStroke(DrawActions.stroke);
                 g2d.draw(rect);
             }
             if (enterX != 0 && getTool() == drawCircOutline) {
                 g2d.setColor(DrawActions.userColour);
-                g2d.setStroke(new BasicStroke((float) DrawActions.userWidth));
+                g2d.setStroke(DrawActions.stroke);
                 int x = Math.min(enterX, exitX);
                 int y = Math.min(enterY, exitY);
                 int width = Math.abs(enterX - exitX);

@@ -20,6 +20,7 @@ public class DrawActions extends JFrame {
     /**  */
     public static Color userColour = Color.white;
     public static int userWidth = 5;
+    public static BasicStroke stroke = new BasicStroke(userWidth);
 
     /**
      * A list of actions for the Tool (Draw) menu.
