@@ -5,7 +5,8 @@ File Menu
 	· If you click Save As with no image open, an error box will tell you that there is no image open to save as. If you click Save As with an image open, you will be able to select the location and the file name to save as. If the user enters an invalid PNG file name, a warning box will warn them that it is an invalid PNG file name, and the image will not be saved as. If the user enters a file name of an image that already exists in the directory, then a warning box will warn the user and they can decide whether to write over it or not. Note that if there is only an associated operations file with that image file name, it will be overwritten with no warning. This is by design as an operations file should always have an associated image unless the user meddles with the files outside of ANDIE. Then, a new copy of the original image is saved under the new file name and an associated operations file is saved. Then, the image the user currently has open will change to the image that was saved as and the title of ANDIE will change to "ANDIE (filename.png)".
 	· If you click Export with no image open, an error box will tell you that there is no image open to export. If you click Export with an image open, you will be able to select the location and the file name to export to. If the user enters an invalid PNG file name, a warning box will warn them that it is an invalid PNG file name, and the image will not be exported. If the user enters a file name of an image that already exists in the directory, then a warning box will warn the user and they can decide whether to write over it or not. Then, a new copy of the edited image will be exported under the file name in the selected location. Note that the image open and thus being edited will stay as the original file open, as indicated by the application title "ANDIE (filename.png)".
 	· If you click Exit or close with no image open, the application will close. If you click Exit or close with an image open, a warning box will warn the user that any unsaved changes will be lost and they can decide whether to exit or not.
-
+	·
+	
 Edit Menu
 	· If the user clicks Undo with no image open, an error box will tell the user that there is no image open to undo operations on. If the user clicks Undo with an image open, but there are no operations to undo, an error box will tell the user that there are no operations to undo. If the user clicks Undo with an image open and operations to undo, the last operation will be undone. This does not include changing the zoom. If this was a resize or rotation operation, the zoom will be reset to 100% and the frame will be packed around the new size of the image. This is to make it clear that resize and rotation changes the size of the actual image, and so that when Zoom Full is clicked, it fits the size of the packed frame.
 	· If the user clicks Redo with no image open, an error box will tell the user that there is no image open to redo operations on. If the user clicks Redo with an image open, but there are no operations to redo, an error box will tell the user that there are no operations to redo. If the user clicks Redo with an image open and operations to redo, the last operation will be redone. This does not include changing the zoom. If this was a resize or rotation operation, the zoom will be reset to 100% and the frame will be packed around the new size of the image. This is to make it clear that resize and rotation changes the size of the actual image, and so that when Zoom Full is clicked, it fits the size of the packed frame.
@@ -76,7 +77,42 @@ Fixed Bugs:
 	• Repack the frame if the operation was a rotation, as this will also change dimensions of the image.
 	• Reset the zoom every time we repack so that the zoom full works. 
 	• Make it so that rotate by 180 degrees doesn’t pack the frame or rest zoom, as the size of the image will not have changed.
-
+	
+Fixed Bugs 2.0:
+	• Added amount to sharpen filter so it is variable. 
+	• Made sure that if the entered amount/radius/percentage for sharpen, mean, median, gaussian, custom resize, brightness and contrast is the amount that makes no change, no 'filter' (which does nothing anyway) is applied. 
+	• Fixed there being text messages in the contrast and brightness classes, so made them have multilingual support. These messages are just there for back up anyway. 
+	• Added undo all button. 
+	• Added a private constructor to EditableImage construct a new EditableImage with given parameters. 
+	• Added copyEditableImage to EditableImage to create a deep copy of an EditableImage. 
+	• Added setImage to ImagePanel so that I can change the image in the image panel. 
+	• Made the image react to the slider before clicking OK for brightness, contras, mean, sharpen, gauss, median, custom zoom and custom resize. 
+	• Fixed that after a resize with the slider the zoom gets reset. We don’t want that. 
+	• Made median filter slider less laggy by only updating the image if the slider change is greater than or equal to 1. 
+	• Added extended filters for sharpen, mean and gaussian. Applied this to median in a slightly different way. This also fixed issue of many resizes making the edges blurry. 
+	• Fixed the crop selection bug so that you can select to the edge of an image but not over it. 
+	• Made the emboss filter option pane make more intuitive sense. 
+	• Changed the Sobel filters to only be under one header and have a pop up box with the option to press each one. And, have a check box to remove noise or not. 
+	• Fixed bug of crop action and draw actions not saving or saving as when applied to an image. 
+	• Fixed that the macro would not actually save if you enter the wrong file name and then try to save again. 
+	• Made the file chooser keep popping up if the user clicks a non .ops file when applying a macro. 
+	• Don't let the user open, save, save as or export when recording a macro. 
+	• Fixed capitalisation of macro menu option titles.  
+	• Made an error message for when an image is open but a region is not selected when cropping. 
+	• Made Sobel JOptionPane only show changes to image when the button is actually clicked, not hovered on. 
+	• Made file open, export and save as keep prompting the user for a file until they either successfully open/save/export a file, or cancel. 
+	• Made macro not allowed to initiate if an image is not open. 
+	• Show that an image operation has been saved/unsaved in frame header. 
+	• Only show the warning message when exiting or opening if the image is unsaved. 
+	• Make it so that when you open an image, the application stays where it is. 
+	• Make the ImagePanel centred in the outer panel. 
+	• Made toolbar, outer panel and menu not have borders. 
+	• Fixed an issue of the bottom of the tool bar not changing colours with dark mode. 
+	• Made the frame not repack when changing the mode. 
+	• Fixed custom zoom bug where you could not fully zoom in or out if you start with too high or low of a zoom. 
+	• Fixed the width change only applying after you have drawn the image and deselect. 
+	• Fixed the colours changing when you undo the last operation. 
+	• Made crop and draw actions compatible with the level of zoom.  
 
 Possible Bugs:
 	• Only ask the user if exit, close or open if they want to save, save as or export an image if there are unsaved operations associated with the image that is open? Currently we always remind the user that all unsaved changes will be lost whenever they exit, close or open.
