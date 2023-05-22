@@ -82,7 +82,7 @@ public class ImagePanel extends JPanel {
      * as a percentage.
      * </p>
      */
-    private double scale;
+    public static double scale;
 
     /**
      * <p>
@@ -179,7 +179,9 @@ public class ImagePanel extends JPanel {
         addMouseListener(new MouseAdapter() {
             public void mouseReleased(MouseEvent e) {
                 if (tool == drawRect) {
-                    image.apply(new DrawRec(rect, DrawActions.userColour, false));
+                    image.apply(new DrawRec(scale, rect, false));
+                    Andie.imagePanel.repaint();
+                    Andie.imagePanel.getParent().revalidate();
                     deselect();
                 }
                 if (tool == drawCircle) {
@@ -187,16 +189,21 @@ public class ImagePanel extends JPanel {
                     int y = Math.min(enterY, exitY);
                     int width = Math.abs(enterX - exitX);
                     int height = Math.abs(enterY - exitY);
-                    image.apply(new DrawCircle(x, y, height, width, false));
+                    image.apply(new DrawCircle(scale, x, y, height, width, false));
+                    Andie.imagePanel.repaint();
+                    Andie.imagePanel.getParent().revalidate();
                     deselect();
-
                 }
                 if (tool == drawLine) {
-                    image.apply(new DrawLine(enterX, enterY, exitX, exitY));
+                    image.apply(new DrawLine(scale, enterX, enterY, exitX, exitY));
+                    Andie.imagePanel.repaint();
+                    Andie.imagePanel.getParent().revalidate();
                     deselect();
                 }
                 if (tool == drawRectOutline) {
-                    image.apply(new DrawRec(rect, DrawActions.userColour, true));
+                    image.apply(new DrawRec(scale, rect, true));
+                    Andie.imagePanel.repaint();
+                    Andie.imagePanel.getParent().revalidate();
                     deselect();
                 }
                 if (tool == drawCircOutline) {
@@ -204,10 +211,11 @@ public class ImagePanel extends JPanel {
                     int y = Math.min(enterY, exitY);
                     int width = Math.abs(enterX - exitX);
                     int height = Math.abs(enterY - exitY);
-                    image.apply(new DrawCircle(x, y, height, width, true));
+                    image.apply(new DrawCircle(scale, x, y, height, width, true));
+                    Andie.imagePanel.repaint();
+                    Andie.imagePanel.getParent().revalidate();
                     deselect();
                 }
-
             }
         });
 
@@ -361,7 +369,7 @@ public class ImagePanel extends JPanel {
             g2.drawImage(image.getCurrentImage(), null, 0, 0);
             g2.dispose();
         }
-        Graphics2D g2d = (Graphics2D) g;
+        Graphics2D g2d = (Graphics2D) g.create();
         if (image.hasImage()) {
             if (rect != null && getTool() == selection) {
                 float[] dash = new float[] { 4.0f, 4.0f };
@@ -374,7 +382,6 @@ public class ImagePanel extends JPanel {
                 g2d.setStroke(dashStroke);
                 g2d.setColor(Color.black);
                 g2d.draw(rect);
-
             }
             if (rect != null && getTool() == drawRect) {
                 g2d.setColor(DrawActions.userColour);
@@ -408,6 +415,7 @@ public class ImagePanel extends JPanel {
                 g2d.drawOval(x, y, width, height);
             }
         }
+        g2d.dispose();
     }
 
     public void deselect() {

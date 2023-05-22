@@ -944,7 +944,7 @@ public class FilterActions {
 
                 // Ask user for these values with an option dialogue.
                 try {
-                    int option = JOptionPane.showOptionDialog(Andie.frame, choosePanel, LanguageActions.getLocaleString("embossSlid"),
+                    int option = JOptionPane.showOptionDialog(Andie.frame, choosePanel, LanguageActions.getLocaleString("sobelSlid"),
                             JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
                     if (option == JOptionPane.CANCEL_OPTION || option == JOptionPane.CLOSED_OPTION) {
                         // Set the image in target back to the actual image and repaint.

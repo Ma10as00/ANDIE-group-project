@@ -349,7 +349,6 @@ public class DrawActions extends JFrame {
                 try {
                     target.deselect();
                     target.setTool(1);
-                    target.repaint();
                 } catch (Exception ert) {
                 }
             }
@@ -426,7 +425,7 @@ public class DrawActions extends JFrame {
                 // Set up the panel that will change colours.
                 JPanel colourPanel = new JPanel(new GridLayout(0, 1));
                 colourPanel.setPreferredSize(new Dimension(100, userWidth));
-                colourPanel.setBackground(userColour);
+                colourPanel.setBackground(originalColour);
                 holdColourPanel.add(colourPanel, new GridBagConstraints());
 
                 // Add these to the outer panel.
@@ -443,7 +442,7 @@ public class DrawActions extends JFrame {
                         if (colour != null) {
                             userColour = colour;
                         }
-                        colourPanel.setBackground(userColour);
+                        colourPanel.setBackground(new Color(userColour.getRed(), userColour.getGreen(), userColour.getBlue()));
                     }
                 });
 
@@ -522,7 +521,6 @@ public class DrawActions extends JFrame {
                 try {
                     target.deselect();
                     target.setTool(2);
-                    target.repaint();
                 } catch (Exception ert) {
                 }
             }
@@ -581,7 +579,6 @@ public class DrawActions extends JFrame {
                 try {
                     target.deselect();
                     target.setTool(3);
-                    target.repaint();
                 } catch (Exception ert) {
                 }
             }
@@ -651,7 +648,7 @@ public class DrawActions extends JFrame {
                 return;
             }
             // There is an image open, and a selected region, so we try to crop it.
-            target.getImage().apply(new RegionCrop(ImagePanel.rect));
+            target.getImage().apply(new RegionCrop(ImagePanel.scale, ImagePanel.rect));
             ImagePanel.rect = null;
             target.repaint();
             target.getParent().revalidate();
@@ -717,7 +714,6 @@ public class DrawActions extends JFrame {
                 try {
                     target.deselect();
                     target.setTool(4);
-                    target.repaint();
                 } catch (Exception ert) {
                 }
             }
@@ -778,12 +774,9 @@ public class DrawActions extends JFrame {
                 try {
                     target.deselect();
                     target.setTool(5);
-                    target.repaint();
                 } catch (Exception ert) {
                 }
             }
         }
-
     }
-
 }

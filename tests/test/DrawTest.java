@@ -82,7 +82,7 @@ public class DrawTest {
         BufferedImage actual = null;
         if (original != null && expected != null) {
             Rectangle rect = new Rectangle(0, 0, expected.getWidth(), expected.getHeight());
-            RegionCrop crop = new RegionCrop(rect);
+            RegionCrop crop = new RegionCrop(1, rect);
             actual = crop.apply(original);
         }
         // Check that the two images are 'equal'.

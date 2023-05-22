@@ -35,14 +35,15 @@ public class Macro extends ArrayList<ImageOperation> implements IMacro {
 
     @Override
     public String toString() {
-        String str = "Macro containing: ";
-        if(size()<1)
-            str += "No operations";
+        String str = LanguageActions.getLocaleString("macroContains") + " ";
+        if (size() < 1) {
+            str += LanguageActions.getLocaleString("macroNoOps");
+        }
         else{
             for(int i=0; i<size(); i++){
                 str += System.lineSeparator();
-                String op = get(i).getClass().getSimpleName();
-                str += op;
+                String op = LanguageActions.getLocaleString(get(i).getClass().getSimpleName());
+                str += " - " + op;
             }
         }
         return str;
