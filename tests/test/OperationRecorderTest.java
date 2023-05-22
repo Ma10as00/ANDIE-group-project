@@ -5,11 +5,13 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.beans.PropertyChangeListener;
+import java.util.Stack;
 
 import org.junit.Test;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 
 import cosc202.andie.*;
 
@@ -20,20 +22,23 @@ import cosc202.andie.*;
 public class OperationRecorderTest {
 
     /** Robot acting as the user of the Andie-program */
-    private Robot robot;
+    private Robot user;
 
     /**
-     * Initiates the GUI of Andie, along with a robot user.
+     * Initiates the GUI of Andie, along with a robot user to interact with Andie.
      */
     private void startAndie(){
+        //Constructing robot user to interact with Andie:
         try {
-            robot = new Robot();
+            user = new Robot();
         } catch (AWTException e) {
             e.printStackTrace();
         }
+        //Initiating GUI of Andie, with a starting image:
         try {
             Andie.createAndShowGUI();
             ImageAction.setTarget(Andie.imagePanel);
+            setImage();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -46,7 +51,6 @@ public class OperationRecorderTest {
     @Test
     public void StartRecordingTest(){
         startAndie();
-        openImage();
 
         //Should be no ongoing recordings yet:
         assertFalse(Andie.imagePanel.ongoingRecording);
@@ -67,7 +71,6 @@ public class OperationRecorderTest {
     @Test
     public void OperationIsRecordedTest(){
         startAndie();
-        openImage();
         startRecording();
 
         //Retrieving the recorder from Andie:
@@ -86,16 +89,35 @@ public class OperationRecorderTest {
     }
 
     /**
-     * Opening a picture in the ImagePanel of Andie.
+     * Passing an image of a red square to {@link Andie#imagePanel}.
+     * <p>
+     * This image is only for the purpose of testing how the program responds when a user applies {@link ImageOperation}s to it.
      */
-    private void openImage() {
-        // Find path to the folder of this project, "..../andie-return-a-plus":
-        String currentDirectory = System.getProperty("user.dir"); 
-        // Add path within folder:
-        String relativePath = "pictures/ANDIE_GUI.png"; 
-        
-        //This should now work on all computers, no matter where they this project stored:
-        Andie.imagePanel.getImage().open(currentDirectory + relativePath);
+    private void setImage() {
+        //Constructing BufferedImage:
+        int width = 100;
+        int height = 100;
+        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR);
+        Graphics g = image.getGraphics();
+        //Coloring the image red, just to give it some content:
+        g.setColor(Color.RED);
+        g.fillRect(0, 0, width, height);
+        g.dispose();
+
+        //Constructing EditableImage:
+        EditableImage edim = new EditableImage(
+            image, 
+            image,
+            new Stack<ImageOperation>(), 
+            new Stack<ImageOperation>(),
+            new Stack<ImageOperation>(), 
+            "",
+            ".ops", 
+            Andie.frame
+        );
+            
+        //Passing constructed image to Andie's ImagePanel:
+        Andie.imagePanel.setImage(edim);
     }
 
     /**
@@ -103,14 +125,14 @@ public class OperationRecorderTest {
      */
     private void startRecording() {
         //User presses Ctrl+8, the command for "Start recording"
-        robot.keyPress(KeyEvent.VK_CONTROL);
-        robot.delay(100);
-        robot.keyPress(KeyEvent.VK_8);
-        robot.delay(100);
-        robot.keyRelease(KeyEvent.VK_CONTROL);
-        robot.delay(100);
-        robot.keyRelease(KeyEvent.VK_8);
-        robot.delay(100);
+        user.keyPress(KeyEvent.VK_CONTROL);
+        user.delay(100);
+        user.keyPress(KeyEvent.VK_8);
+        user.delay(100);
+        user.keyRelease(KeyEvent.VK_CONTROL);
+        user.delay(100);
+        user.keyRelease(KeyEvent.VK_8);
+        user.delay(100);
     }
 
     /**
@@ -118,13 +140,13 @@ public class OperationRecorderTest {
      */
     private void greyScaleFilter() {
         //User presses Ctrl+G, the command for "Greyscale"
-        robot.keyPress(KeyEvent.VK_CONTROL);
-        robot.delay(100);
-        robot.keyPress(KeyEvent.VK_G);
-        robot.delay(100);
-        robot.keyRelease(KeyEvent.VK_CONTROL);
-        robot.delay(100);
-        robot.keyRelease(KeyEvent.VK_G);
-        robot.delay(100);
+        user.keyPress(KeyEvent.VK_CONTROL);
+        user.delay(100);
+        user.keyPress(KeyEvent.VK_G);
+        user.delay(100);
+        user.keyRelease(KeyEvent.VK_CONTROL);
+        user.delay(100);
+        user.keyRelease(KeyEvent.VK_G);
+        user.delay(100);
     }
 }

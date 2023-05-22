@@ -88,7 +88,7 @@ public class EditableImage {
      * </p>
      * 
      * <p>
-     * This constructor is only used within EditableImage. It constructs a new EditableImage with the specified
+     * This constructor is only used within EditableImage (and in {@link tests.test.OperationRecorderTest}). It constructs a new EditableImage with the specified
      * parameters. This is used in {@link deepCopyEditableImage} to create a deep copy of this EditableImage.
      * </p>
      * @param original The original image. This should never be altered by ANDIE.
@@ -99,7 +99,7 @@ public class EditableImage {
      * @param opsFilename The file where the operation sequence is stored.
      * @param frame The main frame of the GUI.
      */
-    private EditableImage(BufferedImage original, BufferedImage current, Stack<ImageOperation> ops, Stack<ImageOperation> redoOps, Stack<ImageOperation> savedOps, String imageFilename, String opsFilename, JFrame frame) {
+    public EditableImage(BufferedImage original, BufferedImage current, Stack<ImageOperation> ops, Stack<ImageOperation> redoOps, Stack<ImageOperation> savedOps, String imageFilename, String opsFilename, JFrame frame) {
         this.original = original;
         this.current = current;
         this.ops = ops;
