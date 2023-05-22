@@ -9,17 +9,22 @@ import java.io.Serializable;
  * Image operation to resize the image to 150% of its size.
  * </p>
  * 
+ * <p>
+ * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA
+ * 4.0</a>
+ * </p>
+ * 
  */
 public class ImageResize150 implements ImageOperation, Serializable {
 
     /**
-    * <p>
-    * Apply an image resize 150 operation to resize the image by 150%.
-    * </p>
-    * 
-    * @param input a BufferedImage object to apply the image resize to.
-    * @return resizedImage the image having been reduced to 150% of it's size.
-    */
+     * <p>
+     * Apply an image resize 150 operation to resize the image by 150%.
+     * </p>
+     * 
+     * @param input a BufferedImage object to apply the image resize to.
+     * @return resizedImage the image having been reduced to 150% of it's size.
+     */
     @Override
     public BufferedImage apply(BufferedImage input) {
 

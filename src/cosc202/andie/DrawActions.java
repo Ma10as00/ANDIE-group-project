@@ -12,6 +12,13 @@ import java.awt.Toolkit;
 import java.awt.event.*;
 import java.awt.*;
 
+/**
+* <p>
+* <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA
+* 4.0</a>
+* </p>
+*/
+
 public class DrawActions extends JFrame {
 
     /** Creates a new array list for draw rectangle actions */

@@ -172,12 +172,6 @@ public class ImagePanel extends JPanel {
                 rect = new Rectangle(Math.min(enterX, exitX), Math.min(enterY, exitY), Math.abs(exitX - enterX),
                         Math.abs(exitY - enterY));
                 repaint();
-<<<<<<< HEAD
-                line = new Line2D.Double(enterX, enterY, exitX, exitY);
-                repaint();
-
-=======
->>>>>>> 32732ca4a46dfa37e819e2b0400c184a8684f7d3
             }
 
         });

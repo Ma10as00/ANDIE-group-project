@@ -14,14 +14,22 @@ import java.awt.Rectangle;
  * Specifically, that is, that {@link RegionCrop} works as expected.
  * </p>
  * 
+ * <p>
+ * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA
+ * 4.0</a>
+ * </p>
+ * 
  * @author Stella Srzich
  */
 public class DrawTest {
-    
+
     /**
-     * This is a method to check if two buffered images are equal. That is, if they have the
+     * This is a method to check if two buffered images are equal. That is, if they
+     * have the
      * same width and height, and they have the same ARGB values for all pixels.
-     * @param image1 The BufferedImage we would like to compare another BufferedImage to.
+     * 
+     * @param image1 The BufferedImage we would like to compare another
+     *               BufferedImage to.
      * @param image2 The other BufferedImage we would like to compare image 1 with.
      * @return true if the images are 'equal', false otherwise.
      */
@@ -40,7 +48,7 @@ public class DrawTest {
                     if (image1.getRGB(x, y) != image2.getRGB(x, y)) {
                         // A pixel is not the same.
                         return false;
-                    }  
+                    }
                 }
             }
         } else {
@@ -65,18 +73,18 @@ public class DrawTest {
         try {
             URL path = ColourTest.class.getResource("test.png");
             original = ImageIO.read(path);
-        }
-        catch (Exception e){
-            // This will happen for various reasons. But, will not happen by the way it is set up.
+        } catch (Exception e) {
+            // This will happen for various reasons. But, will not happen by the way it is
+            // set up.
         }
         // Now, we read in the image we are comparing to.
         BufferedImage expected = null;
         try {
             URL path = ColourTest.class.getResource("test_crop.png");
             expected = ImageIO.read(path);
-        }
-        catch (Exception e){
-            // This will happen for various reasons. But, will not happen by the way it is set up.
+        } catch (Exception e) {
+            // This will happen for various reasons. But, will not happen by the way it is
+            // set up.
         }
         // Now, we try to apply the action.
         BufferedImage actual = null;

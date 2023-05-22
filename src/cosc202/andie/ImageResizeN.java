@@ -10,6 +10,11 @@ import java.io.Serializable;
  * </p>
  * 
  * <p>
+ * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA
+ * 4.0</a>
+ * </p>
+ * 
+ * <p>
  * An image resize by n% resizes the image, changing the dimensions to n% of its
  * original size. This also changes the values of the pixels, possibly losing
  * information.
@@ -32,7 +37,8 @@ public class ImageResizeN implements ImageOperation, Serializable {
      * 
      * <p>
      * Note, resizePercent is restricted to the closed interval [50, 200]. If
-     * anything outside of this range is passed, 50% or 200% will be used as resizePercent.
+     * anything outside of this range is passed, 50% or 200% will be used as
+     * resizePercent.
      * </p>
      * 
      * @param resizePercent the n% we would like to resize the image by.

@@ -5,26 +5,13 @@ import java.io.Serializable;
 import java.awt.Graphics2D;
 import java.awt.BasicStroke;
 import java.awt.Color;
-<<<<<<< HEAD
-import java.awt.RenderingHints;
-import java.awt.Point;
-import java.awt.LinearGradientPaint;
 
-public class DrawLine implements ImageOperation, java.io.Serializable {
-
-    private Color col;
-    int enterX;
-    int enterY;
-    int exitX;
-    int exitY;
-
-    DrawLine(int enterX, int enterY, int exitX, int exitY) {
-        this.enterX = enterX;
-        this.enterY = enterY;
-        this.exitX = exitX;
-        this.enterY = enterY;
-        col = DrawActions.userColour;
-=======
+/** 
+* <p>
+* <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA
+* 4.0</a>
+* </p>
+* /
 
 /**
  * An image operation that draws pixels to the screen in an array with a
@@ -38,7 +25,6 @@ public class DrawLine implements ImageOperation, Serializable {
     private int exitX;
     private int exitY;
     private BasicStroke stroke;
->>>>>>> 32732ca4a46dfa37e819e2b0400c184a8684f7d3
 
     public DrawLine(double scale, int enterX, int enterY, int exitX, int exitY) {
         this.enterX = (int)((double)enterX/scale);
@@ -51,17 +37,11 @@ public class DrawLine implements ImageOperation, Serializable {
 
     @Override
     public BufferedImage apply(BufferedImage input) {
-<<<<<<< HEAD
-        Graphics2D g = (Graphics2D) input.getGraphics();
-        g.setColor(col);
-        g.drawLine(enterX, enterY, exitX, enterY);
-=======
         Graphics2D g = input.createGraphics();
         g.setStroke(stroke);
         g.setColor(col);
         g.drawLine(enterX, enterY, exitX, exitY);
         g.dispose();
->>>>>>> 32732ca4a46dfa37e819e2b0400c184a8684f7d3
         return input;
     }
 }

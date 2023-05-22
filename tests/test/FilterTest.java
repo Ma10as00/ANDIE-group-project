@@ -12,14 +12,22 @@ import java.net.*;
  * {@link FilterActions} behave as we would expect.
  * </p>
  * 
+ * <p>
+ * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA
+ * 4.0</a>
+ * </p>
+ * 
  * @author Stella Srzich
  */
 public class FilterTest {
-    
+
     /**
-     * This is a method to check if two buffered images are equal. That is, if they have the
+     * This is a method to check if two buffered images are equal. That is, if they
+     * have the
      * same width and height, and they have the same ARGB values for all pixels.
-     * @param image1 The BufferedImage we would like to compare another BufferedImage to.
+     * 
+     * @param image1 The BufferedImage we would like to compare another
+     *               BufferedImage to.
      * @param image2 The other BufferedImage we would like to compare image 1 with.
      * @return true if the images are 'equal', false otherwise.
      */
@@ -38,7 +46,7 @@ public class FilterTest {
                     if (image1.getRGB(x, y) != image2.getRGB(x, y)) {
                         // A pixel is not the same.
                         return false;
-                    }  
+                    }
                 }
             }
         } else {
@@ -63,18 +71,18 @@ public class FilterTest {
         try {
             URL path = FilterTest.class.getResource("test.png");
             original = ImageIO.read(path);
-        }
-        catch (Exception e){
-            // This will happen for various reasons. But, will not happen by the way it is set up.
+        } catch (Exception e) {
+            // This will happen for various reasons. But, will not happen by the way it is
+            // set up.
         }
         // Now, we read in the image we are comparing to.
         BufferedImage expected = null;
         try {
             URL path = FilterTest.class.getResource("test_sharpen.png");
             expected = ImageIO.read(path);
-        }
-        catch (Exception e){
-            // This will happen for various reasons. But, will not happen by the way it is set up.
+        } catch (Exception e) {
+            // This will happen for various reasons. But, will not happen by the way it is
+            // set up.
         }
 
         // Now, we try to apply the action.
@@ -101,18 +109,18 @@ public class FilterTest {
         try {
             URL path = FilterTest.class.getResource("test.png");
             original = ImageIO.read(path);
-        }
-        catch (Exception e){
-            // This will happen for various reasons. But, will not happen by the way it is set up.
+        } catch (Exception e) {
+            // This will happen for various reasons. But, will not happen by the way it is
+            // set up.
         }
         // Now, we read in the image we are comparing to.
         BufferedImage expected = null;
         try {
             URL path = FilterTest.class.getResource("test_mean.png");
             expected = ImageIO.read(path);
-        }
-        catch (Exception e){
-            // This will happen for various reasons. But, will not happen by the way it is set up.
+        } catch (Exception e) {
+            // This will happen for various reasons. But, will not happen by the way it is
+            // set up.
         }
 
         // Now, we try to apply the filter.
@@ -125,7 +133,7 @@ public class FilterTest {
         assert (bufferedImagesEqual(expected, actual));
     }
 
-     /**
+    /**
      * <p>
      * Test to make sure that when an image is blurred by
      * {@link MedianFilter}, it is correctly blurred.
@@ -139,18 +147,18 @@ public class FilterTest {
         try {
             URL path = FilterTest.class.getResource("test.png");
             original = ImageIO.read(path);
-        }
-        catch (Exception e){
-            // This will happen for various reasons. But, will not happen by the way it is set up.
+        } catch (Exception e) {
+            // This will happen for various reasons. But, will not happen by the way it is
+            // set up.
         }
         // Now, we read in the image we are comparing to.
         BufferedImage expected = null;
         try {
             URL path = FilterTest.class.getResource("test_median.png");
             expected = ImageIO.read(path);
-        }
-        catch (Exception e){
-            // This will happen for various reasons. But, will not happen by the way it is set up.
+        } catch (Exception e) {
+            // This will happen for various reasons. But, will not happen by the way it is
+            // set up.
         }
 
         // Now, we try to apply the filter.
@@ -163,7 +171,7 @@ public class FilterTest {
         assert (bufferedImagesEqual(expected, actual));
     }
 
-     /**
+    /**
      * <p>
      * Test to make sure that when an image is blurred by
      * {@link GaussianBlur}, it is correctly blurred.
@@ -177,18 +185,18 @@ public class FilterTest {
         try {
             URL path = FilterTest.class.getResource("test.png");
             original = ImageIO.read(path);
-        }
-        catch (Exception e){
-            // This will happen for various reasons. But, will not happen by the way it is set up.
+        } catch (Exception e) {
+            // This will happen for various reasons. But, will not happen by the way it is
+            // set up.
         }
         // Now, we read in the image we are comparing to.
         BufferedImage expected = null;
         try {
             URL path = FilterTest.class.getResource("test_gauss.png");
             expected = ImageIO.read(path);
-        }
-        catch (Exception e){
-            // This will happen for various reasons. But, will not happen by the way it is set up.
+        } catch (Exception e) {
+            // This will happen for various reasons. But, will not happen by the way it is
+            // set up.
         }
 
         // Now, we try to apply the filter.
@@ -201,7 +209,7 @@ public class FilterTest {
         assert (bufferedImagesEqual(expected, actual));
     }
 
-     /**
+    /**
      * <p>
      * Test to make sure that when an image is filtered by
      * {@link SobelHorizontalFilter}, it is correctly filtered.
@@ -215,18 +223,18 @@ public class FilterTest {
         try {
             URL path = FilterTest.class.getResource("test.png");
             original = ImageIO.read(path);
-        }
-        catch (Exception e){
-            // This will happen for various reasons. But, will not happen by the way it is set up.
+        } catch (Exception e) {
+            // This will happen for various reasons. But, will not happen by the way it is
+            // set up.
         }
         // Now, we read in the image we are comparing to.
         BufferedImage expected = null;
         try {
             URL path = FilterTest.class.getResource("test_sobelhor.png");
             expected = ImageIO.read(path);
-        }
-        catch (Exception e){
-            // This will happen for various reasons. But, will not happen by the way it is set up.
+        } catch (Exception e) {
+            // This will happen for various reasons. But, will not happen by the way it is
+            // set up.
         }
 
         // Now, we try to apply the filter.
@@ -253,18 +261,18 @@ public class FilterTest {
         try {
             URL path = FilterTest.class.getResource("test.png");
             original = ImageIO.read(path);
-        }
-        catch (Exception e){
-            // This will happen for various reasons. But, will not happen by the way it is set up.
+        } catch (Exception e) {
+            // This will happen for various reasons. But, will not happen by the way it is
+            // set up.
         }
         // Now, we read in the image we are comparing to.
         BufferedImage expected = null;
         try {
             URL path = FilterTest.class.getResource("test_sobelver.png");
             expected = ImageIO.read(path);
-        }
-        catch (Exception e){
-            // This will happen for various reasons. But, will not happen by the way it is set up.
+        } catch (Exception e) {
+            // This will happen for various reasons. But, will not happen by the way it is
+            // set up.
         }
 
         // Now, we try to apply the filter.
@@ -291,18 +299,18 @@ public class FilterTest {
         try {
             URL path = FilterTest.class.getResource("test.png");
             original = ImageIO.read(path);
-        }
-        catch (Exception e){
-            // This will happen for various reasons. But, will not happen by the way it is set up.
+        } catch (Exception e) {
+            // This will happen for various reasons. But, will not happen by the way it is
+            // set up.
         }
         // Now, we read in the image we are comparing to.
         BufferedImage expected = null;
         try {
             URL path = FilterTest.class.getResource("test_sobelfull.png");
             expected = ImageIO.read(path);
-        }
-        catch (Exception e){
-            // This will happen for various reasons. But, will not happen by the way it is set up.
+        } catch (Exception e) {
+            // This will happen for various reasons. But, will not happen by the way it is
+            // set up.
         }
 
         // Now, we try to apply the filter.
@@ -329,18 +337,18 @@ public class FilterTest {
         try {
             URL path = FilterTest.class.getResource("test.png");
             original = ImageIO.read(path);
-        }
-        catch (Exception e){
-            // This will happen for various reasons. But, will not happen by the way it is set up.
+        } catch (Exception e) {
+            // This will happen for various reasons. But, will not happen by the way it is
+            // set up.
         }
         // Now, we read in the image we are comparing to.
         BufferedImage expected = null;
         try {
             URL path = FilterTest.class.getResource("test_sobelorien.png");
             expected = ImageIO.read(path);
-        }
-        catch (Exception e){
-            // This will happen for various reasons. But, will not happen by the way it is set up.
+        } catch (Exception e) {
+            // This will happen for various reasons. But, will not happen by the way it is
+            // set up.
         }
 
         // Now, we try to apply the filter.
@@ -367,18 +375,18 @@ public class FilterTest {
         try {
             URL path = FilterTest.class.getResource("test.png");
             original = ImageIO.read(path);
-        }
-        catch (Exception e){
-            // This will happen for various reasons. But, will not happen by the way it is set up.
+        } catch (Exception e) {
+            // This will happen for various reasons. But, will not happen by the way it is
+            // set up.
         }
         // Now, we read in the image we are comparing to.
         BufferedImage expected = null;
         try {
             URL path = FilterTest.class.getResource("test_emboss1.png");
             expected = ImageIO.read(path);
-        }
-        catch (Exception e){
-            // This will happen for various reasons. But, will not happen by the way it is set up.
+        } catch (Exception e) {
+            // This will happen for various reasons. But, will not happen by the way it is
+            // set up.
         }
 
         // Now, we try to apply the filter.
@@ -405,18 +413,18 @@ public class FilterTest {
         try {
             URL path = FilterTest.class.getResource("test.png");
             original = ImageIO.read(path);
-        }
-        catch (Exception e){
-            // This will happen for various reasons. But, will not happen by the way it is set up.
+        } catch (Exception e) {
+            // This will happen for various reasons. But, will not happen by the way it is
+            // set up.
         }
         // Now, we read in the image we are comparing to.
         BufferedImage expected = null;
         try {
             URL path = FilterTest.class.getResource("test_emboss2.png");
             expected = ImageIO.read(path);
-        }
-        catch (Exception e){
-            // This will happen for various reasons. But, will not happen by the way it is set up.
+        } catch (Exception e) {
+            // This will happen for various reasons. But, will not happen by the way it is
+            // set up.
         }
 
         // Now, we try to apply the filter.
@@ -443,18 +451,18 @@ public class FilterTest {
         try {
             URL path = FilterTest.class.getResource("test.png");
             original = ImageIO.read(path);
-        }
-        catch (Exception e){
-            // This will happen for various reasons. But, will not happen by the way it is set up.
+        } catch (Exception e) {
+            // This will happen for various reasons. But, will not happen by the way it is
+            // set up.
         }
         // Now, we read in the image we are comparing to.
         BufferedImage expected = null;
         try {
             URL path = FilterTest.class.getResource("test_emboss3.png");
             expected = ImageIO.read(path);
-        }
-        catch (Exception e){
-            // This will happen for various reasons. But, will not happen by the way it is set up.
+        } catch (Exception e) {
+            // This will happen for various reasons. But, will not happen by the way it is
+            // set up.
         }
 
         // Now, we try to apply the filter.
@@ -481,18 +489,18 @@ public class FilterTest {
         try {
             URL path = FilterTest.class.getResource("test.png");
             original = ImageIO.read(path);
-        }
-        catch (Exception e){
-            // This will happen for various reasons. But, will not happen by the way it is set up.
+        } catch (Exception e) {
+            // This will happen for various reasons. But, will not happen by the way it is
+            // set up.
         }
         // Now, we read in the image we are comparing to.
         BufferedImage expected = null;
         try {
             URL path = FilterTest.class.getResource("test_emboss4.png");
             expected = ImageIO.read(path);
-        }
-        catch (Exception e){
-            // This will happen for various reasons. But, will not happen by the way it is set up.
+        } catch (Exception e) {
+            // This will happen for various reasons. But, will not happen by the way it is
+            // set up.
         }
 
         // Now, we try to apply the filter.
@@ -519,18 +527,18 @@ public class FilterTest {
         try {
             URL path = FilterTest.class.getResource("test.png");
             original = ImageIO.read(path);
-        }
-        catch (Exception e){
-            // This will happen for various reasons. But, will not happen by the way it is set up.
+        } catch (Exception e) {
+            // This will happen for various reasons. But, will not happen by the way it is
+            // set up.
         }
         // Now, we read in the image we are comparing to.
         BufferedImage expected = null;
         try {
             URL path = FilterTest.class.getResource("test_emboss5.png");
             expected = ImageIO.read(path);
-        }
-        catch (Exception e){
-            // This will happen for various reasons. But, will not happen by the way it is set up.
+        } catch (Exception e) {
+            // This will happen for various reasons. But, will not happen by the way it is
+            // set up.
         }
 
         // Now, we try to apply the filter.
@@ -557,18 +565,18 @@ public class FilterTest {
         try {
             URL path = FilterTest.class.getResource("test.png");
             original = ImageIO.read(path);
-        }
-        catch (Exception e){
-            // This will happen for various reasons. But, will not happen by the way it is set up.
+        } catch (Exception e) {
+            // This will happen for various reasons. But, will not happen by the way it is
+            // set up.
         }
         // Now, we read in the image we are comparing to.
         BufferedImage expected = null;
         try {
             URL path = FilterTest.class.getResource("test_emboss6.png");
             expected = ImageIO.read(path);
-        }
-        catch (Exception e){
-            // This will happen for various reasons. But, will not happen by the way it is set up.
+        } catch (Exception e) {
+            // This will happen for various reasons. But, will not happen by the way it is
+            // set up.
         }
 
         // Now, we try to apply the filter.
@@ -595,18 +603,18 @@ public class FilterTest {
         try {
             URL path = FilterTest.class.getResource("test.png");
             original = ImageIO.read(path);
-        }
-        catch (Exception e){
-            // This will happen for various reasons. But, will not happen by the way it is set up.
+        } catch (Exception e) {
+            // This will happen for various reasons. But, will not happen by the way it is
+            // set up.
         }
         // Now, we read in the image we are comparing to.
         BufferedImage expected = null;
         try {
             URL path = FilterTest.class.getResource("test_emboss7.png");
             expected = ImageIO.read(path);
-        }
-        catch (Exception e){
-            // This will happen for various reasons. But, will not happen by the way it is set up.
+        } catch (Exception e) {
+            // This will happen for various reasons. But, will not happen by the way it is
+            // set up.
         }
 
         // Now, we try to apply the filter.
@@ -633,18 +641,18 @@ public class FilterTest {
         try {
             URL path = FilterTest.class.getResource("test.png");
             original = ImageIO.read(path);
-        }
-        catch (Exception e){
-            // This will happen for various reasons. But, will not happen by the way it is set up.
+        } catch (Exception e) {
+            // This will happen for various reasons. But, will not happen by the way it is
+            // set up.
         }
         // Now, we read in the image we are comparing to.
         BufferedImage expected = null;
         try {
             URL path = FilterTest.class.getResource("test_emboss8.png");
             expected = ImageIO.read(path);
-        }
-        catch (Exception e){
-            // This will happen for various reasons. But, will not happen by the way it is set up.
+        } catch (Exception e) {
+            // This will happen for various reasons. But, will not happen by the way it is
+            // set up.
         }
 
         // Now, we try to apply the filter.

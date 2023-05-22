@@ -1,5 +1,5 @@
-package cosc202.andie;
 
+package cosc202.andie;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Locale;

@@ -12,8 +12,14 @@ import java.awt.Toolkit;
  * </p>
  * 
  * <p>
- * The Orientation menu contains actions that affect the orentation of the image.
- * That is, whether it is flipped or rotated. 
+ * The Orientation menu contains actions that affect the orentation of the
+ * image.
+ * That is, whether it is flipped or rotated.
+ * </p>
+ * 
+ * <p>
+ * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA
+ * 4.0</a>
  * </p>
  * 
  */
@@ -36,15 +42,20 @@ public class OrientationActions {
      * </p>
      * 
      */
-    public OrientationActions(){
+    public OrientationActions() {
         actions = new ArrayList<Action>();
-        this.rotateRightAction = new RotateRightAction(LanguageActions.getLocaleString("rotateRight"), null, LanguageActions.getLocaleString("rotateRightDes"), Integer.valueOf(KeyEvent.VK_3));
+        this.rotateRightAction = new RotateRightAction(LanguageActions.getLocaleString("rotateRight"), null,
+                LanguageActions.getLocaleString("rotateRightDes"), Integer.valueOf(KeyEvent.VK_3));
         actions.add(this.rotateRightAction);
-        this.rotateLeftAction = new RotateLeftAction(LanguageActions.getLocaleString("rotateLeft"), null, LanguageActions.getLocaleString("rotateLeftDes"), Integer.valueOf(KeyEvent.VK_4));
+        this.rotateLeftAction = new RotateLeftAction(LanguageActions.getLocaleString("rotateLeft"), null,
+                LanguageActions.getLocaleString("rotateLeftDes"), Integer.valueOf(KeyEvent.VK_4));
         actions.add(this.rotateLeftAction);
-        actions.add(new Rotate180Action(LanguageActions.getLocaleString("rotate180"), null, LanguageActions.getLocaleString("rotate180Des"), Integer.valueOf(KeyEvent.VK_5)));
-        actions.add(new FlipVertAction(LanguageActions.getLocaleString("flipVertically"), null, LanguageActions.getLocaleString("flipVerticallyDes"), Integer.valueOf(KeyEvent.VK_6)));
-        actions.add(new FlipHorAction(LanguageActions.getLocaleString("flipHorizontally"), null, LanguageActions.getLocaleString("flipHorizontallyDes"), Integer.valueOf(KeyEvent.VK_7)));
+        actions.add(new Rotate180Action(LanguageActions.getLocaleString("rotate180"), null,
+                LanguageActions.getLocaleString("rotate180Des"), Integer.valueOf(KeyEvent.VK_5)));
+        actions.add(new FlipVertAction(LanguageActions.getLocaleString("flipVertically"), null,
+                LanguageActions.getLocaleString("flipVerticallyDes"), Integer.valueOf(KeyEvent.VK_6)));
+        actions.add(new FlipHorAction(LanguageActions.getLocaleString("flipHorizontally"), null,
+                LanguageActions.getLocaleString("flipHorizontallyDes"), Integer.valueOf(KeyEvent.VK_7)));
     }
 
     /**
@@ -57,7 +68,7 @@ public class OrientationActions {
     public JMenu createMenu() {
         JMenu menu = new JMenu(LanguageActions.getLocaleString("orientation"));
 
-        for (Action action: actions) {
+        for (Action action : actions) {
             JMenuItem item = new JMenuItem(action);
             item.setBorderPainted(false);
             menu.add(item);
@@ -84,7 +95,7 @@ public class OrientationActions {
      * 
      * @see RotateRight
      */
-    public class RotateRightAction extends ImageAction{
+    public class RotateRightAction extends ImageAction {
         /**
          * <p>
          * Create a new RotateRightAction action.
@@ -95,10 +106,11 @@ public class OrientationActions {
          * @param desc     A brief description of the action (ignored if null).
          * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
          */
-        RotateRightAction(String name, ImageIcon icon, String desc, Integer mnemonic){
-            super(name,icon,desc,mnemonic);
-            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_3, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
-        }      
+        RotateRightAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+            this.putValue(Action.ACCELERATOR_KEY,
+                    KeyStroke.getKeyStroke(KeyEvent.VK_3, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+        }
 
         /**
          * <p>
@@ -117,14 +129,14 @@ public class OrientationActions {
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
                 try {
-                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("rotateRightErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("rotateRightErr"),
+                            LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 } catch (HeadlessException ex) {
-                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse.
                     // Won't happen for our users, so just exit.
                     System.exit(1);
                 }
-            }
-            else {
+            } else {
                 // There is an image open, carry on.
                 target.getImage().apply(new RotateRight());
                 target.repaint();
@@ -151,7 +163,7 @@ public class OrientationActions {
      * 
      * @see RotateLeft
      */
-    public class RotateLeftAction extends ImageAction{
+    public class RotateLeftAction extends ImageAction {
 
         /**
          * <p>
@@ -163,10 +175,11 @@ public class OrientationActions {
          * @param desc     A brief description of the action (ignored if null).
          * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
          */
-        RotateLeftAction(String name, ImageIcon icon, String desc, Integer mnemonic){
-            super(name,icon,desc,mnemonic);
-            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_4, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
-        }    
+        RotateLeftAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+            this.putValue(Action.ACCELERATOR_KEY,
+                    KeyStroke.getKeyStroke(KeyEvent.VK_4, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+        }
 
         /**
          * <p>
@@ -185,14 +198,14 @@ public class OrientationActions {
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
                 try {
-                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("rotateLeftErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("rotateLeftErr"),
+                            LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 } catch (HeadlessException ex) {
-                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse.
                     // Won't happen for our users, so just exit.
                     System.exit(1);
                 }
-            }
-            else {
+            } else {
                 // There is an image open, carry on.
                 target.getImage().apply(new RotateLeft());
                 target.repaint();
@@ -208,7 +221,7 @@ public class OrientationActions {
      * 
      * @see Rotate180
      */
-    public class Rotate180Action extends ImageAction{
+    public class Rotate180Action extends ImageAction {
 
         /**
          * <p>
@@ -220,10 +233,11 @@ public class OrientationActions {
          * @param desc     A brief description of the action (ignored if null).
          * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
          */
-        Rotate180Action(String name, ImageIcon icon, String desc, Integer mnemonic){
-            super(name,icon,desc,mnemonic);
-            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_5, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
-        } 
+        Rotate180Action(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+            this.putValue(Action.ACCELERATOR_KEY,
+                    KeyStroke.getKeyStroke(KeyEvent.VK_5, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+        }
 
         /**
          * <p>
@@ -242,14 +256,14 @@ public class OrientationActions {
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
                 try {
-                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("rotate180Err"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("rotate180Err"),
+                            LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 } catch (HeadlessException ex) {
-                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse.
                     // Won't happen for our users, so just exit.
                     System.exit(1);
                 }
-            }
-            else {
+            } else {
                 // There is an image open, carry on.
                 target.getImage().apply(new Rotate180());
                 target.repaint();
@@ -265,7 +279,7 @@ public class OrientationActions {
      * 
      * @see FlipVertical
      */
-    public class FlipVertAction extends ImageAction{
+    public class FlipVertAction extends ImageAction {
 
         /**
          * <p>
@@ -277,10 +291,12 @@ public class OrientationActions {
          * @param desc     A brief description of the action (ignored if null).
          * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
          */
-        FlipVertAction(String name, ImageIcon icon, String desc, Integer mnemonic){
-            super(name,icon,desc,mnemonic);
-            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_6, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+        FlipVertAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+            this.putValue(Action.ACCELERATOR_KEY,
+                    KeyStroke.getKeyStroke(KeyEvent.VK_6, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         }
+
         /**
          * <p>
          * Callback for when the FlipVertical action is triggered.
@@ -298,14 +314,14 @@ public class OrientationActions {
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
                 try {
-                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("flipVerErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("flipVerErr"),
+                            LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 } catch (HeadlessException ex) {
-                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse.
                     // Won't happen for our users, so just exit.
                     System.exit(1);
                 }
-            }
-            else {
+            } else {
                 // There is an image open, carry on.
                 target.getImage().apply(new FlipVertical());
                 target.repaint();
@@ -321,7 +337,7 @@ public class OrientationActions {
      * 
      * @see FlipHorizontal
      */
-    public class FlipHorAction extends ImageAction{
+    public class FlipHorAction extends ImageAction {
 
         /**
          * <p>
@@ -333,9 +349,10 @@ public class OrientationActions {
          * @param desc     A brief description of the action (ignored if null).
          * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
          */
-        FlipHorAction(String name, ImageIcon icon, String desc, Integer mnemonic){
-            super(name,icon,desc,mnemonic);
-            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_7, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+        FlipHorAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+            this.putValue(Action.ACCELERATOR_KEY,
+                    KeyStroke.getKeyStroke(KeyEvent.VK_7, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         }
 
         /**
@@ -355,14 +372,14 @@ public class OrientationActions {
             if (target.getImage().hasImage() == false) {
                 // There is not an image open, so display error message.
                 try {
-                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("flipHorErr"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(Andie.frame, LanguageActions.getLocaleString("flipHorErr"),
+                            LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
                 } catch (HeadlessException ex) {
-                    // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
+                    // Headless exception, thrown when the code is dependent on a keyboard or mouse.
                     // Won't happen for our users, so just exit.
                     System.exit(1);
                 }
-            }
-            else {
+            } else {
                 // There is an image open, carry on.
                 target.getImage().apply(new FlipHorizontal());
                 target.repaint();
