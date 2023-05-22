@@ -65,15 +65,15 @@ public class DrawActions extends JFrame {
         // the toolbar and add to
         // the list of actions (and this menu).
         this.pickColourAction = new PickColourAction(LanguageActions.getLocaleString("pickCol"), null,
-                LanguageActions.getLocaleString("pickColDesc"), Integer.valueOf(KeyEvent.VK_Y));
+                LanguageActions.getLocaleString("pickColDesc"), Integer.valueOf(KeyEvent.VK_H));
         actions.add(this.pickColourAction);
         actions.add(new SelectWidth(LanguageActions.getLocaleString("width"), null,
-                LanguageActions.getLocaleString("pickAWidth"), Integer.valueOf(KeyEvent.VK_U)));
+                LanguageActions.getLocaleString("pickAWidth"), Integer.valueOf(KeyEvent.VK_W)));
 
         // Add the draw line/circle/rectangle actions to the list of sub actions (and
         // this menu).
         actions.add(new DrawLineAction(LanguageActions.getLocaleString("drawLine"), null,
-                LanguageActions.getLocaleString("drawLineDesc"),Integer.valueOf(KeyEvent.VK_I)));
+                LanguageActions.getLocaleString("drawLineDesc"),null));
 
         actionsSubRect = new ArrayList<Action>();
         actionsSubRect.add(new DrawRecAction(LanguageActions.getLocaleString("drawRec"), null,
@@ -204,7 +204,8 @@ public class DrawActions extends JFrame {
          */
         SelectWidth(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
-            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_U, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+            this.putValue(Action.ACCELERATOR_KEY,
+                    KeyStroke.getKeyStroke(KeyEvent.VK_W, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         }
 
         /**
@@ -381,7 +382,8 @@ public class DrawActions extends JFrame {
          */
         PickColourAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
-            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_Y, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+            this.putValue(Action.ACCELERATOR_KEY,
+                    KeyStroke.getKeyStroke(KeyEvent.VK_H, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         }
 
         /**
@@ -547,7 +549,6 @@ public class DrawActions extends JFrame {
          */
         DrawLineAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
-            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_I, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         }
 
         /**

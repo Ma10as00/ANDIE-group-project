@@ -39,12 +39,12 @@ public class FilterActions {
      */
     public FilterActions() {
         actions = new ArrayList<Action>();
-        actions.add(new SharpenFilterAction(LanguageActions.getLocaleString("sharpen"), null, LanguageActions.getLocaleString("sharpenDes"), Integer.valueOf(KeyEvent.VK_V)));
-        actions.add(new MeanFilterAction(LanguageActions.getLocaleString("meanFilter"), null, LanguageActions.getLocaleString("meanFilterDes"), Integer.valueOf(KeyEvent.VK_N)));
-        actions.add(new MedianFilterAction(LanguageActions.getLocaleString("median"), null, LanguageActions.getLocaleString("medianDes"), Integer.valueOf(KeyEvent.VK_M)));
-        actions.add(new GaussianBlurFilterAction(LanguageActions.getLocaleString("gaussian"), null, LanguageActions.getLocaleString("gaussianDes"), Integer.valueOf(KeyEvent.VK_COMMA)));
-        actions.add(new SobelGeneralFilterAction(LanguageActions.getLocaleString("sobel"), null, LanguageActions.getLocaleString("sobelDes"), Integer.valueOf(KeyEvent.VK_PERIOD)));
-        actions.add(new EmbossFilterAction(LanguageActions.getLocaleString("emboss"), null, LanguageActions.getLocaleString("embossDes"), Integer.valueOf(KeyEvent.VK_SLASH)));
+        actions.add(new SharpenFilterAction(LanguageActions.getLocaleString("sharpen"), null, LanguageActions.getLocaleString("sharpenDes"), Integer.valueOf(KeyEvent.VK_F1)));
+        actions.add(new MeanFilterAction(LanguageActions.getLocaleString("meanFilter"), null, LanguageActions.getLocaleString("meanFilterDes"), Integer.valueOf(KeyEvent.VK_F2)));
+        actions.add(new MedianFilterAction(LanguageActions.getLocaleString("median"), null, LanguageActions.getLocaleString("medianDes"), Integer.valueOf(KeyEvent.VK_F3)));
+        actions.add(new GaussianBlurFilterAction(LanguageActions.getLocaleString("gaussian"), null, LanguageActions.getLocaleString("gaussianDes"), Integer.valueOf(KeyEvent.VK_F4)));
+        actions.add(new SobelGeneralFilterAction(LanguageActions.getLocaleString("sobel"), null, LanguageActions.getLocaleString("sobelDes"), Integer.valueOf(KeyEvent.VK_F5)));
+        actions.add(new EmbossFilterAction(LanguageActions.getLocaleString("emboss"), null, LanguageActions.getLocaleString("embossDes"), Integer.valueOf(KeyEvent.VK_F6)));
     }
 
     /**
@@ -87,7 +87,7 @@ public class FilterActions {
          */
         MeanFilterAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
-            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_N, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_F2, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         }
 
         /**
@@ -208,7 +208,7 @@ public class FilterActions {
          */
         SharpenFilterAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
-            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_V, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_F1, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         }
 
         /**
@@ -330,7 +330,7 @@ public class FilterActions {
          */
         GaussianBlurFilterAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
-            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_COMMA, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_F4, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         }
 
         /**
@@ -451,7 +451,7 @@ public class FilterActions {
          */
         MedianFilterAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
-            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_M, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_F3, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         }
 
         /**
@@ -580,7 +580,6 @@ public class FilterActions {
          */
         SobelHorizontalFilterAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
-            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_LEFT_PARENTHESIS, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         }
 
         /**
@@ -657,7 +656,6 @@ public class FilterActions {
          */
         SobelVerticalFilterAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
-            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT_PARENTHESIS, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         }
 
         /**
@@ -734,7 +732,6 @@ public class FilterActions {
          */
         SobelOrientationFilterAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
-            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_SEMICOLON, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         }
 
         /**
@@ -827,7 +824,7 @@ public class FilterActions {
         SobelGeneralFilterAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
             this.sobelType = 0;
-            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_PERIOD, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_F5, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         }
 
         /**
@@ -1004,7 +1001,7 @@ public class FilterActions {
          */
         EmbossFilterAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
-            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_SLASH, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_F6, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         }
 
         /**

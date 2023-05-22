@@ -38,9 +38,9 @@ public class ResizeActions {
      */
     public ResizeActions() {
         actions = new ArrayList<Action>();
-        actions.add(new ImageResize50Action(LanguageActions.getLocaleString("resize50"), null, LanguageActions.getLocaleString("resize50Des"), Integer.valueOf(KeyEvent.VK_6)));
-        actions.add(new ImageResize150Action(LanguageActions.getLocaleString("resize150"), null, LanguageActions.getLocaleString("resize150Des"), Integer.valueOf(KeyEvent.VK_7)));
-        actions.add(new ImageResizeNAction(LanguageActions.getLocaleString("customResize"), null, LanguageActions.getLocaleString("customResizeDes"), Integer.valueOf(KeyEvent.VK_8)));
+        actions.add(new ImageResize50Action(LanguageActions.getLocaleString("resize50"), null, LanguageActions.getLocaleString("resize50Des"), Integer.valueOf(KeyEvent.VK_OPEN_BRACKET)));
+        actions.add(new ImageResize150Action(LanguageActions.getLocaleString("resize150"), null, LanguageActions.getLocaleString("resize150Des"), Integer.valueOf(KeyEvent.VK_CLOSE_BRACKET)));
+        actions.add(new ImageResizeNAction(LanguageActions.getLocaleString("customResize"), null, LanguageActions.getLocaleString("customResizeDes"), Integer.valueOf(KeyEvent.VK_BACK_SLASH)));
     }
 
     /**
@@ -83,7 +83,7 @@ public class ResizeActions {
          */
         ImageResize50Action(String name, ImageIcon icon, String desc, Integer mnemonic){
             super(name,icon,desc,mnemonic);
-            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_6, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_OPEN_BRACKET, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         }
 
         /**
@@ -141,7 +141,7 @@ public class ResizeActions {
          */
         ImageResize150Action(String name, ImageIcon icon, String desc, Integer mnemonic){
             super(name,icon,desc,mnemonic);
-            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_7, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_CLOSE_BRACKET, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         }
 
         /**
@@ -199,7 +199,7 @@ public class ResizeActions {
          */
         ImageResizeNAction(String name, ImageIcon icon, String desc, Integer mnemonic){
             super(name,icon,desc,mnemonic);
-            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_8, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SLASH, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         }
 
         /**
