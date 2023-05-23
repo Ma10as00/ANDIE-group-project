@@ -119,11 +119,11 @@ public class ImagePanel extends JPanel {
                 enterX = e.getX();
                 enterY = e.getY();
                 if (image.hasImage()) {
-                    if (enterX > image.getCurrentImage().getWidth()) {
-                        enterX = image.getCurrentImage().getWidth();
+                    if (enterX > (int)(((double)image.getCurrentImage().getWidth())*scale)) {
+                        enterX = (int)(((double)image.getCurrentImage().getWidth())*scale);
                     }
-                    if (enterY > image.getCurrentImage().getHeight()) {
-                        enterY = image.getCurrentImage().getHeight();
+                    if (enterY > (int)(((double)image.getCurrentImage().getHeight())*scale)) {
+                        enterY = (int)(((double)image.getCurrentImage().getHeight())*scale);
                     }
                     if (enterX < 0) {
                         enterX = 0;
@@ -152,11 +152,11 @@ public class ImagePanel extends JPanel {
                 exitX = e.getX();
                 exitY = e.getY();
                 if (image.hasImage()) {
-                    if (exitX > image.getCurrentImage().getWidth()) {
-                        exitX = image.getCurrentImage().getWidth();
+                    if (exitX > (int)(((double)image.getCurrentImage().getWidth())*scale)) {
+                        exitX = (int)(((double)image.getCurrentImage().getWidth())*scale);
                     }
-                    if (exitY > image.getCurrentImage().getHeight()) {
-                        exitY = image.getCurrentImage().getHeight();
+                    if (exitY > (int)(((double)image.getCurrentImage().getHeight())*scale)) {
+                        exitY = (int)(((double)image.getCurrentImage().getHeight())*scale);
                     }
                     if (exitX < 0) {
                         exitX = 0;
@@ -343,6 +343,8 @@ public class ImagePanel extends JPanel {
         if (zoomPercent > 200) {
             zoomPercent = 200;
         }
+        rect = null;
+        // Update the scale.
         scale = zoomPercent / 100;
     }
 
