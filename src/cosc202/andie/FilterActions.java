@@ -567,7 +567,7 @@ public class FilterActions {
      * 
      * <p>
      * Note, this currently is not used in {@link Andie} as it was replaced by 
-     * the more user friendly {@link generalSobelFilterAction}. However, 
+     * the more user friendly {@link SobelGeneralFilterAction}. However, 
      * it has been left as it still may provide valuable functionality in the
      * future.
      * </p>
@@ -733,7 +733,7 @@ public class FilterActions {
      * 
      * <p>
      * Note, this currently is not used in {@link Andie} as it was replaced by 
-     * the more user friendly {@link generalSobelFilterAction}. However, 
+     * the more user friendly {@link SobelGeneralFilterAction}. However, 
      * it has been left as it still may provide valuable functionality in the
      * future.
      * </p>

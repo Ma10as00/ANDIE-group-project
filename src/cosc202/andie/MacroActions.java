@@ -475,7 +475,7 @@ public class MacroActions {
          * <p>
          * Constructing instance of {@link ApplyMacroAction}, as defined in
          * {@link ImageAction#ImageAction(String, ImageIcon, String, Integer)}.
-         * <p>
+         * </p>
          * 
          * @param name     The name of the action (ignored if null).
          * @param icon     An icon to use to represent the action (ignored if null).

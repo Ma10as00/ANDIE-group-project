@@ -61,7 +61,7 @@ public class DrawCircle implements ImageOperation, Serializable {
      * @param x The x coordinate of the upper left corner of the bounds of the circle.
      * @param y The y coordinate of the upper left corner of the bounds of the circle.
      * @param height The height of the bounds of the circle.
-     * @param weidth The width of the bounds of the circle.
+     * @param width The width of the bounds of the circle.
      * @param fill True to draw a filled circle, false to draw an outlined circle.
      */
     public DrawCircle(double scale, int x, int y, int height, int width, boolean fill) {

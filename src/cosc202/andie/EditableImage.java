@@ -89,12 +89,15 @@ public class EditableImage {
      * 
      * <p>
      * This constructor is only used within EditableImage (and in {@link tests.test.OperationRecorderTest}). It constructs a new EditableImage with the specified
-     * parameters. This is used in {@link deepCopyEditableImage} to create a deep copy of this EditableImage.
+     * parameters. This is used in {@link deepCopyEditableImage} to create a deep copy of this EditableImage. This should
+     * not be used to create actual {@link EditableImage}s for {@link ImagePanel}s.
      * </p>
+     * 
      * @param original The original image. This should never be altered by ANDIE.
      * @param current The current image, the result of applying {@link ops} to {@link original}.
      * @param ops The sequence of operations currently applied to the image.
      * @param redoOps A memory of 'undone' operations to support 'redo'.
+     * @param savedOps The sequence of operations currently saved in the '.ops' file associated with this image image.
      * @param imageFilename The file where the original image is stored.
      * @param opsFilename The file where the operation sequence is stored.
      * @param frame The main frame of the GUI.
@@ -639,7 +642,7 @@ public class EditableImage {
      * <p>
      * Note, this only applies to images that are not used to preview the results 
      * of {@link ImageAction}s. That is, only to the actual image opened (not 
-     * depy copies of {@link EditableImages}).
+     * deep copies of {@link EditableImage}s).
      * </p>
      * 
      */

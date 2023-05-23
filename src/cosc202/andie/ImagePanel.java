@@ -103,11 +103,8 @@ public class ImagePanel extends JPanel {
         image = new EditableImage(frame);
         scale = 1.0;
         this.addMouseListener(mHandler);
-        /**
-         * <p>
-         * Adds Mouse Listener to the image panel
-         * </p>
-         */
+
+        // Adds Mouse Listener to the image panel for pressing.
         addMouseListener(new MouseAdapter() {
             /**
              * <p>
@@ -138,11 +135,7 @@ public class ImagePanel extends JPanel {
             }
         });
 
-        /**
-         * <p>
-         * New Mouse Listener added
-         * </p>
-         */
+        // Adds Mouse Motion Listener to the image panel for dragging.
         addMouseMotionListener(new MouseAdapter() {
             /**
              * <p>
@@ -179,6 +172,7 @@ public class ImagePanel extends JPanel {
 
         });
 
+        // Adds Mouse Listener to the image panel for releasing.
         addMouseListener(new MouseAdapter() {
             public void mouseReleased(MouseEvent e) {
                 if (tool == drawRect) {
@@ -222,11 +216,7 @@ public class ImagePanel extends JPanel {
             }
         });
 
-        /**
-         * <p>
-         * Adds new mouse listener
-         * </p>
-         */
+        // Adds Mouse Listener to the image panel for clicking.
         addMouseListener(new MouseAdapter() {
             /**
              * <p>
@@ -358,7 +348,8 @@ public class ImagePanel extends JPanel {
 
     /**
      * <p>
-     * (Re)draw the component in the GUI.
+     * (Re)draw the component in the GUI. This also allows for previews of 
+     * drawing shapes when dragging the mouse.
      * </p>
      * 
      * @param g The Graphics component to draw the image on.
@@ -421,6 +412,11 @@ public class ImagePanel extends JPanel {
         g2d.dispose();
     }
 
+    /**
+     * <p>
+     * Method to deselect the mouse.
+     * </p>
+     */
     public void deselect() {
         rect = null;
         ImagePanel.enterX = 0;
@@ -429,18 +425,48 @@ public class ImagePanel extends JPanel {
         ImagePanel.exitY = 0;
     }
 
+    /**
+     * <p>
+     * Modifier method to set the "tool" for mouse dragging.
+     * </p>
+     * 
+     * <p>
+     * Note, this may include selecting a region, drawing lines, 
+     * drawing filled or outlined rectangles, or drawing filled
+     * or outlined circles.
+     * </p>
+     * 
+     * @param i The "tool" to be set. 0 for region selection, 1 for drawing a filled rectangle, 
+     *          2 for drawing a filled circle, 3 for drawing a line, 4 for drawing an outlined
+     *          rectangle and 5 for drawing an outlined circle.
+     */
     public void setTool(int i) {
         tool = i;
     }
 
+    /**
+     * <p>
+     * Accessor method to get the "tool" for mouse dragging.
+     * </p>
+     * 
+     * <p>
+     * Note, this may include selecting a region, drawing lines, 
+     * drawing filled or outlined rectangles, or drawing filled
+     * or outlined circles.
+     * </p>
+     * 
+     * @return The "tool" to be set. 0 for region selection, 1 for drawing a filled rectangle, 
+     *          2 for drawing a filled circle, 3 for drawing a line, 4 for drawing an outlined
+     *          rectangle and 5 for drawing an outlined circle.
+     */
     public int getTool() {
         return tool;
     }
 
     /**
      * <p>
-     * Class that implements Mouse Listener and Motion Listener
-     * Includes override methods that are used in ImagePanel
+     * A Mouse Handlder that implements Mouse Listener and Motion Listener.
+     * This includes override methods that are used in {@link ImagePanel}.
      * </p>
      */
     public class MouseHandler implements MouseListener, MouseMotionListener {

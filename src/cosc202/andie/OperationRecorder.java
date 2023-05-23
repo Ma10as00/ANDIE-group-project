@@ -88,7 +88,7 @@ public class OperationRecorder implements IOperationRecorder {
      * <p>
      * Accessor method to get the {@link ImageOperation}s currently 
      * recorded in this {@link OperationRecorder}.
-     * <p>
+     * </p>
      * 
      * @return A List of the {@link ImageOperation}s currently recorded.
      */

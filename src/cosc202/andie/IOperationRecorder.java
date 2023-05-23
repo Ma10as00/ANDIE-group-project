@@ -48,7 +48,12 @@ import java.util.List;
 public interface IOperationRecorder extends PropertyChangeListener {
 
     /**
-     * @return the list of recorded operations
+     * <p>
+     * Accessor method to get the {@link ImageOperation}s currently 
+     * recorded in this {@link OperationRecorder}.
+     * <p>
+     * 
+     * @return A List of the {@link ImageOperation}s currently recorded.
      */
     public List<ImageOperation> getOps();
 }

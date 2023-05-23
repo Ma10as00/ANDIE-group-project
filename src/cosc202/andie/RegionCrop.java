@@ -51,6 +51,8 @@ public class RegionCrop implements ImageOperation, java.io.Serializable {
      * rectangle.
      * </p>
      * 
+     * @param scale The scale of the {@link ImagePanel} the {@link EditableImage} is in
+     *              that we intend to apply a region crop to.
      * @param rect The {@link Rectangle} of the region selected that we would like
      *             the image to be cropped to.
      */

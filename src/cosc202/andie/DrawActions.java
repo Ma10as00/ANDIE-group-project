@@ -186,6 +186,16 @@ public class DrawActions extends JFrame {
      */
     public class SelectAction extends ImageAction {
 
+        /**
+         * <p>
+         * Create a new select action.
+         * </p>
+         * 
+         * @param name     The name of the action (ignored if null).
+         * @param icon     An icon to use to represent the action (ignored if null).
+         * @param desc     A brief description of the action (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
+         */
         protected SelectAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
             this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_R, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
@@ -417,11 +427,17 @@ public class DrawActions extends JFrame {
         return this.pickColourAction;
     }
 
+    /**
+     * <p>
+     * Action to pick a colour for drawing.
+     * </p>
+     * 
+     */
     public class PickColourAction extends ImageAction {
 
         /**
          * <p>
-         * Create a new select colour action.
+         * Create a new pick colour action.
          * </p>
          * 
          * @param name     The name of the action (ignored if null).
