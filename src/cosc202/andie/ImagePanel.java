@@ -74,6 +74,8 @@ public class ImagePanel extends JPanel {
     /** Sets the tool int 5 to draw circle outline tool to make coding easier. */
     private static int drawCircOutline = 5;
 
+    private static boolean line = false;
+
     /**
      * <p>
      * The zoom-level of the current view.
@@ -175,29 +177,31 @@ public class ImagePanel extends JPanel {
         // Adds Mouse Listener to the image panel for releasing.
         addMouseListener(new MouseAdapter() {
             public void mouseReleased(MouseEvent e) {
-                if (tool == drawRect) {
+                int releaseX = e.getX();
+                int releaseY = e.getY();
+                if (tool == drawRect && rect != null) {
                     image.apply(new DrawRec(scale, rect, false));
                     Andie.imagePanel.repaint();
                     Andie.imagePanel.getParent().revalidate();
                     deselect();
                 }
                 if (tool == drawCircle) {
-                    int x = Math.min(enterX, exitX);
-                    int y = Math.min(enterY, exitY);
-                    int width = Math.abs(enterX - exitX);
-                    int height = Math.abs(enterY - exitY);
+                    int x = Math.min(enterX, releaseX);
+                    int y = Math.min(enterY, releaseY);
+                    int width = Math.abs(enterX - releaseX);
+                    int height = Math.abs(enterY - releaseY);
                     image.apply(new DrawCircle(scale, x, y, height, width, false));
                     Andie.imagePanel.repaint();
                     Andie.imagePanel.getParent().revalidate();
                     deselect();
                 }
                 if (tool == drawLine) {
-                    image.apply(new DrawLine(scale, enterX, enterY, exitX, exitY));
+                    image.apply(new DrawLine(scale, enterX, enterY, releaseX, releaseY));
                     Andie.imagePanel.repaint();
                     Andie.imagePanel.getParent().revalidate();
                     deselect();
                 }
-                if (tool == drawRectOutline) {
+                if (tool == drawRectOutline && rect != null) {
                     image.apply(new DrawRec(scale, rect, true));
                     Andie.imagePanel.repaint();
                     Andie.imagePanel.getParent().revalidate();
@@ -234,13 +238,21 @@ public class ImagePanel extends JPanel {
                 clickY = e.getY();
                 if (image.hasImage() && clickX != 0) {
                     rect = null;
+                    if (getTool() == drawLine) {
+                        enterX = clickX;
+                        enterY = clickY;
+                        exitX = clickX;
+                        exitY = clickY;
+                    } else {
+                        enterX = 0;
+                        enterY = 0;
+                        exitX = 0;
+                        enterY = 0;
+                    }
 
-                    enterX = 0;
-                    exitX = 0;
-                    enterY = 0;
-                    exitY = 0;
                     repaint();
                 }
+
             }
         });
 
@@ -348,7 +360,7 @@ public class ImagePanel extends JPanel {
 
     /**
      * <p>
-     * (Re)draw the component in the GUI. This also allows for previews of 
+     * (Re)draw the component in the GUI. This also allows for previews of
      * drawing shapes when dragging the mouse.
      * </p>
      * 
@@ -419,6 +431,7 @@ public class ImagePanel extends JPanel {
      */
     public void deselect() {
         rect = null;
+        line = false;
         ImagePanel.enterX = 0;
         ImagePanel.enterY = 0;
         ImagePanel.exitX = 0;
@@ -431,13 +444,15 @@ public class ImagePanel extends JPanel {
      * </p>
      * 
      * <p>
-     * Note, this may include selecting a region, drawing lines, 
+     * Note, this may include selecting a region, drawing lines,
      * drawing filled or outlined rectangles, or drawing filled
      * or outlined circles.
      * </p>
      * 
-     * @param i The "tool" to be set. 0 for region selection, 1 for drawing a filled rectangle, 
-     *          2 for drawing a filled circle, 3 for drawing a line, 4 for drawing an outlined
+     * @param i The "tool" to be set. 0 for region selection, 1 for drawing a filled
+     *          rectangle,
+     *          2 for drawing a filled circle, 3 for drawing a line, 4 for drawing
+     *          an outlined
      *          rectangle and 5 for drawing an outlined circle.
      */
     public void setTool(int i) {
@@ -450,14 +465,16 @@ public class ImagePanel extends JPanel {
      * </p>
      * 
      * <p>
-     * Note, this may include selecting a region, drawing lines, 
+     * Note, this may include selecting a region, drawing lines,
      * drawing filled or outlined rectangles, or drawing filled
      * or outlined circles.
      * </p>
      * 
-     * @return The "tool" to be set. 0 for region selection, 1 for drawing a filled rectangle, 
-     *          2 for drawing a filled circle, 3 for drawing a line, 4 for drawing an outlined
-     *          rectangle and 5 for drawing an outlined circle.
+     * @return The "tool" to be set. 0 for region selection, 1 for drawing a filled
+     *         rectangle,
+     *         2 for drawing a filled circle, 3 for drawing a line, 4 for drawing an
+     *         outlined
+     *         rectangle and 5 for drawing an outlined circle.
      */
     public int getTool() {
         return tool;
