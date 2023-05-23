@@ -2,8 +2,6 @@ package tests.test;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.ArrayList;
-
 import org.junit.jupiter.api.Test;
 
 import cosc202.andie.BrightnessFilter;
@@ -12,6 +10,8 @@ import cosc202.andie.ImageOperation;
 import cosc202.andie.ImageResize150;
 import cosc202.andie.LanguageActions;
 import cosc202.andie.Macro;
+import java.util.Locale;
+import java.util.ArrayList;
 
 /**
  * Class for testing basic functionality of the {@link Macro} class.
@@ -64,19 +64,20 @@ public class MacroTest {
      * Tests that {@link Macro}'s toString()-method works as it should.
      * The Macro's String-representation should be like this:
      * <p>
-     * "Macro containing:
+     * "Macro contains:
      * <p>
-     * operation 1
-     * <p>
-     * .
+     * - Operation 1
      * <p>
      * .
      * <p>
-     * operation n"
+     * .
+     * <p>
+     * - Operation n"
      */
     @Test
     public void MacroToStringTest() {
         setup();
+        Locale.setDefault(new Locale("en", "NZ"));
         String resizeName = LanguageActions.getLocaleString("ImageResize150");
         String brightName = LanguageActions.getLocaleString("BrightnessFilter");
         String greyName = LanguageActions.getLocaleString("ConvertToGrey");
