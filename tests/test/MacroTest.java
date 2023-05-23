@@ -12,6 +12,7 @@ import cosc202.andie.LanguageActions;
 import cosc202.andie.Macro;
 import java.util.Locale;
 import java.util.ArrayList;
+import java.util.*;
 
 /**
  * Class for testing basic functionality of the {@link Macro} class.
@@ -89,7 +90,7 @@ public class MacroTest {
                         m.toString());
         m.clear();
         assertEquals(LanguageActions.getLocaleString("macroContains") + " " + LanguageActions.getLocaleString("macroNoOps"), m.toString());
-        } catch (NullPointerException e) {
+        } catch (MissingResourceException e) {
         }
     }
 }
