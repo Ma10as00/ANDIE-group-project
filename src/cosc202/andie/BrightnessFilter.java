@@ -10,17 +10,15 @@ import java.awt.HeadlessException;
  * ImagineOperation to apply a brightness filter.
  * </p>
  * 
- * 
- * <p>
- * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA
- * 4.0</a>
- * </p>
- * 
- * 
  * <p>
  * BrightnessFilter that implements the ImageOperation interface,
  * The class has a constructor that takes an integer parameter scale,
  * which is used to determine the brightness of the image.
+ * </p>
+ * 
+ * <p>
+ * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA
+ * 4.0</a>
  * </p>
  * 
  */
@@ -37,7 +35,6 @@ public class BrightnessFilter implements ImageOperation, java.io.Serializable {
      * </p>
      * 
      * @param scale the size of the scale used to determine brightness
-     * 
      */
     public BrightnessFilter(int scale) {
         this.scale = scale;
@@ -53,6 +50,7 @@ public class BrightnessFilter implements ImageOperation, java.io.Serializable {
      * and applies a brightness filter to it using the RescaleOp class.
      * The RescaleOp class is used to adjust the brightness and contrast of an
      * image.
+     * 
      * The filter method of RescaleOp takes two arguments: the source image and the
      * destination image.
      * In this case, the source and destination images are the same,

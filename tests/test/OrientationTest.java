@@ -22,9 +22,11 @@ import java.net.*;
 public class OrientationTest {
 
     /**
+     * <p>
      * This is a method to check if two buffered images are equal. That is, if they
-     * have the
-     * same width and height, and they have the same ARGB values for all pixels.
+     * have the same width and height, and they have the same 
+     * ARGB values for all pixels.
+     * </p>
      * 
      * @param image1 The BufferedImage we would like to compare another
      *               BufferedImage to.
@@ -62,7 +64,7 @@ public class OrientationTest {
      * Test to make sure that when an image is rotated right by
      * {@link RotateRight}, it is correctly rotated right.
      * This is done on an actual test image.
-     * <\p>
+     * </p>
      */
     @Test
     public void RotateRightTest() {
@@ -100,7 +102,7 @@ public class OrientationTest {
      * Test to make sure that when an image is rotated left by
      * {@link RotateLeft}, it is correctly rotated left.
      * This is done on an actual test image.
-     * <\p>
+     * </p>
      */
     @Test
     public void RotateLeftTest() {
@@ -138,7 +140,7 @@ public class OrientationTest {
      * Test to make sure that when an image is rotated 180 degrees by
      * {@link Rotate180}, it is correctly rotated 180 degrees.
      * This is done on an actual test image.
-     * <\p>
+     * </p>
      */
     @Test
     public void Rotate180Test() {
@@ -176,7 +178,7 @@ public class OrientationTest {
      * Test to make sure that when an image is flipped vertically
      * {@link FlipVertical}, it is correctly flipped vertically
      * This is done on an actual test image.
-     * <\p>
+     * </p>
      */
     @Test
     public void FlipVerTest() {
@@ -214,7 +216,7 @@ public class OrientationTest {
      * Test to make sure that when an image is flipped horizontally
      * {@link FlipHortizontal}, it is correctly flipped horizontally
      * This is done on an actual test image.
-     * <\p>
+     * </p>
      */
     @Test
     public void FlipHorTest() {

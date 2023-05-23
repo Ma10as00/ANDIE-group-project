@@ -22,9 +22,11 @@ import java.net.*;
 public class FilterTest {
 
     /**
+     * <p>
      * This is a method to check if two buffered images are equal. That is, if they
      * have the
      * same width and height, and they have the same ARGB values for all pixels.
+     * </p>
      * 
      * @param image1 The BufferedImage we would like to compare another
      *               BufferedImage to.
@@ -62,7 +64,7 @@ public class FilterTest {
      * Test to make sure that when an image is sharpened by
      * {@link SharpenFilter}, it is correctly sharpened.
      * This is done on an actual test image.
-     * <\p>
+     * </p>
      */
     @Test
     public void SharpenTest() {
@@ -100,7 +102,7 @@ public class FilterTest {
      * Test to make sure that when an image is blurred by
      * {@link MeanFilter}, it is correctly blurred.
      * This is done on an actual test image.
-     * <\p>
+     * </p>
      */
     @Test
     public void MeanTest() {
@@ -138,7 +140,7 @@ public class FilterTest {
      * Test to make sure that when an image is blurred by
      * {@link MedianFilter}, it is correctly blurred.
      * This is done on an actual test image.
-     * <\p>
+     * </p>
      */
     @Test
     public void MedianTest() {
@@ -176,7 +178,7 @@ public class FilterTest {
      * Test to make sure that when an image is blurred by
      * {@link GaussianBlur}, it is correctly blurred.
      * This is done on an actual test image.
-     * <\p>
+     * </p>
      */
     @Test
     public void GaussianBlurTest() {
@@ -214,7 +216,7 @@ public class FilterTest {
      * Test to make sure that when an image is filtered by
      * {@link SobelHorizontalFilter}, it is correctly filtered.
      * This is done on an actual test image.
-     * <\p>
+     * </p>
      */
     @Test
     public void SobelHorizontalTest() {
@@ -252,7 +254,7 @@ public class FilterTest {
      * Test to make sure that when an image is filtered by
      * {@link SobelVerticalFilter}, it is correctly filtered.
      * This is done on an actual test image.
-     * <\p>
+     * </p>
      */
     @Test
     public void SobelVerticalTest() {
@@ -290,7 +292,7 @@ public class FilterTest {
      * Test to make sure that when an image is filtered by
      * {@link SobelOrientationFilter}, with hue = false, it is correctly filtered.
      * This is done on an actual test image.
-     * <\p>
+     * </p>
      */
     @Test
     public void SobelFullTest() {
@@ -328,7 +330,7 @@ public class FilterTest {
      * Test to make sure that when an image is filtered by
      * {@link SobelOrientationFilter}, with hue = true, it is correctly filtered.
      * This is done on an actual test image.
-     * <\p>
+     * </p>
      */
     @Test
     public void SobelOrientationTest() {
@@ -366,7 +368,7 @@ public class FilterTest {
      * Test to make sure that when an image is filtered by
      * {@link EmbossFilter}, with embossType = 1, it is correctly filtered.
      * This is done on an actual test image.
-     * <\p>
+     * </p>
      */
     @Test
     public void Emboss1Test() {
@@ -404,7 +406,7 @@ public class FilterTest {
      * Test to make sure that when an image is filtered by
      * {@link EmbossFilter}, with embossType = 2, it is correctly filtered.
      * This is done on an actual test image.
-     * <\p>
+     * </p>
      */
     @Test
     public void Emboss2Test() {
@@ -442,7 +444,7 @@ public class FilterTest {
      * Test to make sure that when an image is filtered by
      * {@link EmbossFilter}, with embossType = 3, it is correctly filtered.
      * This is done on an actual test image.
-     * <\p>
+     * </p>
      */
     @Test
     public void Emboss3Test() {
@@ -480,7 +482,7 @@ public class FilterTest {
      * Test to make sure that when an image is filtered by
      * {@link EmbossFilter}, with embossType = 4, it is correctly filtered.
      * This is done on an actual test image.
-     * <\p>
+     * </p>
      */
     @Test
     public void Emboss4Test() {
@@ -518,7 +520,7 @@ public class FilterTest {
      * Test to make sure that when an image is filtered by
      * {@link EmbossFilter}, with embossType = 5, it is correctly filtered.
      * This is done on an actual test image.
-     * <\p>
+     * </p>
      */
     @Test
     public void Emboss5Test() {
@@ -556,7 +558,7 @@ public class FilterTest {
      * Test to make sure that when an image is filtered by
      * {@link EmbossFilter}, with embossType = 6, it is correctly filtered.
      * This is done on an actual test image.
-     * <\p>
+     * </p>
      */
     @Test
     public void Emboss6Test() {
@@ -594,7 +596,7 @@ public class FilterTest {
      * Test to make sure that when an image is filtered by
      * {@link EmbossFilter}, with embossType = 7, it is correctly filtered.
      * This is done on an actual test image.
-     * <\p>
+     * </p>
      */
     @Test
     public void Emboss7Test() {
@@ -632,7 +634,7 @@ public class FilterTest {
      * Test to make sure that when an image is filtered by
      * {@link EmbossFilter}, with embossType = 8, it is correctly filtered.
      * This is done on an actual test image.
-     * <\p>
+     * </p>
      */
     @Test
     public void Emboss8Test() {

@@ -24,9 +24,11 @@ import java.awt.Rectangle;
 public class DrawTest {
 
     /**
+     * <p>
      * This is a method to check if two buffered images are equal. That is, if they
      * have the
      * same width and height, and they have the same ARGB values for all pixels.
+     * </p>
      * 
      * @param image1 The BufferedImage we would like to compare another
      *               BufferedImage to.
@@ -64,7 +66,7 @@ public class DrawTest {
      * Test to make sure that when an image is cropped by
      * {@link RegionCrop}, it is correctly cropped.
      * This is done on an actual test image.
-     * <\p>
+     * </p>
      */
     @Test
     public void RegionCropTest() {

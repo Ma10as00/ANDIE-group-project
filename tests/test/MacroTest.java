@@ -15,7 +15,9 @@ import java.util.ArrayList;
 import java.util.*;
 
 /**
+ * <p>
  * Class for testing basic functionality of the {@link Macro} class.
+ * </p>
  * 
  * <p>
  * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA
@@ -34,8 +36,10 @@ public class MacroTest {
     private String newLine = System.lineSeparator();
 
     /**
+     * <p>
      * Constructs a {@link Macro} with some {@link ImageOperation}s added, ready for
      * testing.
+     * </p>
      */
     private void setup() {
         m = new Macro();
@@ -46,8 +50,10 @@ public class MacroTest {
     }
 
     /**
+     * <p>
      * Tests that {@link Macro}s are constructed as they should, and that
      * {@link ImageOperation}s are added in the right order.
+     * </p>
      */
     @Test
     public void ConstructAndChangeMacroTest() {
@@ -62,18 +68,15 @@ public class MacroTest {
     }
 
     /**
+     * <p>
      * Tests that {@link Macro}'s toString()-method works as it should.
      * The Macro's String-representation should be like this:
-     * <p>
      * "Macro contains:
-     * <p>
      * - Operation 1
-     * <p>
      * .
-     * <p>
      * .
-     * <p>
      * - Operation n"
+     * </p>
      */
     @Test
     public void MacroToStringTest() {

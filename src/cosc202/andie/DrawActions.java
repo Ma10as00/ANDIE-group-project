@@ -14,21 +14,21 @@ import java.awt.*;
 
 /**
  * <p>
- * Main class for A Non-Destructive Image Editor (ANDIE).
+ * Actions provided by the Tools menu.
  * </p>
  * 
  * <p>
- * This class is the entry point for the program.
- * It creates a Graphical User Interface (GUI) that provides access to various
- * image editing and processing operations.
+ * The tools menu contains actions that allow you to drag your mouse to crop
+ * and draw on an image. This includes a region selecion, crop, choosing a colour
+ * choosing a width for outlines and lines, and drawing lines and outlined or filled
+ * rectangles and ellipses.
  * </p>
  * 
- * <p>
- * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA
- * 4.0</a>
+ * <p> 
+ * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>
  * </p>
  * 
- * @author Katie Wink (Edited by James Liu and Stella Srzich)
+ * @author Katie Wink (Modified by James Liu and Stella Srzich)
  */
 public class DrawActions extends JFrame {
 
@@ -47,13 +47,14 @@ public class DrawActions extends JFrame {
     /** Stores the BasicStroke for outlines and lines currently being used to draw. */
     public static BasicStroke stroke = new BasicStroke(userWidth);
 
-    /** Stores whether or not the user is currently drawing or selecting a region. This
-     * is used to correctly colour the select region and colour buttons in thhe toolbar.
+    /** 
+     * Stores whether or not the user is currently drawing or selecting a region. This
+     * is used to correctly colour the select region and colour buttons in thhe toolbar. 
      */
     public static boolean drawing = false;
 
     /**
-     * A list of actions for the Tool (Draw) menu.
+     * A list of actions for the Tools menu.
      */
     protected ArrayList<Action> actions;
 
@@ -74,7 +75,7 @@ public class DrawActions extends JFrame {
 
     /**
      * <p>
-     * Create a set of Drawing menu actions.
+     * Create a set of Tool menu actions.
      * </p>
      */
     public DrawActions() {
@@ -123,10 +124,10 @@ public class DrawActions extends JFrame {
 
     /**
      * <p>
-     * Create a menu contianing the list of Selection actions.
+     * Create a menu contianing the list of Tool actions.
      * </p>
      * 
-     * @return The colour menu UI element.
+     * @return The Tool menu UI element.
      */
     public JMenu createMenu() {
         // Create a new JMenu object named fileMenu with the display name obtained from the LanguageActions.getLocaleString method.
@@ -179,8 +180,7 @@ public class DrawActions extends JFrame {
     /**
      * <p>
      * Action method that sets the "tool" to selection tool so that you can select a
-     * region on the image panel
-     * Drawing done in ImagePanel
+     * region on the image panel.
      * </p>
      * 
      */
@@ -231,7 +231,7 @@ public class DrawActions extends JFrame {
     /**
      * <p>
      * Action method that prompts user to pick a custom width
-     * Uses JSlider to choose and save user choice
+     * Uses JSlider to choose and save user choice.
      * </p>
      * 
      */
@@ -261,7 +261,7 @@ public class DrawActions extends JFrame {
          * <p>
          * This method is called whenever the SelectWidth is triggered.
          * It opens a JSlider that prompts the user to select a width of the
-         * line/outline drawn
+         * line/outline drawn.
          * </p>
          * 
          * @param e The event triggering this callback.
@@ -374,7 +374,7 @@ public class DrawActions extends JFrame {
          * <p>
          * This method is called whenever the DrawRecAction is triggered.
          * It sets the "tool" state to 1 which allows a rectangle to be drawn in
-         * ImagePanel
+         * ImagePanel.
          * </p>
          * 
          * @param e The event triggering this callback.
@@ -443,7 +443,7 @@ public class DrawActions extends JFrame {
          * <p>
          * This method is called whenever the PickColourAction is triggered.
          * It opens a JColorChooser that allows the user to pick and confirm their
-         * selection
+         * selection.
          * </p>
          * 
          * @param e The event triggering this callback.
@@ -550,7 +550,7 @@ public class DrawActions extends JFrame {
          * 
          * <p>
          * This method is called whenever the DrawCircleAction is triggered.
-         * It sets the "tool" state to 2 which allows a circle to be drawn in ImagePanel
+         * It sets the "tool" state to 2 which allows a circle to be drawn in ImagePanel.
          * </p>
          * 
          * @param e The event triggering this callback.
@@ -611,7 +611,7 @@ public class DrawActions extends JFrame {
          * 
          * <p>
          * This method is called whenever the DrawLineAction is triggered.
-         * It sets the "tool" state to 3 which allows a line to be drawn in ImagePanel
+         * It sets the "tool" state to 3 which allows a line to be drawn in ImagePanel.
          * </p>
          * 
          * @param e The event triggering this callback.
@@ -750,7 +750,7 @@ public class DrawActions extends JFrame {
          * <p>
          * This method is called whenever the DrawRecOutlineAction is triggered.
          * It sets the "tool" state to 4 which allows an outline of a rectangle to be
-         * drawn in ImagePanel
+         * drawn in ImagePanel.
          * </p>
          * 
          * @param e The event triggering this callback.
@@ -814,7 +814,7 @@ public class DrawActions extends JFrame {
          * <p>
          * This method is called whenever the DrawLineAction is triggered.
          * It sets the "tool" state to 5 which allows the outline of a circle to be
-         * drawn in ImagePanel
+         * drawn in ImagePanel.
          * </p>
          * 
          * @param e The event triggering this callback.

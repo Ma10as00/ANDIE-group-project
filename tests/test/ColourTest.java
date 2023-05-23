@@ -22,9 +22,11 @@ import java.net.*;
 public class ColourTest {
 
     /**
+     * <p>
      * This is a method to check if two buffered images are equal. That is, if they
      * have the
      * same width and height, and they have the same ARGB values for all pixels.
+     * </p>
      * 
      * @param image1 The BufferedImage we would like to compare another
      *               BufferedImage to.
@@ -62,7 +64,7 @@ public class ColourTest {
      * Test to make sure that when an image is converted to grey by
      * {@link ConvertToGrey}, it is correctly converted to grey.
      * This is done on an actual test image.
-     * <\p>
+     * </p>
      */
     @Test
     public void ConvertToGreyTest() {
@@ -100,7 +102,7 @@ public class ColourTest {
      * Test to make sure that when an image has its brightness changed by
      * {@link BrightnessFilter}, it is correctly altered.
      * This is done on an actual test image.
-     * <\p>
+     * </p>
      */
     @Test
     public void BrightnessTest() {
@@ -138,7 +140,7 @@ public class ColourTest {
      * Test to make sure that when an image has its contrast changed by
      * {@link ContrastFilter}, it is correctly altered.
      * This is done on an actual test image.
-     * <\p>
+     * </p>
      */
     @Test
     public void ContrastTest() {

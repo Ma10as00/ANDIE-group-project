@@ -9,23 +9,50 @@ import java.awt.Rectangle;
 
 /**
  * <p>
+ * ImageOperation to draw a rectangle on the image.
+ * </p> 
+ * 
+ * <p>
+ * This class draws a rectangle on the image. 
+ * It may either draw a filled rectangle or draw an outlined rectangle.
+ * </p>
+ * 
+ * <p>
  * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA
  * 4.0</a>
  * </p>
+ * 
+ * @author Katie Wink (Modified by Stella Srzich)
  */
-// The class represents a rectangle-drawing operation on an image.
-// It implements the ImageOperation interface to define the apply() method.
-// The class is also Serializable, indicating that its instances can be serialized.
 public class DrawRec implements ImageOperation, Serializable {
 
-    // Private instance variables for storing the rectangle, color, fill status, and stroke.
+    /** The rectangle bounding this drawn rectangle. */
     private Rectangle r;
+
+    /** The colour of the drawn rectangle. */
     private Color col;
+
+    /** Whether or not this rectangle is filled. */
     private boolean fill;
+
+    /** If this rectangle is not filled, this is the width of the stroke of the outline. */
     private int strokeWidth;
 
-    // Constructor for the DrawRec class.
-    // It takes a scale value, a rectangle object, and a boolean value indicating whether the rectangle should be filled or not.
+    /**
+     * <p>
+     * Construct a draw rec.
+     * </p>
+     * 
+     * <p>
+     * This will draw a filled or outlined rectangle on 
+     * the image this {@link ImageOperation} is applied to. This may be in any
+     * position on the image and may have any chosen colour, or width (if it is outlined).
+     * </p>
+     * 
+     * @param scale The scale of the {@link ImagePanel} the {@link EditableImage} is in.
+     * @param rect The rectangle bounding this drawn rectangle.
+     * @param fill True to draw a filled rectangle, false to draw an outlined rectangle.
+     */
     public DrawRec(double scale, Rectangle rect, Boolean fill) {
         // Scaling the rectangle coordinates and dimensions based on the provided scale value.
         // The x, y, width, and height values of the rectangle are divided by the scale to obtain scaled values.
@@ -42,8 +69,22 @@ public class DrawRec implements ImageOperation, Serializable {
         // Setting the fill status based on the provided boolean value.
         this.fill = fill;
     }
-    // Implementation of the apply() method from the ImageOperation interface.
-    // It takes a BufferedImage as input and returns the modified image.
+
+
+    /**
+     * <p>
+     * Apply a draw rec on an image.
+     * </p>
+     * 
+     * <p>
+     * This will draw a filled or outlined rectangle on 
+     * the image this {@link ImageOperation} is applied to. This will be in a given 
+     * bounded rectangle on the image, and with a chosen colour and stroke width.
+     * </p>
+     * 
+     * @param input The image to apply the draw circle to.
+     * @return The resulting image with a circle drawn on it.
+     */
     @Override
     public BufferedImage apply(BufferedImage input) {
         // Creating a Graphics2D object based on the input BufferedImage.

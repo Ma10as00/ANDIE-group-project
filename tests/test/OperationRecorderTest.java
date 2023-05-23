@@ -4,17 +4,17 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.util.Stack;
-
 import org.junit.jupiter.api.Test;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-
+import java.util.Stack;
 import cosc202.andie.*;
 
 /**
+ * <p>
  * Class for testing basic functionality of the {@link OperationRecorder} class.
+ * </p>
  * 
  * <p>
  * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA
@@ -25,6 +25,9 @@ import cosc202.andie.*;
  */
 public class OperationRecorderTest {
 
+    /**
+     * The {@link EditableImage} used in this instance of {@link Andie}.
+     */
     private EditableImage image;
 
     /**
@@ -38,7 +41,10 @@ public class OperationRecorderTest {
     }
 
     /**
-     * Tests that an {@link OperationRecorder} can be successfully added as a {@link java.beans.PropertyChangeListener} to the image.
+     * <p>
+     * Tests that an {@link OperationRecorder} can be successfully added as a 
+     * {@link java.beans.PropertyChangeListener} to the image.
+     * </p>
      */
     @Test
     public void AddRecorderTest(){
@@ -55,8 +61,10 @@ public class OperationRecorderTest {
     }
 
     /**
+     * <p>
      * Tests that the {@link cosc202.andie.OperationRecorder} actually records it
      * when an operation is applied to the image.
+     * </p>
      * 
      * @throws Exception if startAndie() failed in the current environment.
      */
@@ -77,7 +85,12 @@ public class OperationRecorderTest {
         assertEquals("ConvertToGrey", recordedOp);
     }
 
-    /** Tests that a recorder can be detatched from an image without loosing its recorded operations. */
+    /** 
+     * <p>
+     * Tests that a {@link cosc202.andie.OperationRecorder} can be detatched 
+     * from an image without loosing its recorded operations.
+     * </p> 
+     */
     @Test
     public void RemoveRecorderTest(){
         setup();
@@ -104,9 +117,12 @@ public class OperationRecorderTest {
     }
 
     /**
-     * Passing an image of a red square to {@link Andie#imagePanel}.
      * <p>
-     * This image is only for the purpose of testing how the program (particularly the recorders) responds when a user applies {@link ImageOperation}s to it.
+     * Passing an image of a red square to {@link Andie#imagePanel}.
+     * This image is only for the purpose of testing how the program 
+     * (particularly the recorders) responds when a user applies {@link ImageOperation}s to it.
+     * </p>
+     * 
      * @return the image that was passed to {@link Andie#imagePanel}
      */
     private EditableImage setImage() {
@@ -137,7 +153,10 @@ public class OperationRecorderTest {
     }
 
     /**
+     * <p>
      * Adding a new {@link OperationRecorder} to the image in {@link Andie#imagePanel}.
+     * </p>
+     * 
      * @return the recorder that was added
      */
     private OperationRecorder startRecording() {

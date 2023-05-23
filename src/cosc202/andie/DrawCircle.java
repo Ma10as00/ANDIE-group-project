@@ -9,6 +9,11 @@ import java.awt.Color;
 /**
  * <p>
  * ImageOperation to draw a circle on the image.
+ * </p> 
+ * 
+ * <p>
+ * This class draws a circle (or possibly an ellipse) on the image. 
+ * It may either draw a filled circle or draw an outlined circle.
  * </p>
  * 
  * <p>
@@ -16,35 +21,50 @@ import java.awt.Color;
  * 4.0</a>
  * </p>
  * 
- * 
- * <p>
- * This class draws a circle on the image.
- * It will either fill draw a circle or draw an outline drpending on the boolean
- * "fill"
- * 
- * </p>
- * 
- * @author Katie Wink
+ * @author Katie Wink (Modified by Stella Srzich)
  */
-
-// The class represents a circle-drawing operation on an image.
-// It implements the ImageOperation interface to define the apply() method.
-// The class is also Serializable, indicating that its instances can be serialized.
 public class DrawCircle implements ImageOperation, Serializable {
 
-    // Private instance variables for storing the color, center coordinates, width, height, fill status, and stroke.
+    /** The colour of this circle. */
     private Color col;
+
+    /** The x coordinate of the upper left corner of the bounds of this circle. */
     private int x;
+
+    /** The y coordinate of the upper left corner of the bounds of this circle. */
     private int y;
+
+    /** The width of the bounds of this circle. */
     private int width;
+
+    /** The height of the bounds of this circle. */
     private int height;
+
+    /** Whether or not this circled is filled. */
     private boolean fill;
+
+    /** If this circle is filled, this is the stroke width of the outlined circle. */
     private int strokeWidth;
 
-    // Constructor for the DrawCircle class.
-    // It takes a scale value, center coordinates, width, height, and a boolean value indicating whether the circle should be filled or not.
+    /**
+     * <p>
+     * Construct a draw circle.
+     * </p>
+     * 
+     * <p>
+     * This will draw a filled or outlined circle (or possibly an ellipse) on 
+     * the image this {@link ImageOperation} is applied to. This may be in any
+     * position on the image and may have any chosen colour, or width (if it is outlined).
+     * </p>
+     * 
+     * @param scale The scale of the {@link ImagePanel} the {@link EditableImage} is in.
+     * @param x The x coordinate of the upper left corner of the bounds of the circle.
+     * @param y The y coordinate of the upper left corner of the bounds of the circle.
+     * @param height The height of the bounds of the circle.
+     * @param weidth The width of the bounds of the circle.
+     * @param fill True to draw a filled circle, false to draw an outlined circle.
+     */
     public DrawCircle(double scale, int x, int y, int height, int width, boolean fill) {
-
         // Scaling the center coordinates, width, and height based on the provided scale value.
         // The x, y, width, and height values of the circle are divided by the scale to obtain scaled values.
         // Setting the fill status based on the provided boolean value.
@@ -62,9 +82,21 @@ public class DrawCircle implements ImageOperation, Serializable {
                 DrawActions.userColour.getBlue());
     }
 
+    /**
+     * <p>
+     * Apply a draw circle on an image.
+     * </p>
+     * 
+     * <p>
+     * This will draw a filled or outlined circle (or possibly an ellipse) on 
+     * the image this {@link ImageOperation} is applied to. This will be in a given 
+     * position with a given width and height, and with a chosen colour and stroke width.
+     * </p>
+     * 
+     * @param input The image to apply the draw circle to.
+     * @return The resulting image with a circle drawn on it.
+     */
     @Override
-    // Implementation of the apply() method from the ImageOperation interface.
-    // It takes a BufferedImage as input and returns the modified image.
     public BufferedImage apply(BufferedImage input) {
         // Creating a Graphics2D object based on the input BufferedImage.
         Graphics2D g = input.createGraphics();
@@ -79,7 +111,7 @@ public class DrawCircle implements ImageOperation, Serializable {
         // If the circle is supposed to be filled:
         if (fill) {
             // Set the color on the Graphics2D object.
-            // Fill the circle with the specified color.
+            // Draw the outlined circle with the specified color.
             g.setColor(this.col);
             BasicStroke stroke = new BasicStroke(strokeWidth);
             g.setStroke(stroke);

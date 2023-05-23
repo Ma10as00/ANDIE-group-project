@@ -14,8 +14,7 @@ import java.awt.Toolkit;
  * 
  * <p>
  * The Colour menu contains actions that affect the colour of each pixel
- * directly
- * without reference to the rest of the image.
+ * directly without reference to the rest of the image.
  * This includes conversion to greyscale in the sample code, but more operations
  * will need to be added.
  * </p>
@@ -35,10 +34,9 @@ public class ColourActions {
 
     /**
      * <p>
-     * Create a set of Colour menu actions.
+     * Construct a new ColourAction.
      * </p>
      */
-    // This is the constructor of the ColourActions class.
     public ColourActions() {
         // Create a new ArrayList to store Action objects.
         actions = new ArrayList<Action>();

@@ -21,7 +21,7 @@ public class ViewTest {
      * Test to make sure that when an image is zoomed in by
      * {@link ZoomInAction}, it's view decreases by 10%.
      * But, its actual dimensions don't.
-     * <\p>
+     * </p>
      */
     @Test
     public void ZoomInTest() {

@@ -24,7 +24,7 @@ public class ResizeTest {
      * Test to make sure that when an image is resized by
      * {@link ImageResize50}, it's dimensions change by 50%.
      * This is done for various dimensions of an image.
-     * <\p>
+     * </p>
      */
     @Test
     public void Resize50Test() {
