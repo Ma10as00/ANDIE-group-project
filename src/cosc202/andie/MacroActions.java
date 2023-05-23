@@ -7,7 +7,7 @@ import java.beans.PropertyChangeListener;
 import java.io.*;
 import java.util.ArrayList;
 import java.nio.file.*;
-
+import java.awt.Rectangle;
 import javax.swing.*;
 
 /**
@@ -207,7 +207,16 @@ public class MacroActions {
             // Indicates that recording has started.
             ImagePanel.macroPressed = true;
             // Renders the menu in Andie to indicate to the user that recording has started.
+            // This is done so that when we change the mode we don't change the size of the
+            // frame.
+            Rectangle sizeBefore = Andie.frame.getBounds();
             Andie.renderMenu();
+            // This is done so that when we change the mode we don't change the size of the
+            // frame.
+            Andie.frame.setBounds(sizeBefore);
+            // Repaint the frame and image panel.
+            Andie.frame.repaint();
+            Andie.imagePanel.repaint();
             
         }
 
@@ -289,14 +298,21 @@ public class MacroActions {
             target.ongoingRecording = false;
             // Indicates that recording has ended.
             ImagePanel.macroPressed = false;
-            // Renders the menu in Andie to indicate to the user that recording has ended.
+            // Renders the menu in Andie to indicate to the user that recording has started.
+            // This is done so that when we change the mode we don't change the size of the
+            // frame.
+            Rectangle sizeBefore = Andie.frame.getBounds();
             Andie.renderMenu();
-
-            // TO DO Remove any graphics indicating an ongoing recording
+            // This is done so that when we change the mode we don't change the size of the
+            // frame.
+            Andie.frame.setBounds(sizeBefore);
+            // Repaint the frame and image panel.
+            Andie.frame.repaint();
+            Andie.imagePanel.repaint();
 
             // Give the user an option to save the macro.
             try {
-                int saveOrNot = JOptionPane.showOptionDialog(null,
+                int saveOrNot = JOptionPane.showOptionDialog(Andie.frame,
                         LanguageActions.getLocaleString("wantsave") + System.lineSeparator() + m,
                         LanguageActions.getLocaleString("save"),
                         JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
