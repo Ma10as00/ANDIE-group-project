@@ -285,7 +285,7 @@ public class EditableImage {
         }
         catch (Exception e) {
             // Something has gone wrong in saving the file. Tell the user and do nothing.
-            JOptionPane.showMessageDialog(null, "Sorry, there has been an error in saving the file. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null,   LanguageActions.getLocaleString("errorSavingFileAs"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -335,7 +335,7 @@ public class EditableImage {
             // But, occurs if the file name is null, or if there is an error in writting to the file.
             // So, just in case, let the user know there was an issue and do nothing.
             try {
-                JOptionPane.showMessageDialog(null, "Sorry, there has been an error in exporting the file.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null,   LanguageActions.getLocaleString("errorExport"), LanguageActions.getLocaleString("error"), JOptionPane.ERROR_MESSAGE);
             }   
             catch (HeadlessException eh) {
                 // Headless exception, thrown when the code is dependent on a keyboard or mouse. 
