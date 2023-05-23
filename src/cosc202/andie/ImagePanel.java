@@ -177,6 +177,18 @@ public class ImagePanel extends JPanel {
             public void mouseReleased(MouseEvent e) {
                 int releaseX = e.getX();
                 int releaseY = e.getY();
+                if (releaseX > image.getCurrentImage().getWidth()) {
+                    releaseX = image.getCurrentImage().getWidth();
+                }
+                if (releaseY > image.getCurrentImage().getHeight()) {
+                    releaseY = image.getCurrentImage().getHeight();
+                }
+                if (releaseX < 0) {
+                    releaseX = 0;
+                }
+                if (releaseY < 0) {
+                    releaseY = 0;
+                }
                 if (tool == drawRect && rect != null) {
                     image.apply(new DrawRec(scale, rect, false));
                     Andie.imagePanel.repaint();
