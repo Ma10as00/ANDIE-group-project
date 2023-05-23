@@ -13,22 +13,44 @@ import java.awt.event.*;
 import java.awt.*;
 
 /**
-* <p>
-* <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA
-* 4.0</a>
-* </p>
-*/
-
+ * <p>
+ * Main class for A Non-Destructive Image Editor (ANDIE).
+ * </p>
+ * 
+ * <p>
+ * This class is the entry point for the program.
+ * It creates a Graphical User Interface (GUI) that provides access to various
+ * image editing and processing operations.
+ * </p>
+ * 
+ * <p>
+ * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA
+ * 4.0</a>
+ * </p>
+ * 
+ * @author Katie Wink (Edited by James Liu and Stella Srzich)
+ */
 public class DrawActions extends JFrame {
 
-    /** Creates a new array list for draw rectangle actions */
+    /** Creates a new array list for draw rectangle actions. */
     protected ArrayList<Action> actionsSubRect;
-    /** Creates a new array list for draw circle actions */
+
+    /** Creates a new array list for draw circle actions. */
     protected ArrayList<Action> actionsSubCirc;
-    /**  */
+
+    /** Stores the colour currently being used to draw. */
     public static Color userColour = Color.white;
+
+    /** Stores the width of outlines and lines currently being used to draw. */
     public static int userWidth = 5;
+
+    /** Stores the BasicStroke for outlines and lines currently being used to draw. */
     public static BasicStroke stroke = new BasicStroke(userWidth);
+
+    /** Stores whether or not the user is currently drawing or selecting a region. This
+     * is used to correctly colour the select region and colour buttons in thhe toolbar.
+     */
+    public static boolean drawing = false;
 
     /**
      * A list of actions for the Tool (Draw) menu.
@@ -197,6 +219,10 @@ public class DrawActions extends JFrame {
             else {
                 // There is an image open, carry on.
                 target.setTool(0);
+                // Update that we are currently selecting a region for toolbar.
+                drawing = false;
+                // Make this reflected in the toolbar.
+                Andie.updateDarkMode();
             }
         }
 
@@ -369,6 +395,10 @@ public class DrawActions extends JFrame {
                 try {
                     target.deselect();
                     target.setTool(1);
+                    // Update that we are currently drawing for toolbar.
+                    drawing = true;
+                    // Make this reflected in the toolbar.
+                    Andie.updateDarkMode();
                 } catch (Exception ert) {
                 }
             }
@@ -542,6 +572,10 @@ public class DrawActions extends JFrame {
                 try {
                     target.deselect();
                     target.setTool(2);
+                    // Update that we are currently drawing for toolbar.
+                    drawing = true;
+                    // Make this reflected in the toolbar.
+                    Andie.updateDarkMode();
                 } catch (Exception ert) {
                 }
             }
@@ -599,6 +633,10 @@ public class DrawActions extends JFrame {
                 try {
                     target.deselect();
                     target.setTool(3);
+                    // Update that we are currently drawing for toolbar.
+                    drawing = true;
+                    // Make this reflected in the toolbar.
+                    Andie.updateDarkMode();
                 } catch (Exception ert) {
                 }
             }
@@ -734,6 +772,10 @@ public class DrawActions extends JFrame {
                 try {
                     target.deselect();
                     target.setTool(4);
+                    // Update that we are currently drawing for toolbar.
+                    drawing = true;
+                    // Make this reflected in the toolbar.
+                    Andie.updateDarkMode();
                 } catch (Exception ert) {
                 }
             }
@@ -794,6 +836,10 @@ public class DrawActions extends JFrame {
                 try {
                     target.deselect();
                     target.setTool(5);
+                    // Update that we are currently drawing for toolbar.
+                    drawing = true;
+                    // Make this reflected in the toolbar.
+                    Andie.updateDarkMode();
                 } catch (Exception ert) {
                 }
             }

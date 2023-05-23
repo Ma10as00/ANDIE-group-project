@@ -625,6 +625,18 @@ public class Andie {
                     button.setBackground(grey);
                     button.setForeground(lightWhite);
                     button.setFocusPainted(false);
+                    // This updates the select region and choose colour buttons to refelct
+                    // what the user is currently doing. For usability.
+                    if (button.getAction().getClass().getSimpleName().equals("SelectAction")) {
+                        if(!DrawActions.drawing){
+                            button.setBackground(lightGrey);
+                        }
+                    }
+                    if (button.getAction().getClass().getSimpleName().equals("PickColourAction")) {
+                        if(DrawActions.drawing){
+                            button.setBackground(lightGrey);
+                        }
+                    }
                 }
             }
 
@@ -709,6 +721,18 @@ public class Andie {
                     button.setBackground(darkWhite);
                     button.setForeground(grey);
                     button.setFocusPainted(false);
+                    // This updates the select region and choose colour buttons to refelct
+                    // what the user is currently doing. For usability.
+                    if (button.getAction().getClass().getSimpleName().equals("SelectAction")) {
+                        if(!DrawActions.drawing){
+                            button.setBackground(Color.white);
+                        }
+                    }
+                    if (button.getAction().getClass().getSimpleName().equals("PickColourAction")) {
+                        if(DrawActions.drawing){
+                            button.setBackground(Color.white);
+                        }
+                    }
                 }
             }
         }
