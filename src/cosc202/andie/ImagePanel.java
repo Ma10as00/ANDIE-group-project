@@ -74,8 +74,6 @@ public class ImagePanel extends JPanel {
     /** Sets the tool int 5 to draw circle outline tool to make coding easier. */
     private static int drawCircOutline = 5;
 
-    private static boolean line = false;
-
     /**
      * <p>
      * The zoom-level of the current view.
@@ -431,7 +429,6 @@ public class ImagePanel extends JPanel {
      */
     public void deselect() {
         rect = null;
-        line = false;
         ImagePanel.enterX = 0;
         ImagePanel.enterY = 0;
         ImagePanel.exitX = 0;
