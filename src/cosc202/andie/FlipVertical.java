@@ -11,14 +11,13 @@ import java.io.Serializable;
  * rotated/mirrored around a horizontal axis.
  * </p>
  * 
+ * <p>
+ * The resulting image will have the same dimensions as the original image.
+ * </p>
  * 
  * <p>
  * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA
  * 4.0</a>
- * </p>
- * 
- * <p>
- * The resulting image will have the same dimensions as the original image.
  * </p>
  * 
  * @author Mathias Øgaard

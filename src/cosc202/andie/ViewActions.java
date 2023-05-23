@@ -27,9 +27,7 @@ import java.util.prefs.*;
  */
 public class ViewActions {
     
-    /**
-     * A list of actions for the View menu.
-     */
+    /** A list of actions for the View menu. */
     protected ArrayList<Action> actions;
 
     /** An instance of ZoomInAction to be used in renderToolbar. */

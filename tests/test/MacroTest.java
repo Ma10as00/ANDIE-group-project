@@ -70,12 +70,21 @@ public class MacroTest {
     /**
      * <p>
      * Tests that {@link Macro}'s toString()-method works as it should.
-     * The Macro's String-representation should be like this:
-     * "Macro contains:
-     * - Operation 1
-     * .
-     * .
-     * - Operation n"
+     * If no {@link ImageOperation}s were recorded, it will look like 
+     * "Macro Contains: No Operations". And, if {@link ImageOperation}s 
+     * were applied, it will look like, for instance,
+     * <p>
+     * "Macro Contains:
+     * </p>
+     * <p>
+     * - Horizontal Sobel Filter
+     * </p>
+     * <p>
+     * - Brightness Change"
+     * </p>
+     * 
+     * <p>
+     * This is compatiable with multilingual support.
      * </p>
      */
     @Test

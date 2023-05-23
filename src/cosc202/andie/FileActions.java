@@ -85,8 +85,7 @@ public class FileActions {
      * <p>
      * Method to check whether a given file name is a valid PNG file name. That is,
      * if it ends in .png, only contains a single '.', and has characters before
-     * '.png'.
-     * This is used by {@link FileOpenAction}, {@link FileSaveAsAction},
+     * '.png'. This is used by {@link FileOpenAction}, {@link FileSaveAsAction},
      * {@link FileExportAction}.
      * </p>
      * 
@@ -423,6 +422,7 @@ public class FileActions {
          * Note, if it successfuly saves an image as, or the user clicks exit or cancel, this method will return true.
          * However, if the user has attempted to save as a non .png file, or doesn't want to override another file, it will return false.
          * </p>
+         * 
          * @return True if an image is successfully saved as, or the user exits/cancels, false otherwise.
          */
         private boolean saveAs() {
@@ -485,6 +485,7 @@ public class FileActions {
      * <p>
      * Action to quit the ANDIE application.
      * </p>
+     * 
      */
     public class FileExitAction extends ImageAction {
 
@@ -624,6 +625,7 @@ public class FileActions {
          * Note, if it successfuly exports an image, or the user clicks exit or cancel, this method will return true.
          * However, if the user has attempted to export as a non .png file, or doesn't want to override another file, it will return false.
          * </p>
+         * 
          * @return True if an image is successfully exported, or the user exits/cancels, false otherwise.
          */
         private boolean export() {
@@ -683,5 +685,4 @@ public class FileActions {
             return true;
         }
     }
-
 }

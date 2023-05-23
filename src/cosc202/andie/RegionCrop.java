@@ -10,17 +10,17 @@ import java.awt.image.*;
  * </p>
  * 
  * <p>
- * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA
- * 4.0</a>
- * </p>
- * 
- * <p>
  * The crop feature will take the area that has been selected by the user and
  * then crop out all pixels that have not been selected.
  * It does this by getting a subImage of the rectangle that was selected and
  * then setting this subImage as the new BufferedImage.
  * It takes parameters of the top left point and the bottom right point (Point
  * being the x value and y value).
+ * </p>
+ * 
+ * <p>
+ * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA
+ * 4.0</a>
  * </p>
  * 
  * @author Katie Wink

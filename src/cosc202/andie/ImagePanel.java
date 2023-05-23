@@ -24,7 +24,7 @@ import javax.swing.*;
  * 4.0</a>
  * </p>
  * 
- * @author Steven Mills
+ * @author Steven Mills (Modified by Katie Wink and Stella Srzich)
  * @version 1.0
  */
 public class ImagePanel extends JPanel {
@@ -56,24 +56,22 @@ public class ImagePanel extends JPanel {
 
     /**
      * Allows the menu to know when macros are being recorded in Andie.
-     * 
      */
     public static boolean macroPressed = false;
 
-    /** Sets the tool int which will be used to decide what shape is to be drawn */
+    /** Sets the tool int which will be used to decide what shape is to be drawn. */
     public int tool;
-
-    /** Sets the tool int 0 to selection tool to make coding easier */
+    /** Sets the tool int 0 to selection tool to make coding easier. */
     private static int selection = 0;
-    /** Sets the tool int 1 to draw rectangle tool to make coding easier */
+    /** Sets the tool int 1 to draw rectangle tool to make coding easier. */
     private static int drawRect = 1;
-    /** Sets the tool int 2 to draw circle tool to make coding easier */
+    /** Sets the tool int 2 to draw circle tool to make coding easier. */
     private static int drawCircle = 2;
-    /** Sets the tool int 3 to draw line tool to make coding easier */
+    /** Sets the tool int 3 to draw line tool to make coding easier. */
     private static int drawLine = 3;
-    /** Sets the tool int 4 to draw rectangle outline tool to make coding easier */
+    /** Sets the tool int 4 to draw rectangle outline tool to make coding easier. */
     private static int drawRectOutline = 4;
-    /** Sets the tool int 5 to draw circle outline tool to make coding easier */
+    /** Sets the tool int 5 to draw circle outline tool to make coding easier. */
     private static int drawCircOutline = 5;
 
     /**
@@ -137,7 +135,6 @@ public class ImagePanel extends JPanel {
                         enterY = 0;
                     }
                 }
-
             }
         });
 
@@ -149,11 +146,11 @@ public class ImagePanel extends JPanel {
         addMouseMotionListener(new MouseAdapter() {
             /**
              * <p>
-             * Stores the point where the user releases their mouse
+             * Stores the point where the user releases their mouse.
              * Uses this point and the "enter" points to create a new rectangle with those
-             * values
+             * values.
              * Takes into account drawing rectangle left to right and right to left
-             * Calls repaint to draw rectangle as you draw
+             * Calls repaint to draw rectangle as you draw.
              * </p>
              * 
              * @param e Mouse event
@@ -233,11 +230,11 @@ public class ImagePanel extends JPanel {
         addMouseListener(new MouseAdapter() {
             /**
              * <p>
-             * Stores the point where the user clicked
-             * This is used to remove the selected area
+             * Stores the point where the user clicked.
+             * This is used to remove the selected area.
              * Turns the rectangle null- removes drawn shape
              * Sets other point values to 0, so that you cannot crop a shape when there is
-             * no region selected
+             * no region selected.
              * </p>
              * 
              * @param e Mouse event
@@ -291,7 +288,7 @@ public class ImagePanel extends JPanel {
      * Set the image to a new {@link EditableImage}.
      * </p>
      * 
-     * @param image the editable image
+     * @param image The editable image.
      */
     public void setImage(EditableImage image) {
         this.image = image;
@@ -479,7 +476,6 @@ public class ImagePanel extends JPanel {
         public void mouseMoved(MouseEvent e) {
 
         }
-
     }
 
 }

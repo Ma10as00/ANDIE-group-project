@@ -4,13 +4,15 @@ import java.beans.PropertyChangeListener;
 import java.util.List;
 
 /**
+ * <p>
  * This interface describes a class that records what operations are applied to
  * an image, and stores them in an ordered list.
+ * </p>
+ * 
  * <p>
  * The recorder only cares about the operations that changes the image
  * {@link ImageOperation}, and not what actions the user performs in the GUI
- * {@link ImageAction}.
- * e.g. if an UndoAction is made, this will not be detected, because no
+ * {@link ImageAction}. E.g. if an UndoAction is made, this will not be detected, because no
  * {@link ImageOperation}s are applied to the image.
  * </p>
  * 

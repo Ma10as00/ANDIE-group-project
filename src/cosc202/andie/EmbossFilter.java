@@ -28,7 +28,7 @@ public class EmbossFilter implements ImageOperation, java.io.Serializable {
      * This boolean gives us the option to apply the emboss filter after a gaussian blur
      * filter with radius 1 is applied. This works better for natural images where there is a lot of
      * noise potentially obstructing the actual edges. If it is true, the Gaussian blur filter with radius 1 is applied
-     * before we apply the sobel filter.
+     * before we apply the emboss filter.
      */
     private boolean removeNoise;
 
@@ -95,15 +95,21 @@ public class EmbossFilter implements ImageOperation, java.io.Serializable {
      * <p>
      * An emboss filter makes the image look like it is 'poking' out or in, in a certain direction.
      * The outputted image will typically be grey where there are no edges, and it will look like sections of the image
-     * are poking out or in, defined by 'coloured shadows'. There are 8 different directions as can be selected
-     * as can be chosen with the embossType. removeNoise gives us the option to apply the sobel horizontal filter after a gaussian blur
+     * are poking out or in, defined by 'coloured shadows'. 
+     * </p>
+     * 
+     * <p>
+     * There are 8 different directions as can be selected as can be chosen with the embossType. 
+     * removeNoise gives us the option to apply the emboss filter after a gaussian blur
      * filter with radius 1 is applied. This works better for natural images where there is a lot of
      * noise potentially obstructing the actual edges. If it is true, the gaussian blur filter with radius 1 is applied
      * before we apply the emboss filter.
      * </p>
+     * 
      * @see GaussianBlurFilter
-     * @param removeNoise True to apply a light Gaussian blur filter before the sobel filter, false otherwise.
-     * @param embossType Determines the direction of the emboss. The options are ints 1 to 8 (inclusive). See the EMBOSS_N public static ints of this class.
+     * @param removeNoise True to apply a light Gaussian blur filter before the emboss filter, false otherwise.
+     * @param embossType Determines the direction of the emboss. The options are ints 1 to 8 (inclusive). 
+     *                   See the EMBOSS_N public static ints of this class.
      */
     public EmbossFilter(boolean removeNoise, int embossType) {
         this.removeNoise = removeNoise;
@@ -142,6 +148,7 @@ public class EmbossFilter implements ImageOperation, java.io.Serializable {
      * By default, a light Gaussian blur filter is applied to the image before it is embossed. 
      * And, by default, this will be with the eighth option for direction as implemented by a kernel. 
      * </p>
+     * 
      * @see GaussianBlurFilter
      */
     public EmbossFilter() {
@@ -157,14 +164,18 @@ public class EmbossFilter implements ImageOperation, java.io.Serializable {
      * An emboss filter makes the image look like it is 'poking' out or in, in a certain direction.
      * The outputted image will typically be grey where there are no edges, and it will look like sections of the image
      * are poking out or in, defined by 'coloured shadows'. There are 8 different directions as can be selected
-     * as can be chosen with the embossType. removeNoise gives us the option to apply the sobel horizontal filter after a gaussian blur
+     * as can be chosen with the embossType. 
+     * </p>
+     * 
+     * <p>
+     * This class also provides option to apply the emboss filter after a gaussian blur
      * filter with radius 1 is applied. This works better for natural images where there is a lot of
      * noise potentially obstructing the actual edges. If it is true, the gaussian blur filter with radius 1 is applied
      * before we apply the emboss filter.
      * </p>
      * 
-     * @param input The image to apply the sobel horizontal filter to.
-     * @return The resulting (horizontal edge detected) image.
+     * @param input The image to apply the emboss filter to.
+     * @return The resulting (embossed) image.
      */
     public BufferedImage apply(BufferedImage input) {
         // Create a new image with the same values as in the original image, but with 

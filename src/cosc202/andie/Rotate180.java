@@ -11,13 +11,13 @@ import java.io.Serializable;
  * </p>
  * 
  * <p>
- * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA
- * 4.0</a>
+ * In other words, applying this operation to an image will return the same
+ * image upside-down.
  * </p>
  * 
  * <p>
- * In other words, applying this operation to an image will return the same
- * image upside-down.
+ * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA
+ * 4.0</a>
  * </p>
  * 
  * @author Mathias Øgaard

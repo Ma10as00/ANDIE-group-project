@@ -36,8 +36,7 @@ public abstract class ImageAction extends AbstractAction {
 
     /**
      * The user interface element containing the image upon which actions should be
-     * performed.
-     * This is common to all ImageActions.
+     * performed. This is common to all ImageActions.
      */
     protected static ImagePanel target;
 

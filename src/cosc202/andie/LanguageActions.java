@@ -11,14 +11,14 @@ import javax.swing.*;
  * </p>
  * 
  * <p>
- * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA
- * 4.0</a>
- * </p>
- * 
- * <p>
  * The Language menu contains actions that can change the langauge used in
  * ANDIE. This
  * includes English, Māori, Spanish and Norwegian.
+ * </p>
+ * 
+ * <p>
+ * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA
+ * 4.0</a>
  * </p>
  * 
  * @author Michael Campbell
@@ -258,7 +258,6 @@ public class LanguageActions {
      * <p>
      * Action to change the language to German.
      * </p>
-     * 
      * 
      */
     public class GermanAction extends ImageAction {

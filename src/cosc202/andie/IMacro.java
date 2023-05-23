@@ -4,8 +4,11 @@ import java.io.Serializable;
 import java.util.*;
 
 /**
+ * <p>
  * This interface describes a macro - a list of image operations combined into
  * one.
+ * </p>
+ * 
  * <p>
  * Hence, a macro is both an {@code ImageOperation} in itself, as well as being
  * an ordered list of "smaller" operations.
@@ -21,7 +24,10 @@ import java.util.*;
 public interface IMacro extends List<ImageOperation>, ImageOperation, Serializable {
 
     /**
+     * <p>
      * Adds an operation to the macro.
+     * </p>
+     * 
      * <p>
      * The operation will be added to the end of the list of operations, not the
      * start.
@@ -37,8 +43,10 @@ public interface IMacro extends List<ImageOperation>, ImageOperation, Serializab
     }
 
     /**
+     * <p>
      * Removes an operation from the macro, as described in
      * {@link List#remove(Object)}.
+     * </p>
      * 
      * @param op - ImageOperation to remove
      * @return {@code true} if {@code op} was successfully identified and removed

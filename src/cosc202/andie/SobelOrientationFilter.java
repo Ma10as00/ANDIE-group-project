@@ -252,10 +252,13 @@ public class SobelOrientationFilter implements ImageOperation, java.io.Serializa
     }
 
     /**
+     * <p>
      * This support method is used in the final stages of the filter to offset, and rescale, the pixel values
      * to deal with negative results. It takes all pixel values, calculates the range the pixel values
      * are in, and shifts them, potentially squishing or squeezing the range with a scale factor, into
      * the range 0 to 255. Note, this always makes it fully opaque in alpha.
+     * </p>
+     * 
      * @param input The image to be offset to the range 0 to 255. 
      * @return The offset image.
      */
@@ -298,11 +301,14 @@ public class SobelOrientationFilter implements ImageOperation, java.io.Serializa
     }
 
      /**
+      * <p>
      * This support method is used to decide the hue of each pixel. The brightness of each pixel
      * will have already been determined before this method has been called. Note, the decision has 
      * been made that if theta is from a polar coordinate in the cartesian plane, the positive
      * x axis is red, negative x axis is green, positive y axis is yellow and negative
      * y axis is blue. Alpha channel is not effected at all.
+     * </p>
+     * 
      * @param input The image have hue added. This is assumed to be in grey scale.
      * @oaram theta The 2-d array of theta values for each pixel, which correspond to hue.
      * @return The image now with hue decided by theta at each pixel.

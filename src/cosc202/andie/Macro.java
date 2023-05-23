@@ -24,6 +24,16 @@ import java.util.ArrayList;
  */
 public class Macro extends ArrayList<ImageOperation> implements IMacro {
 
+    /**
+     * <p>
+     * Apply a macro to an image.
+     * </p>
+     * 
+     * <p>
+     * This applies the operations in an ArrayList of {@link ImageOperation}s in the
+     * correct order to the image, as if it were just a single {@link ImageOperation}.
+     * </p>
+     */
     @Override
     public BufferedImage apply(BufferedImage input) {
         // Make copy of input
@@ -40,6 +50,31 @@ public class Macro extends ArrayList<ImageOperation> implements IMacro {
         return output;
     }
 
+    /**
+     * <p>
+     * Represent this macro as a string. 
+     * </p>
+     * 
+     * <p>
+     * This is used for the purpose of displying the {@link ImageOperation}s in 
+     * a user friendly was to the user before they save their macro. If no 
+     * {@link ImageOperation}s were recorded, it will look like 
+     * "Macro Contains: No Operations". And, if {@link ImageOperation}s 
+     * were applied, it will look like, for instance,
+     * <p>
+     * "Macro Contains:
+     * </p>
+     * <p>
+     * - Horizontal Sobel Filter
+     * </p>
+     * <p>
+     * - Brightness Change"
+     * </p>
+     * 
+     * <p>
+     * This is compatiable with multilingual support.
+     * </p>
+     */
     @Override
     public String toString() {
         String str = LanguageActions.getLocaleString("macroContains") + " ";

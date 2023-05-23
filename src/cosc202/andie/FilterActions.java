@@ -36,6 +36,7 @@ public class FilterActions {
      * <p>
      * Create a set of Filter menu actions.
      * </p>
+     * 
      */
     public FilterActions() {
         actions = new ArrayList<Action>();
@@ -564,6 +565,13 @@ public class FilterActions {
      * Action to detect horizontal edges a sobel horizontal filter.
      * </p>
      * 
+     * <p>
+     * Note, this currently is not used in {@link Andie} as it was replaced by 
+     * the more user friendly {@link generalSobelFilterAction}. However, 
+     * it has been left as it still may provide valuable functionality in the
+     * future.
+     * </p>
+     * 
      * @see SobelHorizontalFilter
      */
     public class SobelHorizontalFilterAction extends ImageAction {
@@ -640,6 +648,13 @@ public class FilterActions {
      * Action to detect vertical edges with a sobel vertical filter.
      * </p>
      * 
+     * <p>
+     * Note, this currently is not used in {@link Andie} as it was replaced by 
+     * the more user friendly {@link SobelGeneralFilterAction}. However, 
+     * it has been left as it still may provide valuable functionality in the
+     * future.
+     * </p>
+     * 
      * @see SobelVerticalFilter
      */
     public class SobelVerticalFilterAction extends ImageAction {
@@ -714,6 +729,13 @@ public class FilterActions {
     /**
      * <p>
      * Action to detect edges their orientation with a sobel orientation filter.
+     * </p>
+     * 
+     * <p>
+     * Note, this currently is not used in {@link Andie} as it was replaced by 
+     * the more user friendly {@link generalSobelFilterAction}. However, 
+     * it has been left as it still may provide valuable functionality in the
+     * future.
      * </p>
      * 
      * @see SobelOrientationFilter
@@ -799,6 +821,8 @@ public class FilterActions {
      * </p>
      * 
      * @see SobelOrientationFilter
+     * @see SobelHorizontalFilter
+     * @see SobelVerticalFilter
      */
     public class SobelGeneralFilterAction extends ImageAction {
 
@@ -1107,5 +1131,4 @@ public class FilterActions {
             }
         }
     }
-
 }

@@ -17,13 +17,13 @@ import javax.swing.*;
  * </p>
  * 
  * <p>
- * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA
- * 4.0</a>
+ * Actions involve letting the user record the operations they apply to their
+ * image, and save them in a {@link Macro} for reuse.
  * </p>
  * 
  * <p>
- * Actions involve letting the user record the operations they apply to their
- * image, and save them in a {@link Macro} for reuse.
+ * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA
+ * 4.0</a>
  * </p>
  * 
  * @author Mathias Øgaard (Modified by Stella Srzich)
@@ -69,10 +69,8 @@ public class MacroActions {
     /**
      * <p>
      * Method to check whether a given file name is a valid ops.png file name. That
-     * is,
-     * if it ends in .ops, only contains a single '.', and has characters before
-     * '.ops'.
-     * This is used by {@link ApplyMacroAction} and {@link StopRecordingAction}.
+     * is, if it ends in .ops, only contains a single '.', and has characters before
+     * '.ops'. This is used by {@link ApplyMacroAction} and {@link StopRecordingAction}.
      * </p>
      * 
      * @param opsFilename The ops file name to check if valid.
@@ -166,20 +164,36 @@ public class MacroActions {
     public class StartRecordingAction extends ImageAction {
 
         /**
+         * <p>
          * Constructing instance of {@link StartRecordingAction}, as defined in
          * {@link ImageAction#ImageAction(String, ImageIcon, String, Integer)}.
+         * </p>
          * 
-         * @param name
-         * @param icon
-         * @param desc
-         * @param mnemonic
+         * @param name     The name of the action (ignored if null).
+         * @param icon     An icon to use to represent the action (ignored if null).
+         * @param desc     A brief description of the action (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
          */
         public StartRecordingAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
             this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_I, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
             
-        }
 
+        }
+        /**
+         * <p>
+         * Callback for when the start recording action is triggered.
+         * </p>
+         * 
+         * <p>
+         * This method is called whenever the StartRecordingAction is triggered.
+         * If an image is open, and if there is no ongoing recording, it will
+         * start recording all operations applied in a macro. This is indicated with
+         * the 'Macro' menu set to red.
+         * </p>
+         * 
+         * @param e The event triggering this callback.
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             // Check if there is an image open.
@@ -217,7 +231,6 @@ public class MacroActions {
             // Repaint the frame and image panel.
             Andie.frame.repaint();
             Andie.imagePanel.repaint();
-            
         }
 
     }
@@ -244,19 +257,35 @@ public class MacroActions {
     public class StopRecordingAction extends ImageAction {
 
         /**
+         * <p>
          * Constructing instance of {@link StopRecordingAction}, as defined in
          * {@link ImageAction#ImageAction(String, ImageIcon, String, Integer)}.
+         * </p>
          * 
-         * @param name
-         * @param icon
-         * @param desc
-         * @param mnemonic
+         * @param name     The name of the action (ignored if null).
+         * @param icon     An icon to use to represent the action (ignored if null).
+         * @param desc     A brief description of the action (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
          */
         protected StopRecordingAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
             this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_N, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         }
 
+        /**
+         * <p>
+         * Callback for when the stop recording action is triggered.
+         * </p>
+         * 
+         * <p>
+         * This method is called whenever the StopRecordingAction is triggered.
+         * If an image is open, and if there is an ongoing recording, it will
+         * stop recording and will prompt the user to save the macro. This is indicated with
+         * the 'Macro' menu no longer set to red.
+         * </p>
+         * 
+         * @param e The event triggering this callback.
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             EditableImage targetImage = target.getImage();
@@ -331,13 +360,12 @@ public class MacroActions {
         }
 
         /**
+         * <p>
          * Method to give the user an option to save a set of operations as a macro.
-         * This will return true
-         * if the user has sucessfully saved the macro or has decided to cancel saving
-         * the macro. It will return false
-         * if the user has not saved the macro for any other reason. For example, if
-         * they accidentally used an invalid
-         * file name.
+         * This will return trueif the user has sucessfully saved the macro or has decided to cancel saving
+         * the macro. It will return false if the user has not saved the macro for any other reason. For example, if
+         * they accidentally used an invalid file name.
+         * </p>
          * 
          * @param m The IMacro being saved.
          * @return True if the user successfully saved the file or decided to cancel
@@ -444,13 +472,15 @@ public class MacroActions {
     public class ApplyMacroAction extends ImageAction {
 
         /**
+         * <p>
          * Constructing instance of {@link ApplyMacroAction}, as defined in
          * {@link ImageAction#ImageAction(String, ImageIcon, String, Integer)}.
+         * <p>
          * 
-         * @param name
-         * @param icon
-         * @param desc
-         * @param mnemonic
+         * @param name     The name of the action (ignored if null).
+         * @param icon     An icon to use to represent the action (ignored if null).
+         * @param desc     A brief description of the action (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
          */
         protected ApplyMacroAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
@@ -470,7 +500,9 @@ public class MacroActions {
         }
 
         /**
+         * <p>
          * This is a support method to open an {@link IMacro} from a file.
+         * </p>
          */
         private boolean openMacro() {
             // Check if there is an image to export

@@ -10,14 +10,14 @@ import java.io.Serializable;
  * </p>
  * 
  * <p>
- * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA
- * 4.0</a>
- * </p>
- * 
- * <p>
  * An image resize by n% resizes the image, changing the dimensions to n% of its
  * original size. This also changes the values of the pixels, possibly losing
  * information.
+ * </p>
+ * 
+ * <p>
+ * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA
+ * 4.0</a>
  * </p>
  *
  * @author Stella Srzich (Modified from Michael Campbell)

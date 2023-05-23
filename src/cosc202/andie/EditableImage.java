@@ -345,7 +345,8 @@ public class EditableImage {
     /**
      * <p>
      * Apply an {@link ImageOperation} to this image. This also updates the header of the main
-     * GUI frame if the image operations applied don't match those saved.
+     * GUI frame to refelect whether the current operations applied match those saved in an
+     * associated .ops file.
      * </p>
      * 
      * @param op The operation to apply.
@@ -362,16 +363,24 @@ public class EditableImage {
     }
 
     /** 
-     * @param listener The listener to add to this image
-     * @param propertyName The property to which the listener is added, should be "ops" for our purpose
+     * <p>
+     * Method to add a specific Listener to this {@link EditableImage}.
+     * </p>
+     * 
+     * @param listener The listener to add to this image.
+     * @param propertyName The property to which the listener is added, should be "ops" for our purpose.
      * @see PropertyChangeSupport#addPropertyChangeListener(String, PropertyChangeListener) 
      * @author Mathias Øgaard
-    */
+     */
     public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener){
         propertyChangeSupport.addPropertyChangeListener(propertyName,listener);
     }
 
     /** 
+     * <p>
+     * Method to remove a specific Listener from this {@link EditableImage}.
+     * </p>
+     * 
      * @param listener The listener to remove from this image
      * @param propertyName The property from which the listener is removed, should be "ops" for our purpose
      * @see PropertyChangeSupport#removePropertyChangeListener(String, PropertyChangeListener)  
@@ -382,8 +391,12 @@ public class EditableImage {
     }
 
     /** 
-     * @param propertyName The property to retrieve listeners from, should be "ops" for our purpose
-     * @return an array of all listeners for the given property
+     * <p>
+     * Method to get this {@link EditableImage}'s' currently Listeners.
+     * </p>
+     * 
+     * @param propertyName The property to retrieve listeners from, should be "ops" for our purpose.
+     * @return An array of all listeners for the given property.
      * @see PropertyChangeSupport#getPropertyChangeListeners(String)  
      * @author Mathias Øgaard
      */
@@ -392,8 +405,12 @@ public class EditableImage {
     }
 
     /** 
-     * @param propertyName The property to search for listeners on, should be "ops" for our purpose
-     * @return true if there are one or more listeners for the given property
+     * <p>
+     * Method to check whether this {@link EditableImage} currently has Listeners.
+     * </p>
+     * 
+     * @param propertyName The property to search for listeners on, should be "ops" for our purpose.
+     * @return True if there are one or more listeners for the given property.
      * @see PropertyChangeSupport#hasListeners(String)  
      * @author Mathias Øgaard
      */
@@ -407,6 +424,14 @@ public class EditableImage {
      * Also tells you if the undone image operation was a resize or rotation by returing 1, 
      * or that it wasn't by returning 0.
      * </p>
+     * 
+     * <p>
+     * Note, this functionality is not really used in ANDIE anymore as the design choice
+     * was made to not repack the frame after image operations occur that change the
+     * dimensions of an image. However, it has been left as it still may be useful 
+     * for future purposes.
+     * </p>
+     * 
      * @return 1 if the undone operation was a resize or rotation, 0 otherwise.
      */
     public int undo() {
@@ -427,6 +452,14 @@ public class EditableImage {
      * Also tells you if the undone image operation was a resize or rotation by returing 1, 
      * or that it wasn't by returning 0.
      * </p>
+     *
+     * <p>
+     * Note, this functionality is not really used in ANDIE anymore as the design choice
+     * was made to not repack the frame after image operations occur that change the
+     * dimensions of an image. However, it has been left as it still may be useful 
+     * for future purposes.
+     * </p>
+     * 
      * @return 1 if any of the undone operations was a resize or rotation, 0 otherwise.
      */
     public int undoAll() {
@@ -448,6 +481,14 @@ public class EditableImage {
      * Also tells you if the redone image operation was a resize or rotation by returing 1, 
      * or that it wasn't by returning 0.
      * </p>
+     * 
+     * <p>
+     * Note, this functionality is not really used in ANDIE anymore as the design choice
+     * was made to not repack the frame after image operations occur that change the
+     * dimensions of an image. However, it has been left as it still may be useful 
+     * for future purposes.
+     * </p>
+     * 
      * @return 1 if the redone operation was a resize or rotation, 0 otherwise.
      */
     public int redo()  {
@@ -464,7 +505,11 @@ public class EditableImage {
     }
 
     /**
-     * Method to help an {@code IOperationRecorder} to see the last operation that was applied to the image.
+     * <p>
+     * Method to help an {@code IOperationRecorder} to see the last 
+     * operation that was applied to the image.
+     * </p>
+     * 
      * @return The last {@link ImageOperation} that was applied
      * @author Mathias Øgaard
      */
@@ -473,7 +518,10 @@ public class EditableImage {
     }
 
     /**
+     * <p>
      * Method to get the stack of operations currently stored in {@link ops}.
+     * </p>
+     * 
      * @return The stack of operations for this EditableImage.
      */
     public Stack<ImageOperation> getOps(){
@@ -482,7 +530,7 @@ public class EditableImage {
 
     /**
      * <p>
-     * Get the current image after the operations have been applied.
+     * Get the current image after the current operations have been applied.
      * </p>
      * 
      * @return The result of applying all of the current operations to the {@link original} image.
@@ -523,8 +571,13 @@ public class EditableImage {
      * the behaviour as this EditableImage. That is, the new EditableImage 
      * will have data feilds that are different to the data feilds of
      * this EditableImage, i.e. different references. But, the values within
-     * the objects of the data feilds will be the same.
+     * the objects of the data feilds will be the same. 
      * </p>
+     * 
+     * <p>
+     * This is only really to be used for the purpose of previewing {@link ImageOperation}s.
+     * </p>
+     * 
      * @return a reference to a deep copy of this {@link EditableImage}.
      */
     @SuppressWarnings("unchecked")
@@ -579,11 +632,16 @@ public class EditableImage {
     /**
      * <p>
      * This method is used to update the title of the main GUI frame to contain the 
-     * name of the image file open, and whether or not it is saved.
+     * name of the image file open, and whether or not it is saved. This will look like
+     * "ANDIE (imagefilename.png) - Saved" or "ANDIE (imagefilename.png) - Unsaved".
      * </p>
      * 
      * <p>
-     * Note, this only applies to images that are not used to preview the results of {@link ImageAction}s.
+     * Note, this only applies to images that are not used to preview the results 
+     * of {@link ImageAction}s. That is, only to the actual image opened (not 
+     * depy copies of {@link EditableImages}).
+     * </p>
+     * 
      */
     public void updateFrameTitle() {
         if (!dummy) {

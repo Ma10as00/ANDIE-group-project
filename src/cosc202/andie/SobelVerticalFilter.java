@@ -197,10 +197,13 @@ public class SobelVerticalFilter implements ImageOperation, java.io.Serializable
         return output;
     }
 
-     /**
+    /**
+     * <p>
      * This support method is used to convert an individual int RGB pixel value
      * to grey scale. This follows the convention of weighting green higher and blue lower
      * as to match how humans perceive brightness.
+     * </p>
+     * 
      * @param rgb The int RGB value of a pixel in a BufferedImage.
      * @return rgb converted to an int RGB value of a pixel in grey scale.
      */
@@ -214,10 +217,13 @@ public class SobelVerticalFilter implements ImageOperation, java.io.Serializable
     }
     
     /**
+     * <p>
      * This support method is used in the final stages of the filter to offset, and rescale, the pixel values
      * to deal with negative results. It takes all pixel values, calculates the range the pixel values
      * are in, and shifts them, potentially squishing or squeezing the range with a scale factor, into
      * the range 0 to 255. Note, this always makes it fully opaque in alpha.
+     * </p>
+     * 
      * @param input The image to be offset to the range 0 to 255. 
      * @return The offset image.
      */
@@ -260,11 +266,19 @@ public class SobelVerticalFilter implements ImageOperation, java.io.Serializable
     }
 
      /**
+      * <p>
      * This support method is used in the final stages of the filter after the offset and rescaling
      * to be between 0 and 255. This method then takes those values, and gets their absolute
      * difference from 127, and then rescales everything so that it is still between 0 and 255. 
      * Note, this does not touch the alpha channel. And, this is the stage that means an edge from
      * dark to light is preceived as the same as an edge from light to dark.
+     * </p>
+     * 
+     * <p>
+     * Note, this method is not currently used in ANDIE. However, it still provides
+     * functionality that may be useful in the future.
+     * </p>
+     * 
      * @param input The image to be made absolute.
      * @return The absolute image, i.e. white edges and black background.
      */
