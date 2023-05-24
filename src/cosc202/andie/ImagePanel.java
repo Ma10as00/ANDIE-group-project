@@ -177,11 +177,11 @@ public class ImagePanel extends JPanel {
             public void mouseReleased(MouseEvent e) {
                 int releaseX = e.getX();
                 int releaseY = e.getY();
-                if (releaseX > image.getCurrentImage().getWidth()) {
-                    releaseX = image.getCurrentImage().getWidth();
+                if (releaseX > (int)(((double)image.getCurrentImage().getWidth())*scale)) {
+                    releaseX = (int)(((double)image.getCurrentImage().getWidth())*scale);
                 }
-                if (releaseY > image.getCurrentImage().getHeight()) {
-                    releaseY = image.getCurrentImage().getHeight();
+                if (releaseY > (int)(((double)image.getCurrentImage().getHeight())*scale)) {
+                    releaseY = (int)(((double)image.getCurrentImage().getHeight())*scale);
                 }
                 if (releaseX < 0) {
                     releaseX = 0;
